@@ -1,16 +1,29 @@
 import React, { useState } from "react";
-import Success from "./Success";
-import { AiOutlineClose } from "react-icons/ai";
+import { useNavigate } from "react-router-dom";
+import { toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 
 const Home = () => {
-  const [isModalOpen, setIsModalOpen] = useState(false);
+  const navigate = useNavigate();
+  const [startDate, setStartDate] = useState(getCurrentDate());
 
-  const openModal = () => {
-    setIsModalOpen(true);
-  };
+  function getCurrentDate() {
+    const today = new Date();
+    const year = today.getFullYear();
+    const month = String(today.getMonth() + 1).padStart(2, "0");
+    const day = String(today.getDate()).padStart(2, "0");
+    return `${year}-${month}-${day}`;
+  }
 
-  const closeModal = () => {
-    setIsModalOpen(false);
+  const handleProceed = () => {
+    toast.success("Survey started successfully!", {
+      autoClose: 2000,
+      position: toast.POSITION.TOP_RIGHT,
+    });
+
+    setTimeout(() => {
+      navigate("/email");
+    }, 2600);
   };
 
   return (
@@ -21,7 +34,7 @@ const Home = () => {
 
       <div className="flex flex-col sm:items-center gap-5 p-5 border-y-2 border-[#FFA0A0] mb-10">
         <div className="text-center font-medium mx-12">
-          Select the duration of survey that has to be shown
+          Select the duration of the survey that has to be shown
         </div>
 
         <div className="flex justify-center">
@@ -30,6 +43,8 @@ const Home = () => {
             <input
               type="date"
               className="bg-[#C4C4C4] rounded-xl py-4 px-2 text-center w-[90%] text-xl font-medium"
+              value={startDate}
+              onChange={(e) => setStartDate(e.target.value)}
             />
           </div>
 
@@ -41,33 +56,14 @@ const Home = () => {
             />
           </div>
         </div>
-
-        <button className="bg-[#6B53CB] py-3 px-6 text-white font-medium rounded-xl my-10 items-start w-[10rem] border-none">
-          Start Now
-        </button>
       </div>
 
       <button
-        className="bg-[#7ED956] text-white font-medium text-xl text-center px-20 py-4 rounded-xl mt-10 border-none"
-        onClick={openModal}
+        className="bg-[#7ED956] text-white font-medium text-xl text-center px-20 py-4 rounded-xl mt-10"
+        onClick={handleProceed}
       >
         Proceed
       </button>
-
-      {isModalOpen && (
-        <div className="fixed inset-0 flex items-center justify-center z-50">
-          <div className="bg-black opacity-50 absolute inset-0"></div>
-          <div className="bg-white z-10 p-2 mx-4 rounded-lg flex flex-col items-end">
-            <button
-              className="text-2xl font-medium rounded-xl"
-              onClick={closeModal}
-            >
-              <AiOutlineClose />
-            </button>
-            <Success />
-          </div>
-        </div>
-      )}
     </div>
   );
 };

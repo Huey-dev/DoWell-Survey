@@ -3,8 +3,17 @@ import Header from "../Header";
 import { BsQuestionLg } from "react-icons/bs";
 import { AiOutlineClose } from "react-icons/ai";
 import { Link } from "react-router-dom";
+import { toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 
 const Form = () => {
+  const handleSubmit = (e) => {
+    e.preventDefault();
+    toast.success("Email sent successfully!", {
+      autoClose: 2000,
+      position: toast.POSITION.TOP_RIGHT,
+    });
+  };
   return (
     <div className="flex flex-col border-2 border-black min-h-screen">
       <Header />
@@ -63,7 +72,7 @@ const Form = () => {
             </Link>
             <button
               className="bg-[#7ED956] text-white font-bold py-4 px-10 rounded-lg"
-              type="submit"
+              onClick={handleSubmit}
             >
               Submit
             </button>

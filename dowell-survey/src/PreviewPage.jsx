@@ -7,7 +7,7 @@ const PreviewPage = () => {
     <main className="w-full h-full">
         <div>
           {loading ? (
-            <div>
+            <div className="w-full h-screen flex justify-center items-center text-[20px] md:text-[24px]">
               Loading..........
             </div>
           ) : (

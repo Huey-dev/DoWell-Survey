@@ -1,23 +1,20 @@
-import LandingPage from './LandingPage'
-import { PreviewProvider } from './Context/PreviewContext'
+import Admin from "./layouts/Admin.jsx";
+import Search from "./components/Sidebar/Search.jsx";
 import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
-import PreviewPage from './PreviewPage';
+
 
 
 function App() {
 
   return (
     <>
-    <PreviewProvider>
       <Router>
         <Routes>
-          <Route path="/" element={<LandingPage />} />
-          <Route path="/preview-page" element={<PreviewPage />} />
-
+          <Route path="/admin" element={<Admin />} >
+          <Route path="/admin/search" element={<Search />} />
+          </Route>
         </Routes>
       </Router>
-      
-    </PreviewProvider>
     </>
   )
 }

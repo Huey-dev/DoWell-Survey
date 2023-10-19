@@ -1,4 +1,4 @@
-import LandingPage from './LandingPage'
+import LandingPage from './Pages/LandingPage'
 import { PreviewProvider } from './Context/PreviewContext'
 import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
 import PreviewPage from './PreviewPage';

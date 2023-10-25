@@ -18,8 +18,8 @@ export default function MySurveys() {
 
                         <div className="h-1 mx-4 bg-[#A6A6A6]"></div>
 
-                        <div className="mt-4 flex flex-wrap">
-                            <div className="w-full xl:w-4/12 px-4">
+                        <div className="w-full mt-4 flex justify-between">
+                            <div className="w-full md:w-4/12 px-4">
                                 <div className="sm:col-span-3">
 
                                     <div className="mt-2">
@@ -41,7 +41,7 @@ export default function MySurveys() {
                                     </div>
                                 </div>
                             </div>
-                            <div className="w-full xl:w-4/12 px-4 ">
+                            <div className="w-full md:w-4/12 px-4 ">
                                 <div className="sm:col-span-3">
 
                                     <div className="mt-2 ">
@@ -76,7 +76,7 @@ export default function MySurveys() {
                                     </div>
                                 </div>
                             </div>
-                            <div className="w-full xl:w-4/12 px-4">
+                            <div className="w-full md:w-4/12 px-4">
                                 <div className="mt-2">
                                     <select id="country" name="country" autoComplete="country-name" className="h-[72px] block font-bold text-white w-full border-0  shadow-sm  sm:max-w-xs sm:text-sm sm:leading-6 bg-[#FF3131] outline-none">
                                         <option>Select category</option>

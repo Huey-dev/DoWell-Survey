@@ -25,72 +25,15 @@ export default function LandingPage() {
             <ul className="md:flex-col md:min-w-full flex flex-col list-none">
               <li className="items-center my-1">
                 <Link
-                  className="bg-red-500 text-center text-lg py-1 font-bold block text-white hover:text-red-500"
-                  to="/admin/dashboard"
-                >
-                  New Survey
-                </Link>
-              </li>
-              <li className="items-center my-1">
-                <Link
                   className="bg-green-500 text-center text-lg py-1 font-bold block text-white hover:text-red-500"
-                  to="/admin/dashboard"
+                  to="/admin/create"
                 >
-                  1. Finalise Sample Size
-                </Link>
-              </li>
-              <li className="items-center my-1">
-                <Link
-                  className="bg-gray-400 text-center text-lg py-1 font-bold block text-white hover:text-red-500"
-                  to="/admin/dashboard"
-                >
-                  2. Link Survey Form
-                </Link>
-              </li>
-              <li className="items-center my-1 flex">
-                <Link
-                  className="bg-green-800 text-center text-lg py-1 font-bold block text-white hover:text-red-500 flex-1"
-                  to="/admin/dashboard"
-                >
-                  <ul className="md:flex-col md:min-w-full flex flex-col list-none">
-                    <li className="items-center text-xs font-bold block text-white hover:text-red-500">
-                      A. Sms
-                    </li>
-                    <li className="items-center text-xs font-bold block text-white hover:text-red-500">
-                      B. Email
-                    </li>
-                    <li className="items-center text-xs font-bold block text-white hover:text-red-500">
-                      C. Sms and Email
-                    </li>
-
-                  </ul>
-                </Link>
-                <Link
-                  className="bg-gray-400 text-center text-sm py-1 font-bold block text-white hover:text-red-500 ml-2 flex-1" // Add ml-2 for spacing between links
-                  to="/admin/dashboard"
-                >
-                  3. Start Survey
-                </Link>
-              </li>
-              <li className="items-center my-1">
-                <Link
-                  className="bg-gray-400 text-center text-lg py-1 font-bold block text-white hover:text-red-500"
-                  to="/admin/dashboard"
-                >
-                  4. Stop Survey
-                </Link>
-              </li>
-              <li className="items-center my-1">
-                <Link
-                  className="bg-gray-400 text-center text-lg py-1 font-bold block text-white hover:text-red-500"
-                  to="/admin/dashboard"
-                >
-                  5. Repeat
+                  Create Survey
                 </Link>
               </li>
             </ul>
 
-            <ul className="md:flex-col md:min-w-full mt-8 flex flex-col list-none">
+            <ul className="md:flex-col md:min-w-full mt-56 flex flex-col list-none">
               <li className="items-center my-1">
                 <Link
                   className="bg-red-500 text-center text-lg py-1 font-bold block text-white hover:text-red-500"

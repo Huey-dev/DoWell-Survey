@@ -5,7 +5,7 @@ export default function Search() {
   return (
     <>
       <div className="relative md:pt-32 pb-32 pt-12 ">
-        <div className="mx-4 items-center flex justify-between flex-wrap">
+        <div className="mx-4 items-center flex justify-between">
           <h1 className=" text-[#737373] text-3xl font-bold pt-1 pb-3 no-underline">
             DoWell Surveys
           </h1>
@@ -15,24 +15,24 @@ export default function Search() {
 
         </div>
 
-        <div className="h-1 mx-4 bg-[#A6A6A6]"></div>
+        <div className="h-1 bg-[#A6A6A6]"></div>
 
-        <div className="mt-4 flex flex-wrap">
-          <div className="w-full xl:w-4/12 px-4">
-            <div class="sm:col-span-3">
+        <div className="mt-4 flex justify-between">
+          <div className="w-full">
+            <div class="">
 
               <div className="mt-2">
-                <select id="country" name="country" autocomplete="country-name" className="block font-bold text-white w-full border-0 py-1.5 shadow-sm ring-1 ring-inset ring-gray-300 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:max-w-xs sm:text-sm sm:leading-6 bg-[#FF3131]">
+                <select id="country" name="country" autocomplete="country-name" className="block font-bold text-white w-full border-0 outline-none py-1.5 shadow-sm sm:text-sm sm:leading-6 bg-[#FF3131]">
                   <option>Select country</option>
                   <option>Canada</option>
                   <option>Mexico</option>
                 </select>
               </div>
             </div>
-            <div class="sm:col-span-3">
+            <div class="">
 
               <div class="mt-2">
-                <select id="country" name="country" autocomplete="country-name" class="block font-bold text-white w-full border-0 py-1.5 shadow-sm ring-1 ring-inset ring-gray-300 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:max-w-xs sm:text-sm sm:leading-6 bg-[#FF3131]">
+                <select id="country" name="country" autocomplete="country-name" className="block font-bold text-white w-full border-0 outline-none py-1.5 shadow-sm sm:text-sm sm:leading-6 bg-[#FF3131]">
                   <option>Select location</option>
                   <option>Canada</option>
                   <option>Mexico</option>
@@ -40,18 +40,14 @@ export default function Search() {
               </div>
             </div>
           </div>
-          <div className="w-full xl:w-4/12 px-4 ">
-            <div class="sm:col-span-3">
+          <div className="w-full mx-4 sm:mx-none">
 
-              <div className="mt-2 ">
-                <h6 className="h-8 p-1 text-center font-bold text-white text-sm bg-[#FF3131]">
+              <div className="mt-2 h-8 bg-[#FF3131] flex flex-col justify-center items-center">
+                <h6 className="text-center font-bold text-white text-sm">
                   Select distance from center of location
                 </h6>
 
               </div>
-            </div>
-            <div class="sm:col-span-3">
-
               <div class="mt-2 items-center flex justify-between flex-wrap">
                 <div className="relative mb-4 flex flex-wrap items-stretch">
                   <span
@@ -73,11 +69,10 @@ export default function Search() {
                 </div>
 
               </div>
-            </div>
           </div>
-          <div className="w-full xl:w-4/12 p-2">
+          <div className="w-full">
             <div className="mt-2">
-              <select id="country" name="country" autocomplete="country-name" className="h-12 block font-bold text-white w-full border-0 py-1.5 shadow-sm ring-1 ring-inset ring-gray-300 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:max-w-xs sm:text-sm sm:leading-6 bg-[#FF3131]">
+              <select id="country" name="country" autocomplete="country-name" className="h-12 block font-bold text-white w-full border-0 outline-none py-1.5 shadow-sm sm:text-sm sm:leading-6 bg-[#FF3131]">
                 <option>Select category</option>
                 <option>Workflow Ai</option>
                 <option>Living labs Maps</option>

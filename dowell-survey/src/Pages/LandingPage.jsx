@@ -11,22 +11,22 @@ const LandingPage = () => {
       <MySurveys />
 
        <div className="px-4 md:px-10 mt-[40px] md:pl-[310px]">
-        <div className="w-full flex"> 
-          <div>
-            <img src={map} alt="images" className="h-[390px] lg:w-[400px] xl:w-[650px] " />
+        <div className="w-full flex flex-col md:flex-row md:justify-between"> 
+          <div className="w-full md:w-8/12">
+            <img src={map} alt="images" className="h-[390px]   w-full " />
           </div>
-          <div className="w-[320px] ml-[25px]  ">
+          <div className="w-full md:w-4/12 md:ml-[25px] mt-[40px] md:mt-0  ">
             <div className="w-full bg-[#7ED957] h-[270px]">
 
-            <p className="  h-[40px] text-white px-4 text-center font-semibold text-[20px]">Your Selection</p>
+            <p className="  h-[40px] text-white px-4 text-center font-semibold text-[20px] md:text-[16px] lg:text-[16px]">Your Selection</p>
             <div className="bg-[#D2E5D1] h-[230px]">
               <ul className="w-full h-full px-4 list-disc ml-[20px]  py-[10px]">
-                <li className="text-[16px] font-medium mt-[7px]">Country - india</li>
-                <li className="text-[16px] font-medium mt-[7px]">Location - delhi</li>
-                <li className="text-[16px] font-medium mt-[7px]">Distance from center - between 10-5000 meters</li>
-                <li className="text-[16px] font-medium mt-[7px]">Category - Bakery</li>
-                <li className="text-[16px] font-medium mt-[7px]">Search Limit - 500 NOS</li>
-                <li className="text-[16px] font-medium mt-[7px]">Location - delhi</li>
+                <li className="text-[16px] md:text-[14px] lg:text-[16px] font-medium mt-[7px]">Country - india</li>
+                <li className="text-[16px] md:text-[14px] lg:text-[16px] font-medium mt-[7px]">Location - delhi</li>
+                <li className="text-[16px] md:text-[14px] lg:text-[16px] font-medium mt-[7px]">Distance from center - between 10-5000 meters</li>
+                <li className="text-[16px] md:text-[14px] lg:text-[16px] font-medium mt-[7px]">Category - Bakery</li>
+                <li className="text-[16px] md:text-[14px] lg:text-[16px] font-medium mt-[7px]">Search Limit - 500 NOS</li>
+                <li className="text-[16px] md:text-[14px] lg:text-[16px] font-medium mt-[7px]">Location - delhi</li>
               </ul>
             </div>
             </div>

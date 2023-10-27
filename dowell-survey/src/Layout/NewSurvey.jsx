@@ -5,6 +5,15 @@ import EmailSmsModal from "./EmailSmsModal";
 // eslint-disable-next-line react/prop-types
 const NewSurvey = ({ closeModal }) => {
   const [isModalOpen, setModalOpen] = useState(false);
+  const [startDate, setStartDate] = useState(getCurrentDate());
+
+  function getCurrentDate() {
+    const today = new Date();
+    const year = today.getFullYear();
+    const month = String(today.getMonth() + 1).padStart(2, "0");
+    const day = String(today.getDate()).padStart(2, "0");
+    return `${year}-${month}-${day}`;
+  }
 
   const handleCreateSurvey = () => {
     setModalOpen(true);
@@ -84,6 +93,26 @@ const NewSurvey = ({ closeModal }) => {
             className="w-4/5 md:w-[25rem] h-24 resize-none border-2  border-[#B3B4BB] rounded-[5px] outline-none"
             style={{ paddingLeft: "1rem" }}
           />
+
+          <div className="flex justify-center">
+            <div className="">
+              <p className="text-[#6B53CB] font-medium">Start Date</p>
+              <input
+                type="date"
+                className="bg-[#C4C4C4] rounded-xl py-2 px-2 text-center w-[90%] text-lg font-medium"
+                value={startDate}
+                onChange={(e) => setStartDate(e.target.value)}
+              />
+            </div>
+
+            <div className="">
+              <p className="text-[#6B53CB] font-medium">End Date</p>
+              <input
+                type="date"
+                className="bg-[#C4C4C4] rounded-xl py-2 px-2 text-center w-[90%] text-lg font-medium"
+              />
+            </div>
+          </div>
 
           <button
             type="button"

@@ -56,10 +56,7 @@ export default function Sidebar() {
                 </Link>
               </li>
               <li className="items-center my-1">
-                <Link
-                  className="bg-green-500 text-center text-md font-serif py-1 font-bold block text-white hover:text-black"
-                  to="/admin/dashboard"
-                >
+                <Link className="bg-green-500 text-center text-md font-serif py-1 font-bold block text-white hover:text-black">
                   1. Finalize Sample Size
                 </Link>
               </li>
@@ -74,10 +71,7 @@ export default function Sidebar() {
               </li>
 
               <li className="flex items-center my-1">
-                <Link
-                  className="bg-green-800 text-center font-serif font-bold block text-white hover:text-black flex-1"
-                  to="/admin/dashboard"
-                >
+                <Link className="bg-green-800 text-center font-serif font-bold block text-white hover:text-black flex-1">
                   <ul className="md:min-w-full flex flex-col items-start px-1 list-none">
                     <li className="text-[10px] font-bold text-white hover:text-black">
                       A. Sms
@@ -93,25 +87,18 @@ export default function Sidebar() {
 
                 <Link
                   className="bg-gray-400 text-center text-xs py-1 font-serif font-bold block text-white hover:text-black ml-2 flex-1" // Add ml-2 for spacing between links
-                  to="/admin/dashboard"
                 >
                   3. Start Survey
                 </Link>
               </li>
 
               <li className="items-center my-1">
-                <Link
-                  className="bg-gray-400 text-center text-md font-serif py-1 font-bold block text-white hover:text-black"
-                  to="/admin/dashboard"
-                >
+                <Link className="bg-gray-400 text-center text-md font-serif py-1 font-bold block text-white hover:text-black">
                   4. Stop Survey
                 </Link>
               </li>
               <li className="items-center my-1">
-                <Link
-                  className="bg-gray-400 text-center text-md font-serif py-1 font-bold block text-white hover:text-black"
-                  to="/admin/dashboard"
-                >
+                <Link className="bg-gray-400 text-center text-md font-serif py-1 font-bold block text-white hover:text-black">
                   5. Repeat
                 </Link>
               </li>
@@ -119,28 +106,19 @@ export default function Sidebar() {
 
             <ul className="md:flex-col md:min-w-full mt-8 flex flex-col list-none">
               <li className="items-center">
-                <Link
-                  className="bg-red-500 text-center text-md font-serif py-1 font-bold block text-white hover:text-black"
-                  to="/admin/search"
-                >
+                <Link className="bg-red-500 text-center text-md font-serif py-1 font-bold block text-white hover:text-black">
                   My Surveys
                 </Link>
               </li>
 
               <li className="items-center my-1">
-                <Link
-                  className="bg-gray-400 text-center text-md font-serif py-1 font-bold block text-white hover:text-black"
-                  to="/admin/dashboard"
-                >
+                <Link className="bg-gray-400 text-center text-md font-serif py-1 font-bold block text-white hover:text-black">
                   Settings/Privacy
                 </Link>
               </li>
 
               <li className="items-center my-1">
-                <Link
-                  className="bg-gray-400 text-center text-md font-serif py-1 font-bold block text-white hover:text-black"
-                  to="/admin/dashboard"
-                >
+                <Link className="bg-gray-400 text-center text-md font-serif py-1 font-bold block text-white hover:text-red-500">
                   Log Out
                 </Link>
               </li>

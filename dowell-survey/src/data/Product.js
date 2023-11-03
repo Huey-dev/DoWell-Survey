@@ -11,14 +11,14 @@ const products = [
         name: 'Bakery chef',
         distance: 'Driving distance of 20 meters',
         image: pic1,
-        describtion: "this is a lifesaver!",
+        description: "this is a lifesaver!",
     },
     {
         id: 2,
         name: 'Queens Bakery',
         distance: 'Driving distance of 400 meters',
         image: pic2,
-        describtion: "this is a lifesaver!",
+        description: "this is a lifesaver!",
 
     },
     {
@@ -26,7 +26,7 @@ const products = [
         name: 'Samantha Bakery',
         distance: 'Driving distance of 10 meters',
         image: pic3,
-        describtion: "this is a lifesaver!",
+        description: "this is a lifesaver!",
 
     },
     {
@@ -34,21 +34,21 @@ const products = [
         name: 'Dowell bakery',
         distance: 'Driving distance of 4 meters',
         image: pic4,
-        describtion: "this is a lifesaver!",
+        description: "this is a lifesaver!",
     },
     {
         id: 5,
         name: 'Bakery chef',
         distance: 'Driving distance of 20 meters',
         image: pic1,
-        describtion: "this is a lifesaver!",
+        description: "this is a lifesaver!",
     },
     {
         id: 6,
         name: 'Queens Bakery',
         distance: 'Driving distance of 400 meters',
         image: pic2,
-        describtion: "this is a lifesaver!",
+        description: "this is a lifesaver!",
 
     },
     {
@@ -56,7 +56,7 @@ const products = [
         name: 'Samantha Bakery',
         distance: 'Driving distance of 10 meters',
         image: pic3,
-        describtion: "this is a lifesaver!",
+        description: "this is a lifesaver!",
 
     },
     {
@@ -64,21 +64,21 @@ const products = [
         name: 'Dowell bakery',
         distance: 'Driving distance of 4 meters',
         image: pic4,
-        describtion: "this is a lifesaver!",
+        description: "this is a lifesaver!",
     },
     {
         id: 9,
         name: 'Bakery chef',
         distance: 'Driving distance of 20 meters',
         image: pic1,
-        describtion: "this is a lifesaver!",
+        description: "this is a lifesaver!",
     },
     {
         id: 10,
         name: 'Queens Bakery',
         distance: 'Driving distance of 400 meters',
         image: pic2,
-        describtion: "this is a lifesaver!",
+        description: "this is a lifesaver!",
 
     },
     {
@@ -86,7 +86,7 @@ const products = [
         name: 'Samantha Bakery',
         distance: 'Driving distance of 10 meters',
         image: pic3,
-        describtion: "this is a lifesaver!",
+        description: "this is a lifesaver!",
 
     },
     {
@@ -94,7 +94,7 @@ const products = [
         name: 'Dowell bakery',
         distance: 'Driving distance of 4 meters',
         image: pic4,
-        describtion: "this is a lifesaver!",
+        description: "this is a lifesaver!",
     },
 ];
 

@@ -38,7 +38,7 @@ export default function Sidebar() {
           </Link>
           <div className="md:flex md:flex-col md:items-stretch md:opacity-100 md:relative md:mt-4 md:shadow-none shadow absolute top-0 left-0 right-0 z-40 overflow-y-auto overflow-x-hidden h-auto items-center flex-1">
             <ul className="md:flex-col md:min-w-full flex flex-col list-none">
-              <li className="items-center my-1">
+              <li className="items-center py-1.5">
                 <Link
                   onClick={NewSurveyModal}
                   className="bg-red-500 text-center text-md font-serif py-1 font-bold block text-white hover:text-black"
@@ -47,21 +47,13 @@ export default function Sidebar() {
                 </Link>
               </li>
 
-              <li className="items-center my-1">
-                <Link
-                  to="/newsurvey"
-                  className="bg-red-500 text-center text-md font-serif py-1 font-bold block text-white hover:text-black"
-                >
-                  Start Survey
-                </Link>
-              </li>
-              <li className="items-center my-1">
+              <li className="items-center py-1.5">
                 <Link className="bg-green-500 text-center text-md font-serif py-1 font-bold block text-white hover:text-black">
                   1. Finalize Sample Size
                 </Link>
               </li>
 
-              <li className="items-center my-1">
+              <li className="items-center py-1.5">
                 <Link
                   onClick={toggleModal}
                   className="bg-gray-400 text-center text-md font-serif py-1 font-bold block text-white hover:text-black"
@@ -70,7 +62,7 @@ export default function Sidebar() {
                 </Link>
               </li>
 
-              <li className="flex items-center my-1">
+              <li className="flex items-center py-1.5">
                 <Link className="bg-green-800 text-center font-serif font-bold block text-white hover:text-black flex-1">
                   <ul className="md:min-w-full flex flex-col items-start px-1 list-none">
                     <li className="text-[10px] font-bold text-white hover:text-black">
@@ -92,12 +84,12 @@ export default function Sidebar() {
                 </Link>
               </li>
 
-              <li className="items-center my-1">
+              <li className="items-center py-1.5">
                 <Link className="bg-gray-400 text-center text-md font-serif py-1 font-bold block text-white hover:text-black">
                   4. Stop Survey
                 </Link>
               </li>
-              <li className="items-center my-1">
+              <li className="items-center py-1.5">
                 <Link className="bg-gray-400 text-center text-md font-serif py-1 font-bold block text-white hover:text-black">
                   5. Repeat
                 </Link>
@@ -111,13 +103,13 @@ export default function Sidebar() {
                 </Link>
               </li>
 
-              <li className="items-center my-1">
+              <li className="items-center py-1.5">
                 <Link className="bg-gray-400 text-center text-md font-serif py-1 font-bold block text-white hover:text-black">
                   Settings/Privacy
                 </Link>
               </li>
 
-              <li className="items-center my-1">
+              <li className="items-center py-1.5">
                 <Link className="bg-gray-400 text-center text-md font-serif py-1 font-bold block text-white hover:text-red-500">
                   Log Out
                 </Link>

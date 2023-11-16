@@ -1,25 +1,25 @@
 import { Link } from "react-router-dom";
 import dowelllogo from "../assets/dowell.jpeg";
-import { FaTimes } from "react-icons/fa";
-import { useState } from "react";
+// import { FaTimes } from "react-icons/fa";
+// import { useState } from "react";
 import "./Sidebar.css";
-import NewSurvey from "./NewSurvey";
+// import NewSurvey from "./NewSurvey";
 
 export default function Sidebar() {
-  const [modalOpen, setIsModalOpen] = useState(false);
-  const [NewSurveyModalOpen, setIsNewSurveyModalOpen] = useState(false);
+  // const [modalOpen, setIsModalOpen] = useState(false);
+  // const [NewSurveyModalOpen, setIsNewSurveyModalOpen] = useState(false);
 
-  const toggleModal = () => {
-    setIsModalOpen((prevState) => !prevState);
-  };
+  // const toggleModal = () => {
+  //   setIsModalOpen((prevState) => !prevState);
+  // };
 
-  const NewSurveyModal = () => {
-    setIsNewSurveyModalOpen((prevState) => !prevState);
-  };
+  // const NewSurveyModal = () => {
+  //   setIsNewSurveyModalOpen((prevState) => !prevState);
+  // };
 
-  const closeNewSurveyModal = () => {
-    setIsNewSurveyModalOpen(false);
-  };
+  // const closeNewSurveyModal = () => {
+  //   setIsNewSurveyModalOpen(false);
+  // };
 
   return (
     <main className="w-full h-full">
@@ -38,9 +38,18 @@ export default function Sidebar() {
           </Link>
           <div className="md:flex md:flex-col md:items-stretch md:opacity-100 md:relative md:mt-4 md:shadow-none shadow absolute top-0 left-0 right-0 z-40 overflow-y-auto overflow-x-hidden h-auto items-center flex-1">
             <ul className="md:flex-col md:min-w-full flex flex-col list-none">
-              <li className="items-center py-1.5">
+              {/* <li className="items-center py-1.5">
                 <Link
                   onClick={NewSurveyModal}
+                  className="bg-red-500 text-center text-md font-serif py-1 font-bold block text-white hover:text-black"
+                >
+                  New Survey
+                </Link>
+              </li> */}
+
+              <li className="items-center py-1.5">
+                <Link
+                  to="/newsurvey"
                   className="bg-red-500 text-center text-md font-serif py-1 font-bold block text-white hover:text-black"
                 >
                   New Survey
@@ -55,7 +64,7 @@ export default function Sidebar() {
 
               <li className="items-center py-1.5">
                 <Link
-                  onClick={toggleModal}
+                  // onClick={toggleModal}
                   className="bg-gray-400 text-center text-md font-serif py-1 font-bold block text-white hover:text-black"
                 >
                   2. Link Survey Form
@@ -119,7 +128,7 @@ export default function Sidebar() {
         </div>
       </nav>
 
-      <div
+      {/* <div
         className={`${
           modalOpen ? "modal-overlay show-modal" : "modal-overlay"
         } `}
@@ -135,39 +144,27 @@ export default function Sidebar() {
             style={{ paddingLeft: "1rem" }}
           />
 
-          {/* <small
-                    className="text-red-900 w-4/5 md:w-[25rem] text-left text-[14px] font-bold"
-                    style={{
-                      visibility: errors.firstName ? "visible" : "hidden",
-                    }}
-                  >
-                    {errors.firstName?.message}
-                  </small> */}
-
-          {/* <button className="close-modal-btn" onClick={toggleModal}>
-                    <FaTimes></FaTimes>
-                  </button> */}
-
           <button className="w-4/5 md:w-[25rem] mt-[10px] h-[50px] font-serif font-bold text-black text-center bg-[#005734] opacity-80 hover:opacity-100 text-[16px] md:text-[20px] rounded-[12px] hover:text-white cursor-pointer ">
             Submit
           </button>
+
           <button
             className="close-modal-btn rounded-md hover:bg-[#005734] text-xl p-1"
-            onClick={toggleModal}
+            // onClick={toggleModal}
             type="button"
           >
             <FaTimes></FaTimes>
           </button>
         </form>
-      </div>
+      </div> */}
 
-      <div
+      {/* <div
         className={`${
           NewSurveyModalOpen ? "modal-overlay show-modal" : "modal-overlay"
         }`}
       >
         <NewSurvey closeModal={closeNewSurveyModal} />
-      </div>
+      </div> */}
     </main>
   );
 }

@@ -1,15 +1,16 @@
-import { useState } from "react";
+// import { useState } from "react";
 
 const StartNewSurvey = () => {
-  const [startDate, setStartDate] = useState(getCurrentDate());
+  // const [startDate, setStartDate] = useState(getCurrentDate());
 
-  function getCurrentDate() {
-    const today = new Date();
-    const year = today.getFullYear();
-    const month = String(today.getMonth() + 1).padStart(2, "0");
-    const day = String(today.getDate()).padStart(2, "0");
-    return `${year}-${month}-${day}`;
-  }
+  // function getCurrentDate() {
+  //   const today = new Date();
+  //   const year = today.getFullYear();
+  //   const month = String(today.getMonth() + 1).padStart(2, "0");
+  //   const day = String(today.getDate()).padStart(2, "0");
+  //   return `${year}-${month}-${day}`;
+  // }
+
   return (
     <div className="min-h-screen flex justify-end">
       <div className="flex flex-col items-center justify-center gap-8 w-full px-4 sm:px-0 md:w-[80%] bg-gray-200">
@@ -43,7 +44,7 @@ const StartNewSurvey = () => {
           className="h-24 resize-none border-2 w-full sm:w-[40%] p-1 border-[#B3B4BB] rounded-[5px] outline-none"
         />
 
-        <div className="flex justify-center">
+        {/* <div className="flex justify-center">
           <div className="flex flex-col justify-center items-center">
             <p className="text-[#005734]  font-serif text-sm font-bold">
               Start Date
@@ -65,7 +66,7 @@ const StartNewSurvey = () => {
               className="bg-[#C4C4C4] rounded-md  py-2 px-2 text-center w-[90%] text-xs font-medium"
             />
           </div>
-        </div>
+        </div> */}
 
         <button
           type="button"

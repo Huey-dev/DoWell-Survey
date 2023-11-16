@@ -49,7 +49,7 @@ export default function Sidebar() {
 
               <li className="items-center py-1.5">
                 <Link
-                  to="/newsurvey"
+                  // to="/newsurvey"
                   className="bg-red-500 text-center text-md font-serif py-1 font-bold block text-white hover:text-black"
                 >
                   New Survey

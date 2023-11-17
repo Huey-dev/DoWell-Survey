@@ -136,11 +136,11 @@ const NewSurvey = ({ closeModal }) => {
             style={{ paddingLeft: "1rem" }}
           />
 
-          <div className=" bg-[#556155] rounded-md w-4/5 md:w-[25rem] p-1 flex justify-center items-center gap-2 ">
+          <div className=" bg-[#7ED957] rounded-md w-4/5 md:w-[25rem] p-1 flex justify-center items-center gap-2 ">
             <button
               onClick={addCountryAndRegion}
               type="button"
-              className="border border-black rounded-md p-2 text-center w-1/2 sm:w-1/3 text-[12px] font-serif font-bold hover:bg-[#005734] opacity-80 hover:opacity-100 hover:text-white"
+              className="border border-black rounded-md p-2 text-center w-1/2 sm:w-1/3 text-[12px] font-serif font-bold hover:bg-[#005734] hover:border-[#005734] hover:text-white"
             >
               Add More
             </button>

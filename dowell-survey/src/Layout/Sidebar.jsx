@@ -1,25 +1,19 @@
 import { Link } from "react-router-dom";
 import dowelllogo from "../assets/dowell.jpeg";
-// import { FaTimes } from "react-icons/fa";
-// import { useState } from "react";
+import { useState } from "react";
 import "./Sidebar.css";
-// import NewSurvey from "./NewSurvey";
+import StartSurvey from "./StartSurvey";
 
 export default function Sidebar() {
-  // const [modalOpen, setIsModalOpen] = useState(false);
-  // const [NewSurveyModalOpen, setIsNewSurveyModalOpen] = useState(false);
+  const [StartSurveyModalOpen, setIsStartSurveyModalOpen] = useState(false);
 
-  // const toggleModal = () => {
-  //   setIsModalOpen((prevState) => !prevState);
-  // };
+  const StartSurveyModal = () => {
+    setIsStartSurveyModalOpen((prevState) => !prevState);
+  };
 
-  // const NewSurveyModal = () => {
-  //   setIsNewSurveyModalOpen((prevState) => !prevState);
-  // };
-
-  // const closeNewSurveyModal = () => {
-  //   setIsNewSurveyModalOpen(false);
-  // };
+  const closeStartSurveyModal = () => {
+    setIsStartSurveyModalOpen(false);
+  };
 
   return (
     <main className="w-full h-full">
@@ -40,7 +34,7 @@ export default function Sidebar() {
             <ul className="md:flex-col md:min-w-full flex flex-col list-none">
               {/* <li className="items-center py-1.5">
                 <Link
-                  onClick={NewSurveyModal}
+                  onClick={StartSurveyModal}
                   className="bg-red-500 text-center text-md font-serif py-1 font-bold block text-white hover:text-black"
                 >
                   New Survey
@@ -50,6 +44,7 @@ export default function Sidebar() {
               <li className="items-center py-1.5">
                 <Link
                   // to="/newsurvey"
+                  onClick={StartSurveyModal}
                   className="bg-red-500 text-center text-md font-serif py-1 font-bold block text-white hover:text-black"
                 >
                   New Survey
@@ -127,44 +122,13 @@ export default function Sidebar() {
           </div>
         </div>
       </nav>
-
-      {/* <div
+      <div
         className={`${
-          modalOpen ? "modal-overlay show-modal" : "modal-overlay"
-        } `}
-      >
-        <form className="modal-container pt-[2rem]">
-          <input
-            type="text"
-            id="firstName"
-            name="firstName"
-            // {...register("firstName")}
-            placeholder="Link survey form"
-            className="w-4/5 md:w-[25rem] h-[3rem] border-2  border-[#B3B4BB] rounded-[5px] outline-none"
-            style={{ paddingLeft: "1rem" }}
-          />
-
-          <button className="w-4/5 md:w-[25rem] mt-[10px] h-[50px] font-serif font-bold text-black text-center bg-[#005734] opacity-80 hover:opacity-100 text-[16px] md:text-[20px] rounded-[12px] hover:text-white cursor-pointer ">
-            Submit
-          </button>
-
-          <button
-            className="close-modal-btn rounded-md hover:bg-[#005734] text-xl p-1"
-            // onClick={toggleModal}
-            type="button"
-          >
-            <FaTimes></FaTimes>
-          </button>
-        </form>
-      </div> */}
-
-      {/* <div
-        className={`${
-          NewSurveyModalOpen ? "modal-overlay show-modal" : "modal-overlay"
+          StartSurveyModalOpen ? "modal-overlay show-modal" : "modal-overlay"
         }`}
       >
-        <NewSurvey closeModal={closeNewSurveyModal} />
-      </div> */}
+        <StartSurvey closeModal={closeStartSurveyModal} />
+      </div>
     </main>
   );
 }

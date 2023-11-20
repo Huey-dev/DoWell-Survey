@@ -41,15 +41,23 @@ export default function Sidebar() {
               <li className="items-center my-1">
                 <Link
                   onClick={NewSurveyModal}
-                  className="bg-red-500 text-center text-lg py-1 font-bold block text-white hover:text-black"
+                  className="bg-red-500 text-center text-md font-serif py-1 font-bold block text-white hover:text-black"
                 >
                   New Survey
                 </Link>
               </li>
+
               <li className="items-center my-1">
                 <Link
-                  className="bg-green-500 text-center text-lg py-1 font-bold block text-white hover:text-red-500"
-                  to="/finalize-sample"
+                  to="/newsurvey"
+                  className="bg-red-500 text-center text-md font-serif py-1 font-bold block text-white hover:text-black"
+                >
+                  Start Survey
+                </Link>
+              </li>
+              <li className="items-center my-1">
+                <Link className="bg-green-500 text-center text-md font-serif py-1 font-bold block text-white hover:text-black"
+                 to="/finalize-sample"
                 >
                   1. Finalize Sample Size
                 </Link>
@@ -57,77 +65,63 @@ export default function Sidebar() {
 
               <li className="items-center my-1">
                 <Link
+               
                   onClick={toggleModal}
-                  className="bg-gray-400 text-center text-lg py-1 font-bold block text-white hover:text-red-500"
+                  className="bg-gray-400 text-center text-md font-serif py-1 font-bold block text-white hover:text-black"
                 >
                   2. Link Survey Form
                 </Link>
               </li>
 
-              <li className="items-center my-1 flex">
-                <Link
-                  className="bg-green-800 text-center text-lg py-1 font-bold block text-white hover:text-red-500 flex-1"
-                  to="/admin/dashboard"
-                >
-                  <ul className="md:flex-col md:min-w-full flex flex-col list-none">
-                    <li className="items-center text-xs font-bold block text-white hover:text-red-500">
+              <li className="flex items-center my-1">
+                <Link className="bg-green-800 text-center font-serif font-bold block text-white hover:text-black flex-1">
+                  <ul className="md:min-w-full flex flex-col items-start px-1 list-none">
+                    <li className="text-[10px] font-bold text-white hover:text-black">
                       A. Sms
                     </li>
-                    <li className="items-center text-xs font-bold block text-white hover:text-red-500">
+                    <li className="text-[10px] font-bold text-white hover:text-black">
                       B. Email
                     </li>
-                    <li className="items-center text-xs font-bold block text-white hover:text-red-500">
-                      C. Sms and Email
+                    <li className="text-[10px] font-bold text-white hover:text-black">
+                      C. Sms and email
                     </li>
                   </ul>
                 </Link>
+
                 <Link
-                  className="bg-gray-400 text-center text-sm py-1 font-bold block text-white hover:text-red-500 ml-2 flex-1" // Add ml-2 for spacing between links
-                  to="/admin/dashboard"
+                  className="bg-gray-400 text-center text-xs py-1 font-serif font-bold block text-white hover:text-black ml-2 flex-1" // Add ml-2 for spacing between links
                 >
                   3. Start Survey
                 </Link>
               </li>
+
               <li className="items-center my-1">
-                <Link
-                  className="bg-gray-400 text-center text-lg py-1 font-bold block text-white hover:text-red-500"
-                  to="/admin/dashboard"
-                >
+                <Link className="bg-gray-400 text-center text-md font-serif py-1 font-bold block text-white hover:text-black">
                   4. Stop Survey
                 </Link>
               </li>
               <li className="items-center my-1">
-                <Link
-                  className="bg-gray-400 text-center text-lg py-1 font-bold block text-white hover:text-red-500"
-                  to="/admin/dashboard"
-                >
+                <Link className="bg-gray-400 text-center text-md font-serif py-1 font-bold block text-white hover:text-black">
                   5. Repeat
                 </Link>
               </li>
             </ul>
 
             <ul className="md:flex-col md:min-w-full mt-8 flex flex-col list-none">
-              <li className="items-center my-1">
-                <Link
-                  className="bg-red-500 text-center text-lg py-1 font-bold block text-white hover:text-black"
-                  to="/admin/search"
-                >
+              <li className="items-center">
+                <Link className="bg-red-500 text-center text-md font-serif py-1 font-bold block text-white hover:text-black">
                   My Surveys
                 </Link>
               </li>
+
               <li className="items-center my-1">
-                <Link
-                  className="bg-gray-400 text-center text-lg py-1 font-bold block text-white hover:text-red-500"
-                  to="/admin/dashboard"
-                >
+                <Link className="bg-gray-400 text-center text-md font-serif py-1 font-bold block text-white hover:text-black">
                   Settings/Privacy
                 </Link>
               </li>
+
               <li className="items-center my-1">
-                <Link
-                  className="bg-gray-400 text-center text-lg py-1 font-bold block text-white hover:text-red-500"
-                  to="/admin/dashboard"
-                >
+                <Link className="bg-gray-400 text-center text-md font-serif py-1 font-bold block text-white hover:text-red-500">
                   Log Out
                 </Link>
               </li>
@@ -165,11 +159,11 @@ export default function Sidebar() {
                     <FaTimes></FaTimes>
                   </button> */}
 
-          <button className="w-4/5 md:w-[25rem] mt-[10px] h-[50px]  text-center bg-[#4D5DED] opacity-80 hover:opacity-100 text-[16px] md:text-[20px] rounded-[12px] text-white cursor-pointer ">
+          <button className="w-4/5 md:w-[25rem] mt-[10px] h-[50px] font-serif font-bold text-black text-center bg-[#005734] opacity-80 hover:opacity-100 text-[16px] md:text-[20px] rounded-[12px] hover:text-white cursor-pointer ">
             Submit
           </button>
           <button
-            className="close-modal-btn"
+            className="close-modal-btn rounded-md hover:bg-[#005734] text-xl p-1"
             onClick={toggleModal}
             type="button"
           >

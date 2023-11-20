@@ -10,25 +10,6 @@ const FinalizeSample = () => {
   const [numOfParticipants, setNumOfParticipants] = useState("");
   const [editingNo, setEditingNo] = useState(null);
 
-  // const handleAdd = () => {
-  //   if (country && region && numOfParticipants) {
-  //     // Create a new object with the entered data
-  //     const newData = {
-  //       no: sampleData.length + 1,
-  //       country,
-  //       region,
-  //       numOfParticipants,
-  //     };
-
-  //     // Add the new data to the sampleData state
-  //     setSampleData([...sampleData, newData]);
-
-  //     // Clear the input fields
-  //     setCountry("");
-  //     setRegion("");
-  //     setNumOfParticipants("");
-  //   }
-  // };
   const handleAdd = () => {
     if (country && region && numOfParticipants) {
       if (editingNo !== null) {

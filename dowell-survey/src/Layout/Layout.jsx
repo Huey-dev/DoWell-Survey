@@ -6,7 +6,6 @@ const Layout = ({ children }) => {
     <div>
       <Sidebar />
       <main>{children}</main>
-      
     </div>
   );
 };

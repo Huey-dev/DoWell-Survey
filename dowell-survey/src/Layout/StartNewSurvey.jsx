@@ -1,4 +1,5 @@
 // import { useState } from "react";
+import Layout from "./Layout";
 
 const StartNewSurvey = () => {
   // const [startDate, setStartDate] = useState(getCurrentDate());
@@ -12,8 +13,10 @@ const StartNewSurvey = () => {
   // }
 
   return (
+    <Layout>
+
     <div className="min-h-screen flex justify-end">
-      <div className="flex flex-col items-center justify-center gap-8 w-full px-4 sm:px-0 md:w-[80%] bg-gray-200">
+      <div className="flex flex-col items-center justify-center gap-8 w-full px-4 sm:px-0 md:w-[80%] ">
         <input
           type="file"
           id="firstName"
@@ -76,6 +79,8 @@ const StartNewSurvey = () => {
         </button>
       </div>
     </div>
+    </Layout>
+
   );
 };
 

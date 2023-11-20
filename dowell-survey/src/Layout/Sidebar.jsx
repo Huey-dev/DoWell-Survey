@@ -57,7 +57,10 @@ export default function Sidebar() {
               </li>
 
               <li className="items-center py-1.5">
-                <Link className="bg-green-500 text-center text-md font-serif py-1 font-bold block text-white hover:text-black">
+                <Link className="bg-green-500 text-center text-md font-serif py-1 font-bold block text-white hover:text-black"
+                 to="/finalize-Sample"
+                
+                >
                   1. Finalize Sample Size
                 </Link>
               </li>

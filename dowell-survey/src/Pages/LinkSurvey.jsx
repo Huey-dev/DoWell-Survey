@@ -19,7 +19,7 @@ const LinkSurvey = () => {
               />
               <button
                 type="submit"
-                className="w-[400px] mt-[30px] h-[50px] font-serif font-semibold bg-[#005734] text-[20px] text-white hover:opacity-100 opacity-80 rounded-[5px]"
+                className="w-[400px] mt-[30px] h-[50px] font-serif font-semibold bg-[#005734] text-[20px] text-white hover:opacity-100 opacity-80 rounded-md"
               >
                 Link Form
               </button>

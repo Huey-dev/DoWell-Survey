@@ -2,6 +2,7 @@ import { useState } from "react";
 import Layout from "../Layout/Layout";
 import { AiFillEdit } from "react-icons/ai";
 import { MdDelete } from "react-icons/md";
+import { TiPlus } from "react-icons/ti";
 
 const FinalizeSample = () => {
   const [sampleData, setSampleData] = useState([]);
@@ -100,9 +101,9 @@ const FinalizeSample = () => {
             />
             <button
               onClick={handleAdd}
-              className="w-[100px] h-[50px] font-serif font-semibold bg-[#005734] opacity-80 hover:opacity-100 text-[white] rounded-[5px] md:w-2/12"
+              className="flex justify-center items-center w-[100px] h-[50px] font-serif font-semibold bg-[#005734] opacity-80 hover:opacity-100 text-[white] rounded-md md:w-2/12"
             >
-              Add
+              <TiPlus /> Add
             </button>
           </div>
         </div>

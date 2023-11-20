@@ -102,7 +102,7 @@ const handleDelete = (no) => {
             />
             <button
               onClick={handleAdd}
-              className="w-[100px] h-[50px] bg-green-700 text-[white] rounded-[5px] md:w-2/12"
+              className="w-[100px] h-[50px] bg-[#005734] text-[white] rounded-[5px] md:w-2/12"
             >
               Add
             </button>

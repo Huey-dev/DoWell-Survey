@@ -68,6 +68,8 @@ export default function Sidebar() {
               <li className="items-center py-1.5">
                 <Link
                   // onClick={toggleModal}
+                   to="/link-form"
+                 
                   className="bg-gray-400 text-center text-md font-serif py-1 font-bold block text-white hover:text-black"
                 >
                   2. Link Survey Form

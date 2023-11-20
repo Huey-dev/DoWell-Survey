@@ -38,7 +38,7 @@ const StartNewSurvey = () => {
 
           <button
             type="button"
-            className="w-full sm:w-[40%] font-serif p-2 font-bold text-center bg-[#005734] opacity-80 hover:opacity-100 text-[16px] md:text-[20px] rounded-md text-white cursor-pointer"
+            className="w-full sm:w-[40%] h-[50px] font-serif p-2 font-bold text-center bg-[#005734] opacity-80 hover:opacity-100 text-[16px] md:text-[20px] rounded-md text-white cursor-pointer"
           >
             Create Survey Campaign
           </button>

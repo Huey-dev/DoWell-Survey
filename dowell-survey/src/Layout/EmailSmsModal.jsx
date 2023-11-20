@@ -4,7 +4,7 @@ import QRCode from "react-qr-code";
 // eslint-disable-next-line react/prop-types
 const EmailSmsModal = ({ closeBothModals }) => {
   return (
-    <div className="">
+    <div className="h-full">
       <div className="flex flex-col gap-6">
         <div className="flex justify-center items-center">
           <QRCode

@@ -2,14 +2,15 @@
 import map from "../assets/Screenshot 2023-10-11 085143.png"
 import products from "../data/Product"
 import Layout from "../Layout/Layout"
-import MySurveys from "./MySurveys"
+// import MySurveys from "./MySurveys"
+import Search from "./Search"
 
 const LandingPage = () => {
   return (
     <Layout>
     <main className="w-full h-full mb-10  ">
-      <MySurveys />
-
+      {/* <MySurveys /> */}
+      <Search />
        <div className="px-4 md:px-10 mt-[40px] md:pl-[310px]">
         <div className="w-full flex flex-col md:flex-row md:justify-between"> 
           <div className="w-full md:w-8/12">

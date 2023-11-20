@@ -49,7 +49,7 @@ export default function Sidebar() {
               <li className="items-center my-1">
                 <Link
                   className="bg-green-500 text-center text-lg py-1 font-bold block text-white hover:text-red-500"
-                  to="/admin/dashboard"
+                  to="/finalize-sample"
                 >
                   1. Finalize Sample Size
                 </Link>

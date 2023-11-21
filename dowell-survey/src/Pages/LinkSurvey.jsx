@@ -1,4 +1,5 @@
 import Layout from "../Layout/Layout"
+import { Link } from "react-router-dom"
 const LinkSurvey = () => {
   return (
     <Layout>
@@ -12,14 +13,17 @@ const LinkSurvey = () => {
             <div className="flex flex-col mt-[50px]">
                 <h2>Form Link</h2>
                 <input type="text"
+                placeholder="add your form link here"
                 className="w-[400px] mt-[10px] h-[50px] border-2 border-[#B3B4BB] rounded-[5px] outline-none  pl-[20px]"
                 />
+                <Link to="/email-sms">
                 <button 
                 type="submit"
                 className="w-[400px] mt-[30px] h-[50px] bg-[#005734] text-[20px] text-white hover:opacity-100 opacity-80 rounded-[5px]"
                 >
                     Link Form
                 </button>
+                    </Link>
             </div>
             </div>
 

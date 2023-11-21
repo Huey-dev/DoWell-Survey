@@ -2,6 +2,7 @@ import  { useState } from "react";
 import Layout from "../Layout/Layout";
 import { AiFillEdit } from "react-icons/ai";
 import { MdDelete } from "react-icons/md";
+import { Link } from "react-router-dom";
 
 const FinalizeSample = () => {
   const [sampleData, setSampleData] = useState([]);
@@ -63,8 +64,10 @@ const handleDelete = (no) => {
 
   return (
     <Layout>
-      <main className="w-full h-full">
+      <main className="w-full h-full ">
         <div className="px-4 md:px-10 mt-[40px] md:pl-[310px]">
+          <div className="w-full">
+
           <div className="w-full">
             <h1 className="text-[30px] font-semibold">Finalize Sample Size</h1>
             <p>Input Number of people allowed to fill this survey below</p>
@@ -108,7 +111,7 @@ const handleDelete = (no) => {
             </button>
           </div>
         </div>
-        <div className="w-full h-full px-4 md:px-10 mt-[70px] md:pl-[310px] ">
+        <div className="w-full h-full  mt-[70px]  ">
           {sampleData.length > 0 && (
             <table className="w-full text-center">
               <thead>
@@ -136,6 +139,25 @@ const handleDelete = (no) => {
             </table>
           )}
         </div>
+
+        <div className="w-[250px] mt-[100px]  flex justify-between">
+          <button
+              // onClick={handleAdd}
+              className="w-[100px] h-[50px] bg-[#005734] text-[white] rounded-[5px] "
+              >
+              Cancle
+            </button>
+            <Link to="/link-form">
+         <button
+              // onClick={handleAdd}
+              className="w-[100px] h-[50px] bg-[#005734] text-[white] rounded-[5px] "
+              >
+              Done
+            </button>
+                </Link>
+              </div>
+          </div>
+
       </main>
     </Layout>
   );

@@ -77,7 +77,9 @@ export default function Sidebar() {
               </li>
 
               <li className="flex items-center py-1.5">
-                <Link className="bg-green-800 text-center font-serif font-bold block text-white hover:text-black flex-1">
+                <Link 
+                to="/email-sms"
+                className="bg-green-800 text-center font-serif font-bold block text-white hover:text-black flex-1">
                   <ul className="md:min-w-full flex flex-col items-start px-1 list-none">
                     <li className="text-[10px] font-bold text-white hover:text-black">
                       A. Sms

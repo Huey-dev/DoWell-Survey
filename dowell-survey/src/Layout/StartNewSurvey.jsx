@@ -1,5 +1,6 @@
 // import { useState } from "react";
 import Layout from "./Layout";
+import { Link } from "react-router-dom";
 
 const StartNewSurvey = () => {
   // const [startDate, setStartDate] = useState(getCurrentDate());
@@ -71,12 +72,16 @@ const StartNewSurvey = () => {
           </div>
         </div> */}
 
+        <Link to="/finalize-Sample"
+        className="w-full sm:w-[40%] font-serif p-2 font-bold text-black text-center bg-[#005734] opacity-80 hover:opacity-100 text-[16px] md:text-[20px] rounded-[12px] hover:text-white cursor-pointer"
+        >
         <button
           type="button"
-          className="w-full sm:w-[40%] font-serif p-2 font-bold text-black text-center bg-[#005734] opacity-80 hover:opacity-100 text-[16px] md:text-[20px] rounded-[12px] hover:text-white cursor-pointer"
-        >
+          
+          >
           Create Survey Campaign
         </button>
+          </Link>
       </div>
     </div>
     </Layout>

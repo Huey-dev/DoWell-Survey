@@ -19,8 +19,6 @@ function App() {
             <Route path="/finalize-Sample" element={<FinalizeSample />} />
             <Route path="/link-form" element={<LinkSurvey />} />
             <Route path="/email-sms" element={<EmailSms />} />
-
-
           </Routes>
         </Router>
       </PreviewProvider>

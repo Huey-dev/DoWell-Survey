@@ -3,12 +3,14 @@ import { Link } from "react-router-dom"
 const LinkSurvey = () => {
   return (
     <Layout>
-    <main className="w-full h-full">
+      <main className="w-full h-full">
         <div className="px-4 md:px-10 mt-[40px] md:pl-[310px]">
-            <div className="w-full h-full flex flex-col justify-center items-center">
-
+          <div className="w-full h-full flex flex-col justify-center items-center">
             <div>
-                <h1>Input your form link here so as to connect it with the survey created</h1>
+              <h1>
+                Input your form link here so as to connect it with the survey
+                created
+              </h1>
             </div>
             <div className="flex flex-col mt-[50px]">
                 <h2>Form Link</h2>
@@ -25,12 +27,11 @@ const LinkSurvey = () => {
                 </button>
                     </Link>
             </div>
-            </div>
-
+          </div>
         </div>
-    </main>
+      </main>
     </Layout>
-  )
-}
+  );
+};
 
-export default LinkSurvey
+export default LinkSurvey;

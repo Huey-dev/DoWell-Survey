@@ -192,7 +192,7 @@ const NewSurvey = ({ closeModal }) => {
           <button
             type="button"
             onClick={handleCreateSurvey}
-            className="w-4/5 md:w-[25rem] mt-[10px] h-[50px] font-serif font-bold text-black text-center bg-[#005734] opacity-80 hover:opacity-100 text-[16px] md:text-[20px] rounded-[12px] hover:text-white cursor-pointer"
+            className="w-4/5 md:w-[25rem] mt-[10px] h-[50px] font-serif font-semibold text-black text-center bg-[#005734] opacity-80 hover:opacity-100 text-[16px] md:text-[20px] rounded-[12px] hover:text-white cursor-pointer"
           >
             Create Survey Campaign
           </button>

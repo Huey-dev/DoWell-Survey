@@ -1,8 +1,9 @@
-import  { useState } from "react";
+import { useState } from "react";
 import Layout from "../Layout/Layout";
 import { AiFillEdit } from "react-icons/ai";
 import { MdDelete } from "react-icons/md";
 import { Link } from "react-router-dom";
+// import {TiPlus} from "react-icons/ti"
 
 const FinalizeSample = () => {
   const [sampleData, setSampleData] = useState([]);
@@ -40,27 +41,25 @@ const FinalizeSample = () => {
     }
   };
 
+  const handleDelete = (no) => {
+    const updatedData = sampleData.filter((data) => data.no !== no);
 
-const handleDelete = (no) => {
-  const updatedData = sampleData.filter((data) => data.no !== no);
-  
-  // Renumber the remaining rows after deletion
-  const renumberedData = updatedData.map((data, index) => ({
-    ...data,
-    no: index + 1,
-  }));
-  
-  setSampleData(renumberedData);
-};
+    // Renumber the remaining rows after deletion
+    const renumberedData = updatedData.map((data, index) => ({
+      ...data,
+      no: index + 1,
+    }));
 
- const handleEdit = (data) => {
+    setSampleData(renumberedData);
+  };
+
+  const handleEdit = (data) => {
     // Set the editing state and populate input fields with the data
     setEditingNo(data.no);
     setCountry(data.country);
     setRegion(data.region);
     setNumOfParticipants(data.numOfParticipants);
   };
-
 
   return (
     <Layout>
@@ -105,8 +104,9 @@ const handleDelete = (no) => {
             />
             <button
               onClick={handleAdd}
-              className="w-[100px] h-[50px] bg-[#005734] text-[white] rounded-[5px] md:w-2/12"
+              className="flex justify-center items-center w-[100px] h-[50px] font-serif font-semibold bg-[#005734] opacity-80 hover:opacity-100 text-[white] rounded-md md:w-2/12"
             >
+              {/* <TiPlus />  */}
               Add
             </button>
           </div>
@@ -129,10 +129,17 @@ const handleDelete = (no) => {
                     <td>{data.country}</td>
                     <td>{data.region}</td>
                     <td>{data.numOfParticipants}</td>
-                     <td>
-      <button onClick={() => handleEdit(data)}><AiFillEdit /></button>
-      <button onClick={() => handleDelete(data.no)} className="ml-[20px]"><MdDelete/> </button>
-    </td>
+                    <td>
+                      <button onClick={() => handleEdit(data)}>
+                        <AiFillEdit />
+                      </button>
+                      <button
+                        onClick={() => handleDelete(data.no)}
+                        className="ml-[20px]"
+                      >
+                        <MdDelete />{" "}
+                      </button>
+                    </td>
                   </tr>
                 ))}
               </tbody>
@@ -164,4 +171,3 @@ const handleDelete = (no) => {
 };
 
 export default FinalizeSample;
-

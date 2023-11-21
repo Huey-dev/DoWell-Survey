@@ -114,7 +114,7 @@ export default function Sidebar() {
 
             <ul className="md:flex-col md:min-w-full mt-8 flex flex-col list-none">
               <li className="items-center">
-                <Link className="bg-red-500 text-center text-md font-serif py-1 font-bold block text-white hover:text-black">
+                <Link to="/list-surveys" className="bg-red-500 text-center text-md font-serif py-1 font-bold block text-white hover:text-black">
                   My Surveys
                 </Link>
               </li>

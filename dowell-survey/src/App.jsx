@@ -6,6 +6,7 @@ import StartNewSurvey from "./Layout/StartNewSurvey";
 import FinalizeSample from "./Pages/FinalizeSample";
 import LinkSurvey from "./Pages/LinkSurvey";
 import { EmailSms } from "./Pages/EmailSms";
+import Edit from "./Pages/EditSurvey";
 
 function App() {
   return (
@@ -19,6 +20,7 @@ function App() {
             <Route path="/finalize-Sample" element={<FinalizeSample />} />
             <Route path="/link-form" element={<LinkSurvey />} />
             <Route path="/email-sms" element={<EmailSms />} />
+            <Route path="/list-surveys" element={<Edit />} />
           </Routes>
         </Router>
       </PreviewProvider>

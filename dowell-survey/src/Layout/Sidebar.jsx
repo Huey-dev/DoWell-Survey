@@ -4,10 +4,12 @@ import { FaTimes } from "react-icons/fa";
 import { useState } from "react";
 import "./Sidebar.css";
 import NewSurvey from "./NewSurvey";
+import EmailSmsModal from "./EmailSmsModal";
 
 export default function Sidebar() {
   const [modalOpen, setIsModalOpen] = useState(false);
   const [NewSurveyModalOpen, setIsNewSurveyModalOpen] = useState(false);
+  const [VerificationModalOpen, setIsVerificationModalOpen] = useState(false);
 
   const toggleModal = () => {
     setIsModalOpen((prevState) => !prevState);
@@ -19,6 +21,14 @@ export default function Sidebar() {
 
   const closeNewSurveyModal = () => {
     setIsNewSurveyModalOpen(false);
+  };
+
+  const VerificationModal = () => {
+    setIsVerificationModalOpen((prevState) => !prevState);
+  };
+
+  const closeVerificationModal = () => {
+    setIsVerificationModalOpen(false);
   };
 
   return (
@@ -36,6 +46,7 @@ export default function Sidebar() {
               alt="Default avatar"
             ></img>
           </Link>
+
           <div className="md:flex md:flex-col md:items-stretch md:opacity-100 md:relative md:mt-4 md:shadow-none shadow absolute top-0 left-0 right-0 z-40 overflow-y-auto overflow-x-hidden h-auto items-center flex-1">
             <ul className="md:flex-col md:min-w-full flex flex-col list-none">
               <li className="items-center py-1.5">
@@ -63,7 +74,10 @@ export default function Sidebar() {
               </li>
 
               <li className="flex items-center py-1.5">
-                <Link className="bg-green-800 text-center font-serif font-bold block text-white hover:text-black flex-1">
+                <Link
+                  onClick={VerificationModal}
+                  className="bg-green-800 text-center font-serif font-bold block text-white hover:text-black flex-1"
+                >
                   <ul className="md:min-w-full flex flex-col items-start px-1 list-none">
                     <li className="text-[10px] font-bold text-white hover:text-black">
                       A. Sms
@@ -89,6 +103,7 @@ export default function Sidebar() {
                   4. Stop Survey
                 </Link>
               </li>
+
               <li className="items-center py-1.5">
                 <Link className="bg-gray-400 text-center text-md font-serif py-1 font-bold block text-white hover:text-black">
                   5. Repeat
@@ -136,19 +151,22 @@ export default function Sidebar() {
           />
 
           {/* <small
-                    className="text-red-900 w-4/5 md:w-[25rem] text-left text-[14px] font-bold"
-                    style={{
-                      visibility: errors.firstName ? "visible" : "hidden",
-                    }}
-                  >
-                    {errors.firstName?.message}
-                  </small> */}
+            className="text-red-900 w-4/5 md:w-[25rem] text-left text-[14px] font-bold"
+            style={{
+              visibility: errors.firstName ? "visible" : "hidden",
+            }}
+          >
+            {errors.firstName?.message}
+          </small> */}
 
           {/* <button className="close-modal-btn" onClick={toggleModal}>
-                    <FaTimes></FaTimes>
-                  </button> */}
+            <FaTimes></FaTimes>
+          </button> */}
 
-          <button className="w-4/5 md:w-[25rem] mt-[10px] h-[50px] font-serif font-bold text-black text-center bg-[#005734] opacity-80 hover:opacity-100 text-[16px] md:text-[20px] rounded-[12px] hover:text-white cursor-pointer ">
+          <button
+            type="button"
+            className="w-4/5 md:w-[25rem] mt-[10px] h-[50px] font-serif font-bold text-black text-center bg-[#005734] opacity-80 hover:opacity-100 text-[16px] md:text-[20px] rounded-md hover:text-white cursor-pointer "
+          >
             Submit
           </button>
           <button
@@ -167,6 +185,14 @@ export default function Sidebar() {
         }`}
       >
         <NewSurvey closeModal={closeNewSurveyModal} />
+      </div>
+
+      <div
+        className={`${
+          VerificationModalOpen ? "modal-overlay show-modal" : "modal-overlay"
+        }`}
+      >
+        <EmailSmsModal closeVerificationModal={closeVerificationModal} />
       </div>
     </main>
   );

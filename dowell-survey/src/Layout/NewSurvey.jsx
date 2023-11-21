@@ -37,6 +37,7 @@ const NewSurvey = ({ closeModal }) => {
   const handleCreateSurvey = () => {
     setModalOpen(true);
   };
+
   const closeBothModals = () => {
     closeModal();
     setModalOpen(false);
@@ -62,7 +63,7 @@ const NewSurvey = ({ closeModal }) => {
   return (
     <div className="">
       {isModalOpen ? (
-        <div className="New-Survey-modal-container h-[95vh] w-[90vw] md:w-[40vw]  pt-[2rem]">
+        <div className="">
           <EmailSmsModal closeBothModals={closeBothModals} />
         </div>
       ) : (

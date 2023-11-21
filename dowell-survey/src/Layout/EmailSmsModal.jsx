@@ -2,9 +2,9 @@ import { FaTimes } from "react-icons/fa";
 import QRCode from "react-qr-code";
 
 // eslint-disable-next-line react/prop-types
-const EmailSmsModal = ({ closeBothModals }) => {
+const EmailSmsModal = ({ closeBothModals, closeVerificationModal }) => {
   return (
-    <div className="">
+    <div className="New-Survey-modal-container h-[95vh] w-[90vw] md:w-[40vw]  pt-[2rem]">
       <div className="flex flex-col gap-5">
         <div className="flex justify-center items-center">
           <QRCode
@@ -91,7 +91,7 @@ const EmailSmsModal = ({ closeBothModals }) => {
 
       <button
         className="close-modal-btn rounded-md hover:bg-[#005734] text-xl p-1"
-        onClick={closeBothModals}
+        onClick={closeVerificationModal || closeBothModals}
         type="button"
       >
         <FaTimes />

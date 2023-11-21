@@ -270,7 +270,7 @@ export default function Edit() {
                     </div>
                 </Dialog>
             </Transition.Root>
-            <div className="relative pb-32 pt-12 ">
+            <div className="relative pb-32 pt-2 ">
                 <div className="mx-4 items-center flex justify-between">
                     <h1 className=" text-[#737373] text-3xl font-bold pt-1 pb-3 no-underline">
                         My Surveys
@@ -299,94 +299,32 @@ export default function Edit() {
                                                     <thead>
                                                         <tr class="bg-[#005734] text-center">
                                                             <th
-                                                                class="
-                           w-1/6
-                           min-w-[160px]
-                           text-lg
-                           font-semibold
-                           text-white
-                           py-4
-                           lg:py-7
-                           px-3
-                           lg:px-4
-                           border-l border-transparent
-                           "
+                                                                class=" w-1/6 min-w-[160px] text-lg font-semibold text-white py-4 lg:py-7 px-3 lg:px-4 border-l border-transparent "
                                                             >
                                                                 BRAND NAME
                                                             </th>
                                                             <th
-                                                                class="
-                           w-1/6
-                           min-w-[160px]
-                           text-lg
-                           font-semibold
-                           text-white
-                           py-4
-                           lg:py-7
-                           px-3
-                           lg:px-4
-                           "
+                                                                class=" w-1/6 min-w-[160px] text-lg font-semibold text-white py-4 lg:py-7 px-3 lg:px-4 "
                                                             >
                                                                 SURVEY LINK
                                                             </th>
                                                             <th
-                                                                class="
-                           w-1/6
-                           min-w-[160px]
-                           text-lg
-                           font-semibold
-                           text-white
-                           py-4
-                           lg:py-7
-                           px-3
-                           lg:px-4
-                           "
+                                                                class=" w-1/6 min-w-[160px] text-lg font-semibold text-white py-4 lg:py-7 px-3 lg:px-4 "
                                                             >
                                                                 DURATION
                                                             </th>
                                                             <th
-                                                                class="
-                           w-1/6
-                           min-w-[160px]
-                           text-lg
-                           font-semibold
-                           text-white
-                           py-4
-                           lg:py-7
-                           px-3
-                           lg:px-4
-                           "
+                                                                class=" w-1/6 min-w-[160px] text-lg font-semibold text-white py-4 lg:py-7 px-3 lg:px-4 "
                                                             >
                                                                 REGION
                                                             </th>
                                                             <th
-                                                                class="
-                           w-1/6
-                           min-w-[160px]
-                           text-lg
-                           font-semibold
-                           text-white
-                           py-4
-                           lg:py-7
-                           px-3
-                           lg:px-4
-                           "
+                                                                class=" w-1/6 min-w-[160px] text-lg font-semibold text-white py-4 lg:py-7 px-3 lg:px-4 "
                                                             >
                                                                 STATUS
                                                             </th>
                                                             <th
-                                                                class="
-                           w-1/6
-                           min-w-[160px]
-                           text-lg
-                           font-semibold
-                           text-white
-                           py-4
-                           lg:py-7
-                           px-3
-                           lg:px-4
-                           border-r border-transparent
-                           "
+                                                                class=" w-1/6 min-w-[160px] text-lg font-semibold text-white py-4 lg:py-7 px-3 lg:px-4 border-r border-transparent "
                                                             >
                                                                 ACTIONS
                                                             </th>
@@ -395,81 +333,258 @@ export default function Edit() {
                                                     <tbody>
                                                         <tr>
                                                             <td
-                                                                class="
-                           text-center text-dark
-                           font-medium
-                           text-base
-                           py-5
-                           px-2
-                           bg-[#F3F6FF]
-                           border-b border-l border-[#E8E8E8]
-                           "
+                                                                class=" text-center text-dark font-medium text-base py-5 px-2 bg-[#F3F6FF] border-b border-l border-[#E8E8E8]"
                                                             >
                                                                 WORKFLOW AI
                                                             </td>
                                                             <td
-                                                                class="
-                           text-center text-dark
-                           font-medium
-                           text-base
-                           py-5
-                           px-2
-                           bg-white
-                           border-b border-[#E8E8E8]
-                           "
+                                                                class=" text-center text-dark font-medium text-base py-5 px-2 bg-white border-b border-[#E8E8E8]"
                                                             >
                                                                 https://docs.go....
                                                             </td>
                                                             <td
-                                                                class="
-                           text-center text-dark
-                           font-medium
-                           text-base
-                           py-5
-                           px-2
-                           bg-[#F3F6FF]
-                           border-b border-[#E8E8E8]
-                           "
+                                                                class=" text-center text-dark font-medium text-base py-5 px-2 bg-[#F3F6FF] border-b border-[#E8E8E8] "
                                                             >
                                                                 30/05/23-12/12/23(144 days)
                                                             </td>
                                                             <td
-                                                                class="
-                           text-center text-dark
-                           font-medium
-                           text-base
-                           py-5
-                           px-2
-                           bg-white
-                           border-b border-[#E8E8E8]
-                           "
+                                                                class=" text-center text-dark font-medium text-base py-5 px-2 bg-white border-b border-[#E8E8E8] "
                                                             >
                                                                 Canada, London
                                                             </td>
                                                             <td
-                                                                class="
-                           text-center text-dark
-                           font-medium
-                           text-base
-                           py-5
-                           px-2
-                           bg-[#F3F6FF]
-                           border-b border-[#E8E8E8]
-                           "
+                                                                class=" text-center text-dark font-medium text-base py-5 px-2 bg-[#F3F6FF] border-b border-[#E8E8E8] "
                                                             >
+                                                                <div className="mx-4 my-2 bg-[#22C55E] text-white">
                                                                 ONGOING
+                                                                </div>
                                                             </td>
                                                             <td
-                                                                class="
-                           text-center text-dark
-                           font-medium
-                           text-base
-                           py-5
-                           px-2
-                           bg-white
-                           border-b border-r border-[#E8E8E8]
-                           mx-auto
-                           "
+                                                                class=" text-center text-dark font-medium text-base py-5 px-2 bg-white border-b border-r border-[#E8E8E8] mx-auto "
+                                                            >
+                                                                <div class="flex items-center justify-center">
+                                                                    <button
+                                                                        class="mr-4 flex items-center justify-center rounded-lg bg-[#005734] p-3"
+                                                                        data-ripple-light="true"
+                                                                        onClick={onLinkClick}
+                                                                    >
+                                                                        <PencilSquareIcon className="h-6 w-6 text-white" aria-hidden="true" />
+                                                                    </button>
+                                                                    <button
+                                                                        class="mr-4 flex items-center justify-center rounded-lg bg-[#EF4444] p-3"
+                                                                        data-ripple-light="true"
+                                                                        onClick={onDeleteClick}
+                                                                    >
+                                                                        <TrashIcon className="h-6 w-6 text-white" aria-hidden="true" />
+                                                                    </button>
+                                                                    <button
+                                                                        class="mr-4 flex items-center justify-center rounded-lg bg-blue-500 p-3"
+                                                                        data-ripple-light="true"
+                                                                        onClick={onPreviewClick}
+                                                                    >
+                                                                        <QrCodeIcon className="h-6 w-6 text-white" aria-hidden="true" />
+                                                                    </button>
+                                                                </div>
+                                                            </td>
+                                                        </tr>
+                                                        <tr>
+                                                            <td
+                                                                class=" text-center text-dark font-medium text-base py-5 px-2 bg-[#F3F6FF] border-b border-l border-[#E8E8E8]"
+                                                            >
+                                                                SMANANTHA
+                                                            </td>
+                                                            <td
+                                                                class=" text-center text-dark font-medium text-base py-5 px-2 bg-white border-b border-[#E8E8E8]"
+                                                            >
+                                                                https://docs.go....
+                                                            </td>
+                                                            <td
+                                                                class=" text-center text-dark font-medium text-base py-5 px-2 bg-[#F3F6FF] border-b border-[#E8E8E8] "
+                                                            >
+                                                                22/11/23-12/12/23(32 days)
+                                                            </td>
+                                                            <td
+                                                                class=" text-center text-dark font-medium text-base py-5 px-2 bg-white border-b border-[#E8E8E8] "
+                                                            >
+                                                                Singapore, Nigeria
+                                                            </td>
+                                                            <td
+                                                                class=" text-center text-dark font-medium text-base py-5 px-2 bg-[#F3F6FF] border-b border-[#E8E8E8] "
+                                                            >
+                                                                <div className="mx-4 my-2 bg-orange-500 text-white">
+                                                                PENDING
+                                                                </div>
+                                                            </td>
+                                                            <td
+                                                                class=" text-center text-dark font-medium text-base py-5 px-2 bg-white border-b border-r border-[#E8E8E8] mx-auto "
+                                                            >
+                                                                <div class="flex items-center justify-center">
+                                                                    <button
+                                                                        class="mr-4 flex items-center justify-center rounded-lg bg-[#005734] p-3"
+                                                                        data-ripple-light="true"
+                                                                        onClick={onLinkClick}
+                                                                    >
+                                                                        <PencilSquareIcon className="h-6 w-6 text-white" aria-hidden="true" />
+                                                                    </button>
+                                                                    <button
+                                                                        class="mr-4 flex items-center justify-center rounded-lg bg-[#EF4444] p-3"
+                                                                        data-ripple-light="true"
+                                                                        onClick={onDeleteClick}
+                                                                    >
+                                                                        <TrashIcon className="h-6 w-6 text-white" aria-hidden="true" />
+                                                                    </button>
+                                                                    <button
+                                                                        class="mr-4 flex items-center justify-center rounded-lg bg-blue-500 p-3"
+                                                                        data-ripple-light="true"
+                                                                        onClick={onPreviewClick}
+                                                                    >
+                                                                        <QrCodeIcon className="h-6 w-6 text-white" aria-hidden="true" />
+                                                                    </button>
+                                                                </div>
+                                                            </td>
+                                                        </tr>
+                                                        <tr>
+                                                            <td
+                                                                class=" text-center text-dark font-medium text-base py-5 px-2 bg-[#F3F6FF] border-b border-l border-[#E8E8E8]"
+                                                            >
+                                                                BAKERY AND FOODS
+                                                            </td>
+                                                            <td
+                                                                class=" text-center text-dark font-medium text-base py-5 px-2 bg-white border-b border-[#E8E8E8]"
+                                                            >
+                                                                https://docs.go....
+                                                            </td>
+                                                            <td
+                                                                class=" text-center text-dark font-medium text-base py-5 px-2 bg-[#F3F6FF] border-b border-[#E8E8E8] "
+                                                            >
+                                                                05/02/22-02/12/23(311 days)
+                                                            </td>
+                                                            <td
+                                                                class=" text-center text-dark font-medium text-base py-5 px-2 bg-white border-b border-[#E8E8E8] "
+                                                            >
+                                                                Pakistan, Sweeden
+                                                            </td>
+                                                            <td
+                                                                class=" text-center text-dark font-medium text-base py-5 px-2 bg-[#F3F6FF] border-b border-[#E8E8E8] "
+                                                            >
+                                                                <div className="mx-4 my-2 bg-[#EF4444] text-white">
+                                                                ENDED
+                                                                </div>
+                                                            </td>
+                                                            <td
+                                                                class=" text-center text-dark font-medium text-base py-5 px-2 bg-white border-b border-r border-[#E8E8E8] mx-auto "
+                                                            >
+                                                                <div class="flex items-center justify-center">
+                                                                    <button
+                                                                        class="mr-4 flex items-center justify-center rounded-lg bg-[#005734] p-3"
+                                                                        data-ripple-light="true"
+                                                                        onClick={onLinkClick}
+                                                                    >
+                                                                        <PencilSquareIcon className="h-6 w-6 text-white" aria-hidden="true" />
+                                                                    </button>
+                                                                    <button
+                                                                        class="mr-4 flex items-center justify-center rounded-lg bg-[#EF4444] p-3"
+                                                                        data-ripple-light="true"
+                                                                        onClick={onDeleteClick}
+                                                                    >
+                                                                        <TrashIcon className="h-6 w-6 text-white" aria-hidden="true" />
+                                                                    </button>
+                                                                    <button
+                                                                        class="mr-4 flex items-center justify-center rounded-lg bg-blue-500 p-3"
+                                                                        data-ripple-light="true"
+                                                                        onClick={onPreviewClick}
+                                                                    >
+                                                                        <QrCodeIcon className="h-6 w-6 text-white" aria-hidden="true" />
+                                                                    </button>
+                                                                </div>
+                                                            </td>
+                                                        </tr>
+                                                        <tr>
+                                                            <td
+                                                                class=" text-center text-dark font-medium text-base py-5 px-2 bg-[#F3F6FF] border-b border-l border-[#E8E8E8]"
+                                                            >
+                                                                WORKFLOW AI
+                                                            </td>
+                                                            <td
+                                                                class=" text-center text-dark font-medium text-base py-5 px-2 bg-white border-b border-[#E8E8E8]"
+                                                            >
+                                                                https://docs.go....
+                                                            </td>
+                                                            <td
+                                                                class=" text-center text-dark font-medium text-base py-5 px-2 bg-[#F3F6FF] border-b border-[#E8E8E8] "
+                                                            >
+                                                                30/05/23-12/12/23(144 days)
+                                                            </td>
+                                                            <td
+                                                                class=" text-center text-dark font-medium text-base py-5 px-2 bg-white border-b border-[#E8E8E8] "
+                                                            >
+                                                                Canada, London
+                                                            </td>
+                                                            <td
+                                                                class=" text-center text-dark font-medium text-base py-5 px-2 bg-[#F3F6FF] border-b border-[#E8E8E8] "
+                                                            >
+                                                                <div className="mx-4 my-2 bg-[#22C55E] text-white">
+                                                                ONGOING
+                                                                </div>
+                                                            </td>
+                                                            <td
+                                                                class=" text-center text-dark font-medium text-base py-5 px-2 bg-white border-b border-r border-[#E8E8E8] mx-auto "
+                                                            >
+                                                                <div class="flex items-center justify-center">
+                                                                    <button
+                                                                        class="mr-4 flex items-center justify-center rounded-lg bg-[#005734] p-3"
+                                                                        data-ripple-light="true"
+                                                                        onClick={onLinkClick}
+                                                                    >
+                                                                        <PencilSquareIcon className="h-6 w-6 text-white" aria-hidden="true" />
+                                                                    </button>
+                                                                    <button
+                                                                        class="mr-4 flex items-center justify-center rounded-lg bg-[#EF4444] p-3"
+                                                                        data-ripple-light="true"
+                                                                        onClick={onDeleteClick}
+                                                                    >
+                                                                        <TrashIcon className="h-6 w-6 text-white" aria-hidden="true" />
+                                                                    </button>
+                                                                    <button
+                                                                        class="mr-4 flex items-center justify-center rounded-lg bg-blue-500 p-3"
+                                                                        data-ripple-light="true"
+                                                                        onClick={onPreviewClick}
+                                                                    >
+                                                                        <QrCodeIcon className="h-6 w-6 text-white" aria-hidden="true" />
+                                                                    </button>
+                                                                </div>
+                                                            </td>
+                                                        </tr>
+                                                        <tr>
+                                                            <td
+                                                                class=" text-center text-dark font-medium text-base py-5 px-2 bg-[#F3F6FF] border-b border-l border-[#E8E8E8]"
+                                                            >
+                                                                WORKFLOW AI
+                                                            </td>
+                                                            <td
+                                                                class=" text-center text-dark font-medium text-base py-5 px-2 bg-white border-b border-[#E8E8E8]"
+                                                            >
+                                                                https://docs.go....
+                                                            </td>
+                                                            <td
+                                                                class=" text-center text-dark font-medium text-base py-5 px-2 bg-[#F3F6FF] border-b border-[#E8E8E8] "
+                                                            >
+                                                                30/05/23-12/12/23(144 days)
+                                                            </td>
+                                                            <td
+                                                                class=" text-center text-dark font-medium text-base py-5 px-2 bg-white border-b border-[#E8E8E8] "
+                                                            >
+                                                                Canada, London
+                                                            </td>
+                                                            <td
+                                                                class=" text-center text-dark font-medium text-base py-5 px-2 bg-[#F3F6FF] border-b border-[#E8E8E8] "
+                                                            >
+                                                                <div className="mx-4 my-2 bg-[#22C55E] text-white">
+                                                                ONGOING
+                                                                </div>
+                                                            </td>
+                                                            <td
+                                                                class=" text-center text-dark font-medium text-base py-5 px-2 bg-white border-b border-r border-[#E8E8E8] mx-auto "
                                                             >
                                                                 <div class="flex items-center justify-center">
                                                                     <button

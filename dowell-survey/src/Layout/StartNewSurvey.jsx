@@ -18,7 +18,7 @@ const StartNewSurvey = () => {
           id="firstName"
           name="firstName"
           placeholder=""
-          className=""
+          className="w-full sm:w-[40%]"
         />
 
         <input

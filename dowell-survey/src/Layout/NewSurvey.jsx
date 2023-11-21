@@ -73,7 +73,7 @@ const NewSurvey = ({ closeModal }) => {
             id="firstName"
             name="firstName"
             placeholder=""
-            className="w-[15rem] h-[2rem]"
+            className="w-4/5 md:w-[25rem] h-[2rem]"
           />
 
           <input

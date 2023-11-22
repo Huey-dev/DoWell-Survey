@@ -364,21 +364,21 @@ export default function Edit() {
                                                             >
                                                                 <div class="flex items-center justify-center">
                                                                     <button
-                                                                        class="mr-4 flex items-center justify-center rounded-lg bg-[#005734] p-3"
+                                                                        class="mr-2 flex items-center justify-center rounded-lg bg-[#005734] p-3"
                                                                         data-ripple-light="true"
                                                                         onClick={onLinkClick}
                                                                     >
                                                                         <PencilSquareIcon className="h-6 w-6 text-white" aria-hidden="true" />
                                                                     </button>
                                                                     <button
-                                                                        class="mr-4 flex items-center justify-center rounded-lg bg-[#EF4444] p-3"
+                                                                        class="mr-2 flex items-center justify-center rounded-lg bg-[#EF4444] p-3"
                                                                         data-ripple-light="true"
                                                                         onClick={onDeleteClick}
                                                                     >
                                                                         <TrashIcon className="h-6 w-6 text-white" aria-hidden="true" />
                                                                     </button>
                                                                     <button
-                                                                        class="mr-4 flex items-center justify-center rounded-lg bg-blue-500 p-3"
+                                                                        class="mr-2 flex items-center justify-center rounded-lg bg-blue-500 p-3"
                                                                         data-ripple-light="true"
                                                                         onClick={onPreviewClick}
                                                                     >
@@ -420,21 +420,21 @@ export default function Edit() {
                                                             >
                                                                 <div class="flex items-center justify-center">
                                                                     <button
-                                                                        class="mr-4 flex items-center justify-center rounded-lg bg-[#005734] p-3"
+                                                                        class="mr-2 flex items-center justify-center rounded-lg bg-[#005734] p-3"
                                                                         data-ripple-light="true"
                                                                         onClick={onLinkClick}
                                                                     >
                                                                         <PencilSquareIcon className="h-6 w-6 text-white" aria-hidden="true" />
                                                                     </button>
                                                                     <button
-                                                                        class="mr-4 flex items-center justify-center rounded-lg bg-[#EF4444] p-3"
+                                                                        class="mr-2 flex items-center justify-center rounded-lg bg-[#EF4444] p-3"
                                                                         data-ripple-light="true"
                                                                         onClick={onDeleteClick}
                                                                     >
                                                                         <TrashIcon className="h-6 w-6 text-white" aria-hidden="true" />
                                                                     </button>
                                                                     <button
-                                                                        class="mr-4 flex items-center justify-center rounded-lg bg-blue-500 p-3"
+                                                                        class="mr-2 flex items-center justify-center rounded-lg bg-blue-500 p-3"
                                                                         data-ripple-light="true"
                                                                         onClick={onPreviewClick}
                                                                     >
@@ -476,21 +476,21 @@ export default function Edit() {
                                                             >
                                                                 <div class="flex items-center justify-center">
                                                                     <button
-                                                                        class="mr-4 flex items-center justify-center rounded-lg bg-[#005734] p-3"
+                                                                        class="mr-2 flex items-center justify-center rounded-lg bg-[#005734] p-3"
                                                                         data-ripple-light="true"
                                                                         onClick={onLinkClick}
                                                                     >
                                                                         <PencilSquareIcon className="h-6 w-6 text-white" aria-hidden="true" />
                                                                     </button>
                                                                     <button
-                                                                        class="mr-4 flex items-center justify-center rounded-lg bg-[#EF4444] p-3"
+                                                                        class="mr-2 flex items-center justify-center rounded-lg bg-[#EF4444] p-3"
                                                                         data-ripple-light="true"
                                                                         onClick={onDeleteClick}
                                                                     >
                                                                         <TrashIcon className="h-6 w-6 text-white" aria-hidden="true" />
                                                                     </button>
                                                                     <button
-                                                                        class="mr-4 flex items-center justify-center rounded-lg bg-blue-500 p-3"
+                                                                        class="mr-2 flex items-center justify-center rounded-lg bg-blue-500 p-3"
                                                                         data-ripple-light="true"
                                                                         onClick={onPreviewClick}
                                                                     >
@@ -532,21 +532,21 @@ export default function Edit() {
                                                             >
                                                                 <div class="flex items-center justify-center">
                                                                     <button
-                                                                        class="mr-4 flex items-center justify-center rounded-lg bg-[#005734] p-3"
+                                                                        class="mr-2 flex items-center justify-center rounded-lg bg-[#005734] p-3"
                                                                         data-ripple-light="true"
                                                                         onClick={onLinkClick}
                                                                     >
                                                                         <PencilSquareIcon className="h-6 w-6 text-white" aria-hidden="true" />
                                                                     </button>
                                                                     <button
-                                                                        class="mr-4 flex items-center justify-center rounded-lg bg-[#EF4444] p-3"
+                                                                        class="mr-2 flex items-center justify-center rounded-lg bg-[#EF4444] p-3"
                                                                         data-ripple-light="true"
                                                                         onClick={onDeleteClick}
                                                                     >
                                                                         <TrashIcon className="h-6 w-6 text-white" aria-hidden="true" />
                                                                     </button>
                                                                     <button
-                                                                        class="mr-4 flex items-center justify-center rounded-lg bg-blue-500 p-3"
+                                                                        class="mr-2 flex items-center justify-center rounded-lg bg-blue-500 p-3"
                                                                         data-ripple-light="true"
                                                                         onClick={onPreviewClick}
                                                                     >
@@ -588,21 +588,21 @@ export default function Edit() {
                                                             >
                                                                 <div class="flex items-center justify-center">
                                                                     <button
-                                                                        class="mr-4 flex items-center justify-center rounded-lg bg-[#005734] p-3"
+                                                                        class="mr-2 flex items-center justify-center rounded-lg bg-[#005734] p-3"
                                                                         data-ripple-light="true"
                                                                         onClick={onLinkClick}
                                                                     >
                                                                         <PencilSquareIcon className="h-6 w-6 text-white" aria-hidden="true" />
                                                                     </button>
                                                                     <button
-                                                                        class="mr-4 flex items-center justify-center rounded-lg bg-[#EF4444] p-3"
+                                                                        class="mr-2 flex items-center justify-center rounded-lg bg-[#EF4444] p-3"
                                                                         data-ripple-light="true"
                                                                         onClick={onDeleteClick}
                                                                     >
                                                                         <TrashIcon className="h-6 w-6 text-white" aria-hidden="true" />
                                                                     </button>
                                                                     <button
-                                                                        class="mr-4 flex items-center justify-center rounded-lg bg-blue-500 p-3"
+                                                                        class="mr-2 flex items-center justify-center rounded-lg bg-blue-500 p-3"
                                                                         data-ripple-light="true"
                                                                         onClick={onPreviewClick}
                                                                     >

@@ -120,7 +120,7 @@ export default function Sidebar() {
               </li>
 
               <li className="items-center py-1.5">
-                <Link className="bg-gray-400 text-center text-md font-serif py-1 font-bold block text-white hover:text-black">
+                <Link to="/settings" className="bg-gray-400 text-center text-md font-serif py-1 font-bold block text-white hover:text-black">
                   Settings/Privacy
                 </Link>
               </li>

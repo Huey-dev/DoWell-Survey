@@ -7,6 +7,7 @@ import FinalizeSample from "./Pages/FinalizeSample";
 import LinkSurvey from "./Pages/LinkSurvey";
 import { EmailSms } from "./Pages/EmailSms";
 import Edit from "./Pages/EditSurvey";
+import Settings from "./Pages/Settings";
 
 function App() {
   return (
@@ -21,6 +22,7 @@ function App() {
             <Route path="/link-form" element={<LinkSurvey />} />
             <Route path="/email-sms" element={<EmailSms />} />
             <Route path="/list-surveys" element={<Edit />} />
+            <Route path="/settings" element={<Settings />} />
           </Routes>
         </Router>
       </PreviewProvider>

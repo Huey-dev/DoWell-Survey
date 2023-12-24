@@ -8,6 +8,7 @@ import LinkSurvey from "./Pages/LinkSurvey";
 import { EmailSms } from "./Pages/EmailSms";
 import Edit from "./Pages/EditSurvey";
 import Settings from "./Pages/Settings";
+import CheckSurvey from "./checkSurvey/CheckSurvey";
 
 function App() {
   return (
@@ -23,6 +24,7 @@ function App() {
             <Route path="/email-sms" element={<EmailSms />} />
             <Route path="/list-surveys" element={<Edit />} />
             <Route path="/settings" element={<Settings />} />
+            <Route path="/check-survey" element={<CheckSurvey />} />
           </Routes>
         </Router>
       </PreviewProvider>

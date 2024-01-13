@@ -3,8 +3,8 @@ import Layout from "../Layout/Layout";
 export const EmailSms = () => {
   return (
     <Layout>
-      <div className="px-4 md:px-10 mt-[26px] md:pl-80 flex flex-col gap-5">
-        <div className="flex flex-col justify-center items-center gap-5">
+      <div className="w-full h-full px-4 md:px-10 mt-[26px] md:pl-80 mb-20 flex flex-col justify-center items-center gap-5">
+        <div className="w-full md:w-[400px] flex flex-col justify-center items-center gap-5">
           <div className="flex justify-center items-center">
             <QRCode
               size={170}
@@ -28,7 +28,7 @@ export const EmailSms = () => {
                   style={{ paddingLeft: "1rem" }}
                 />
                 <div className="flex justify-center items-center">
-                  <button className="w-16 h-7 font-serif font-semibold text-black hover:text-white opacity-80 hover:opacity-100 hover:scale-105 text-center bg-[#176847] text-md rounded-md cursor-pointer">
+                  <button className="w-16 h-7 font-serif font-semibold text-white hover:text-white opacity-80 hover:opacity-100 hover:scale-105 text-center bg-[#176847] text-md rounded-md cursor-pointer">
                     Send
                   </button>
                 </div>
@@ -48,7 +48,7 @@ export const EmailSms = () => {
                   style={{ paddingLeft: "1rem" }}
                 />
                 <div className="flex justify-center items-center">
-                  <button className="w-16 h-7 font-serif font-semibold text-black hover:text-white opacity-80 hover:opacity-100 hover:scale-105 text-center bg-[#176847] text-md rounded-md cursor-pointer">
+                  <button className="w-16 h-7 font-serif font-semibold text-white hover:text-white opacity-80 hover:opacity-100 hover:scale-105 text-center bg-[#176847] text-md rounded-md cursor-pointer">
                     Send
                   </button>
                 </div>
@@ -79,7 +79,7 @@ export const EmailSms = () => {
                 </div>
 
                 <div className="flex justify-center w-1/3 items-center">
-                  <button className="w-16 h-7 font-serif font-semibold text-black hover:text-white opacity-80 hover:opacity-100 hover:scale-105 text-center bg-[#176847] text-md rounded-md cursor-pointer">
+                  <button className="w-16 h-7 font-serif font-semibold text-white hover:text-white opacity-80 hover:opacity-100 hover:scale-105 text-center bg-[#176847] text-md rounded-md cursor-pointer">
                     Send
                   </button>
                 </div>
@@ -87,8 +87,8 @@ export const EmailSms = () => {
             </div>
           </div>
         </div>
-        <div className="flex justify-center items-center">
-          <button className="p-2 w-1/3 font-serif font-semibold text-white opacity-80 hover:opacity-100 bg-[#176847] text-md rounded-md cursor-pointer">
+        <div className="w-full md:w-[400px] h-full flex justify-center items-center mt-5">
+          <button className="p-2 w-full md:w-[400px] h-[4rem] font-serif font-semibold text-white opacity-80 hover:opacity-100 bg-[#176847] text-md rounded-md cursor-pointer">
             Add Survey
           </button>
         </div>

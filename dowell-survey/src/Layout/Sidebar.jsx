@@ -22,7 +22,7 @@ export default function Sidebar() {
   // };
 
   return (
-    <main className="w-full h-full">
+    <main className="w-full h-full hidden md:flex">
       <nav className="md:left-0 md:block md:fixed md:top-0 md:bottom-0 md:flex-row md:flex-nowrap md:overflow-hidden shadow-xl bg-black flex flex-wrap items-center justify-between relative md:w-64 z-10 py-4 px-6">
         <div className="md:flex-col md:items-stretch md:min-h-full md:flex-nowrap px-0 flex flex-wrap items-center justify-between w-full mx-auto">
           <Link
@@ -57,9 +57,9 @@ export default function Sidebar() {
               </li>
 
               <li className="items-center py-1.5">
-                <Link className="bg-green-500 text-center text-md font-serif py-1 font-bold block text-white hover:text-black"
-                 to="/finalize-Sample"
-                
+                <Link
+                  className="bg-green-500 text-center text-md font-serif py-1 font-bold block text-white hover:text-black"
+                  to="/finalize-Sample"
                 >
                   1. Finalize Sample Size
                 </Link>
@@ -68,8 +68,7 @@ export default function Sidebar() {
               <li className="items-center py-1.5">
                 <Link
                   // onClick={toggleModal}
-                   to="/link-form"
-                 
+                  to="/link-form"
                   className="bg-gray-400 text-center text-md font-serif py-1 font-bold block text-white hover:text-black"
                 >
                   2. Link Survey Form
@@ -77,9 +76,10 @@ export default function Sidebar() {
               </li>
 
               <li className="flex items-center py-1.5">
-                <Link 
-                to="/email-sms"
-                className="bg-green-800 text-center font-serif font-bold block text-white hover:text-black flex-1">
+                <Link
+                  to="/email-sms"
+                  className="bg-green-800 text-center font-serif font-bold block text-white hover:text-black flex-1"
+                >
                   <ul className="md:min-w-full flex flex-col items-start px-1 list-none">
                     <li className="text-[10px] font-bold text-white hover:text-black">
                       A. Sms
@@ -114,13 +114,19 @@ export default function Sidebar() {
 
             <ul className="md:flex-col md:min-w-full mt-8 flex flex-col list-none">
               <li className="items-center">
-                <Link to="/list-surveys" className="bg-red-500 text-center text-md font-serif py-1 font-bold block text-white hover:text-black">
+                <Link
+                  to="/list-surveys"
+                  className="bg-red-500 text-center text-md font-serif py-1 font-bold block text-white hover:text-black"
+                >
                   My Surveys
                 </Link>
               </li>
 
               <li className="items-center py-1.5">
-                <Link to="/settings" className="bg-gray-400 text-center text-md font-serif py-1 font-bold block text-white hover:text-black">
+                <Link
+                  to="/settings"
+                  className="bg-gray-400 text-center text-md font-serif py-1 font-bold block text-white hover:text-black"
+                >
                   Settings/Privacy
                 </Link>
               </li>

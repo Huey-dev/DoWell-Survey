@@ -71,7 +71,7 @@ const FinalizeSample = () => {
               </h1>
               <p>Input Number of people allowed to fill this survey below</p>
             </div>
-            <div className="w-full flex justify-between mt-[30px]">
+            <div className="w-full md:flex md:justify-between mt-[30px]">
               <select
                 value={country}
                 onChange={(e) => setCountry(e.target.value)}
@@ -86,7 +86,7 @@ const FinalizeSample = () => {
               <select
                 value={region}
                 onChange={(e) => setRegion(e.target.value)}
-                className="w-4/5 md:w-3/12 h-[50px] border-2  border-[#B3B4BB] rounded-[5px] outline-none"
+                className="w-full mt-7 md:mt-0 md:w-3/12 h-[50px] border-2  border-[#B3B4BB] rounded-[5px] outline-none"
                 style={{ paddingLeft: "1rem" }}
               >
                 <option value="">Select region/regions</option>
@@ -100,11 +100,11 @@ const FinalizeSample = () => {
                 value={numOfParticipants}
                 onChange={(e) => setNumOfParticipants(e.target.value)}
                 placeholder="Num.of People"
-                className="w-[100px] h-[50px] border-2 border-[#B3B4BB] rounded-[5px] outline-none md:w-2/12 pl-[20px]"
+                className="w-full h-[50px] mt-7 md:mt-0 border-2 border-[#B3B4BB] rounded-[5px] outline-none md:w-2/12 pl-[20px]"
               />
               <button
                 onClick={handleAdd}
-                className="w-[100px] h-[50px] font-serif font-semibold bg-[#005734] opacity-80 hover:opacity-100 text-[white] rounded-md md:w-2/12"
+                className="w-full mt-7 md:mt-0 h-[50px] font-serif font-semibold bg-[#005734] opacity-80 hover:opacity-100 text-[white] rounded-md md:w-2/12"
               >
                 Add
               </button>
@@ -118,17 +118,19 @@ const FinalizeSample = () => {
                     <th>No</th>
                     <th>Country</th>
                     <th>Region</th>
-                    <th>Num of Participants</th>
+                    <th>Num</th>
                   </tr>
                 </thead>
                 <tbody>
                   {sampleData.map((data) => (
-                    <tr key={data.no}>
-                      <td>{data.no}</td>
-                      <td>{data.country}</td>
-                      <td>{data.region}</td>
-                      <td>{data.numOfParticipants}</td>
-                      <td>
+                    <tr key={data.no} className="w-full">
+                      <td className="w-1/12 h-full">{data.no}</td>
+                      <td className="w-3/12 h-full">{data.country}</td>
+                      <td className="w-3/12 h-full">{data.region}</td>
+                      <td className="w-2/12 h-full">
+                        {data.numOfParticipants}
+                      </td>
+                      <td className=" w-3/12 h-full">
                         <button onClick={() => handleEdit(data)}>
                           <AiFillEdit />
                         </button>

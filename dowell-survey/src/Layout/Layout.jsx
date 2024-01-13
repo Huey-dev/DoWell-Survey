@@ -3,7 +3,7 @@ import Sidebar from "./Sidebar";
 
 const Layout = ({ children }) => {
   return (
-    <div>
+    <div className="">
       <Sidebar />
       <main>{children}</main>
     </div>

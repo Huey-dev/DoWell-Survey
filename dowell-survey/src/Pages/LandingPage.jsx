@@ -1,10 +1,15 @@
-// import { Link } from "react-router-dom"
+import { Link } from "react-router-dom"
+import { useState } from "react";
 import map from "../assets/Screenshot 2023-10-11 085143.png";
 import products from "../data/Product";
 import Layout from "../Layout/Layout";
 import MySurveys from "./MySurveys";
 
 const LandingPage = () => {
+  const [locations, setLocations] = useState([]);
+
+  //const AddRemoveClick = 
+
   return (
     <Layout>
       <main className="w-full h-full mb-10  ">
@@ -63,26 +68,73 @@ const LandingPage = () => {
             </div>
           </div>
 
-          <div className="w-full h-full px-4 bg-[#D3FFE6] mt-6 pb-6">
+          <div className="w-full h-full bg-[#D3FFE6] mt-6 pb-6">
             <p className="text-[18px] font-bold pt-[10px]">60 search results</p>
-            <div className="w-full md:grid md:grid-cols-2 lg:grid-cols-3 grid-flow-dense gap-2 ">
+            <div className="flex justify-center items-center p-2">
+            <div className="w-full md:grid md:grid-cols-2 lg:grid-cols-3 gap-2">
               {products.map((product) => {
                 const { id, image, distance, description, name } = product;
                 return (
                   <div
                     key={id}
-                    className="w-[270px] md:w-[180px] lg:w-[200px] xl:w-[280px] 2xl:w-[300px] mt-[30px] h-[300px] bg-white rounded-[10px] text-black"
+
+                    className={"mx-auto w-[270px] md:w-[180px] lg:w-[200px] xl:w-[280px] 2xl:w-[300px] mt-[30px] h-[320px] rounded-[10px] border-2 border-black" + (locations.indexOf(id) === -1 ? " bg-white text-black" : " bg-[#005734] text-white")}
                   >
+                    <div className="flex justify-center items-center p-2">
                     <img src={image} alt="image" className="rounded-t-[10px]" />
+                    </div>
+                    
                     <div className="px-1">
                       <p className="font-semibold text-[18px]">{name}</p>
                       <p className="font-medium">{distance}</p>
                       <p>{description}</p>
+                      <div className="flex justify-center items-center p-2">
+                        <button
+                          type="button"
+                          className={"mb-8 w-[200px] h-[40px] font-serif p-2 font-bold text-center opacity-80 hover:opacity-100 text-[16px] md:text-[20px] rounded-md text-white cursor-pointer" + (locations.indexOf(id) === -1 ? " bg-[#005734]" : " bg-[#FF3131]")}
+                          onClick={() => {
+                            const updatedList = [...locations];
+                            const valueIndex = updatedList.indexOf(id);
+
+                            if (valueIndex === -1) {
+                              // Value not present, append it
+                              updatedList.push(id);
+                            } else {
+                              // Value present, remove it
+                              updatedList.splice(valueIndex, 1);
+                            }
+
+                            // Update the state with the new list
+                            setLocations(updatedList);
+                          }
+                          }
+                        >
+                          {locations.indexOf(id) === -1 ? "Add" : "Remove"}
+                        </button>
+                      </div>
+
                     </div>
                   </div>
                 );
               })}
+
+
             </div>
+
+            </div>
+
+            <div className="flex justify-center items-center p-2">
+              <Link to="/finalize-Sample">
+                <button
+                  type="submit"
+                  className="w-[400px] font-bold font-serif mt-[30px] h-[50px] bg-[#005734] text-[20px] text-white hover:opacity-100 opacity-80 rounded-[5px]"
+                >
+                  Confirm Selections
+                </button>
+              </Link>
+
+            </div>
+
           </div>
         </div>
       </main>

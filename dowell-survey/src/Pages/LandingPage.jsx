@@ -1,12 +1,16 @@
 import { Link } from "react-router-dom"
 import { useState } from "react";
 import map from "../assets/Screenshot 2023-10-11 085143.png";
-import products from "../data/Product";
+import {products1} from "../data/Product";
 import Layout from "../Layout/Layout";
 import MySurveys from "./MySurveys";
+import { useGlobalContext } from "../Context/PreviewContext";
+
+
 
 const LandingPage = () => {
   const [locations, setLocations] = useState([]);
+  const {surveys, setSurveys} = useGlobalContext();
 
   //const AddRemoveClick = 
 
@@ -72,13 +76,13 @@ const LandingPage = () => {
             <p className="text-[18px] font-bold pt-[10px]">60 search results</p>
             <div className="flex justify-center items-center p-2">
             <div className="w-full md:grid md:grid-cols-2 lg:grid-cols-3 gap-2">
-              {products.map((product) => {
-                const { id, image, distance, description, name } = product;
+              {products1.map((product) => {
+                const { id, image, distance, description, name, address, location_coord } = product;
                 return (
                   <div
                     key={id}
 
-                    className={"mx-auto w-[270px] md:w-[180px] lg:w-[200px] xl:w-[280px] 2xl:w-[300px] mt-[30px] h-[320px] rounded-[10px] border-2 border-black" + (locations.indexOf(id) === -1 ? " bg-white text-black" : " bg-[#005734] text-white")}
+                    className={"mx-auto w-[270px] md:w-[180px] lg:w-[200px] xl:w-[280px] 2xl:w-[300px] mt-[30px] h-[320px] rounded-[10px] border-2 border-black" + (surveys.findIndex(obj => obj.id === id) === -1 ? " bg-white text-black" : " bg-[#005734] text-white")}
                   >
                     <div className="flex justify-center items-center p-2">
                     <img src={image} alt="image" className="rounded-t-[10px]" />
@@ -91,25 +95,26 @@ const LandingPage = () => {
                       <div className="flex justify-center items-center p-2">
                         <button
                           type="button"
-                          className={"mb-8 w-[200px] h-[40px] font-serif p-2 font-bold text-center opacity-80 hover:opacity-100 text-[16px] md:text-[20px] rounded-md text-white cursor-pointer" + (locations.indexOf(id) === -1 ? " bg-[#005734]" : " bg-[#FF3131]")}
+                          className={"mb-8 w-[200px] h-[40px] font-serif font-bold text-center opacity-80 hover:opacity-100 text-[16px] md:text-[20px] rounded-md text-white cursor-pointer" + (surveys.findIndex(obj => obj.id === id) === -1 ? " bg-[#005734]" : " bg-[#FF3131]")}
                           onClick={() => {
-                            const updatedList = [...locations];
-                            const valueIndex = updatedList.indexOf(id);
+                            const updatedList = [...surveys];
+                            //const valueIndex = updatedList.indexOf(id);
+                            const valueIndex = updatedList.findIndex(obj => obj.id === id)
 
                             if (valueIndex === -1) {
                               // Value not present, append it
-                              updatedList.push(id);
+                              updatedList.push({id, name, address, location_coord, numOfParticipants: 1});
                             } else {
                               // Value present, remove it
                               updatedList.splice(valueIndex, 1);
                             }
 
                             // Update the state with the new list
-                            setLocations(updatedList);
+                            setSurveys(updatedList);
                           }
                           }
                         >
-                          {locations.indexOf(id) === -1 ? "Add" : "Remove"}
+                          {surveys.findIndex(obj => obj.id === id) === -1 ? "Add" : "Remove"}
                         </button>
                       </div>
 

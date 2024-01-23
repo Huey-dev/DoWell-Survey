@@ -3,61 +3,59 @@ import Layout from "../Layout/Layout";
 import { AiFillEdit } from "react-icons/ai";
 import { MdDelete } from "react-icons/md";
 import { Link } from "react-router-dom";
+import { useGlobalContext } from "../Context/PreviewContext";
 
 const FinalizeSample = () => {
   const [sampleData, setSampleData] = useState([]);
+
+  const { surveys, setSurveys } = useGlobalContext();
+
   const [country, setCountry] = useState("");
   const [region, setRegion] = useState("");
-  const [numOfParticipants, setNumOfParticipants] = useState("");
+
+  const [name, setName] = useState("");
+  const [address, setAddress] = useState("");
+  const [cordinates, setCordinates] = useState("");
+  const [location_coord, setLocation_coord] = useState("");
+
+
+  const [radius, setRadius] = useState("");
+  //const [numOfParticipants, setNumOfParticipants] = useState("");
   const [editingNo, setEditingNo] = useState(null);
 
-  const handleAdd = () => {
-    if (country && region && numOfParticipants) {
-      if (editingNo !== null) {
-        // If editing, update the existing row
-        const updatedData = sampleData.map((data) =>
-          data.no === editingNo
-            ? { no: editingNo, country, region, numOfParticipants }
-            : data
-        );
-        setSampleData(updatedData);
-        setEditingNo(null); // Reset editing state
-      } else {
-        // If adding, create a new row
-        const newData = {
-          no: sampleData.length + 1,
-          country,
-          region,
-          numOfParticipants,
-        };
-        setSampleData([...sampleData, newData]);
-      }
 
-      // Clear the input fields
-      setCountry("");
-      setRegion("");
-      setNumOfParticipants("");
-    }
+  const handleSet = () => {
+    const updatedData = surveys.map((data) =>
+      data.id === editingNo
+        ? { id: editingNo, name, address, location_coord, radius }
+        : data
+    );
+    setSurveys(updatedData);
+    setEditingNo(null); // Reset editing state
+
+    // Clear the input fields
+    setName("");
+    setLocation_coord("");
+    setAddress("");
+    setRadius("");
+    console.log("successfully set the survey creation")
+    //setNumOfParticipants("");
   };
 
-  const handleDelete = (no) => {
-    const updatedData = sampleData.filter((data) => data.no !== no);
+  const handleDelete = (id) => {
+    const updatedData = surveys.filter((data) => data.id !== id);
 
-    // Renumber the remaining rows after deletion
-    const renumberedData = updatedData.map((data, index) => ({
-      ...data,
-      no: index + 1,
-    }));
-
-    setSampleData(renumberedData);
+    setSurveys(updatedData);
   };
 
   const handleEdit = (data) => {
-    // Set the editing state and populate input fields with the data
-    setEditingNo(data.no);
-    setCountry(data.country);
-    setRegion(data.region);
-    setNumOfParticipants(data.numOfParticipants);
+    // Set the editing state 
+    setEditingNo(data.id);
+    setName(data.name);
+    setAddress(data.address);
+    setLocation_coord(data.location_coord);
+    setRadius(data.radius || " ")
+    //setNumOfParticipants(data.numOfParticipants);
   };
 
   return (
@@ -69,98 +67,125 @@ const FinalizeSample = () => {
               <h1 className="text-[30px] font-semibold">
                 Finalize Sample Size
               </h1>
-              <p>Input Number of people allowed to fill this survey below</p>
+              <p>Set a Radius per location and the total number of persons allowed to fill this survey</p>
             </div>
-            <div className="w-full flex justify-between mt-[30px]">
-              <select
-                value={country}
-                onChange={(e) => setCountry(e.target.value)}
-                className="w-full md:w-3/12 h-[50px] border-2  border-[#B3B4BB] rounded-[5px] outline-none"
-                style={{ paddingLeft: "1rem" }}
-              >
-                <option value="">Select country/countries</option>
-                <option value="Country 1">Country 1</option>
-                <option value="Country 2">Country 2</option>
-                <option value="Country 3">Country 3</option>
-              </select>
-              <select
-                value={region}
-                onChange={(e) => setRegion(e.target.value)}
-                className="w-4/5 md:w-3/12 h-[50px] border-2  border-[#B3B4BB] rounded-[5px] outline-none"
-                style={{ paddingLeft: "1rem" }}
-              >
-                <option value="">Select region/regions</option>
-                <option value="Region 1">Region 1</option>
-                <option value="Region 2">Region 2</option>
-                <option value="Region 3">Region 3</option>
-              </select>
+          </div>
+          {surveys.length > 0 && (
+            <div class="flex flex-col">
+              <div class="overflow-x-auto sm:-mx-6 lg:-mx-8">
+                <div class="inline-block min-w-full py-2 sm:px-6 lg:px-8">
+                  <div class="overflow-hidden">
+                    <table class="min-w-full text-center text-sm font-light">
+                      <thead
+                        class="border-b bg-[#005734] font-medium text-white dark:border-neutral-500">
+                        <tr>
+                          <th scope="col" class=" px-6 py-4">#</th>
+                          <th scope="col" class=" px-6 py-4">Name of Place</th>
+                          <th scope="col" class=" px-6 py-4">Address</th>
+                          <th scope="col" class=" px-6 py-4">Cordinates</th>
+                          <th scope="col" class=" px-6 py-4">Radius(m)</th>
+                          <th scope="col" class=" px-6 py-4">Actions</th>
+                        </tr>
+                      </thead>
+                      <tbody>
+
+
+                        {surveys.map((data, index) => (
+                          <tr key={data.index} class="border-b dark:border-neutral-500">
+                            <td class="whitespace-nowrap  px-6 py-4 font-medium">{index + 1}</td>
+                            <td class="whitespace-nowrap  px-6 py-4">{data.name}</td>
+                            <td class="whitespace-nowrap  px-6 py-4">{data.address}</td>
+                            <td class="whitespace-nowrap  px-6 py-4">{data.location_coord}</td>
+
+                            <td class="whitespace-nowrap  px-6 py-4">{data.radius}</td>
+
+
+                            <td class="whitespace-nowrap  px-6 py-4">
+                              <button onClick={() => handleEdit(data)}>
+                                <AiFillEdit />
+                              </button>
+                              <button
+                                onClick={() => handleDelete(data.id)}
+                                className="ml-[20px]"
+                              >
+                                <MdDelete />{" "}
+                              </button>
+                            </td>
+                          </tr>
+                        ))}
+
+                      </tbody>
+                    </table>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+          )}
+
+          {name && <>
+            <div className="flex items-center justify-center text-2xl font-bold">
+              Your Selection
+
+            </div>
+
+            <div className="flex items-center justify-center">
+              {`${name}, ${address}, ${location_coord}`}
+
+            </div>
+            <div className="flex items-center justify-center">
               <input
                 type="number"
-                name="number"
-                value={numOfParticipants}
-                onChange={(e) => setNumOfParticipants(e.target.value)}
-                placeholder="Num.of People"
-                className="w-[100px] h-[50px] border-2 border-[#B3B4BB] rounded-[5px] outline-none md:w-2/12 pl-[20px]"
+                name="radius"
+                value={radius}
+                onChange={(e) => setRadius(e.target.value)}
+                placeholder="Enter a Radius(m)"
+                className="w-[100px] h-[40px] border-2 border-[#B3B4BB] rounded-[5px] outline-none md:w-2/12 pl-[20px] mx-2"
               />
               <button
-                onClick={handleAdd}
-                className="w-[100px] h-[50px] font-serif font-semibold bg-[#005734] opacity-80 hover:opacity-100 text-[white] rounded-md md:w-2/12"
+                onClick={handleSet}
+                className="w-[100px] h-[40px] font-serif font-semibold bg-[#005734] opacity-80 hover:opacity-100 text-[white] rounded-md"
               >
-                Add
+                Set
               </button>
+
             </div>
-          </div>
-          <div className="w-full h-full  mt-[70px]  ">
-            {sampleData.length > 0 && (
-              <table className="w-full text-center">
-                <thead>
-                  <tr className="border-b-[1px] border-gray-950">
-                    <th>No</th>
-                    <th>Country</th>
-                    <th>Region</th>
-                    <th>Num of Participants</th>
-                  </tr>
-                </thead>
-                <tbody>
-                  {sampleData.map((data) => (
-                    <tr key={data.no}>
-                      <td>{data.no}</td>
-                      <td>{data.country}</td>
-                      <td>{data.region}</td>
-                      <td>{data.numOfParticipants}</td>
-                      <td>
-                        <button onClick={() => handleEdit(data)}>
-                          <AiFillEdit />
-                        </button>
-                        <button
-                          onClick={() => handleDelete(data.no)}
-                          className="ml-[20px]"
-                        >
-                          <MdDelete />{" "}
-                        </button>
-                      </td>
-                    </tr>
-                  ))}
-                </tbody>
-              </table>
-            )}
+
+          </>}
+
+          <div className="flex items-center justify-center text-2xl font-bold">
+            Enter Maximum Number of Persons to fill the Survey
+
           </div>
 
-          <div className="w-[250px] mt-[100px]  flex justify-between">
+          <div className="flex items-center justify-center">
+            <input
+              type="number"
+              name="radius"
+              //value={radius}
+              //onChange={(e) => setRadius(e.target.value)}
+              placeholder="Enter a number to fill the survey form"
+              className="w-[100px] h-[40px] border-2 border-[#B3B4BB] rounded-[5px] outline-none md:w-2/12 pl-[20px] mx-2"
+            />
+            
+            <Link to="/link-form">
+
+            
             <button
-              // onClick={handleAdd}
-              className="w-[100px] h-[50px] font-serif font-bold opacity-80 hover:opacity-100 bg-[#005734] text-[white] rounded-[5px] "
+              //onClick={handleSet}
+              className="w-[100px] mx-1 h-[40px] font-serif font-semibold bg-[#005734] opacity-80 hover:opacity-100 text-[white] rounded-md"
+            >
+              Done
+            </button>
+            </Link>
+            <button
+              //onClick={handleSet}
+              className="w-[100px] h-[40px] font-serif font-semibold bg-[#005734] opacity-80 hover:opacity-100 text-[white] rounded-md"
             >
               Cancel
             </button>
-            <Link to="/link-form">
-              <button
-                // onClick={handleAdd}
-                className="w-[100px] h-[50px] font-serif font-bold opacity-80 hover:opacity-100 bg-[#005734] text-[white] rounded-[5px] "
-              >
-                Done
-              </button>
-            </Link>
+            
+
           </div>
         </div>
       </main>

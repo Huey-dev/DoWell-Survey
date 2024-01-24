@@ -2,7 +2,7 @@ import { useState } from "react";
 import Layout from "../Layout/Layout";
 import { AiFillEdit } from "react-icons/ai";
 import { MdDelete } from "react-icons/md";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 
 const FinalizeSample = () => {
   const [sampleData, setSampleData] = useState([]);
@@ -10,6 +10,8 @@ const FinalizeSample = () => {
   const [region, setRegion] = useState("");
   const [numOfParticipants, setNumOfParticipants] = useState("");
   const [editingNo, setEditingNo] = useState(null);
+
+  const navigate = useNavigate();
 
   const handleAdd = () => {
     if (country && region && numOfParticipants) {
@@ -58,6 +60,12 @@ const FinalizeSample = () => {
     setCountry(data.country);
     setRegion(data.region);
     setNumOfParticipants(data.numOfParticipants);
+  };
+
+  const handleSubmit = (e) => {
+    e.preventDefault();
+    sessionStorage.setItem("finalizeSurvey", JSON.stringify(sampleData));
+    navigate("/link-form");
   };
 
   return (
@@ -155,14 +163,14 @@ const FinalizeSample = () => {
             >
               Cancel
             </button>
-            <Link to="/link-form">
-              <button
-                // onClick={handleAdd}
-                className="w-[100px] h-[50px] font-serif font-bold opacity-80 hover:opacity-100 bg-[#005734] text-[white] rounded-[5px] "
-              >
-                Done
-              </button>
-            </Link>
+            {/* <Link to="/link-form"> */}
+            <button
+              onClick={handleSubmit}
+              className="w-[100px] h-[50px] font-serif font-bold opacity-80 hover:opacity-100 bg-[#005734] text-[white] rounded-[5px] "
+            >
+              Done
+            </button>
+            {/* </Link> */}
           </div>
         </div>
       </main>

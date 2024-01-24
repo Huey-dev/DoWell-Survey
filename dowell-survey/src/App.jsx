@@ -9,7 +9,7 @@ import PreviewPage from "./PreviewPage";
 import StartNewSurvey from "./Layout/StartNewSurvey";
 import FinalizeSample from "./Pages/FinalizeSample";
 import LinkSurvey from "./Pages/LinkSurvey";
-import { EmailSms } from "./Pages/EmailSms";
+import EmailSms from "./Pages/EmailSms";
 import Edit from "./Pages/EditSurvey";
 import Settings from "./Pages/Settings";
 

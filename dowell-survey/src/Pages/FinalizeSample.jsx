@@ -8,7 +8,7 @@ import { useGlobalContext } from "../Context/PreviewContext";
 const FinalizeSample = () => {
   const [sampleData, setSampleData] = useState([]);
 
-  const { surveys, setSurveys } = useGlobalContext();
+  const { surveys, setSurveys, surveyParams, setSurveyParams } = useGlobalContext();
 
   const [country, setCountry] = useState("");
   const [region, setRegion] = useState("");
@@ -20,7 +20,7 @@ const FinalizeSample = () => {
 
 
   const [radius, setRadius] = useState("");
-  //const [numOfParticipants, setNumOfParticipants] = useState("");
+  const [numOfParticipants, setNumOfParticipants] = useState(0);
   const [editingNo, setEditingNo] = useState(null);
 
 
@@ -68,6 +68,32 @@ const FinalizeSample = () => {
                 Finalize Sample Size
               </h1>
               <p>Set a Radius per location and the total number of persons allowed to fill this survey</p>
+            </div>
+            <div className="flex items-center justify-center text-2xl font-bold">
+              Your Current Selection
+
+            </div>
+
+            <div className="flex items-center justify-center">
+              <div className="bg-green-200 px-4 py-3">
+              {`${name}, ${address}, ${location_coord}`}
+              </div>
+              
+              <input
+                type="number"
+                name="radius"
+                value={radius}
+                onChange={(e) => setRadius(e.target.value)}
+                placeholder="Enter a Radius(m)"
+                className="w-[100px] h-[40px] border-2 border-[#B3B4BB] rounded-[5px] outline-none md:w-2/12 pl-[20px] mx-2"
+              />
+              <button
+                onClick={handleSet}
+                className="w-[100px] h-[40px] font-serif font-semibold bg-[#005734] opacity-80 hover:opacity-100 text-[white] rounded-md"
+              >
+                Set
+              </button>
+
             </div>
           </div>
           {surveys.length > 0 && (
@@ -123,36 +149,6 @@ const FinalizeSample = () => {
 
           )}
 
-          {name && <>
-            <div className="flex items-center justify-center text-2xl font-bold">
-              Your Selection
-
-            </div>
-
-            <div className="flex items-center justify-center">
-              {`${name}, ${address}, ${location_coord}`}
-
-            </div>
-            <div className="flex items-center justify-center">
-              <input
-                type="number"
-                name="radius"
-                value={radius}
-                onChange={(e) => setRadius(e.target.value)}
-                placeholder="Enter a Radius(m)"
-                className="w-[100px] h-[40px] border-2 border-[#B3B4BB] rounded-[5px] outline-none md:w-2/12 pl-[20px] mx-2"
-              />
-              <button
-                onClick={handleSet}
-                className="w-[100px] h-[40px] font-serif font-semibold bg-[#005734] opacity-80 hover:opacity-100 text-[white] rounded-md"
-              >
-                Set
-              </button>
-
-            </div>
-
-          </>}
-
           <div className="flex items-center justify-center text-2xl font-bold">
             Enter Maximum Number of Persons to fill the Survey
 
@@ -161,22 +157,22 @@ const FinalizeSample = () => {
           <div className="flex items-center justify-center">
             <input
               type="number"
-              name="radius"
-              //value={radius}
-              //onChange={(e) => setRadius(e.target.value)}
+              name="numofParticipants"
+              value={surveyParams.numOfParticipants || " "}
+              onChange={(e) => setSurveyParams((params) => ({ ...params, numOfParticipants: e.target.value }))}
               placeholder="Enter a number to fill the survey form"
               className="w-[100px] h-[40px] border-2 border-[#B3B4BB] rounded-[5px] outline-none md:w-2/12 pl-[20px] mx-2"
             />
-            
+
             <Link to="/link-form">
 
-            
-            <button
-              //onClick={handleSet}
-              className="w-[100px] mx-1 h-[40px] font-serif font-semibold bg-[#005734] opacity-80 hover:opacity-100 text-[white] rounded-md"
-            >
-              Done
-            </button>
+
+              <button
+                //onClick={handleSet}
+                className="w-[100px] mx-1 h-[40px] font-serif font-semibold bg-[#005734] opacity-80 hover:opacity-100 text-[white] rounded-md"
+              >
+                Done
+              </button>
             </Link>
             <button
               //onClick={handleSet}
@@ -184,7 +180,7 @@ const FinalizeSample = () => {
             >
               Cancel
             </button>
-            
+
 
           </div>
         </div>

@@ -8,7 +8,13 @@ import { useGlobalContext } from "../Context/PreviewContext";
 const FinalizeSample = () => {
   const [sampleData, setSampleData] = useState([]);
 
-  const { surveys, setSurveys, surveyParams, setSurveyParams } = useGlobalContext();
+  const stored_locations = sessionStorage.getItem('newSurvey') || '[]';
+  const [surveys, setSurveys] = useState(JSON.parse(stored_locations)); 
+
+  const participants_no = sessionStorage.getItem('numOfParticipants') || 0;
+  const [numOfParticipants, setNumOfParticipants] = useState(participants_no);
+
+  //const { surveys, setSurveys, surveyParams, setSurveyParams } = useGlobalContext();
 
   const [country, setCountry] = useState("");
   const [region, setRegion] = useState("");
@@ -20,7 +26,7 @@ const FinalizeSample = () => {
 
 
   const [radius, setRadius] = useState("");
-  const [numOfParticipants, setNumOfParticipants] = useState(0);
+  
   const [editingNo, setEditingNo] = useState(null);
 
 
@@ -57,6 +63,13 @@ const FinalizeSample = () => {
     setRadius(data.radius || " ")
     //setNumOfParticipants(data.numOfParticipants);
   };
+
+  const handleDone = () => {
+    sessionStorage.setItem("newSurvey", JSON.stringify(surveys));
+    sessionStorage.setItem("numOfParticipants", numOfParticipants);
+    navigate('/link-form');
+
+  }
 
   return (
     <Layout>
@@ -158,8 +171,8 @@ const FinalizeSample = () => {
             <input
               type="number"
               name="numofParticipants"
-              value={surveyParams.numOfParticipants || " "}
-              onChange={(e) => setSurveyParams((params) => ({ ...params, numOfParticipants: e.target.value }))}
+              value={numOfParticipants}
+              onChange={(e) => setNumOfParticipants(e.target.value)}
               placeholder="Enter a number to fill the survey form"
               className="w-[100px] h-[40px] border-2 border-[#B3B4BB] rounded-[5px] outline-none md:w-2/12 pl-[20px] mx-2"
             />
@@ -168,14 +181,13 @@ const FinalizeSample = () => {
 
 
               <button
-                //onClick={handleSet}
+                onClick={handleDone}
                 className="w-[100px] mx-1 h-[40px] font-serif font-semibold bg-[#005734] opacity-80 hover:opacity-100 text-[white] rounded-md"
               >
                 Done
               </button>
             </Link>
             <button
-              //onClick={handleSet}
               className="w-[100px] h-[40px] font-serif font-semibold bg-[#005734] opacity-80 hover:opacity-100 text-[white] rounded-md"
             >
               Cancel

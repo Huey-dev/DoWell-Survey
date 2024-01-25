@@ -1,5 +1,6 @@
 import { Link } from "react-router-dom"
 import { useState } from "react";
+import { useNavigate } from "react-router-dom";
 import map from "../assets/Screenshot 2023-10-11 085143.png";
 import { products1 } from "../data/Product";
 import Layout from "../Layout/Layout";
@@ -10,9 +11,16 @@ import { useGlobalContext } from "../Context/PreviewContext";
 
 const LandingPage = () => {
   const [locations, setLocations] = useState([]);
+  const navigate = useNavigate();
 
-  const stored_locations = sessionStorage.getItem('stored_locations') || '[]';
+  const stored_locations = sessionStorage.getItem('newSurvey') || '[]';
   const [surveys, setSurveys] = useState(JSON.parse(stored_locations));
+
+  const handleConfirmSelection = () => {
+    sessionStorage.setItem("newSurvey", JSON.stringify(surveys));
+    navigate('/finalize-Sample');
+
+  }
 
 
   //const { surveys, setSurveys } = useGlobalContext();
@@ -137,7 +145,7 @@ const LandingPage = () => {
               
                 <button
                   type="submit"
-                  onClick={() => console.log(surveys)}
+                  onClick={handleConfirmSelection}
                   className="w-[400px] font-bold font-serif mt-[30px] h-[50px] bg-[#005734] text-[20px] text-white hover:opacity-100 opacity-80 rounded-[5px]"
                 >
                   Confirm Selections

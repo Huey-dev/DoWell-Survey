@@ -2,6 +2,14 @@ import pic1 from "../assets/bakery1.jpeg"
 import pic2 from "../assets/bakery2.jpeg"
 import pic3 from "../assets/bakery3.jpeg"
 import pic4 from "../assets/bakery4.jpeg"
+import pic5 from "../assets/bakery5.jpg"
+import pic6 from "../assets/bakery6.jpg"
+import pic7 from "../assets/bakery7.jpg"
+import pic8 from "../assets/bakery8.jpg"
+import pic9 from "../assets/bakery9.jpg"
+import pic10 from "../assets/bakery10.jpg"
+import pic11 from "../assets/bakery11.jpg"
+import pic12 from "../assets/bakery12.jpg"
 
 
 
@@ -105,8 +113,8 @@ export const products1 = [
         distance: 'Driving distance of 20 meters',
         image: pic1,
         description: "this is a lifesaver!",
-        address: "No 33 Agundeyemi Str.",
-        location_coord: "9.038428099999999 , 38.7555942",
+        address: "No 33 Agundeyemi Str, GHANA",
+        location_coord: "19.483934343 , 8.3232932",
     },
     {
         id: 2,
@@ -114,7 +122,7 @@ export const products1 = [
         distance: 'Driving distance of 400 meters',
         image: pic2,
         description: "this is a lifesaver!",
-        address: "No 2 Jamaican Express Str.",
+        address: "808 Magnolia Lane, Downtown, State 12975, FRANCE",
         location_coord: "9.038428099999999 , 38.7555942",
   
     },
@@ -124,8 +132,8 @@ export const products1 = [
         distance: 'Driving distance of 10 meters',
         image: pic3,
         description: "this is a lifesaver!",
-        address: "No 2 Jamaican Express Str.",
-        location_coord: "9.038428099999999 , 38.7555942",
+        address: "707 Juniper Street, Uptown, State 64258, SWEEDEN",
+        location_coord: "3.3232994343 , 11.19290300003",
   
     },
     {
@@ -134,84 +142,84 @@ export const products1 = [
         distance: 'Driving distance of 4 meters',
         image: pic4,
         description: "this is a lifesaver!",
-        address: "No 2 Jamaican Express Str.",
+        address: "606 Willow Circle, Highlands, State 35724, GREECE",
         location_coord: "9.038428099999999 , 38.7555942",
     },
     {
         id: 5,
-        name: 'Bakery chef',
+        name: 'Kings chef',
         distance: 'Driving distance of 20 meters',
-        image: pic1,
+        image: pic5,
         description: "this is a lifesaver!",
-        address: "No 2 Jamaican Express Str.",
+        address: "505 Spruce Place, Riverside, State 46812, INDIA",
         location_coord: "9.038428099999999 , 38.7555942",
     },
     {
         id: 6,
-        name: 'Queens Bakery',
+        name: 'Exclusive Bakery',
         distance: 'Driving distance of 400 meters',
-        image: pic2,
+        image: pic5,
         description: "this is a lifesaver!",
-        address: "No 2 Jamaican Express Str.",
+        address: "404 Redwood Drive, Metropolis, State. KENYA",
         location_coord: "9.038428099999999 , 38.7555942",
   
     },
     {
         id: 7,
-        name: 'Samantha Bakery',
+        name: 'Madiera Bakery',
         distance: 'Driving distance of 10 meters',
-        image: pic3,
+        image: pic7,
         description: "this is a lifesaver!",
-        address: "No 2 Jamaican Express Str.",
-        location_coord: "9.038428099999999 , 38.7555942",
+        address: "303 Birch Court, Countryside, State 86420 TEL AVIV",
+        location_coord: "3.43434343 , 38.7555942",
   
     },
     {
         id: 8,
-        name: 'Dowell bakery',
+        name: 'Krish bakery',
         distance: 'Driving distance of 4 meters',
-        image: pic4,
+        image: pic8,
         description: "this is a lifesaver!",
         address: "No 2 Jamaican Express Str.",
-        location_coord: "9.038428099999999 , 38.7555942",
+        location_coord: "12.385932204 , 8.395883",
     },
     {
         id: 9,
-        name: 'Bakery chef',
+        name: 'Bakery Susage Kings',
         distance: 'Driving distance of 20 meters',
-        image: pic1,
+        image: pic9,
         description: "this is a lifesaver!",
-        address: "No 2 Jamaican Express Str.",
-        location_coord: "9.038428099999999 , 38.7555942",
+        address: "101 Cedar Road, Hamletsville, State 24680, PAKISTAN",
+        location_coord: "3.384482 , 3.39404434",
     },
     {
         id: 10,
-        name: 'Queens Bakery',
+        name: 'Carfos Bakery',
         distance: 'Driving distance of 400 meters',
-        image: pic2,
+        image: pic10,
         description: "this is a lifesaver!",
-        address: "No 2 Jamaican Express Str.",
-        location_coord: "9.038428099999999 , 38.7555942",
+        address: "789 Pine Lane, Villagetown, State 13579, UK",
+        location_coord: "29.494032333 , 4.4449202",
   
     },
     {
         id: 11,
-        name: 'Samantha Bakery',
+        name: 'Aifitech Bakery',
         distance: 'Driving distance of 10 meters',
-        image: pic3,
+        image: pic11,
         description: "this is a lifesaver!",
-        address: "No 2 Jamaican Express Str.",
-        location_coord: "9.038428099999999 , 38.7555942",
+        address: "456 Oak Avenue, Townsville, State 67890, SINGAPORE.",
+        location_coord: "23.329940003232 , 8.32399032323",
   
     },
     {
         id: 12,
-        name: 'Dowell bakery',
+        name: 'Rams bakery',
         distance: 'Driving distance of 4 meters',
-        image: pic4,
+        image: pic12,
         description: "this is a lifesaver!",
-        address: "No 2 Jamaican Express Str.",
-        location_coord: "9.038428099999999 , 38.7555942",
+        address: "123 Maple Street, Cityville, State 12345, USA",
+        location_coord: "6.66932022 , 2.3930222293",
     },
   ];
 

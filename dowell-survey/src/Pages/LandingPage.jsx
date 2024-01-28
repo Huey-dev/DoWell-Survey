@@ -5,7 +5,6 @@ import map from "../assets/Screenshot 2023-10-11 085143.png";
 import { products1 } from "../data/Product";
 import Layout from "../Layout/Layout";
 import MySurveys from "./MySurveys";
-import { useGlobalContext } from "../Context/PreviewContext";
 
 
 

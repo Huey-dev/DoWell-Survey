@@ -12,6 +12,7 @@ import LinkSurvey from "./Pages/LinkSurvey";
 import EmailSms from "./Pages/EmailSms";
 import Edit from "./Pages/EditSurvey";
 import Settings from "./Pages/Settings";
+import SurveyIframe from "./Pages/SurveyIframe";
 
 function App() {
   return (
@@ -27,6 +28,9 @@ function App() {
             <Route path="/email-sms" element={<EmailSms />} />
             <Route path="/list-surveys" element={<Edit />} />
             <Route path="/settings" element={<Settings />} />
+
+
+            <Route path="/survey-iframe" element={<SurveyIframe />} />
           </Routes>
         </Router>
       </PreviewProvider>

@@ -1,43 +1,40 @@
-import Layout from "../Layout/Layout";
-import { Link } from "react-router-dom";
+import React, { useState, useEffect } from 'react';
 
+const LocationComponent = () => {
+  const [location, setLocation] = useState(null);
 
-const EmailSms = () => {
+  useEffect(() => {
+    if (navigator.geolocation) {
+      navigator.geolocation.getCurrentPosition(
+        (position) => {
+          const { latitude, longitude } = position.coords;
+          setLocation({ latitude, longitude });
+        },
+        (error) => {
+          console.error('Error getting location:', error.message);
+        },
+        {
+          enableHighAccuracy: true, // Request the most accurate location
+          timeout: 5000, // Maximum time (in milliseconds) to wait for location
+          maximumAge: 0 // Maximum age (in milliseconds) of a possible cached position
+        }
+      );
+    } else {
+      console.error('Geolocation is not supported by this browser.');
+    }
+  }, []); // Empty dependency array ensures this effect runs once on mount
+
   return (
-    <Layout>
-      <main className="w-full h-full">
-        <div className="px-4 md:px-10 mt-[40px] md:pl-[310px]">
-          <div className="w-full h-full flex flex-col justify-center items-center">
-            <div>
-              <h1>
-                Enter Email and(or) Sms to recieve notifications about the Survey
-              </h1>
-            </div>
-            <div className="flex flex-col mt-[50px]">
-              <h2>Form Link</h2>
-              <input
-                type="text"
-                placeholder="add your form link here"
-                className="w-[400px] mt-[10px] h-[50px] border-2 border-[#B3B4BB] rounded-[5px] outline-none pl-[20px]"
-              />
-              <Link to="/email-sms">
-                <button
-                  type="submit"
-                  className="w-[400px] font-bold font-serif mt-[30px] h-[50px] bg-[#005734] text-[20px] text-white hover:opacity-100 opacity-80 rounded-[5px]"
-                >
-                  Link Form
-                </button>
-              </Link>
-            </div>
-          </div>
-        </div>
-      </main>
-    </Layout>
+    <div>
+      {location ? (
+        <p>
+          Your location: {location.latitude}, {location.longitude}
+        </p>
+      ) : (
+        <p>Loading location...</p>
+      )}
+    </div>
   );
 };
 
-export default EmailSms;
-
-
-
-
+export default LocationComponent;

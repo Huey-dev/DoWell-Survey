@@ -3,7 +3,7 @@ import Layout from "../Layout/Layout";
 import { AiFillEdit } from "react-icons/ai";
 import { MdDelete } from "react-icons/md";
 import { Link } from "react-router-dom";
-import { useGlobalContext } from "../Context/PreviewContext";
+
 
 const FinalizeSample = () => {
   const [sampleData, setSampleData] = useState([]);

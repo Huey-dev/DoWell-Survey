@@ -1,8 +1,9 @@
-import { Link } from "react-router-dom";
+import { Link, useLocation } from "react-router-dom";
+import { useState } from "react";
 import dowelllogo from "../assets/dowell.jpeg";
 // import { FaTimes } from "react-icons/fa";
 // import { useState } from "react";
-import "./Sidebar.css";
+//import "./Sidebar.css";
 // import NewSurvey from "./NewSurvey";
 
 export default function Sidebar() {
@@ -21,9 +22,13 @@ export default function Sidebar() {
   //   setIsNewSurveyModalOpen(false);
   // };
 
+  const [navbar, setNavbar] = useState(false);
+  const location = useLocation();
+
+
   return (
     <main className="w-full h-full">
-      <nav className="md:left-0 md:block md:fixed md:top-0 md:bottom-0 md:flex-row md:flex-nowrap md:overflow-hidden shadow-xl bg-black flex flex-wrap items-center justify-between relative md:w-64 z-10 py-4 px-6">
+      <nav className="md:left-0 md:block md:fixed md:top-0 md:bottom-0 md:flex-row md:flex-nowrap md:overflow-hidden shadow-xl bg-black flex flex-wrap items-center justify-between relative md:w-64 z-10 py-4 px-6 hidden md:visible">
         <div className="md:flex-col md:items-stretch md:min-h-full md:flex-nowrap px-0 flex flex-wrap items-center justify-between w-full mx-auto">
           <Link
             className="md:block text-left md:pb-2 text-blueGray-600 mr-0 inline-block whitespace-nowrap text-sm uppercase font-bold p-4 px-0"
@@ -58,8 +63,8 @@ export default function Sidebar() {
 
               <li className="items-center py-1.5">
                 <Link className="bg-green-500 text-center text-md font-serif py-1 font-bold block text-white hover:text-black"
-                 to="/finalize-Sample"
-                
+                  to="/finalize-Sample"
+
                 >
                   1. Finalize Sample Size
                 </Link>
@@ -68,8 +73,8 @@ export default function Sidebar() {
               <li className="items-center py-1.5">
                 <Link
                   // onClick={toggleModal}
-                   to="/link-form"
-                 
+                  to="/link-form"
+
                   className="bg-gray-400 text-center text-md font-serif py-1 font-bold block text-white hover:text-black"
                 >
                   2. Link Survey Form
@@ -77,9 +82,9 @@ export default function Sidebar() {
               </li>
 
               <li className="flex items-center py-1.5">
-                <Link 
-                to="/email-sms"
-                className="bg-green-800 text-center font-serif font-bold block text-white hover:text-black flex-1">
+                <Link
+                  to="/email-sms"
+                  className="bg-green-800 text-center font-serif font-bold block text-white hover:text-black flex-1">
                   <ul className="md:min-w-full flex flex-col items-start px-1 list-none">
                     <li className="text-[10px] font-bold text-white hover:text-black">
                       A. Sms
@@ -134,44 +139,91 @@ export default function Sidebar() {
           </div>
         </div>
       </nav>
+      <nav className="w-full bg-white shadow md:hidden bg-[#399544]">
+        <div className="justify-between px-4 mx-auto lg:max-w-7xl md:items-center md:flex md:px-8">
+          <div>
+            <div className="flex items-center justify-between py-3 md:py-5 md:block">
+              <a href="javascript:void(0)">
+                <h2 className="text-2xl font-bold">LOGO</h2>
+              </a>
+              <div className="md:hidden">
+                <button
+                  className="p-2 text-gray-700 rounded-md outline-none focus:border-gray-400 focus:border"
+                  onClick={() => setNavbar(!navbar)}
+                >
+                  {navbar ? (
+                    <svg
+                      xmlns="http://www.w3.org/2000/svg"
+                      className="w-6 h-6"
+                      viewBox="0 0 20 20"
+                      fill="currentColor"
+                    >
+                      <path
+                        fillRule="evenodd"
+                        d="M4.293 4.293a1 1 0 011.414 0L10 8.586l4.293-4.293a1 1 0 111.414 1.414L11.414 10l4.293 4.293a1 1 0 01-1.414 1.414L10 11.414l-4.293 4.293a1 1 0 01-1.414-1.414L8.586 10 4.293 5.707a1 1 0 010-1.414z"
+                        clipRule="evenodd"
+                      />
+                    </svg>
+                  ) : (
+                    <svg
+                      xmlns="http://www.w3.org/2000/svg"
+                      className="w-6 h-6"
+                      fill="none"
+                      viewBox="0 0 24 24"
+                      stroke="currentColor"
+                      strokeWidth={2}
+                    >
+                      <path
+                        strokeLinecap="round"
+                        strokeLinejoin="round"
+                        d="M4 6h16M4 12h16M4 18h16"
+                      />
+                    </svg>
+                  )}
+                </button>
+              </div>
+            </div>
+          </div>
+          <div>
+            <div
+              className={`flex-1 justify-self-center pb-3 mt-8 md:block md:pb-0 md:mt-0 ${navbar ? "block" : "hidden"
+                }`}
+            >
+              <ul className="items-center justify-center space-y-8 md:flex md:space-x-6 md:space-y-0">
+                <li className="text-gray-600 hover:text-blue-600">
+                  <Link
+                    to="/newsurvey"
+                    className="font-bold text-lg text-white"
 
-      {/* <div
-        className={`${
-          modalOpen ? "modal-overlay show-modal" : "modal-overlay"
-        } `}
-      >
-        <form className="modal-container pt-[2rem]">
-          <input
-            type="text"
-            id="firstName"
-            name="firstName"
-            // {...register("firstName")}
-            placeholder="Link survey form"
-            className="w-4/5 md:w-[25rem] h-[3rem] border-2  border-[#B3B4BB] rounded-[5px] outline-none"
-            style={{ paddingLeft: "1rem" }}
-          />
+                  >
+                    New Survey
+                  </Link>
+                </li>
+                <li className="text-gray-600 hover:text-blue-600">
+                  <Link
+                    to="/finalize-Sample"
+                    className={`font-bold text-lg ${location.pathname === '/finalize-Sample' ? 'text-white' : 'text-gray-700'}`}
 
-          <button className="w-4/5 md:w-[25rem] mt-[10px] h-[50px] font-serif font-bold text-black text-center bg-[#005734] opacity-80 hover:opacity-100 text-[16px] md:text-[20px] rounded-[12px] hover:text-white cursor-pointer ">
-            Submit
-          </button>
+                  >
+                    1. Finalize Sample Size
+                  </Link>
+                </li>
+                <li className="text-gray-600 hover:text-blue-600">
+                  <Link
+                    to="/link-form"
+                    className="font-bold text-lg text-white"
 
-          <button
-            className="close-modal-btn rounded-md hover:bg-[#005734] text-xl p-1"
-            // onClick={toggleModal}
-            type="button"
-          >
-            <FaTimes></FaTimes>
-          </button>
-        </form>
-      </div> */}
+                  >
+                    2. Link Survey Form
+                  </Link>
+                </li>
 
-      {/* <div
-        className={`${
-          NewSurveyModalOpen ? "modal-overlay show-modal" : "modal-overlay"
-        }`}
-      >
-        <NewSurvey closeModal={closeNewSurveyModal} />
-      </div> */}
+              </ul>
+            </div>
+          </div>
+        </div>
+      </nav>
+
     </main>
   );
 }

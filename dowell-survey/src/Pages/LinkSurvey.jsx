@@ -30,24 +30,57 @@ const LinkSurvey = () => {
     }
   };
 
+  const savedSurveyData = JSON.parse(sessionStorage.getItem("surveyData"));
+
+  // Access individual properties
+  const name = savedSurveyData ? savedSurveyData.name : "";
+  const product = savedSurveyData ? savedSurveyData.product : "";
+  const description = savedSurveyData ? savedSurveyData.description : "";
+  const startDate = savedSurveyData ? savedSurveyData.startDate : "";
+  const endDate = savedSurveyData ? savedSurveyData.endDate : "";
+
+  // Retrieve the array from sessionStorage
+  const savedSurveyArray = JSON.parse(sessionStorage.getItem("finalizeSurvey"));
+
+  // Retrieve properties of the first object
+  const firstObject =
+    savedSurveyArray && savedSurveyArray.length > 0
+      ? savedSurveyArray[0]
+      : null;
+
+  // Access individual properties
+  const country = firstObject ? firstObject.country : "";
+  const region = firstObject ? firstObject.region : "";
+  const numOfParticipants = firstObject ? firstObject.numOfParticipants : "";
+
   const handleSubmit = async (e) => {
     e.preventDefault();
-    sessionStorage.setItem("formLink", formLink);
-    const response = await axios.post(
-      `https://100025.pythonanywhere.com/create-surveyv2?api_key=dd7010c6-17b7-4cd4-ac70-f20492efa73e`,
-      {
-        qrcode_type: "Link",
-        quantity: 1,
-        logo: image,
-        link: formLink,
-        // start_data: "",
-        // end_date: "",
-        // brand_name: "",
-        // promotional_sentence: "",
-        // username: "",
-        // name: "",
-      }
-    );
+    // sessionStorage.setItem("formLink", formLink);
+    // const response = await axios.post(
+    //   `https://100025.pythonanywhere.com/create-surveyv2?api_key=dd7010c6-17b7-4cd4-ac70-f20492efa73e`,
+    //   {
+    //     qrcode_type: ["Link"],
+    //     quantity: ["1"],
+    //     logo: [image],
+    //     link: [formLink],
+    //     company_id: ["samuel"],
+    //     created_by: [name],
+    //     description: [description],
+    //     start_date: ["01-11-2023"],
+    //     end_date: ["01-11-2024"],
+    //     brand_name: [name],
+    //     promotional_sentence: [description],
+    //     username: [name],
+    //     name: [name],
+    //     email: ["samuelmakinde@gmail.com"],
+    //     service: [name],
+    //     country: [country],
+    //     region: [region],
+    //     participantsLimit: [numOfParticipants],
+    //     url: ["https://easereads.com/"],
+    //   }
+    // );
+    // console.log(response);
     navigate("/email-sms");
   };
 
@@ -88,14 +121,14 @@ const LinkSurvey = () => {
                   className="w-full md:w-[400px] font-bold font-serif mt-[30px] h-[50px] bg-[#005734] text-[20px] text-white hover:opacity-100 opacity-80 rounded-[5px]"
                   onClick={handleSubmit}
                 >
-                  Craete Survey
+                  Create Survey
                 </button>
               ) : (
                 <button
                   className="w-full md:w-[400px] font-bold font-serif mt-[30px] h-[50px] bg-[#005734] text-[20px] text-white opacity-50 rounded-[5px]"
                   disabled
                 >
-                  Craete Survey
+                  Create Survey
                 </button>
               )}
             </div>

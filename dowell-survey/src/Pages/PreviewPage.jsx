@@ -1,4 +1,4 @@
-import { useGlobalContext } from "./Context/PreviewContext";
+import { useGlobalContext } from "../Context/PreviewContext";
 import QRCode from "qrcode.react";
 
 const PreviewPage = () => {

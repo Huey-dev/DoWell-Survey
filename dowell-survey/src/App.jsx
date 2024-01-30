@@ -1,9 +1,9 @@
 import LandingPage from "./Pages/LandingPage";
 // import { PreviewProvider } from "./Context/PreviewContext";
 import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
-import PreviewPage from "./PreviewPage";
-import StartNewSurvey from "./Layout/StartNewSurvey";
-import FinalizeSample from "./Pages/FinalizeSample";
+import PreviewPage from "./Pages/PreviewPage";
+import StartNewSurvey from "./Pages/StartNewSurvey";
+import FinalizeSample from "./Pages/FinalizeSample2";
 import LinkSurvey from "./Pages/LinkSurvey";
 import { EmailSms } from "./Pages/EmailSms";
 import Edit from "./Pages/EditSurvey";

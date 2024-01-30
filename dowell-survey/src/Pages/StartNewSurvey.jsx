@@ -1,8 +1,6 @@
 import { useState } from "react";
-import Layout from "./Layout";
+import Layout from "../Layout/Layout";
 import { useNavigate } from "react-router-dom";
-// import axios from "axios";
-// import { Link } from "react-router-dom";
 
 const StartNewSurvey = () => {
   const [startDate, setStartDate] = useState(getCurrentDate());
@@ -11,7 +9,6 @@ const StartNewSurvey = () => {
   const [name, setName] = useState("");
   const [product, setProduct] = useState("");
   const [description, setDescription] = useState("");
-  // const [file, setFile] = useState(null);
 
   const saveToLocalStorage = () => {
     const surveyData = {
@@ -20,7 +17,6 @@ const StartNewSurvey = () => {
       description,
       startDate,
       endDate,
-      // Add other form values as needed
     };
 
     sessionStorage.setItem("surveyData", JSON.stringify(surveyData));
@@ -49,6 +45,7 @@ const StartNewSurvey = () => {
     <Layout>
       <div className="h-full w-full md:flex md:justify-end  pt-20  ">
         <div className="w-full flex flex-col  justify-center items-center gap-6 px-4  sm:px-0 md:w-[80%]">
+          <h1 className="text-xl font-bold">Create New Survey</h1>
           {/* <input
             type="file"
             id="fileInput"
@@ -124,7 +121,7 @@ const StartNewSurvey = () => {
             onClick={handleSubmit}
             className="w-full md:w-[400px] h-[50px] sm:w-[40%] font-serif p-2 font-bold text-center bg-[#005734] opacity-80 hover:opacity-100 text-[16px] md:text-[20px] rounded-md text-white cursor-pointer"
           >
-            Create Survey Campaign
+            Next Step
           </button>
         </div>
       </div>

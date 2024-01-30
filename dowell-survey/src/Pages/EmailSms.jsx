@@ -14,82 +14,37 @@ export const EmailSms = () => {
             />
           </div>
 
-          <div className="flex flex-col gap-3 py-">
-            <div className="flex flex-col gap-2 text-left rounded-lg p-2 border shadow-xl ">
+          <div className="w-full md:w-[400px] flex flex-col gap-3 py-">
+            <div className="w-full md:w-[400px] flex flex-col gap-2 text-left  ">
               <h3 className="font-serif font-bold text-md">Email </h3>
 
-              <div className="flex gap-4">
-                <input
-                  type="email"
-                  id="email"
-                  name="email"
-                  placeholder="Enter email address"
-                  className="w-4/5 md:w-[20rem] h-[2.5rem] border-2 border-[#B3B4BB] rounded-[5px] outline-none"
-                  style={{ paddingLeft: "1rem" }}
-                />
-                <div className="flex justify-center items-center">
-                  <button className="w-16 h-7 font-serif font-semibold text-white hover:text-white opacity-80 hover:opacity-100 hover:scale-105 text-center bg-[#176847] text-md rounded-md cursor-pointer">
-                    Send
-                  </button>
-                </div>
-              </div>
+              <input
+                type="email"
+                id="email"
+                name="email"
+                placeholder="Enter email address"
+                className="w-full h-[4rem] border-2 border-[#B3B4BB] rounded-[5px] outline-none"
+                style={{ paddingLeft: "1rem" }}
+              />
             </div>
 
-            <div className="flex flex-col gap-2 text-left rounded-lg p-2 border shadow-xl">
+            <div className="w-full md:w-[400px] flex flex-col gap-2 text-left  mt-4">
               <h3 className="font-serif font-bold text-md">SMS</h3>
 
-              <div className="flex gap-4">
-                <input
-                  type="number"
-                  id="sms"
-                  name="sms"
-                  placeholder="Enter phone number"
-                  className="w-4/5 md:w-[20rem] h-[2.5rem] border-2  border-[#B3B4BB] rounded-[5px] outline-none"
-                  style={{ paddingLeft: "1rem" }}
-                />
-                <div className="flex justify-center items-center">
-                  <button className="w-16 h-7 font-serif font-semibold text-white hover:text-white opacity-80 hover:opacity-100 hover:scale-105 text-center bg-[#176847] text-md rounded-md cursor-pointer">
-                    Send
-                  </button>
-                </div>
-              </div>
-            </div>
-
-            <div className="flex flex-col gap-2 text-left rounded-lg p-2 border shadow-xl">
-              <h3 className=" font-serif font-bold text-md">Email & SMS</h3>
-
-              <div className="flex gap-4">
-                <div className="flex flex-col gap-2">
-                  <input
-                    type="email"
-                    id="email"
-                    name="email"
-                    placeholder="Enter email address"
-                    className="w-4/5 md:w-[20rem] h-[2.5rem] border-2  border-[#B3B4BB] rounded-[5px] outline-none"
-                    style={{ paddingLeft: "1rem" }}
-                  />
-                  <input
-                    type="number"
-                    id="sms"
-                    name="sms"
-                    placeholder="Enter phone number"
-                    className="w-4/5 md:w-[20rem] h-[2.5rem] border-2  border-[#B3B4BB] rounded-[5px] outline-none"
-                    style={{ paddingLeft: "1rem" }}
-                  />
-                </div>
-
-                <div className="flex justify-center w-1/3 items-center">
-                  <button className="w-16 h-7 font-serif font-semibold text-white hover:text-white opacity-80 hover:opacity-100 hover:scale-105 text-center bg-[#176847] text-md rounded-md cursor-pointer">
-                    Send
-                  </button>
-                </div>
-              </div>
+              <input
+                type="number"
+                id="sms"
+                name="sms"
+                placeholder="Enter phone number"
+                className="w-full  h-[4rem] border-2  border-[#B3B4BB] rounded-[5px] outline-none"
+                style={{ paddingLeft: "1rem" }}
+              />
             </div>
           </div>
         </div>
-        <div className="w-full md:w-[400px] h-full flex justify-center items-center mt-5">
+        <div className="w-full md:w-[400px] h-full flex justify-center items-center mt-10">
           <button className="p-2 w-full md:w-[400px] h-[4rem] font-serif font-semibold text-white opacity-80 hover:opacity-100 bg-[#176847] text-md rounded-md cursor-pointer">
-            Add Survey
+            Send Survey
           </button>
         </div>
       </div>

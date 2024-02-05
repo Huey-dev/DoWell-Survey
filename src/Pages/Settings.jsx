@@ -13,7 +13,7 @@ export default function Settings() {
                 My account
               </h6>
               <button
-                className="bg-lightBlue-500 text-white active:bg-lightBlue-600 font-bold uppercase text-xs px-4 py-2 rounded shadow hover:shadow-md outline-none focus:outline-none mr-1 ease-linear transition-all duration-150"
+                className="bg-lightBlue-500  active:bg-lightBlue-600 font-bold uppercase text-xs px-4 py-2 rounded shadow hover:shadow-md outline-none focus:outline-none mr-1 ease-linear transition-all duration-150"
                 type="button"
               >
                 Settings
@@ -27,6 +27,49 @@ export default function Settings() {
               </h6>
               <div className="flex flex-wrap">
                 <div className="w-full lg:w-6/12 px-4">
+                  <div className="relative w-full md:flex md:items-center h-40 mb-3">
+                    <label
+                      htmlFor="profile"
+                      className="w-40 h-40 bg-gray-200 rounded-full flex justify-center items-center relative cursor-pointer"
+                    >
+                      <input
+                        type="file"
+                        name="profile"
+                        id="profile"
+                        className="opacity-0 w-full h-full absolute top-0 left-0"
+                      />
+                      {/* Add your preview image here if needed */}
+                      <span className="absolute inset-0 flex justify-center items-center">
+                        Profile Picture
+                      </span>
+                    </label>
+                    {/* Additional content if needed */}
+                  </div>
+                  {/* <div className="relative w-full md:flex md:items-center h-40 mb-3"> */}
+                  {/* <input type="image" src="" alt="profile picture" /> */}
+                  {/* <input
+                      type="file"
+                      name="profile"
+                      id="profile"
+                      className="w-40 h-40 bg-gray-200 rounded-full flex justify-center items-center"
+                    />
+                    <span className="mt-10 md:mt-0 md:ml-6">
+                      Profile Picture
+                    </span> */}
+                  {/* <label
+                      className="block uppercase text-blueGray-600 text-xs font-bold mb-2"
+                      htmlFor="grid-password"
+                    >
+                      Username
+                    </label>
+                    <input
+                      type="text"
+                      className="border-0 px-3 py-3 placeholder-blueGray-300 text-blueGray-600 bg-white rounded text-sm shadow focus:outline-none focus:ring w-full ease-linear transition-all duration-150"
+                      defaultValue="lucky.jesse"
+                    /> */}
+                  {/* </div> */}
+                </div>
+                <div className="w-full lg:w-6/12 px-4">
                   <div className="relative w-full mb-3">
                     <label
                       className="block uppercase text-blueGray-600 text-xs font-bold mb-2"
@@ -38,21 +81,6 @@ export default function Settings() {
                       type="text"
                       className="border-0 px-3 py-3 placeholder-blueGray-300 text-blueGray-600 bg-white rounded text-sm shadow focus:outline-none focus:ring w-full ease-linear transition-all duration-150"
                       defaultValue="lucky.jesse"
-                    />
-                  </div>
-                </div>
-                <div className="w-full lg:w-6/12 px-4">
-                  <div className="relative w-full mb-3">
-                    <label
-                      className="block uppercase text-blueGray-600 text-xs font-bold mb-2"
-                      htmlFor="grid-password"
-                    >
-                      Default Email address
-                    </label>
-                    <input
-                      type="email"
-                      className="border-0 px-3 py-3 placeholder-blueGray-300 text-blueGray-600 bg-white rounded text-sm shadow focus:outline-none focus:ring w-full ease-linear transition-all duration-150"
-                      defaultValue="jesse@example.com"
                     />
                   </div>
                 </div>
@@ -84,6 +112,19 @@ export default function Settings() {
                       className="border-0 px-3 py-3 placeholder-blueGray-300 text-blueGray-600 bg-white rounded text-sm shadow focus:outline-none focus:ring w-full ease-linear transition-all duration-150"
                       defaultValue="Jesse"
                     />
+                  </div>
+                </div>
+              </div>
+
+              {/* Survey created section */}
+              <div className="w-full h-full mt-10">
+                <hr className="mt-6 border-b-1 border-blueGray-300" />
+                <h1 className="text-blueGray-400 text-sm mt-3 mb-6 font-bold uppercase">
+                  Surveys Details
+                </h1>
+                <div className="w-full h-full ">
+                  <div className="w-full h-40 md:w-3/12">
+                    <p>Total survey created: 100</p>
                   </div>
                 </div>
               </div>

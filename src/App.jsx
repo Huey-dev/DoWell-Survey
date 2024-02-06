@@ -14,7 +14,7 @@ function App() {
   return (
     <>
       {/* <PreviewProvider> */}
-      <Router>
+      <Router basename="/DoWell-Survey">
         <Routes>
           <Route path="/" element={<LandingPage />} />
           <Route path="/preview-page" element={<PreviewPage />} />

@@ -7,5 +7,5 @@ export default defineConfig({
     extensions: ['.mjs', '.js', '.jsx', '.json'],
   },
   plugins: [react()],
-  base: '',
+  base: '/DoWell-Survey/',
 })

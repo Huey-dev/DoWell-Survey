@@ -16,7 +16,7 @@ function App() {
       {/* <PreviewProvider> */}
       <Router>
         <Routes>
-          <Route path="/" element={<LandingPage />} />
+          <Route path="" element={<LandingPage />} />
           <Route path="/preview-page" element={<PreviewPage />} />
           <Route path="/newsurvey" element={<StartNewSurvey />} />
           <Route path="/finalize-Sample" element={<FinalizeSample />} />

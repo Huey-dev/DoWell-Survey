@@ -6,6 +6,6 @@ export default defineConfig({
   resolve: {
     extensions: ['.mjs', '.js', '.jsx', '.json'],
   },
-  plugins: [react()],
-  base: '/DoWell-Survey/',
+  plugins: [react()]
+  // base: '/DoWell-Survey/',
 })

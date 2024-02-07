@@ -6,7 +6,7 @@ import { ExclamationTriangleIcon } from '@heroicons/react/24/outline'
 import { TrashIcon, PencilSquareIcon, QrCodeIcon, MapPinIcon } from '@heroicons/react/24/outline';
 //import { FaTimes } from "react-icons/fa";
 import QRCode from "react-qr-code";
-import { MapContainer, TileLayer, Marker, Popup, useMap } from 'react-leaflet'
+import { MapContainer, TileLayer, Marker, Popup, CircleMarker } from 'react-leaflet'
 import "./EditSurveyModal.css";
 import { AiFillEdit } from "react-icons/ai";
 import { MdDelete } from "react-icons/md";
@@ -29,7 +29,7 @@ export default function Edit() {
     const center = [9.055625, 7.480715];
 
     //for the maps rendering 
-    const [mapBounds, setMapBounds] = useState([[-90, -180], [90, 180]]);
+    const [mapBounds, setMapBounds] = useState([[10.74343, 21.4], [36.74343, 52.4]]);
     //setMapBounds([[32.6455, 56.55], [11.23, 53.442]])
     const [locations, setLocations] = useState(surveys[0].places)
     const [map, setMap] = useState(null)
@@ -118,9 +118,10 @@ export default function Edit() {
                 ],
                 [places[0].coordinates, places[0].coordinates]
             );
+            console.log(bounds)
 
 
-            
+
             setMapBounds(bounds);
             setLocations(places)
             map.fitBounds(bounds)
@@ -400,18 +401,25 @@ export default function Edit() {
 
                             </div>
                             <div className="flex items-center justify-center w-7/12 h-96">
-                                <MapContainer ref={setMap} bounds={mapBounds} style={{ height: '100%', width: '100%', zIndex: '1' }}>
+                                <MapContainer ref={setMap} scrollWheelZoom={false} bounds={mapBounds} style={{ height: '100%', width: '100%', zIndex: '1' }}>
                                     <TileLayer
                                         url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
                                         attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
                                     />
                                     {
                                         locations.map((location, index) => (
-                                            <Marker key={index} position={location.coordinates}>
-                                                <Popup>
-                                                    {location.name}
-                                                </Popup>
-                                            </Marker>
+                                            <>
+                                                <CircleMarker key={index} center={location.coordinates} radius={location.radius}>
+                                                <Marker position={location.coordinates}>
+                                                    <Popup>
+                                                        {location.name}
+                                                    </Popup>
+                                                </Marker>
+                                                    
+                                                </CircleMarker>
+
+                                            </>
+
 
                                         ))
                                     }
@@ -425,19 +433,21 @@ export default function Edit() {
                         <div class="overflow-x-auto">
                             <div class="inline-block py-2">
                                 <div class="overflow-hidden">
-                                    <table class="min-w-full text-center text-sm font-light">
+                                    <table class="max-w-full text-center text-sm font-light">
                                         <thead
                                             class="border-b bg-[#005734] font-medium text-white dark:border-neutral-500">
                                             <tr>
                                                 <th scope="col" class=" px-6 py-4">BRAND NAME</th>
                                                 <th scope="col" class=" px-6 py-4">SURVEY LINK</th>
                                                 <th scope="col" class=" px-6 py-4">DURATION</th>
-                                                <th scope="col" class=" px-6 py-4">ACTIONS</th>
-                                                <th scope="col" class=" px-6 py-4">STATUS</th>
+
                                                 <th scope="col" class=" px-6 py-4">REGION</th>
-                                                
-                                                
-                                                
+                                                <th scope="col" class=" px-6 py-4">STATUS</th>
+                                                <th scope="col" class=" px-6 py-4">ACTIONS</th>
+
+
+
+
                                             </tr>
                                         </thead>
                                         <tbody>
@@ -445,8 +455,14 @@ export default function Edit() {
                                                 <tr key={index} class="border-b dark:border-neutral-500">
                                                     <td class="whitespace-nowrap  px-6 py-4 font-medium bg-[#F3F6FF]">{survey.brand_name}</td>
                                                     <td class="whitespace-nowrap  px-6 py-4">{survey.link}</td>
-                                                    <td class="whitespace-nowrap  px-6 py-4 bg-[#F3F6FF]">{`${survey.start_date} to ${survey.end_date} (1 day duration)`}</td>
-                                                    
+                                                    <td class="px-6 py-4 bg-[#F3F6FF]">{`${survey.start_date} to ${survey.end_date} (1 day duration)`}</td>
+
+
+                                                    <td class="px-6 py-4">3 places(Click marker to view)</td>
+                                                    <td class="whitespace-nowrap bg-[#F3F6FF] font-medium">
+                                                        <div className="mx-4 my-2 bg-[#EF4444] text-white">
+                                                            ENDED
+                                                        </div></td>
                                                     <td class="whitespace-nowrap  px-6 py-4">
                                                         <div class="flex items-center justify-center space-x-0.5">
                                                             <button className="flex items-center justify-center rounded-lg bg-[#005734]"
@@ -469,13 +485,9 @@ export default function Edit() {
 
 
                                                     </td>
-                                                    <td class="whitespace-nowrap bg-[#F3F6FF] font-medium">
-                                                        <div className="mx-4 my-2 bg-[#EF4444] text-white">
-                                                            ENDED
-                                                        </div></td>
-                                                    <td class="whitespace-nowrap  px-6 py-4">3 places(Click marker to view)</td>
 
-                                                    
+
+
 
 
                                                 </tr>

@@ -52,7 +52,7 @@ const surveys = [{
 },
 {
     places: [{
-        Schoolname: "Changam s Bakery",
+        name: "Changam s Bakery",
         coordinates: [14.7343, 54.4],
         radius: 10,
         category: "Resturant and bar",

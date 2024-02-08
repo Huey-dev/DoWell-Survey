@@ -31,7 +31,8 @@ export default function Edit() {
     //for the maps rendering 
     const [mapBounds, setMapBounds] = useState([[10.74343, 21.4], [36.74343, 52.4]]);
     //setMapBounds([[32.6455, 56.55], [11.23, 53.442]])
-    const [locations, setLocations] = useState(surveys[0].places)
+    const [locations, setLocations] = useState(surveys[0].places);
+    const [locationsSurveyName, setLocationsSurveyName] = useState(surveys[0].brand_name)
     const [map, setMap] = useState(null)
 
     function getCurrentDate() {
@@ -108,7 +109,8 @@ export default function Edit() {
         setMode("preview");
     }
 
-    const onLocateClick = (places) => {
+    const onLocateClick = (survey) => {
+        const { brand_name, places } = survey
         if (places.length > 0) {
             //console.log(places[0].coordinates)
             const bounds = places.reduce(
@@ -121,10 +123,10 @@ export default function Edit() {
             console.log(bounds)
 
 
-
+            setLocationsSurveyName(brand_name);
             setMapBounds(bounds);
-            setLocations(places)
-            map.fitBounds(bounds)
+            setLocations(places);
+            map.fitBounds(bounds);
             //window.scroll(0, 0);
 
 
@@ -397,28 +399,19 @@ export default function Edit() {
 
 
                         <div className="flex flex-wrap items-center space-x-2">
-                            <div className="flex-1 h-96 bg-[#F2EFE9] border-black border p-4 text-black overflow-y-auto">
-                                <h6 className="font-bold mb-2">BRAND NAME OF THE SURVEY</h6>
+                            <div className="flex-1 h-96 bg-[#282B32]  p-4 text-white overflow-y-auto">
+                                <h6 className="font-bold mb-2">Selection: {locationsSurveyName}</h6>
+                                {
+                                    locations.map((location, index) => (
+                                        <div key={index}>
+                                            <h6 className="font-bold text-sm text-[#F0C40D]">{location.name}</h6>
+                                            <p className="text-sm">{location.category}</p>
+                                            <p className="text-sm">{`[${location.coordinates[0]}, ${location.coordinates[1]}]`}</p>
+                                            <p className="text-sm">{`${location.radius}(m) radius`}</p>
 
-                                <h6 className="font-bold text-sm text-[#F0C40D]">PLACE NAME</h6>
-                                <p className="text-sm">No 16 Adenuga street behind two of the three crescents and way of the malaketh</p>
-                                <p className="text-sm">5.32323, 32.3232</p>
-                                <p className="text-sm">90(m) radius</p>
-
-                                <h6 className="font-bold text-sm text-[#F0C40D]">PLACE NAME</h6>
-                                <p className="text-sm">No 16 Adenuga street behind two of the three crescents and way of the malaketh</p>
-                                <p className="text-sm">5.32323, 32.3232</p>
-                                <p className="text-sm">90(m) radius</p>
-
-                                <h6 className="font-bold text-sm text-[#F0C40D]">PLACE NAME</h6>
-                                <p className="text-sm">No 16 Adenuga street behind two of the three crescents and way of the malaketh</p>
-                                <p className="text-sm">5.32323, 32.3232</p>
-                                <p className="text-sm">90(m) radius</p>
-
-                                <h6 className="font-bold text-sm text-[#F0C40D]">PLACE NAME</h6>
-                                <p className="text-sm">No 16 Adenuga street behind two of the three crescents and way of the malaketh</p>
-                                <p className="text-sm">5.32323, 32.3232</p>
-                                <p className="text-sm">90(m) radius</p>
+                                        </div>
+                                    ))
+                                }
 
 
                             </div>
@@ -500,7 +493,7 @@ export default function Edit() {
                                                                 <QrCodeIcon className="h-6 w-6 text-white m-1" />
                                                             </button>
                                                             <button className="flex items-center justify-center rounded-lg bg-orange-500"
-                                                                onClick={() => { onLocateClick(survey.places) }}>
+                                                                onClick={() => { onLocateClick(survey) }}>
                                                                 <MapPinIcon className="h-6 w-6 text-white m-1" />
                                                             </button>
                                                         </div>

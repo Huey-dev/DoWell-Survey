@@ -397,7 +397,29 @@ export default function Edit() {
 
 
                         <div className="flex flex-wrap items-center space-x-2">
-                            <div className="flex-1 h-96 bg-[#F3F6FF] border-black border">
+                            <div className="flex-1 h-96 bg-[#F2EFE9] border-black border p-4 text-black overflow-y-auto">
+                                <h6 className="font-bold mb-2">BRAND NAME OF THE SURVEY</h6>
+
+                                <h6 className="font-bold text-sm text-[#F0C40D]">PLACE NAME</h6>
+                                <p className="text-sm">No 16 Adenuga street behind two of the three crescents and way of the malaketh</p>
+                                <p className="text-sm">5.32323, 32.3232</p>
+                                <p className="text-sm">90(m) radius</p>
+
+                                <h6 className="font-bold text-sm text-[#F0C40D]">PLACE NAME</h6>
+                                <p className="text-sm">No 16 Adenuga street behind two of the three crescents and way of the malaketh</p>
+                                <p className="text-sm">5.32323, 32.3232</p>
+                                <p className="text-sm">90(m) radius</p>
+
+                                <h6 className="font-bold text-sm text-[#F0C40D]">PLACE NAME</h6>
+                                <p className="text-sm">No 16 Adenuga street behind two of the three crescents and way of the malaketh</p>
+                                <p className="text-sm">5.32323, 32.3232</p>
+                                <p className="text-sm">90(m) radius</p>
+
+                                <h6 className="font-bold text-sm text-[#F0C40D]">PLACE NAME</h6>
+                                <p className="text-sm">No 16 Adenuga street behind two of the three crescents and way of the malaketh</p>
+                                <p className="text-sm">5.32323, 32.3232</p>
+                                <p className="text-sm">90(m) radius</p>
+
 
                             </div>
                             <div className="flex items-center justify-center w-7/12 h-96">
@@ -410,12 +432,12 @@ export default function Edit() {
                                         locations.map((location, index) => (
                                             <>
                                                 <CircleMarker key={index} center={location.coordinates} radius={location.radius}>
-                                                <Marker position={location.coordinates}>
-                                                    <Popup>
-                                                        {location.name}
-                                                    </Popup>
-                                                </Marker>
-                                                    
+                                                    <Marker position={location.coordinates}>
+                                                        <Popup>
+                                                            {location.name}
+                                                        </Popup>
+                                                    </Marker>
+
                                                 </CircleMarker>
 
                                             </>

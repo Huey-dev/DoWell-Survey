@@ -8,13 +8,14 @@ import LinkSurvey from "./Pages/LinkSurvey";
 import { EmailSms } from "./Pages/EmailSms";
 import Edit from "./Pages/EditSurvey";
 import Settings from "./Pages/Settings";
+import SurveyIframe from "./Pages/SurveyIframe";
 // import Search from "./Pages/Npm";
 
 function App() {
   return (
     <>
       {/* <PreviewProvider> */}
-      <Router>
+      <Router basename="/DoWell-Survey">
         <Routes>
           <Route path="/" element={<LandingPage />} />
           <Route path="/preview-page" element={<PreviewPage />} />
@@ -24,6 +25,8 @@ function App() {
           <Route path="/email-sms" element={<EmailSms />} />
           <Route path="/list-surveys" element={<Edit />} />
           <Route path="/settings" element={<Settings />} />
+
+          <Route path="/survey-iframe" element={<SurveyIframe />} />
           {/* <PreviewProvider> */}
           {/* <Route path="/search" element={<Search />} /> */}
           {/* </PreviewProvider> */}

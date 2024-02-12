@@ -53,34 +53,58 @@ const LinkSurvey = () => {
   const region = firstObject ? firstObject.region : "";
   const numOfParticipants = firstObject ? firstObject.numOfParticipants : "";
 
+  sessionStorage.setItem("formLink", formLink);
+  const formData = {
+    qrcode_type: "Link",
+    quantity: "1",
+    logo: image,
+    link: formLink,
+    company_id: "samuel",
+    created_by: name,
+    description: description,
+    start_date: "01-11-2023",
+    end_date: "01-11-2024",
+    brand_name: name,
+    promotional_sentence: description,
+    username: name,
+    name: name,
+    email: "samuelmakinde@gmail.com",
+    service: [name],
+    country: ["ghana"],
+    region: ["accra"],
+    participantsLimit: "20",
+    url: "https://easereads.com/",
+  };
+
   const handleSubmit = async (e) => {
     e.preventDefault();
-    // sessionStorage.setItem("formLink", formLink);
-    // const response = await axios.post(
-    //   `https://100025.pythonanywhere.com/create-surveyv2?api_key=dd7010c6-17b7-4cd4-ac70-f20492efa73e`,
-    //   {
-    //     qrcode_type: ["Link"],
-    //     quantity: ["1"],
-    //     logo: [image],
-    //     link: [formLink],
-    //     company_id: ["samuel"],
-    //     created_by: [name],
-    //     description: [description],
-    //     start_date: ["01-11-2023"],
-    //     end_date: ["01-11-2024"],
-    //     brand_name: [name],
-    //     promotional_sentence: [description],
-    //     username: [name],
-    //     name: [name],
-    //     email: ["samuelmakinde@gmail.com"],
-    //     service: [name],
-    //     country: [country],
-    //     region: [region],
-    //     participantsLimit: [numOfParticipants],
-    //     url: ["https://easereads.com/"],
-    //   }
-    // );
-    // console.log(response);
+
+    const response = await axios.post(
+      `https://100025.pythonanywhere.com/create-surveyv2?api_key=dd7010c6-17b7-4cd4-ac70-f20492efa73e`,
+      formData
+      // {
+      //   qrcode_type: ["Link"],
+      //   quantity: ["1"],
+      //   logo: [image],
+      //   link: [formLink],
+      //   company_id: ["samuel"],
+      //   created_by: [name],
+      //   description: [description],
+      //   start_date: ["01-11-2023"],
+      //   end_date: ["01-11-2024"],
+      //   brand_name: [name],
+      //   promotional_sentence: [description],
+      //   username: [name],
+      //   name: [name],
+      //   email: ["samuelmakinde@gmail.com"],
+      //   service: [name],
+      //   country: ["ghana"],
+      //   region: ["accra"],
+      //   participantsLimit: ["20"],
+      //   url: ["https://easereads.com/"],
+      // }
+    );
+    console.log(response);
     navigate("/email-sms");
   };
 

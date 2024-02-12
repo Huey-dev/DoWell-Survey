@@ -85,13 +85,13 @@ const surveys = [{
 {
     places: [{
         name: "CarameValisl Care",
-        coordinates: [14.7, 34.4],
+        coordinates: [53.7609, 98.8139],
         radius: 45,
         category: "Resturant and bar",
     },
     {
         name: "Valis Academy",
-        coordinates: [2.7, 52.4],
+        coordinates: [-22.69473, 117.79027],
         radius: 90,
         category: "Resturant and bar",
     }],

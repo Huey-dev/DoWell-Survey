@@ -78,6 +78,7 @@ const LinkSurvey = () => {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
+    console.log('form data is:', formData);
 
     const response = await axios.post(
       `https://100025.pythonanywhere.com/create-surveyv2?api_key=dd7010c6-17b7-4cd4-ac70-f20492efa73e`,

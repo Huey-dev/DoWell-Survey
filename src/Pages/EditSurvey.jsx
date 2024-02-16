@@ -309,7 +309,7 @@ export default function Edit() {
                                                                     className="inline-flex w-full justify-center rounded-md bg-red-700 px-3 py-2 text-md font-semibold text-white shadow-sm hover:bg-[#EF4444]"
                                                                 //onClick={() => setOpen(false)}
                                                                 >
-                                                                    Save
+                                                                    Delete
                                                                 </button>
 
 

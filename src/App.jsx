@@ -1,5 +1,5 @@
 import LandingPage from "./Pages/LandingPage";
-// import { PreviewProvider } from "./Context/PreviewContext";
+import { PreviewProvider } from "./Context/PreviewContext";
 import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
 import PreviewPage from "./Pages/PreviewPage";
 import StartNewSurvey from "./Pages/StartNewSurvey";
@@ -10,11 +10,13 @@ import Edit from "./Pages/EditSurvey";
 import Settings from "./Pages/Settings";
 import SurveyIframe from "./Pages/SurveyIframe";
 // import Search from "./Pages/Npm";
+//import LandingPage from '@dowelllabs/dowell-living-lab-maps/Pages/LandingPage';
+//import {  PreviewProvider } from '@dowelllabs/dowell-living-lab-maps/Context/PreviewContext';
 
 function App() {
   return (
     <>
-      {/* <PreviewProvider> */}
+      <PreviewProvider>
       <Router basename="/DoWell-Survey">
         <Routes>
           <Route path="/" element={<LandingPage />} />
@@ -32,7 +34,7 @@ function App() {
           {/* </PreviewProvider> */}
         </Routes>
       </Router>
-      {/* </PreviewProvider> */}
+      </PreviewProvider>
     </>
   );
 }

@@ -1093,7 +1093,7 @@ export default function LocationDropdown({ loading, country }) {
       value={all_cities?.findIndex((city) => city.name === inputData.city)}
       autoComplete="country-name"
       onChange={(e) => handleChange(e)}
-      className="block font-bold text-white w-full border-0 py-1.5 shadow-sm   sm:max-w-xs sm:text-sm sm:leading-6 bg-[#FF3131] outline-none "
+      className="block font-bold text-white w-full h-[33px] bg-[#FF3131] outline-none"
     >
       <option>Select region</option>
       {all_cities?.map((item, index) => (

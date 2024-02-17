@@ -123,7 +123,7 @@ export default function Category({ loading }) {
       onChange={(e) =>
         setInputData({ ...inputData, query_string: e.target.value })
       }
-      className="h-[72px] block font-bold text-white w-full border-0  shadow-sm  sm:max-w-xs sm:text-sm sm:leading-6 bg-[#FF3131] outline-none"
+      className="block font-bold text-white w-full h-full bg-[#FF3131] outline-none"
       autoComplete="category-name"
       value={inputData.query_string}
     >

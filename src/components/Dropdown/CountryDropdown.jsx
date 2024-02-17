@@ -289,7 +289,7 @@ export default function CountryDropdown({ loading }) {
       value={inputData.country}
       autoComplete="country-name"
       onChange={(e) => setInputData({ ...inputData, country: e.target.value })}
-      className="block font-bold text-white w-full border-0 py-1.5 shadow-sm   sm:max-w-xs sm:text-sm sm:leading-6 bg-[#FF3131] outline-none "
+      className="block font-bold text-white w-full h-[33px] bg-[#FF3131] outline-none"
     >
       <option>Select country</option>
       {allCountries?.map((item, index) => (

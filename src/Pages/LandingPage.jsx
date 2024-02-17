@@ -117,9 +117,9 @@ const LandingPage = () => {
       <main className="w-full h-full mb-10 mt-20 overflow-x-hidden">
         <MySurveys loading={loading} />
         {/* <MainMap/> */}
-        <div className="px-8 mt-[40px] md:pl-[310px]">
+        <div className="px-8 mt-[60px] md:pl-[310px]">
 
-          <div className="w-full flex flex-col md:flex-row md:justify-between">
+          <div className="w-full flex flex-col md:flex-row md:space-x-8 md:justify-between">
             <div className="w-full md:w-8/12">
               {placeDetails.length>0?<MainMap centerCords={ {
             lat:centerCoords.lat,
@@ -128,7 +128,7 @@ const LandingPage = () => {
                
             </div>
 
-            <div className="w-full md:w-4/12 md:ml-[25px] mt-[40px] md:mt-0  ">
+            <div className="w-full md:w-4/12 mt-[40px] md:mt-0  ">
               <div className="w-full bg-[#7ED957] h-[270px]">
                 <p className="h-[40px] text-white px-4 flex justify-center items-center text-center font-semibold text-[20px] md:text-[16px] lg:text-[16px]">
                   Your Selection

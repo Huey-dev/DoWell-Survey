@@ -286,6 +286,15 @@ const LandingPage = () => {
                   );
                 })}
               </div>
+              <div className="flex justify-center items-center p-2">
+              <button
+                type="submit"
+                onClick={handleConfirmSelection}
+                className="w-[400px] font-bold font-serif mt-[30px] h-[50px] bg-[#005734] text-[20px] text-white hover:opacity-100 opacity-80 rounded-[5px]"
+              >
+                Confirm Selections
+              </button>
+            </div>
             </div>
           </div>
         </main>

@@ -139,7 +139,7 @@ export default function Edit() {
     return (
         <Layout>
             <main className="w-full h-full">
-                <div className="px-4 md:px-10 mt-[40px] md:pl-[310px]">
+                <div className="px-4 md:px-10 md:pl-[310px]">
                     <Transition.Root show={open} as={Fragment}>
                         <Dialog as="div" className="relative z-10" initialFocus={cancelButtonRef} onClose={() => setOpen(false)}>
 
@@ -393,7 +393,7 @@ export default function Edit() {
                             </div>
                         </Dialog>
                     </Transition.Root>
-                    <div className="relative pb-2 pt-2 ">
+                    <div className="relative pb-2">
                         <div className="px-2 items-center flex justify-between bg-[#005734] mb-2">
                             <h1 className=" text-white text-2xl font-semibold pt-1 pb-3 no-underline">
                                 My Surveys

@@ -19,6 +19,7 @@ function App() {
       <Router basename="/DoWell-Survey">
         <Routes>
           <Route path="/" element={<LandingPageProposed />} />
+          <Route path="/landing" element={<LandingPage />} />
           <Route path="/preview-page" element={<PreviewPage />} />
           <Route path="/newsurvey" element={<StartNewSurvey />} />
           <Route path="/finalize-Sample" element={<FinalizeSample />} />

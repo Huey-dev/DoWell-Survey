@@ -65,7 +65,7 @@ const FinalizeSample = () => {
   const handleSubmit = (e) => {
     e.preventDefault();
     sessionStorage.setItem("finalizeSurvey", JSON.stringify(sampleData));
-    navigate("/link-form");
+    navigate("/newsurvey");
   };
 
   return (

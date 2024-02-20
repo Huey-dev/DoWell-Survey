@@ -2,9 +2,11 @@ import { useState } from "react";
 import Layout from "../Layout/Layout";
 import { AiFillEdit } from "react-icons/ai";
 import { MdDelete } from "react-icons/md";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 
 const FinalizeSample = () => {
+  const navigate = useNavigate();
+
   const [sampleData, setSampleData] = useState([]);
 
   const stored_locations = sessionStorage.getItem("newSurvey") || "[]";
@@ -64,7 +66,7 @@ const FinalizeSample = () => {
   const handleDone = () => {
     sessionStorage.setItem("newSurvey", JSON.stringify(surveys));
     sessionStorage.setItem("numOfParticipants", numOfParticipants);
-    navigate("/link-form");
+    navigate("/newsurvey");
   };
 
   return (
@@ -193,14 +195,13 @@ const FinalizeSample = () => {
               className="w-[100px] h-[40px] border-2 border-[#B3B4BB] rounded-[5px] outline-none md:w-2/12 pl-[20px] mx-2"
             />
 
-            <Link to="/link-form">
               <button
                 onClick={handleDone}
                 className="w-[100px] mx-1 h-[40px] font-serif font-semibold bg-[#005734] opacity-80 hover:opacity-100 text-[white] rounded-md"
               >
                 Done
               </button>
-            </Link>
+
             <button className="w-[100px] h-[40px] font-serif font-semibold bg-[#005734] opacity-80 hover:opacity-100 text-[white] rounded-md">
               Cancel
             </button>

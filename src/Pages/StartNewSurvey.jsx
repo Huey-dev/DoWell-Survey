@@ -38,7 +38,7 @@ const StartNewSurvey = () => {
       return;
     }
     saveToLocalStorage();
-    navigate("/finalize-Sample");
+    navigate("/link-form");
   };
 
   return (

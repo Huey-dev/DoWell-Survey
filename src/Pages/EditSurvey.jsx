@@ -3,7 +3,9 @@ import { Dialog, Transition } from '@headlessui/react'
 import Layout from "../Layout/Layout";
 import { Link } from "react-router-dom";
 import { ExclamationTriangleIcon } from '@heroicons/react/24/outline'
-import { TrashIcon, PencilSquareIcon, QrCodeIcon, MapPinIcon } from '@heroicons/react/24/outline';
+import { TrashIcon, PencilSquareIcon, QrCodeIcon, MapPinIcon, XMarkIcon } from '@heroicons/react/24/outline';
+import { FaXTwitter } from "react-icons/fa6";
+import { FaFacebook, FaLinkedinIn, FaInstagram, FaWhatsapp } from "react-icons/fa";
 //import { FaTimes } from "react-icons/fa";
 import QRCode from "react-qr-code";
 import { MapContainer, TileLayer, Marker, Popup, CircleMarker } from 'react-leaflet'
@@ -154,7 +156,7 @@ export default function Edit() {
                             </Transition.Child>
 
                             <div className="fixed inset-0 z-10 w-screen overflow-y-auto">
-                                <div className="flex min-h-full items-end justify-center p-4 text-center sm:items-center sm:p-0">
+                                <div className="flex min-h-full items-center justify-center p-4 text-center sm:items-center sm:p-0">
                                     <Transition.Child
                                         as={Fragment}
                                         enter="ease-out duration-300"
@@ -164,217 +166,224 @@ export default function Edit() {
                                         leaveFrom="opacity-100 translate-y-0 sm:scale-100"
                                         leaveTo="opacity-0 translate-y-4 sm:translate-y-0 sm:scale-95"
                                     >
-                                        <Dialog.Panel className="relative transform overflow-hidden rounded-lg bg-white text-left shadow-xl transition-all sm:my-8 w-full max-w-xl">
+                                        <Dialog.Panel className="relative transform overflow-hidden rounded-lg bg-white text-left shadow-xl transition-all w-full max-w-xl">
                                             {mode == "link" ?
-
-                                                <div className="flex flex-col items-center justify-center w-full">
-                                                    <div className="grid justify-items-end w-full px-8 mt-8"><button className="text-3xl" onClick={() => setOpen(false)}>x</button></div>
-
-                                                    <h2 className="font-serif p-2 font-bold">Edit Survey</h2>
-
-                                                    <div className="flex flex-col">
-                                                        <h2 className="font-medium">Logo Image</h2>
-                                                        <input
-                                                            type="file"
-                                                            placeholder="add your form link here"
-                                                            className="border-2 w-[350px] p-1 border-[#B3B4BB] rounded-[5px] outline-none"
-                                                        />
-                                                    </div>
-                                                    <div className="flex flex-col">
-                                                        <h2 className="font-medium">Promotion Message</h2>
-                                                        <textarea
-                                                            id="description"
-                                                            name="promotional sentence"
-                                                            placeholder="Enter a promotional sentence to attract participants in (15 words)"
-                                                            className="h-24 resize-none border-2 w-[350px] p-1 border-[#B3B4BB] rounded-[5px] outline-none"
-                                                        />
-                                                    </div>
-                                                    <div className="flex flex-col">
-                                                        <h2 className="font-medium">Products/Services</h2>
-                                                        <select className="border-2 w-[350px] p-1 border-[#B3B4BB] rounded-[5px] outline-none">
-                                                            <option value="">Select products/services</option>
-                                                            <option value="option1">Product 1</option>
-                                                            <option value="option2">Product 2</option>
-                                                            <option value="option3">Product 3</option>
-                                                        </select>
-                                                    </div>
-                                                    <div className="flex flex-col">
-                                                        <h2 className="font-medium">Form Link</h2>
-                                                        <input
-                                                            type="text"
-                                                            placeholder="add your form link here"
-                                                            className="border-2 w-[350px] p-1 border-[#B3B4BB] rounded-[5px] outline-none"
-                                                        />
-                                                    </div>
-
-                                                    <div className="flex justify-between w-[350px]">
-                                                        <div className="flex flex-col">
-                                                            <h2 className="font-medium">Start Date</h2>
-                                                            <input
-                                                                type="date"
-                                                                className="border-2 w-[150px] p-1 border-[#B3B4BB] rounded-[5px] outline-none"
-                                                                value={startDate}
-                                                                onChange={(e) => setStartDate(e.target.value)}
-                                                            />
+                                                <form action="">
+                                                    <div className="flex flex-col items-center justify-center w-full">
+                                                        <div className="flex items-center justify-between w-full text-xl text-white bg-[#005734]">
+                                                            <p className="font-bold m-4">EDIT SURVEY</p>
+                                                            <button className="font-serif font-bold text-center m-4" onClick={() => setOpen(false)}><XMarkIcon className="h-6 w-6 m-1" /></button>
                                                         </div>
 
-                                                        <div className="flex flex-col">
-                                                            <h2 className="font-medium">End Date</h2>
-                                                            <input
-                                                                type="date"
-                                                                className="border-2 w-[150px] p-1 border-[#B3B4BB] rounded-[5px] outline-none"
-                                                            />
+
+
+                                                        <div className="flex flex-col space-y-2 my-8 w-full">
+                                                            <div className="flex items-center justify-center w-full">
+                                                                <div className="w-3/12">
+                                                                    <h2 className="font-medium text-left">Logo Image:</h2>
+                                                                </div>
+                                                                <div className="w-7/12">
+                                                                    <input
+                                                                        type="file"
+                                                                        placeholder="add your form link here"
+                                                                        className="border w-full p-1 border-[#B3B4BB] outline-none"
+                                                                    />
+                                                                </div>
+                                                            </div>
+
+                                                            <div className="flex items-center justify-center w-full">
+                                                                <div className="w-3/12">
+                                                                    <h2 className="font-medium text-left">Brand Name:</h2>
+                                                                </div>
+                                                                <div className="w-7/12">
+                                                                    <input
+                                                                        type="text"
+                                                                        required
+                                                                        placeholder=""
+                                                                        className="border w-full p-1 border-[#B3B4BB] outline-none"
+                                                                    />
+                                                                </div>
+                                                            </div>
+
+                                                            <div className="flex items-center justify-center w-full">
+                                                                <div className="w-3/12">
+                                                                    <h2 className="font-medium text-left">Promotional Message:</h2>
+                                                                </div>
+                                                                <div className="w-7/12">
+                                                                    <textarea
+                                                                        id="description"
+                                                                        name="promotional sentence"
+                                                                        placeholder="Enter a promotional sentence to attract participants in (15 words)"
+                                                                        className="h-24 resize-none border w-full p-1 border-[#B3B4BB] outline-none"
+                                                                    />
+                                                                </div>
+                                                            </div>
+
+                                                            <div className="flex items-center justify-center w-full">
+                                                                <div className="w-3/12">
+                                                                    <h2 className="font-medium text-left">Set Duration:</h2>
+                                                                </div>
+                                                                <div className="w-7/12 flex items-center justify-between">
+                                                                    <input
+                                                                        type="date"
+                                                                        className="border p-1 border-[#B3B4BB] outline-none"
+                                                                        value={startDate}
+                                                                        onChange={(e) => setStartDate(e.target.value)}
+                                                                    />
+                                                                    <p className="mx-1 font-medium">to</p>
+                                                                    <input
+                                                                        type="date"
+                                                                        className="border p-1 border-[#B3B4BB] outline-none"
+                                                                        value={startDate}
+                                                                        onChange={(e) => setStartDate(e.target.value)}
+                                                                    />
+                                                                </div>
+                                                            </div>
+
+
                                                         </div>
-                                                    </div>
+                                                        <div className="flex items-center justify-center w-full my-4">
+                                                            <div className="w-3/12">
 
-                                                    <div className="flex flex-col">
-                                                        <h2 className="font-medium">Set Country and Region</h2>
-                                                        <div className="w-[350px] flex justify-between">
-                                                            <select
-                                                                value={country}
-                                                                onChange={(e) => setCountry(e.target.value)}
-                                                                className="w-full md:w-4/12 border-2  border-[#B3B4BB] rounded-[5px] outline-none"
-                                                            >
-                                                                <option value="">Country</option>
-                                                                <option value="Azerbijan">Azerbijan</option>
-                                                                <option value="Trinidad and Tobago">Trinidad and Tobago</option>
-                                                                <option value="Nigeria">Nigeria</option>
-                                                            </select>
-                                                            <select
-                                                                value={region}
-                                                                onChange={(e) => setRegion(e.target.value)}
-                                                                className="w-full md:w-4/12 border-2  border-[#B3B4BB] rounded-[5px] outline-none"
+                                                            </div>
+                                                            <div className="w-7/12 flex justify-center space-x-2">
+                                                                <button
+                                                                    type="button"
+                                                                    className="inline-flex w-full justify-center rounded-md bg-white px-3 py-2 text-md font-semibold text-[#005734] shadow-sm hover:bg-gray-50 border-2 border-[#005734]"
+                                                                    onClick={() => setOpen(false)}
+                                                                    ref={cancelButtonRef}
+                                                                >
+                                                                    Cancel
+                                                                </button>
+                                                                <button
+                                                                    type="submit"
+                                                                    className="inline-flex w-full justify-center rounded-md bg-[#005734] px-3 py-2 text-md font-semibold text-white shadow-sm hover:bg-green-500"
+                                                                //onClick={() => setOpen(false)}
+                                                                >
+                                                                    Save
+                                                                </button>
 
-                                                            >
-                                                                <option value="">Region</option>
-                                                                <option value="Lagos">Lagos</option>
-                                                                <option value="Philadelphia">Philadelphia</option>
-                                                                <option value="New Delhi">New Delhi</option>
-                                                            </select>
-                                                            <input
-                                                                type="number"
-                                                                name="number"
-                                                                value={numOfParticipants}
-                                                                onChange={(e) => setNumOfParticipants(e.target.value)}
-                                                                placeholder="No."
-                                                                className="w-[100px] border-2 border-[#B3B4BB] rounded-[5px] outline-none md:w-2/12 pl-[20px]"
-                                                            />
-                                                            <button
-                                                                onClick={handleAdd}
-                                                                className="w-[100px] font-serif font-semibold bg-[#005734] opacity-80 hover:opacity-100 text-[white] rounded-md md:w-2/12"
-                                                            >
-                                                                Add
-                                                            </button>
+
+                                                            </div>
+
                                                         </div>
 
+
+
                                                     </div>
 
+                                                </form>
 
 
-                                                    <div className="flex justify-center w-full mt-[20px]">
-                                                        {sampleData.length > 0 && (
-                                                            <table className="text-center">
-                                                                <thead>
-                                                                    <tr className="border-b-[1px] border-gray-950">
-                                                                        <th className="text-left px-3">No</th>
-                                                                        <th className="text-left px-3">Country</th>
-                                                                        <th className="text-left px-3">Region</th>
-                                                                        <th className="text-left px-3">No.  </th>
-                                                                        <th className="text-left px-3">Actions</th>
-                                                                    </tr>
-                                                                </thead>
-                                                                <tbody>
-                                                                    {sampleData.map((data) => (
-                                                                        <tr key={data.no}>
-                                                                            <td className="text-left px-3">{data.no}</td>
-                                                                            <td className="text-left px-3">{data.country}</td>
-                                                                            <td className="text-left px-3">{data.region}</td>
-                                                                            <td className="text-left px-3">{data.numOfParticipants}</td>
-                                                                            <td className="text-left px-3">
-                                                                                <button onClick={() => handleEdit(data)}>
-                                                                                    <AiFillEdit />
-                                                                                </button>
-                                                                                <button
-                                                                                    onClick={() => handleDelete(data.no)}
-
-                                                                                >
-                                                                                    <MdDelete />{" "}
-                                                                                </button>
-                                                                            </td>
-                                                                        </tr>
-                                                                    ))}
-                                                                </tbody>
-                                                            </table>
-                                                        )}
-                                                    </div>
-
-                                                    <Link to="/finalize-Sample">
-                                                        <button
-                                                            type="button"
-                                                            className="mb-8 w-[300px] h-[46px] font-serif p-2 font-bold text-center bg-[#005734] opacity-80 hover:opacity-100 text-[16px] md:text-[20px] rounded-md text-white cursor-pointer"
-                                                        >
-                                                            Save Changes
-                                                        </button>
-                                                    </Link>
-                                                </div>
                                                 : mode == "delete" ?
-                                                    <div>
-                                                        <div className="bg-white px-4 pb-4 pt-5 sm:p-6 sm:pb-4">
-                                                            <div className="sm:flex sm:items-start">
-                                                                <div className="mx-auto flex h-12 w-12 flex-shrink-0 items-center justify-center rounded-full bg-red-100 sm:mx-0 sm:h-10 sm:w-10">
-                                                                    <ExclamationTriangleIcon className="h-6 w-6 text-red-600" aria-hidden="true" />
-                                                                </div>
-                                                                <div className="mt-3 text-center sm:ml-4 sm:mt-0 sm:text-left">
-                                                                    <Dialog.Title as="h3" className="text-base font-semibold leading-6 text-gray-900">
-                                                                        DELETE SURVEY
-                                                                    </Dialog.Title>
-                                                                    <div className="mt-2">
-                                                                        <p className="text-sm text-gray-500">
-                                                                            Are you sure you delete this survey?
-                                                                        </p>
-                                                                    </div>
-                                                                </div>
+                                                    <div className="flex flex-col items-center justify-center w-full">
+                                                        <div className="flex items-center justify-between w-full text-white bg-[#EF4444] text-xl">
+                                                            <p className="font-bold m-4">DELETE SURVEY</p>
+                                                            <button className="font-serif font-bold text-center m-4" onClick={() => setOpen(false)}><XMarkIcon className="h-6 w-6 m-1" /></button>
+                                                        </div>
+
+
+
+                                                        <div className="flex flex-col space-y-2 my-4 w-full">
+                                                            <div className="w-full">
+                                                                <p className="text-md font-semibold text-center">Are you sure you want to delete this survey?</p>
                                                             </div>
+
+
                                                         </div>
-                                                        <div className="bg-gray-50 px-4 py-3 sm:flex sm:flex-row-reverse sm:px-6">
-                                                            <button
-                                                                type="button"
-                                                                className="inline-flex w-full justify-center rounded-md bg-red-600 px-3 py-2 text-sm font-semibold text-white shadow-sm hover:bg-red-500 sm:ml-3 sm:w-auto"
-                                                                onClick={() => setOpen(false)}
-                                                            >
-                                                                Delete
-                                                            </button>
-                                                            <button
-                                                                type="button"
-                                                                className="mt-3 inline-flex w-full justify-center rounded-md bg-white px-3 py-2 text-sm font-semibold text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 hover:bg-gray-50 sm:mt-0 sm:w-auto"
-                                                                onClick={() => setOpen(false)}
-                                                                ref={cancelButtonRef}
-                                                            >
-                                                                Cancel
-                                                            </button>
+                                                        <div className="flex items-center justify-center w-full my-4">
+                                                            <div className="w-3/12">
+
+                                                            </div>
+                                                            <div className="w-7/12 flex justify-center space-x-2">
+                                                                <button
+                                                                    type="button"
+                                                                    className="inline-flex w-full justify-center rounded-md bg-white px-3 py-2 text-md font-semibold text-[#EF4444] shadow-sm hover:bg-gray-50 border-2 border-[#EF4444]"
+                                                                    onClick={() => setOpen(false)}
+                                                                    ref={cancelButtonRef}
+                                                                >
+                                                                    Cancel
+                                                                </button>
+                                                                <button
+                                                                    type="submit"
+                                                                    className="inline-flex w-full justify-center rounded-md bg-red-700 px-3 py-2 text-md font-semibold text-white shadow-sm hover:bg-[#EF4444]"
+                                                                //onClick={() => setOpen(false)}
+                                                                >
+                                                                    Save
+                                                                </button>
+
+
+                                                            </div>
+
                                                         </div>
+
+
+
                                                     </div> :
-                                                    <div>
-                                                        <div class="mx-auto my-8">
-                                                            <div className="flex justify-center items-center">
+
+                                                    <div className="flex flex-col items-center justify-center w-full">
+                                                        <div className="flex items-center justify-between w-full text-white bg-[#3B82F6] text-xl">
+                                                            <p className="font-bold m-4">PREVIEW QR CODE</p>
+                                                            <button className="font-serif font-bold text-center m-4" onClick={() => setOpen(false)}><XMarkIcon className="h-6 w-6 m-1" /></button>
+                                                        </div>
+
+
+
+                                                        <div className="flex flex-col space-y-2 mt-4 my-8 w-full">
+                                                            <div className="flex items-center justify-center w-full">
+                                                                <div className="w-5/12">
                                                                 <QRCode
-                                                                    size={170}
+                                                                    size={190}
                                                                     bgColor="white"
-                                                                    fgColor="black"
                                                                     value="https://uxlivinglab.com/"
+                                                                    style={{ borderColor: "black", padding: "4px", borderWidth: "2px" }}
                                                                 />
+                                                                </div>
+                                                                <div className="w-5/12">
+                                                                    <p className="text-center text-md font-semibold my-1">Print or share Qr codes on your media platforms</p>
+                                                                <button
+                                                                    type="submit"
+                                                                    className="inline-flex my-1 w-full justify-center bg-blue-700 px-3 py-2 text-md font-semibold text-white shadow-sm hover:bg-[#3B82F6]"
+                                                                //onClick={() => setOpen(false)}
+                                                                >
+                                                                    Print
+                                                                </button>
+                                                                <div class="flex items-center justify-center space-x-0.5 my-1">
+                                                            <a href="#" className="flex p-1 items-center justify-center bg-[#0866FF] rounded-full"
+                                                                //onClick={onLinkClick}
+                                                                >
+                                                                <FaFacebook className="h-6 w-6 m-1 text-white" />
+                                                            </a>
+                                                            <a href="#" className="flex p-1 items-center justify-center bg-black rounded-full"
+                                                                //onClick={onLinkClick}
+                                                                >
+                                                                <FaXTwitter className="h-6 w-6 text-white m-1" />
+                                                            </a>
+                                                            <a href="#" className="flex items-center justify-center bg-[#00E676] p-1 rounded-full"
+                                                                //onClick={onLinkClick}
+                                                                >
+                                                                <FaWhatsapp className="h-6 w-6 text-white m-1" />
+                                                            </a>
+                                                            <a href="#" className="flex items-center justify-center bg-[#0A66C2] p-1 rounded-full"
+                                                                //onClick={onLinkClick}
+                                                                >
+                                                                <FaLinkedinIn className="h-6 w-6 text-white m-1" />
+                                                            </a>
+                                                            <a href="#" className="flex items-center justify-center bg-[#FF00FF] p-1 rounded-full"
+                                                                //onClick={onLinkClick}
+                                                                >
+                                                                <FaInstagram className="h-6 w-6 text-white m-1" />
+                                                            </a>
+                                                    
+                                                        </div>
+                                                                </div>
                                                             </div>
+
+
                                                         </div>
-                                                        <div className="bg-gray-50 px-4 py-3 sm:flex sm:flex-row-reverse sm:px-6">
-                                                            <button
-                                                                type="button"
-                                                                className="mt-3 inline-flex w-full justify-center rounded-md bg-white px-3 py-2 text-sm font-semibold text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 hover:bg-gray-50 sm:mt-0 sm:w-auto"
-                                                                onClick={() => setOpen(false)}
-                                                                ref={cancelButtonRef}
-                                                            >
-                                                                Close
-                                                            </button>
-                                                        </div>
+
+
+
                                                     </div>}
 
 

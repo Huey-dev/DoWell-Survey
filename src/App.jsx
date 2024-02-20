@@ -1,5 +1,6 @@
 import LandingPage from "./Pages/LandingPage";
-// import { PreviewProvider } from "./Context/PreviewContext";
+import LandingPageProposed from "./Pages/LandingPageProposed";
+import { PreviewProvider } from "./Context/PreviewContext";
 import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
 import PreviewPage from "./Pages/PreviewPage";
 import StartNewSurvey from "./Pages/StartNewSurvey";
@@ -14,10 +15,10 @@ import SurveyIframe from "./Pages/SurveyIframe";
 function App() {
   return (
     <>
-      {/* <PreviewProvider> */}
+      <PreviewProvider> 
       <Router basename="/DoWell-Survey">
         <Routes>
-          <Route path="/" element={<LandingPage />} />
+          <Route path="/" element={<LandingPageProposed />} />
           <Route path="/preview-page" element={<PreviewPage />} />
           <Route path="/newsurvey" element={<StartNewSurvey />} />
           <Route path="/finalize-Sample" element={<FinalizeSample />} />
@@ -32,7 +33,7 @@ function App() {
           {/* </PreviewProvider> */}
         </Routes>
       </Router>
-      {/* </PreviewProvider> */}
+      </PreviewProvider>
     </>
   );
 }

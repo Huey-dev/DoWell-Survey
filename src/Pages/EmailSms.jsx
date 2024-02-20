@@ -1,6 +1,8 @@
 import QRCode from "react-qr-code";
 import Layout from "../Layout/Layout";
 export const EmailSms = () => {
+  const getQrcode = sessionStorage.getItem("Qrcode");
+
   return (
     <Layout>
       <div className="w-full h-full px-4 md:px-10 mt-[26px] md:pl-80 mb-20 flex flex-col justify-center items-center gap-5">
@@ -10,7 +12,8 @@ export const EmailSms = () => {
               size={170}
               bgColor="white"
               fgColor="black"
-              value="https://uxlivinglab.com/"
+              // value="https://uxlivinglab.com/"
+              value={getQrcode ? getQrcode : ""}
             />
           </div>
 
@@ -39,6 +42,10 @@ export const EmailSms = () => {
                 className="w-full  h-[4rem] border-2  border-[#B3B4BB] rounded-[5px] outline-none"
                 style={{ paddingLeft: "1rem" }}
               />
+            </div>
+            <div className="w-full md:w-[400px] flex  gap-2 text-left  mt-4">
+              <input type="checkbox" name="map" id="" />{" "}
+              <span>Send to all numbers and emails from map results</span>
             </div>
           </div>
         </div>

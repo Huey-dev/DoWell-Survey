@@ -9,6 +9,7 @@ import { EmailSms } from "./Pages/EmailSms";
 import Edit from "./Pages/EditSurvey";
 import Settings from "./Pages/Settings";
 import SurveyIframe from "./Pages/SurveyIframe";
+import TermsCondition from "./Pages/TermsCondition";
 // import Search from "./Pages/Npm";
 
 function App() {
@@ -25,7 +26,7 @@ function App() {
           <Route path="/email-sms" element={<EmailSms />} />
           <Route path="/list-surveys" element={<Edit />} />
           <Route path="/settings" element={<Settings />} />
-
+          <Route path="/terms-conditions" element={<TermsCondition />} />
           <Route path="/survey-iframe" element={<SurveyIframe />} />
           {/* <PreviewProvider> */}
           {/* <Route path="/search" element={<Search />} /> */}

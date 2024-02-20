@@ -93,7 +93,7 @@ export default function Sidebar() {
                 <Link to="/email-sms">3. (Email, Sms) Start</Link>
               </li>
 
-              <li
+              {/* <li
                 className={`font-bold bg-[#A6A6A6] my-2 text-center text-lg h-8 ${
                   location.pathname === "/stop"
                     ? "text-[#399544] bg-white rounded-md px-1"
@@ -101,9 +101,9 @@ export default function Sidebar() {
                 }`}
               >
                 <Link to="">4. Stop Survey</Link>
-              </li>
+              </li> */}
 
-              <li
+              {/* <li
                 className={`font-bold bg-[#A6A6A6] my-2 text-center text-lg h-8 ${
                   location.pathname === "/repeat"
                     ? "text-[#399544] bg-white rounded-md px-1"
@@ -111,7 +111,7 @@ export default function Sidebar() {
                 }`}
               >
                 <Link to="">5. Repeat</Link>
-              </li>
+              </li> */}
             </ul>
 
             <ul className="md:flex-col md:min-w-full mt-8 flex flex-col list-none">
@@ -133,6 +133,16 @@ export default function Sidebar() {
                 }`}
               >
                 <Link to="/settings">Settings/Privacy</Link>
+              </li>
+
+              <li
+                className={`font-bold bg-[#A6A6A6] my-2 text-center text-lg h-8 ${
+                  location.pathname === "/repeat"
+                    ? "text-[#399544] bg-white rounded-md px-1"
+                    : "text-white hover:text-gray-600"
+                }`}
+              >
+                <Link to="/terms-conditions">Terms/Conditions</Link>
               </li>
 
               <li

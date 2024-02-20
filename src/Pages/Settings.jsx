@@ -12,12 +12,20 @@ export default function Settings() {
               <h6 className="text-blueGray-700 text-xl font-bold">
                 My account
               </h6>
-              <button
+              <a
+                href="https://100093.pythonanywhere.com/ "
+                target="_blank"
+                rel="noopener noreferrer"
+                className="bg-lightBlue-500  active:bg-lightBlue-600 font-bold uppercase text-xs px-4 py-2 rounded shadow hover:shadow-md outline-none focus:outline-none mr-1 ease-linear transition-all duration-150"
+              >
+                Edit Profile
+              </a>
+              {/* <button
                 className="bg-lightBlue-500  active:bg-lightBlue-600 font-bold uppercase text-xs px-4 py-2 rounded shadow hover:shadow-md outline-none focus:outline-none mr-1 ease-linear transition-all duration-150"
                 type="button"
               >
-                Settings
-              </button>
+                Edit Profile
+              </button> */}
             </div>
           </div>
           <div className="flex-auto px-4 lg:px-10 py-10 pt-0">

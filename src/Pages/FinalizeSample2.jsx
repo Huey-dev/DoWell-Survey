@@ -18,7 +18,7 @@ const FinalizeSample = () => {
   const [country, setCountry] = useState("");
   const [region, setRegion] = useState("");
 
-  const [name, setName] = useState("");
+  const [place_name, setPlace_name] = useState("");
   const [address, setAddress] = useState("");
   const [cordinates, setCordinates] = useState("");
   const [location_coord, setLocation_coord] = useState("");
@@ -29,15 +29,15 @@ const FinalizeSample = () => {
 
   const handleSet = () => {
     const updatedData = surveys.map((data) =>
-      data.id === editingNo
-        ? { id: editingNo, name, address, location_coord, radius }
+      data.placeId === editingNo
+        ? { id: editingNo, place_name, address, location_coord, radius }
         : data
     );
     setSurveys(updatedData);
     setEditingNo(null); // Reset editing state
 
     // Clear the input fields
-    setName("");
+    setPlace_name("");
     setLocation_coord("");
     setAddress("");
     setRadius("");
@@ -45,16 +45,16 @@ const FinalizeSample = () => {
     //setNumOfParticipants("");
   };
 
-  const handleDelete = (id) => {
-    const updatedData = surveys.filter((data) => data.id !== id);
+  const handleDelete = (placeId) => {
+    const updatedData = surveys.filter((data) => data.placeId !== placeId);
 
     setSurveys(updatedData);
   };
 
   const handleEdit = (data) => {
     // Set the editing state
-    setEditingNo(data.id);
-    setName(data.name);
+    setEditingNo(data.placeId);
+    setPlace_name(data.place_name);
     setAddress(data.address);
     setLocation_coord(data.location_coord);
     setRadius(data.radius || " ");
@@ -70,24 +70,25 @@ const FinalizeSample = () => {
   return (
     <Layout>
       <main className="w-full h-full mb-10">
-        <div className="px-4 md:px-10 mt-[40px] md:pl-[310px]">
+        <div className="px-4 md:px-10 mt-[40px] md:pl-[310px] md:mt-0">
+          <div className="px-2 items-center flex justify-between bg-[#005734]">
+            <h1 className=" text-white text-2xl font-semibold pt-1 pb-3 no-underline">
+              Finalize Sample Size
+            </h1>
+            <h6 className=" text-white text-sm font-bold pb-0 no-underline">
+              Set a Radius per location and the total number of persons
+              allowed to fill this survey
+            </h6>
+
+          </div>
           <div className="w-full">
-            <div className="w-full">
-              <h1 className="text-xl md:text-[30px] font-semibold">
-                Finalize Sample Size
-              </h1>
-              <p>
-                Set a Radius per location and the total number of persons
-                allowed to fill this survey
-              </p>
-            </div>
-            <div className="flex items-center justify-center text-lg md:text-2xl font-bold mt-14">
+            <div className="text-lg md:text-xl font-bold mt-10">
               Your Current Selection
             </div>
 
-            <div className="flex items-center justify-center mb-10">
-              <div className="bg-green-200 px-4 py-3">
-                {`${name}, ${address}, ${location_coord}`}
+            <div className="flex mb-10 mt-4">
+              <div className="bg-green-200 px-4 flex items-center">
+                {`${place_name}, ${address}, ${location_coord}`}
               </div>
 
               <input
@@ -107,18 +108,18 @@ const FinalizeSample = () => {
             </div>
           </div>
           {surveys.length > 0 && (
-            <div className="flex flex-col">
-              <div className="overflow-x-auto sm:-mx-6 lg:-mx-8">
-                <div className="inline-block min-w-full py-2 sm:px-6 lg:px-8">
-                  <div className="overflow-hidden">
-                    <table className="min-w-full text-center text-sm font-light">
-                      <thead className="border-b bg-[#005734] font-medium text-white dark:border-neutral-500">
+            <div className="flex flex-col w-full">
+              <div className="overflow-x-auto w-full">
+                <div className="inline-block py-2 w-full">
+                  <div className="overflow-hidden w-full">
+                    <table className="max-w-full text-center text-sm font-light w-full border border-black">
+                      <thead className="border-b bg-[#BBF7D0] font-medium dark:border-neutral-500">
                         <tr>
                           <th scope="col" className=" px-6 py-4">
                             #
                           </th>
                           <th scope="col" className=" px-6 py-4">
-                            Name of Place
+                            Place Name
                           </th>
                           <th scope="col" className=" px-6 py-4">
                             Address
@@ -138,19 +139,19 @@ const FinalizeSample = () => {
                         {surveys.map((data, index) => (
                           <tr
                             key={data.index}
-                            className="border-b dark:border-neutral-500"
+                            className="border-black border"
                           >
                             <td className="whitespace-nowrap  px-6 py-4 font-medium">
                               {index + 1}
                             </td>
                             <td className="whitespace-nowrap  px-6 py-4">
-                              {data.name}
+                              {data.place_name}
                             </td>
-                            <td className="whitespace-nowrap  px-6 py-4">
+                            <td className="px-6 py-4">
                               {data.address}
                             </td>
                             <td className="whitespace-nowrap  px-6 py-4">
-                              {data.location_coord}
+                              23.4343, 32.223
                             </td>
 
                             <td className="whitespace-nowrap  px-6 py-4">
@@ -162,7 +163,7 @@ const FinalizeSample = () => {
                                 <AiFillEdit />
                               </button>
                               <button
-                                onClick={() => handleDelete(data.id)}
+                                onClick={() => handleDelete(data.placeId)}
                                 className="ml-[20px]"
                               >
                                 <MdDelete />{" "}

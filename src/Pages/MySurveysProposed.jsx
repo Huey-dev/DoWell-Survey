@@ -1,7 +1,7 @@
 import { useGlobalContext } from "../Context/PreviewContext";
-import CountryDropdown from "../components/Dropdown/CountryDropdownTemp";
-import LocationDropdown from "../components/Dropdown/LocationDropdownTemp";
-import Category from "../components/CategoriesTemp";
+import CountryDropdown from "../components/Dropdown/CountryDropdown";
+import LocationDropdown from "../components/Dropdown/LocationDropdown";
+import Category from "../components/Categories";
 import PropTypes from "prop-types";
 
 export default function MySurveys({ loading }) {
@@ -9,15 +9,16 @@ export default function MySurveys({ loading }) {
   return (
     <>
       <div className="px-8 md:pl-[310px] w-full">
-      <div className="items-center flex justify-between flex-wrap">
-              <h1 className=" text-[#737373] text-3xl font-bold pt-1 pb-3 no-underline">
-                DoWell Surveys
-              </h1>
-               <h6 className=" text-[#288437] text-sm font-bold pb-0 no-underline">
-                Samantha will do surveys in 150000 locations worldwide
-              </h6> 
-            </div>
-            <div className="h-1 bg-[#A6A6A6]"></div>
+      <div className="px-2 items-center flex justify-between bg-[#005734] mb-2">
+                            <h1 className=" text-white text-2xl font-semibold pt-1 pb-3 no-underline">
+                            DoWell Surveys
+                            </h1>
+                            <h6 className=" text-white text-sm font-bold pb-0 no-underline">
+                            Samantha will do surveys in 150000 locations worldwide
+                            </h6>
+
+                        </div>
+
 
       </div>
       <div className="px-8 mt-[40px] md:pl-[310px] flex flex-col space-y-4 xl:space-y-0 xl:flex-row xl:justify-between w-full xl:space-x-8">

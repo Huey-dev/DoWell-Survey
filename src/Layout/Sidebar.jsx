@@ -282,7 +282,7 @@ export default function Sidebar() {
                   to="/terms-conditions"
                   className="bg-gray-400 text-center text-md font-serif py-1 font-bold block text-white hover:text-black"
                 >
-                  /terms-conditions
+                  Terms/Conditions
                 </Link>
               </li>
 

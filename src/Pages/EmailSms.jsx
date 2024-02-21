@@ -3,6 +3,8 @@ import Layout from "../Layout/Layout";
 import { useState } from "react";
 import axios from "axios";
 import { Link, useNavigate } from "react-router-dom";
+import { toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 
 export const EmailSms = () => {
   const getQrcode = sessionStorage.getItem("Qrcode");
@@ -10,11 +12,14 @@ export const EmailSms = () => {
   const [sms, setSms] = useState(null);
   const surveyData = sessionStorage.getItem("surveyData") || "[]";
   const surveyData1 = JSON.parse(surveyData);
+  const [loading, setLoading] = useState(false);
+
   //console.log("log this", console_data);
   const navigate = useNavigate();
 
   const handleSubmit = async (e) => {
     e.preventDefault();
+    setLoading(true);
 
     const formData = {
       toname: "jerry",
@@ -32,22 +37,32 @@ export const EmailSms = () => {
         to ${surveyData1.endDate}, and it is for a maximum number of 50 persons. Link to the Qrcode can be found at 
         ${getQrcode} </h3>
       </body>
-      </html>`
-    }
-
-    const response = await axios.post(
-      `https://100085.pythonanywhere.com/api/email/?api_key=dd7010c6-17b7-4cd4-ac70-f20492efa73e`,
-      formData,
-      {
-        headers: {
-          "Content-Type": "multipart/form-data",
+      </html>`,
+    };
+    try {
+      const response = await axios.post(
+        `https://100085.pythonanywhere.com/api/email/?api_key=dd7010c6-17b7-4cd4-ac70-f20492efa73e`,
+        formData,
+        {
+          headers: {
+            "Content-Type": "multipart/form-data",
+          },
+        }
+      );
+      setLoading(false);
+      toast.success(response.data.message, {
+        onClose: () => {
+          navigate("/list-surveys");
         },
-      }
-    );
-    //console.log("this is response", response.data.qrcodes[0].qrcode_image_url);
-    //sessionStorage.setItem("Qrcode", response.data.qrcodes[0].qrcode_image_url);
-    console.log(response);
-    navigate("/list-surveys");
+      });
+    } catch (error) {
+      setLoading(false);
+      toast.success(error.response.data.message, {
+        onClose: () => {
+          navigate("/list-surveys");
+        },
+      });
+    }
   };
 
   return (
@@ -104,15 +119,24 @@ export const EmailSms = () => {
               </div>
             </div>
             <div className="w-full md:w-[400px] h-full flex justify-center items-center mt-10">
-              <button className="p-2 w-full md:w-[400px] h-[4rem] font-serif font-semibold text-white opacity-80 hover:opacity-100 bg-[#176847] text-md rounded-md cursor-pointer"
-                onClick={handleSubmit}>
-                Send Survey
-              </button>
+              {loading ? (
+                <button
+                  className="p-2 w-full md:w-[400px] h-[4rem] font-serif font-semibold text-white opacity-60  bg-[#176847] text-md rounded-md cursor-pointer "
+                  disabled
+                >
+                  Processing
+                </button>
+              ) : (
+                <button
+                  className="p-2 w-full md:w-[400px] h-[4rem] font-serif font-semibold text-white opacity-80 hover:opacity-100 bg-[#176847] text-md rounded-md cursor-pointer"
+                  onClick={handleSubmit}
+                >
+                  Send Survey
+                </button>
+              )}
             </div>
           </form>
-
         </div>
-
       </div>
     </Layout>
   );

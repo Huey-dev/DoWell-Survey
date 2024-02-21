@@ -2,33 +2,15 @@ import { useState } from "react";
 import Layout from "../Layout/Layout";
 import { Link, useNavigate } from "react-router-dom";
 import axios from "axios";
+import { toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 
 const LinkSurvey = () => {
   const [formLink, setFormLink] = useState(null);
   const [image, setImage] = useState(null);
   const [errorMessage, setErrorMessage] = useState(null);
   const navigate = useNavigate();
-
-  // const handleImageChange = (event) => {
-  //   const file = event.target.files[0];
-
-  //   // You can perform additional checks here (e.g., file type, size)
-  //   const maxSizeInBytes = 5 * 1024 * 1024; // 5 MB
-  //   if (file.size > maxSizeInBytes) {
-  //     setErrorMessage(
-  //       "File size exceeds the limit (5 MB). Please choose a smaller file."
-  //     );
-  //     // Clear the input field to prevent submission
-  //     event.target.value = null;
-  //   } else {
-  //     const reader = new FileReader();
-  //     reader.onloadend = () => {
-  //       setImage(reader.result);
-  //       setErrorMessage(null);
-  //     };
-  //     reader.readAsDataURL(file);
-  //   }
-  // };
+  const [loading, setLoading] = useState(false);
 
   const handleImageChange = (event) => {
     const file = event.target.files[0];
@@ -44,12 +26,6 @@ const LinkSurvey = () => {
     }
     console.log("File type:", file.type);
     setImage(file);
-    // reader.onload = () => {
-    //   const base64String = reader.result.split(",")[1];
-    //   setImage(base64String);
-    // };
-
-    // reader.readAsDataURL(file);
   };
 
   const savedSurveyData = JSON.parse(sessionStorage.getItem("surveyData"));
@@ -99,21 +75,42 @@ const LinkSurvey = () => {
   };
 
   const handleSubmit = async (e) => {
+    setLoading(true);
     e.preventDefault();
-
-    const response = await axios.post(
-      `https://100025.pythonanywhere.com/create-surveyv2?api_key=dd7010c6-17b7-4cd4-ac70-f20492efa73e`,
-      formData,
-      {
-        headers: {
-          "Content-Type": "multipart/form-data",
+    try {
+      const response = await axios.post(
+        `https://100025.pythonanywhere.com/create-surveyv2?api_key=dd7010c6-17b7-4cd4-ac70-f20492efa73e`,
+        formData,
+        {
+          headers: {
+            "Content-Type": "multipart/form-data",
+          },
+        }
+      );
+      setLoading(false);
+      setLoading(false);
+      console.log(
+        "this is response",
+        response.data.qrcodes[0].qrcode_image_url
+      );
+      sessionStorage.setItem(
+        "Qrcode",
+        response.data.qrcodes[0].qrcode_image_url
+      );
+      console.log("this is response message", response.data.response);
+      toast.success(response.data.response, {
+        onClose: () => {
+          console.log("Toast closed, navigating...");
+          navigate("/email-sms");
         },
-      }
-    );
-    console.log("this is response", response.data.qrcodes[0].qrcode_image_url);
-    sessionStorage.setItem("Qrcode", response.data.qrcodes[0].qrcode_image_url);
-    console.log(response);
-    navigate("/email-sms");
+      });
+    } catch (error) {
+      setLoading(false);
+      toast.success("Qr code Creation Failed", {
+        autoClose: false,
+        closeOnClick: true,
+      });
+    }
   };
 
   return (
@@ -157,7 +154,7 @@ const LinkSurvey = () => {
                   value={formLink}
                   onChange={(e) => setFormLink(e.target.value)}
                 />
-                {formLink ? (
+                {/* {formLink ? (
                   <button
                     type="submit"
                     className="w-full md:w-[400px] font-bold font-serif mt-[30px] h-[50px] bg-[#005734] text-[20px] text-white hover:opacity-100 opacity-80 rounded-[5px]"
@@ -169,6 +166,24 @@ const LinkSurvey = () => {
                   <button
                     className="w-full md:w-[400px] font-bold font-serif mt-[30px] h-[50px] bg-[#005734] text-[20px] text-white opacity-50 rounded-[5px]"
                     disabled
+                  >
+                    Create Survey
+                  </button>
+                )} */}
+
+                {loading ? (
+                  <button
+                    className="w-full md:w-[400px] font-bold font-serif mt-[30px] h-[50px] bg-[#005734] text-[20px] text-white rounded-[5px] opacity-50 cursor-not-allowed"
+                    disabled
+                  >
+                    Processing...
+                  </button>
+                ) : (
+                  <button
+                    type="submit"
+                    className="w-full md:w-[400px] font-bold font-serif mt-[30px] h-[50px] bg-[#005734] text-[20px] text-white hover:opacity-100 opacity-80 rounded-[5px]"
+                    onClick={handleSubmit}
+                    disabled={!formLink || !image}
                   >
                     Create Survey
                   </button>

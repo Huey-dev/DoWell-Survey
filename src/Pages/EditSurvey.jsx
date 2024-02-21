@@ -466,47 +466,78 @@ export default function Edit() {
 
 
                         <div className="flex flex-wrap items-center space-x-2">
-                            <div className="flex-1 h-96 bg-[#282B32]  p-4 text-white overflow-y-auto">
-                                <h6 className="font-bold mb-2">Selection: {locationsSurveyName}</h6>
-                                {
-                                    locations.map((location, index) => (
-                                        <div key={index}>
-                                            <h6 className="font-bold text-sm text-[#F0C40D]">{location.name}</h6>
-                                            <p className="text-sm">{location.category}</p>
-                                            <p className="text-sm">{`[${location.coordinates[0]}, ${location.coordinates[1]}]`}</p>
-                                            <p className="text-sm">{`${location.radius}(m) radius`}</p>
+                            <div className="flex-1 h-96 overflow-y-auto">
+                                {loading ?
+                                    <div className="flex items-center justify-center h-full">
+                                        <div
+                                            class="m-12 inline-block h-16 w-16 animate-spin text-green-800 rounded-full border-4 border-solid border-current border-r-transparent align-[-0.125em] motion-reduce:animate-[spin_1.5s_linear_infinite]"
+                                            role="status">
+                                            <span
+                                                class="!absolute !-m-px !h-px !w-px !overflow-hidden !whitespace-nowrap !border-0 !p-0 ![clip:rect(0,0,0,0)]"
+                                            >Loading...</span>
 
                                         </div>
-                                    ))
+
+                                    </div>
+                                    :
+
+                                    <div className="bg-[#282B32] text-white p-4">
+                                        <h6 className="font-bold mb-2">Selection: {locationsSurveyName}</h6>
+                                        {
+                                            locations.map((location, index) => (
+                                                <div key={index}>
+                                                    <h6 className="font-bold text-sm text-[#F0C40D]">{location.name}</h6>
+                                                    <p className="text-sm">{location.category}</p>
+                                                    <p className="text-sm">{`[${location.coordinates[0]}, ${location.coordinates[1]}]`}</p>
+                                                    <p className="text-sm">{`${location.radius}(m) radius`}</p>
+
+                                                </div>
+                                            ))
+                                        }
+
+                                    </div>
+
+
                                 }
+
+
 
 
                             </div>
                             <div className="flex items-center justify-center w-7/12 h-96">
-                                <MapContainer ref={setMap} scrollWheelZoom={false} bounds={mapBounds} style={{ height: '100%', width: '100%', zIndex: '1' }}>
-                                    <TileLayer
-                                        url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
-                                        attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
-                                    />
-                                    {
-                                        locations.map((location, index) => (
-                                            <>
-                                                <CircleMarker key={index} center={location.coordinates} radius={location.radius}>
-                                                    <Marker position={location.coordinates}>
-                                                        <Popup>
-                                                            {location.name}
-                                                        </Popup>
-                                                    </Marker>
+                                {loading ? <div
+                                    class="m-12 inline-block h-16 w-16 animate-spin text-green-800 rounded-full border-4 border-solid border-current border-r-transparent align-[-0.125em] motion-reduce:animate-[spin_1.5s_linear_infinite]"
+                                    role="status">
+                                    <span
+                                        class="!absolute !-m-px !h-px !w-px !overflow-hidden !whitespace-nowrap !border-0 !p-0 ![clip:rect(0,0,0,0)]"
+                                    >Loading...</span>
 
-                                                </CircleMarker>
+                                </div> :
+                                    <MapContainer ref={setMap} scrollWheelZoom={false} bounds={mapBounds} style={{ height: '100%', width: '100%', zIndex: '1' }}>
+                                        <TileLayer
+                                            url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
+                                            attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
+                                        />
+                                        {
+                                            locations.map((location, index) => (
+                                                <>
+                                                    <CircleMarker key={index} center={location.coordinates} radius={location.radius}>
+                                                        <Marker position={location.coordinates}>
+                                                            <Popup>
+                                                                {location.name}
+                                                            </Popup>
+                                                        </Marker>
 
-                                            </>
+                                                    </CircleMarker>
+
+                                                </>
 
 
-                                        ))
-                                    }
+                                            ))
+                                        }
 
-                                </MapContainer>
+                                    </MapContainer>}
+
                             </div>
                         </div>
                     </div>
@@ -515,71 +546,84 @@ export default function Edit() {
                         <div class="overflow-x-auto min-w-full">
                             <div class="inline-block py-2 min-w-full">
                                 <div class="overflow-hidden">
-                                    <table class="min-w-full text-center text-sm font-light">
-                                        <thead
-                                            class="border-b bg-[#005734] font-medium text-white dark:border-neutral-500">
-                                            <tr>
-                                                <th scope="col" class="whitespace-nowrap px-6 py-4">BRAND NAME</th>
-                                                <th scope="col" class="break-words px-6 py-4">SURVEY LINK</th>
-                                                <th scope="col" class=" px-6 py-4">DURATION</th>
+                                    {loading ?
+                                        <div className="flex items-center justify-center">
+                                            <div
+                                                class="m-12 inline-block h-16 w-16 animate-spin text-green-800 rounded-full border-4 border-solid border-current border-r-transparent align-[-0.125em] motion-reduce:animate-[spin_1.5s_linear_infinite]"
+                                                role="status">
+                                                <span
+                                                    class="!absolute !-m-px !h-px !w-px !overflow-hidden !whitespace-nowrap !border-0 !p-0 ![clip:rect(0,0,0,0)]"
+                                                >Loading...</span>
 
-                                                <th scope="col" class=" px-6 py-4">REGION</th>
-                                                <th scope="col" class=" px-6 py-4">STATUS</th>
-                                                <th scope="col" class=" px-6 py-4">ACTIONS</th>
+                                            </div>
+                                        </div>
+                                        :
+                                        <table class="min-w-full text-center text-sm font-light">
+                                            <thead
+                                                class="border-b bg-[#005734] font-medium text-white dark:border-neutral-500">
+                                                <tr>
+                                                    <th scope="col" class="whitespace-nowrap px-6 py-4">BRAND NAME</th>
+                                                    <th scope="col" class="break-words px-6 py-4">SURVEY LINK</th>
+                                                    <th scope="col" class=" px-6 py-4">DURATION</th>
 
-
-
-
-                                            </tr>
-                                        </thead>
-                                        <tbody>
-                                            {survey_results.map((survey, index) => (
-                                                <tr key={index} class="border-b dark:border-neutral-500">
-                                                    <td class="px-6 py-4 font-medium bg-[#F3F6FF]">{survey.brand_name}</td>
-                                                    <td class="break-all px-6 py-4">{survey.link}</td>
-                                                    <td class="px-6 py-4 bg-[#F3F6FF]">{`${survey.start_date} to ${survey.end_date}. Limit ${survey.participantsLimit} person(s)`}</td>
-
-
-                                                    <td class="px-6 py-4">3 places(Click marker to view)</td>
-                                                    <td class="whitespace-nowrap bg-[#F3F6FF] font-medium">
-                                                            {new Date(survey.start_date) > currentDate ? (<div className="mx-4 my-2 bg-[#399544] text-white"> CREATED </div>) :
-                                                                new Date(survey.end_date) < currentDate ? (<div className="mx-4 my-2 bg-[#EF4444] text-white"> ENDED </div>) :
-                                                                    (<div className="mx-4 my-2 bg-[#3B82F6] text-white"> ONGOING </div>)}
-                                                        </td>
-                                                    <td class="whitespace-nowrap  px-6 py-4">
-                                                        <div class="flex items-center justify-center space-x-0.5">
-                                                            <button className="flex items-center justify-center rounded-lg bg-[#005734]"
-                                                                onClick={onLinkClick}>
-                                                                <PencilSquareIcon className="h-6 w-6 text-white m-1" />
-                                                            </button>
-                                                            <button className="flex items-center justify-center rounded-lg bg-[#EF4444]"
-                                                                onClick={onDeleteClick}>
-                                                                <TrashIcon className="h-6 w-6 text-white m-1" />
-                                                            </button>
-                                                            <button className="flex items-center justify-center rounded-lg bg-blue-500"
-                                                                onClick={onPreviewClick}>
-                                                                <QrCodeIcon className="h-6 w-6 text-white m-1" />
-                                                            </button>
-                                                            <button className="flex items-center justify-center rounded-lg bg-orange-500"
-                                                                onClick={() => { onLocateClick(survey) }}>
-                                                                <MapPinIcon className="h-6 w-6 text-white m-1" />
-                                                            </button>
-                                                        </div>
-
-
-                                                    </td>
-
+                                                    <th scope="col" class=" px-6 py-4">REGION</th>
+                                                    <th scope="col" class=" px-6 py-4">STATUS</th>
+                                                    <th scope="col" class=" px-6 py-4">ACTIONS</th>
 
 
 
 
                                                 </tr>
+                                            </thead>
+                                            <tbody>
+                                                {survey_results.map((survey, index) => (
+                                                    <tr key={index} class="border-b dark:border-neutral-500">
+                                                        <td class="px-6 py-4 font-medium bg-[#F3F6FF]">{survey.brand_name}</td>
+                                                        <td class="break-all px-6 py-4">{survey.link}</td>
+                                                        <td class="px-6 py-4 bg-[#F3F6FF]">{`${survey.start_date} to ${survey.end_date}. Limit ${survey.participantsLimit} person(s)`}</td>
 
-                                            ))}
+
+                                                        <td class="px-6 py-4">3 places(Click marker to view)</td>
+                                                        <td class="whitespace-nowrap bg-[#F3F6FF] font-medium">
+                                                            {new Date(survey.start_date) > currentDate ? (<div className="mx-4 my-2 bg-[#399544] text-white"> CREATED </div>) :
+                                                                new Date(survey.end_date) < currentDate ? (<div className="mx-4 my-2 bg-[#EF4444] text-white"> ENDED </div>) :
+                                                                    (<div className="mx-4 my-2 bg-[#3B82F6] text-white"> ONGOING </div>)}
+                                                        </td>
+                                                        <td class="whitespace-nowrap  px-6 py-4">
+                                                            <div class="flex items-center justify-center space-x-0.5">
+                                                                <button className="flex items-center justify-center rounded-lg bg-[#005734]"
+                                                                    onClick={onLinkClick}>
+                                                                    <PencilSquareIcon className="h-6 w-6 text-white m-1" />
+                                                                </button>
+                                                                <button className="flex items-center justify-center rounded-lg bg-[#EF4444]"
+                                                                    onClick={onDeleteClick}>
+                                                                    <TrashIcon className="h-6 w-6 text-white m-1" />
+                                                                </button>
+                                                                <button className="flex items-center justify-center rounded-lg bg-blue-500"
+                                                                    onClick={onPreviewClick}>
+                                                                    <QrCodeIcon className="h-6 w-6 text-white m-1" />
+                                                                </button>
+                                                                <button className="flex items-center justify-center rounded-lg bg-orange-500"
+                                                                    onClick={() => { onLocateClick(survey) }}>
+                                                                    <MapPinIcon className="h-6 w-6 text-white m-1" />
+                                                                </button>
+                                                            </div>
 
 
-                                        </tbody>
-                                    </table>
+                                                        </td>
+
+
+
+
+
+                                                    </tr>
+
+                                                ))}
+
+
+                                            </tbody>
+                                        </table>}
+
                                 </div>
                             </div>
                         </div>

@@ -1,4 +1,4 @@
-import React, { Fragment, useRef, useState } from "react";
+import React, { Fragment, useRef, useState, useEffect } from "react";
 import { Dialog, Transition } from '@headlessui/react'
 import Layout from "../Layout/Layout";
 import { Link } from "react-router-dom";
@@ -14,11 +14,19 @@ import { AiFillEdit } from "react-icons/ai";
 import { MdDelete } from "react-icons/md";
 import surveys from "../data/surveys";
 
+import axios from "axios";
+
 
 export default function Edit() {
+    const [loading, setLoading] = useState(true);
+    const [survey_results, setSurvey_results] = useState([]);
+
+
     const [open, setOpen] = useState(false);
     const [mode, setMode] = useState(null);
     const [startDate, setStartDate] = useState(getCurrentDate());
+
+    const currentDate = new Date();
 
     //sample size parameters and states
     const [sampleData, setSampleData] = useState([]);
@@ -135,6 +143,56 @@ export default function Edit() {
         }
 
     }
+
+
+
+    useEffect(() => {
+        // Define the function to fetch data
+        const fetchData = async () => {
+            try {
+                // Set loading to true while fetching data
+                console.log('tryingggggg')
+                setLoading(true);
+
+                // const response = await axios({
+                //     method: 'get',
+                //     url: 'https://100025.pythonanywhere.com/my-survey/',
+                //     data: data,
+                //     headers: {
+                //         "Content-Type": "multipart/form-data",
+                //     },
+                // });
+                const formData = { username: "Ijerrycloudo" }
+
+                const response = await axios.post(
+                    `https://100025.pythonanywhere.com/my-survey/`,
+                    formData,
+                    {
+                        headers: {
+                            "Content-Type": "application/json",
+                        },
+
+                    }
+                );
+                const data = response?.data
+                setSurvey_results(data);
+                console.log(response?.data)
+                //console.log("successsssss", response);
+            } catch (error) {
+                // If there's an error, update the error state
+                console.log("error is", error);
+            } finally {
+                // Set loading to false when data fetching is complete, regardless of success or failure
+                setLoading(false);
+            }
+        };
+
+        // Call the fetchData function when the component mounts
+        fetchData();
+    }, []);
+
+
+
 
     return (
         <Layout>
@@ -332,50 +390,50 @@ export default function Edit() {
                                                         <div className="flex flex-col space-y-2 mt-4 my-8 w-full">
                                                             <div className="flex items-center justify-center w-full">
                                                                 <div className="w-5/12">
-                                                                <QRCode
-                                                                    size={190}
-                                                                    bgColor="white"
-                                                                    value="https://uxlivinglab.com/"
-                                                                    style={{ borderColor: "black", padding: "4px", borderWidth: "2px" }}
-                                                                />
+                                                                    <QRCode
+                                                                        size={190}
+                                                                        bgColor="white"
+                                                                        value="https://uxlivinglab.com/"
+                                                                        style={{ borderColor: "black", padding: "4px", borderWidth: "2px" }}
+                                                                    />
                                                                 </div>
                                                                 <div className="w-5/12">
                                                                     <p className="text-center text-md font-semibold my-1">Print or share Qr codes on your media platforms</p>
-                                                                <button
-                                                                    type="submit"
-                                                                    className="inline-flex my-1 w-full justify-center bg-blue-700 px-3 py-2 text-md font-semibold text-white shadow-sm hover:bg-[#3B82F6]"
-                                                                //onClick={() => setOpen(false)}
-                                                                >
-                                                                    Print
-                                                                </button>
-                                                                <div class="flex items-center justify-center space-x-0.5 my-1">
-                                                            <a href="#" className="flex p-1 items-center justify-center bg-[#0866FF] rounded-full"
-                                                                //onClick={onLinkClick}
-                                                                >
-                                                                <FaFacebook className="h-6 w-6 m-1 text-white" />
-                                                            </a>
-                                                            <a href="#" className="flex p-1 items-center justify-center bg-black rounded-full"
-                                                                //onClick={onLinkClick}
-                                                                >
-                                                                <FaXTwitter className="h-6 w-6 text-white m-1" />
-                                                            </a>
-                                                            <a href="#" className="flex items-center justify-center bg-[#00E676] p-1 rounded-full"
-                                                                //onClick={onLinkClick}
-                                                                >
-                                                                <FaWhatsapp className="h-6 w-6 text-white m-1" />
-                                                            </a>
-                                                            <a href="#" className="flex items-center justify-center bg-[#0A66C2] p-1 rounded-full"
-                                                                //onClick={onLinkClick}
-                                                                >
-                                                                <FaLinkedinIn className="h-6 w-6 text-white m-1" />
-                                                            </a>
-                                                            <a href="#" className="flex items-center justify-center bg-[#FF00FF] p-1 rounded-full"
-                                                                //onClick={onLinkClick}
-                                                                >
-                                                                <FaInstagram className="h-6 w-6 text-white m-1" />
-                                                            </a>
-                                                    
-                                                        </div>
+                                                                    <button
+                                                                        type="submit"
+                                                                        className="inline-flex my-1 w-full justify-center bg-blue-700 px-3 py-2 text-md font-semibold text-white shadow-sm hover:bg-[#3B82F6]"
+                                                                    //onClick={() => setOpen(false)}
+                                                                    >
+                                                                        Print
+                                                                    </button>
+                                                                    <div class="flex items-center justify-center space-x-0.5 my-1">
+                                                                        <a href="#" className="flex p-1 items-center justify-center bg-[#0866FF] rounded-full"
+                                                                        //onClick={onLinkClick}
+                                                                        >
+                                                                            <FaFacebook className="h-6 w-6 m-1 text-white" />
+                                                                        </a>
+                                                                        <a href="#" className="flex p-1 items-center justify-center bg-black rounded-full"
+                                                                        //onClick={onLinkClick}
+                                                                        >
+                                                                            <FaXTwitter className="h-6 w-6 text-white m-1" />
+                                                                        </a>
+                                                                        <a href="#" className="flex items-center justify-center bg-[#00E676] p-1 rounded-full"
+                                                                        //onClick={onLinkClick}
+                                                                        >
+                                                                            <FaWhatsapp className="h-6 w-6 text-white m-1" />
+                                                                        </a>
+                                                                        <a href="#" className="flex items-center justify-center bg-[#0A66C2] p-1 rounded-full"
+                                                                        //onClick={onLinkClick}
+                                                                        >
+                                                                            <FaLinkedinIn className="h-6 w-6 text-white m-1" />
+                                                                        </a>
+                                                                        <a href="#" className="flex items-center justify-center bg-[#FF00FF] p-1 rounded-full"
+                                                                        //onClick={onLinkClick}
+                                                                        >
+                                                                            <FaInstagram className="h-6 w-6 text-white m-1" />
+                                                                        </a>
+
+                                                                    </div>
                                                                 </div>
                                                             </div>
 
@@ -453,16 +511,16 @@ export default function Edit() {
                         </div>
                     </div>
 
-                    <div class="flex flex-col">
-                        <div class="overflow-x-auto">
-                            <div class="inline-block py-2">
+                    <div class="flex flex-col min-w-full">
+                        <div class="overflow-x-auto min-w-full">
+                            <div class="inline-block py-2 min-w-full">
                                 <div class="overflow-hidden">
-                                    <table class="max-w-full text-center text-sm font-light">
+                                    <table class="min-w-full text-center text-sm font-light">
                                         <thead
                                             class="border-b bg-[#005734] font-medium text-white dark:border-neutral-500">
                                             <tr>
-                                                <th scope="col" class=" px-6 py-4">BRAND NAME</th>
-                                                <th scope="col" class=" px-6 py-4">SURVEY LINK</th>
+                                                <th scope="col" class="whitespace-nowrap px-6 py-4">BRAND NAME</th>
+                                                <th scope="col" class="break-words px-6 py-4">SURVEY LINK</th>
                                                 <th scope="col" class=" px-6 py-4">DURATION</th>
 
                                                 <th scope="col" class=" px-6 py-4">REGION</th>
@@ -475,18 +533,19 @@ export default function Edit() {
                                             </tr>
                                         </thead>
                                         <tbody>
-                                            {surveys.map((survey, index) => (
+                                            {survey_results.map((survey, index) => (
                                                 <tr key={index} class="border-b dark:border-neutral-500">
-                                                    <td class="whitespace-nowrap  px-6 py-4 font-medium bg-[#F3F6FF]">{survey.brand_name}</td>
-                                                    <td class="whitespace-nowrap  px-6 py-4">{survey.link}</td>
-                                                    <td class="px-6 py-4 bg-[#F3F6FF]">{`${survey.start_date} to ${survey.end_date} (1 day duration)`}</td>
+                                                    <td class="px-6 py-4 font-medium bg-[#F3F6FF]">{survey.brand_name}</td>
+                                                    <td class="break-all px-6 py-4">{survey.link}</td>
+                                                    <td class="px-6 py-4 bg-[#F3F6FF]">{`${survey.start_date} to ${survey.end_date}. Limit ${survey.participantsLimit} person(s)`}</td>
 
 
                                                     <td class="px-6 py-4">3 places(Click marker to view)</td>
                                                     <td class="whitespace-nowrap bg-[#F3F6FF] font-medium">
-                                                        <div className="mx-4 my-2 bg-[#EF4444] text-white">
-                                                            ENDED
-                                                        </div></td>
+                                                            {new Date(survey.start_date) > currentDate ? (<div className="mx-4 my-2 bg-[#399544] text-white"> CREATED </div>) :
+                                                                new Date(survey.end_date) < currentDate ? (<div className="mx-4 my-2 bg-[#EF4444] text-white"> ENDED </div>) :
+                                                                    (<div className="mx-4 my-2 bg-[#3B82F6] text-white"> ONGOING </div>)}
+                                                        </td>
                                                     <td class="whitespace-nowrap  px-6 py-4">
                                                         <div class="flex items-center justify-center space-x-0.5">
                                                             <button className="flex items-center justify-center rounded-lg bg-[#005734]"

@@ -23,7 +23,7 @@ const surveys = [{
         radius: 50,
         category: "Resturant and bar",
     }],
-    link: "https://docs.go....",
+    link: "https://docs.google.com/forms/d/1pM IClEkTVPef9NZ2ute5U 8lNb9RqPvMYGMLcAby8PK4/edit/8",
     participant_limit: 30,
     brand_name: "Coffee Survey",
     promotional: "Thanks for filling",

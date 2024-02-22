@@ -36,6 +36,18 @@ const LinkSurvey = () => {
   const description = savedSurveyData ? savedSurveyData.description : "";
   const startDate = savedSurveyData ? savedSurveyData.startDate : "";
   const endDate = savedSurveyData ? savedSurveyData.endDate : "";
+  const [syear, smonth, sday] = startDate.split("-");
+  const [eyear, emonth, eday] = endDate.split("-");
+
+  // Create a new Date object using the extracted year, month, and day
+  const dateObject = new Date(syear, smonth - 1, sday); // Note: Month in JavaScript Date object is 0-indexed (0 for January, 1 for February, etc.), so we subtract 1 from the month
+  const edateObject = new Date(eyear, emonth - 1, eday);
+
+  // Format the date as DD-MM-YYYY
+  const sformattedDate = `${sday}-${smonth}-${syear}`;
+  const eformattedDate = `${eday}-${emonth}-${eyear}`;
+  console.log("start", sformattedDate);
+  console.log("end", eformattedDate);
 
   // Retrieve the array from sessionStorage
   const savedSurveyArray = JSON.parse(sessionStorage.getItem("finalizeSurvey"));
@@ -47,8 +59,8 @@ const LinkSurvey = () => {
       : null;
 
   // Access individual properties
-  const country = firstObject ? firstObject.country : "";
-  const region = firstObject ? firstObject.region : "";
+  const country = sessionStorage.getItem("country");
+  const region = sessionStorage.getItem("region");
   const numOfParticipants = sessionStorage.getItem("numOfParticipants");
 
   const [userName, setUserName] = useState(null);
@@ -79,8 +91,8 @@ const LinkSurvey = () => {
     company_id: userName,
     created_by: name,
     description: description,
-    start_date: startDate,
-    end_date: endDate,
+    start_date: sformattedDate,
+    end_date: eformattedDate,
     brand_name: userName,
     promotional_sentence: description,
     username: userName,

@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import Layout from "../Layout/Layout";
 import { Link, useNavigate } from "react-router-dom";
 import axios from "axios";
@@ -49,7 +49,26 @@ const LinkSurvey = () => {
   // Access individual properties
   const country = firstObject ? firstObject.country : "";
   const region = firstObject ? firstObject.region : "";
-  const numOfParticipants = firstObject ? firstObject.numOfParticipants : "";
+  const numOfParticipants = sessionStorage.getItem("numOfParticipants");
+
+  const [userName, setUserName] = useState(null);
+  const [email, setEmail] = useState(null);
+
+  // const [country, setCountry] = useState(null);
+  // const [description, setDescription] = useState(null);
+
+  // Retrieve user_info object from sessionStorage
+  useEffect(() => {
+    const user_info = JSON.parse(sessionStorage.getItem("user_info"));
+    if (user_info) {
+      // Access the profile_img property from the user_info object
+      const Uname = user_info.username ? user_info.username : null;
+      const email = user_info.email ? user_info.email : null;
+
+      setEmail(email);
+      setUserName(Uname);
+    }
+  }, []);
 
   sessionStorage.setItem("formLink", formLink);
   const formData = {
@@ -57,20 +76,20 @@ const LinkSurvey = () => {
     quantity: "1",
     logo: image,
     link: formLink,
-    company_id: "samuel",
+    company_id: userName,
     created_by: name,
     description: description,
-    start_date: "01-11-2023",
-    end_date: "01-11-2024",
-    brand_name: name,
+    start_date: startDate,
+    end_date: endDate,
+    brand_name: userName,
     promotional_sentence: description,
-    username: name,
+    username: userName,
     name: name,
-    email: "samuelmakinde@gmail.com",
-    service: name,
-    country: "ghana",
-    region: "accra",
-    participantsLimit: "20",
+    email: email,
+    service: product,
+    country: country,
+    region: region,
+    participantsLimit: numOfParticipants,
     url: `https://dowelllabs.github.io/DoWell-Survey/survey-iframe?iframe=${formLink}`,
   };
 

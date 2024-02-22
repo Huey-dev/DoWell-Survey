@@ -305,7 +305,7 @@ export default function Sidebar() {
         </div>
       </nav>
 
-      <nav className="w-full shadow md:hidden bg-[#399544]">
+      <nav className="w-full shadow md:hidden bg-black">
         <div className="justify-between px-4 mx-auto lg:max-w-7xl md:items-center md:flex md:px-8">
           <div>
             <div className="flex items-center justify-between py-3 md:py-5 md:block">

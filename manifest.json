@@ -1,0 +1,42 @@
+{
+  "index.css": {
+    "file": "assets/index-ac3356f6.css",
+    "src": "index.css"
+  },
+  "index.html": {
+    "assets": [
+      "assets/logonew-4a24c200.png",
+      "assets/dowell-1abe8323.jpeg"
+    ],
+    "css": [
+      "assets/index-ac3356f6.css"
+    ],
+    "file": "assets/index-8ee9c49f.js",
+    "isEntry": true,
+    "src": "index.html"
+  },
+  "src/assets/bakery1.jpeg": {
+    "file": "assets/bakery1-bfc659b0.jpeg",
+    "src": "src/assets/bakery1.jpeg"
+  },
+  "src/assets/bakery2.jpeg": {
+    "file": "assets/bakery2-52d6d688.jpeg",
+    "src": "src/assets/bakery2.jpeg"
+  },
+  "src/assets/bakery3.jpeg": {
+    "file": "assets/bakery3-27a4d4b2.jpeg",
+    "src": "src/assets/bakery3.jpeg"
+  },
+  "src/assets/bakery4.jpeg": {
+    "file": "assets/bakery4-e0509587.jpeg",
+    "src": "src/assets/bakery4.jpeg"
+  },
+  "src/assets/dowell.jpeg": {
+    "file": "assets/dowell-1abe8323.jpeg",
+    "src": "src/assets/dowell.jpeg"
+  },
+  "src/assets/logonew.png": {
+    "file": "assets/logonew-4a24c200.png",
+    "src": "src/assets/logonew.png"
+  }
+}

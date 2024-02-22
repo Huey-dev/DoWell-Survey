@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react';
 import QRCode from "react-qr-code";
 import dowelllogo from "../assets/dowell.jpeg";
 import { useLocation } from 'react-router-dom';
+import axios from "axios";
 
 const SurveyIframe = () => {
     //const [location, setLocation] = useState(null);
@@ -18,10 +19,72 @@ const SurveyIframe = () => {
 
 
     useEffect(() => {
-        setTimeout(() => {
-            setIframe(iframe_param)
-            setStatus('success');        
-        }, 1000);
+        const getCurrentAddress = () => {
+            // Check if geolocation is supported
+            if (navigator.geolocation) {
+                // Get current position
+                navigator.geolocation.getCurrentPosition(function (position) {
+                    // Get latitude and longitude
+                    var latlng = {
+                        lat: position.coords.latitude,
+                        lng: position.coords.longitude
+                    };
+
+                    // Initialize geocoder
+                    var geocoder = new google.maps.Geocoder();
+
+                    // Geocode coordinates to get address
+                    geocoder.geocode({ 'location': latlng }, async function (results, status) {
+                        if (status === google.maps.GeocoderStatus.OK) {
+                            if (results[0]) {
+                                var the_region = findRegion(results[0].address_components);
+                                
+
+                                const formData = {
+                                    "link": window.location.href,
+                                    "region": the_region
+                                }
+
+                                const response = await axios.post(
+                                    `https://100025.pythonanywhere.com/get-dowell-survey-status/?api_key=4f0bd662-8456-4b2e-afa6-293d4135facf`,
+                                    formData,
+                                    {
+                                        headers: {
+                                            "Content-Type": "multipart/form-data",
+                                        },
+                
+                                    }
+                                );
+
+                                console.log("okaaaaaay", response)
+
+                            } else {
+                                alert('No results found');
+                            }
+                        } else {
+                            alert('Geocoder failed due to: ' + status);
+                        }
+                    });
+                });
+            } else {
+                alert('Geolocation is not supported by this browser.');
+            }
+        }
+
+        function findRegion(addressComponents) {
+            for (var i = 0; i < addressComponents.length; i++) {
+                var component = addressComponents[i];
+                if (component.types.includes('administrative_area_level_1')) {
+                    return component.long_name;
+                }
+            }
+            return 'Region not found';
+        }
+
+
+        getCurrentAddress();
+        // Call the function to get current address
+
 
     }, []);
 

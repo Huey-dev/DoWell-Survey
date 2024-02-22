@@ -12,31 +12,59 @@ import EditSurveyTemp from "./Pages/EditSurveyTemp";
 import Settings from "./Pages/Settings";
 import SurveyIframe from "./Pages/SurveyIframe";
 import TermsCondition from "./Pages/TermsCondition";
+
+import RedirectToExternalWebsite from "./Pages/RedirectToExternalWebsite"
 // import Search from "./Pages/Npm";
+//import { useLocation } from 'react-router-dom';
 
 function App() {
+  //const location = useLocation();
+  const queryParams = new URLSearchParams(window.location.search);
+  const session_id = queryParams.get('session_id');
+  console.log(session_id);
+
+  if (session_id === null) {
+    return (
+      <>
+        <PreviewProvider>
+          <Router basename="/DoWell-Survey">
+            <Routes>
+              <Route path="/survey-iframe" element={<SurveyIframe />} />
+              <Route path="*" element={<RedirectToExternalWebsite />} />
+
+              {/* <PreviewProvider> */}
+              {/* <Route path="/search" element={<Search />} /> */}
+              {/* </PreviewProvider> */}
+            </Routes>
+          </Router>
+        </PreviewProvider>
+      </>
+    );
+  }
+
   return (
     <>
-      <PreviewProvider> 
-      <Router basename="/DoWell-Survey">
-        <Routes>
-          <Route path="/" element={<LandingPageProposed />} />
-          <Route path="/landing" element={<LandingPage />} />
-          <Route path="/preview-page" element={<PreviewPage />} />
-          <Route path="/newsurvey" element={<StartNewSurvey />} />
-          <Route path="/finalize-Sample" element={<FinalizeSample />} />
-          <Route path="/link-form" element={<LinkSurvey />} />
-          <Route path="/email-sms" element={<EmailSms />} />
-          <Route path="/list-surveys" element={<Edit />} />
-          <Route path="/list-surveys2" element={<EditSurveyTemp />} />
-          <Route path="/settings" element={<Settings />} />
-          <Route path="/terms-conditions" element={<TermsCondition />} />
-          <Route path="/survey-iframe" element={<SurveyIframe />} />
-          {/* <PreviewProvider> */}
-          {/* <Route path="/search" element={<Search />} /> */}
-          {/* </PreviewProvider> */}
-        </Routes>
-      </Router>
+      <PreviewProvider>
+        <Router basename="/DoWell-Survey">
+          <Routes>
+            <Route path="/" element={<LandingPageProposed />} />
+            <Route path="/landing" element={<LandingPage />} />
+            <Route path="/preview-page" element={<PreviewPage />} />
+            <Route path="/newsurvey" element={<StartNewSurvey />} />
+            <Route path="/finalize-Sample" element={<FinalizeSample />} />
+            <Route path="/link-form" element={<LinkSurvey />} />
+            <Route path="/email-sms" element={<EmailSms />} />
+            <Route path="/list-surveys" element={<Edit />} />
+            <Route path="/list-surveys2" element={<EditSurveyTemp />} />
+            <Route path="/settings" element={<Settings />} />
+            <Route path="/terms-conditions" element={<TermsCondition />} />
+            <Route path="/survey-iframe" element={<SurveyIframe />} />
+            <Route path="*" element={<LandingPageProposed />} />
+            {/* <PreviewProvider> */}
+            {/* <Route path="/search" element={<Search />} /> */}
+            {/* </PreviewProvider> */}
+          </Routes>
+        </Router>
       </PreviewProvider>
     </>
   );

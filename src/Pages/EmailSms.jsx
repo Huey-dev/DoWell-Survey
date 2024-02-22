@@ -70,13 +70,8 @@ export const EmailSms = () => {
       <div className="w-full h-full px-4 md:px-10 mt-[26px] md:pl-80 mb-20 flex flex-col justify-center items-center gap-5">
         <div className="w-full md:w-[400px] flex flex-col justify-center items-center gap-5">
           <div className="flex justify-center items-center">
-            <QRCode
-              size={170}
-              bgColor="white"
-              fgColor="black"
-              // value="https://uxlivinglab.com/"
-              value={getQrcode ? getQrcode : ""}
-            />
+            <img src={getQrcode ? getQrcode : ""} className="w-3/6" alt="" />
+
           </div>
           <form
             action=""

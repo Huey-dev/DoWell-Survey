@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import Layout from "../Layout/Layout";
 import MySurveysProposed from "./MySurveysProposed";
 import MainMap from "../components/Map";
@@ -17,6 +17,8 @@ import { XMarkIcon } from '@heroicons/react/24/outline';
 import CountryDropdown from "../components/Dropdown/CountryDropdown";
 import LocationDropdown from "../components/Dropdown/LocationDropdown";
 import Category from "../components/Categories";
+
+import axios from "axios";
 
 const LandingPage = () => {
     const navigate = useNavigate();
@@ -58,6 +60,48 @@ const LandingPage = () => {
         center_lat: centerCoords.lat,
         center_lon: centerCoords.lon,
     };
+
+    useEffect(() => {
+        // Define the function to fetch data
+        const fetchData = async () => {
+            try {
+                // Set loading to true while fetching data
+                console.log('tryingggggg');
+
+                const queryParams = new URLSearchParams(window.location.search);
+                const session_id = queryParams.get('session_id');
+                //setLoading(true);
+
+                const formData = {
+                    "session_id": session_id
+                }
+
+                const response = await axios.post(
+                    `https://100014.pythonanywhere.com/api/userinfo/`,
+                    formData,
+                    {
+                        headers: {
+                            "Content-Type": "application/json",
+                        },
+
+                    }
+                );
+                //const data = response?.data
+                const user_info = response?.data?.userinfo;       
+                sessionStorage.setItem("user_info", JSON.stringify(user_info));
+            
+            } catch (error) {
+                // If there's an error, update the error state
+                console.log("error is", error);
+            } finally {
+                // Set loading to false when data fetching is complete, regardless of success or failure
+
+            }
+        };
+
+        // Call the fetchData function when the component mounts
+        fetchData();
+    }, []);
 
     // const defaultSearchOptions = {
     //   radius1: inputData.radius1,
@@ -227,6 +271,7 @@ const LandingPage = () => {
                                     {placeDetails.map((product) => {
                                         const {
                                             placeId,
+                                            phone,
                                             photo_reference,
                                             address,
                                             website,
@@ -261,7 +306,7 @@ const LandingPage = () => {
 
                                                     <div className="flex items-center space-x-1">
                                                         <FaPhoneAlt />
-                                                        <p className="text-xs"> +232 453343223</p>
+                                                        <p className="text-xs"> {phone}</p>
                                                     </div>
 
                                                     <div className="flex justify-center items-center p-2">

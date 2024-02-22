@@ -248,6 +248,8 @@ export default function Edit() {
         };
 
         // Call the fetchData function when the component mounts
+        const user_info = sessionStorage.getItem("user_info") || "[]";
+        console.log("my iiiiiiiiiii", user_info)
         fetchData();
     }, []);
 

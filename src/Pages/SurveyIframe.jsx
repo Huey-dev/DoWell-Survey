@@ -11,18 +11,16 @@ const SurveyIframe = () => {
 
     // Accessing individual query parameters
     const survey_id = queryParams.get('survey_id');
+    const [iframe, setIframe] = useState(null);
+    const iframe_param = queryParams.get('iframe');
+
 
 
 
     useEffect(() => {
         setTimeout(() => {
-            if (survey_id === '1') {
-                setStatus('errorRegion');
-              } else if (survey_id === '2') {
-                setStatus('errorEnded');
-              } else {
-                setStatus('success');
-              }        
+            setIframe(iframe_param)
+            setStatus('success');        
         }, 1000);
 
     }, []);
@@ -78,7 +76,7 @@ const SurveyIframe = () => {
                                 <div className='text-2xl text-center font-bold font-serif'>
                                     Thanks for taking out time to fill our survey form
                                     <div className="flex items-center justify-center p-4">
-                                        <iframe className='border-2 border-green-500' src="https://docs.google.com/forms/d/e/1FAIpQLSdKc6oak3I4-NXknjtCw1tjHIn9NGZD3w3k9wgLVlAvv-vdDg/viewform" width="640" height="3576" frameborder="0" marginheight="0" marginwidth="0">Loading…</iframe>
+                                        <iframe className='border-2 border-green-500' src={iframe} width="640" height="3576" frameborder="0" marginheight="0" marginwidth="0">Loading…</iframe>
                                     </div>
 
                                 </div>

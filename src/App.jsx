@@ -8,6 +8,7 @@ import FinalizeSample from "./Pages/FinalizeSample2";
 import LinkSurvey from "./Pages/LinkSurvey";
 import { EmailSms } from "./Pages/EmailSms";
 import Edit from "./Pages/EditSurvey";
+import EditSurveyTemp from "./Pages/EditSurveyTemp";
 import Settings from "./Pages/Settings";
 import SurveyIframe from "./Pages/SurveyIframe";
 import TermsCondition from "./Pages/TermsCondition";
@@ -27,6 +28,7 @@ function App() {
           <Route path="/link-form" element={<LinkSurvey />} />
           <Route path="/email-sms" element={<EmailSms />} />
           <Route path="/list-surveys" element={<Edit />} />
+          <Route path="/list-surveys2" element={<EditSurveyTemp />} />
           <Route path="/settings" element={<Settings />} />
           <Route path="/terms-conditions" element={<TermsCondition />} />
           <Route path="/survey-iframe" element={<SurveyIframe />} />

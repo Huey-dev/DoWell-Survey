@@ -71,7 +71,7 @@ const LinkSurvey = () => {
     country: "ghana",
     region: "accra",
     participantsLimit: "20",
-    url: formLink,
+    url: `https://dowelllabs.github.io/DoWell-Survey/survey-iframe?iframe=${formLink}`,
   };
 
   const handleSubmit = async (e) => {

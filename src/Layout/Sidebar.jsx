@@ -292,7 +292,14 @@ export default function Sidebar() {
                 </Link>
               </li>
 
-
+              <li className="items-center py-1">
+                <Link
+                  to="/landing"
+                  className="bg-gray-400 text-center text-md font-serif py-1 font-bold block text-white hover:text-black"
+                >
+                  Alternate Landing
+                </Link>
+              </li>
             </ul>
           </div>
         </div>

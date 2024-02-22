@@ -70,9 +70,13 @@ const StartNewSurvey = () => {
             className="border-2 w-full sm:w-[40%] p-1 border-[#B3B4BB] rounded-[5px] outline-none"
           >
             <option value="">Select products/services</option>
-            <option value="Product 1">Product 1</option>
-            <option value="Product 2">Product 2</option>
-            <option value="Product 3">Product 3</option>
+            <option value="Product 1">Workflow Ai</option>
+            <option value="Product 2">LegalZard</option>
+            <option value="Product 3">Team Management</option>
+            <option value="Product 3">Search in Living Labs</option>
+            <option value="Product 3">UX Live Stream</option>
+            <option value="Product 3">Dowell Surveys</option>
+            <option value="Product 3">Dowell Maps</option>
           </select>
 
           <textarea

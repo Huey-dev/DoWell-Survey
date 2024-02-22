@@ -286,11 +286,13 @@ export default function Sidebar() {
                 </Link>
               </li>
 
-              <li className="items-center py-1.5">
+              <li className="items-center py-1">
                 <Link className="bg-gray-400 text-center text-md font-serif py-1 font-bold block text-white hover:text-red-500">
                   Log Out
                 </Link>
               </li>
+
+
             </ul>
           </div>
         </div>

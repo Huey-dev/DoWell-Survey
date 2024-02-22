@@ -71,7 +71,7 @@ const LinkSurvey = () => {
     country: "ghana",
     region: "accra",
     participantsLimit: "20",
-    url: "https://easereads.com/",
+    url: formLink,
   };
 
   const handleSubmit = async (e) => {

@@ -8,4 +8,10 @@ export default defineConfig({
   },
   plugins: [react()],
   base: '/DoWell-Survey/',
+  build: {
+    assetsInlineLimit: 0,
+    chunkSizeWarningLimit: 2000,
+    cssCodeSplit: true,
+    manifest: true,
+  },
 })

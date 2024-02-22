@@ -49,14 +49,14 @@ const LinkSurvey = () => {
   console.log("start", sformattedDate);
   console.log("end", eformattedDate);
 
-  // Retrieve the array from sessionStorage
-  const savedSurveyArray = JSON.parse(sessionStorage.getItem("finalizeSurvey"));
+  // // Retrieve the array from sessionStorage
+  // const savedSurveyArray = JSON.parse(sessionStorage.getItem("finalizeSurvey"));
 
-  // Retrieve properties of the first object
-  const firstObject =
-    savedSurveyArray && savedSurveyArray.length > 0
-      ? savedSurveyArray[0]
-      : null;
+  // // Retrieve properties of the first object
+  // const firstObject =
+  //   savedSurveyArray && savedSurveyArray.length > 0
+  //     ? savedSurveyArray[0]
+  //     : null;
 
   // Access individual properties
   const country = sessionStorage.getItem("country");

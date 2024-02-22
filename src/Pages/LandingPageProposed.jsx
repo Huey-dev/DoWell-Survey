@@ -124,6 +124,8 @@ const LandingPage = () => {
             return;
         }
         try {
+            setSurveys([]);
+            sessionStorage.setItem("newSurvey", "[]");
 
             setLoading(true);
 

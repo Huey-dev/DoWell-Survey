@@ -1,8 +1,50 @@
 // import React from "react";
 import Layout from "../Layout/Layout";
+import { useEffect, useState } from "react";
 
 // Components
 export default function Settings() {
+  const [profileImageUrl, setProfileImageUrl] = useState("");
+  const [userName, setUserName] = useState(null);
+  const [firstName, setFirstName] = useState(null);
+  const [LastName, setLastName] = useState(null);
+  const [phone, setPhone] = useState(null);
+  const [country, setCountry] = useState(null);
+  const [city, setCity] = useState(null);
+  const [postal, setPostal] = useState(null);
+  const [address, setAddress] = useState(null);
+  const [description, setDescription] = useState(null);
+
+  // Retrieve user_info object from sessionStorage
+  useEffect(() => {
+    const user_info = JSON.parse(sessionStorage.getItem("user_info"));
+    if (user_info) {
+      // Access the profile_img property from the user_info object
+      const imageUrl = user_info.profile_img ? user_info.profile_img : null;
+      const fname = user_info.first_name ? user_info.first_name : null;
+      const Lname = user_info.last_name ? user_info.last_name : null;
+      const Uname = user_info.username ? user_info.username : null;
+      const phone = user_info.phone ? user_info.phone : null;
+      const country = user_info.user_country ? user_info.user_country : null;
+      const timezone = user_info.timezone ? user_info.timezone : null;
+      const city = timezone.split("/")[1];
+      const postal = user_info.postal ? user_info.postal : null;
+      const address = user_info.address ? user_info.address : null;
+      const description = user_info.description ? user_info.description : null;
+
+      setDescription(description);
+      setAddress(address);
+      setPostal(postal);
+      setCity(city);
+      setCountry(country);
+      setFirstName(fname);
+      setLastName(Lname);
+      setUserName(Uname);
+      setPhone(phone);
+      setProfileImageUrl(imageUrl);
+    }
+  }, []);
+
   return (
     <Layout>
       <div className="px-4 md:px-10 mt-[26px] md:pl-80 flex flex-col gap-5">
@@ -40,16 +82,21 @@ export default function Settings() {
                       htmlFor="profile"
                       className="w-40 h-40 bg-gray-200 rounded-full flex justify-center items-center relative cursor-pointer"
                     >
-                      <input
+                      <img
+                        src={profileImageUrl || null}
+                        alt="user image"
+                        className="w-full h-full absolute top-0 left-0"
+                      />
+                      {/* <input
                         type="file"
                         name="profile"
                         id="profile"
                         className="opacity-0 w-full h-full absolute top-0 left-0"
-                      />
+                      /> */}
                       {/* Add your preview image here if needed */}
-                      <span className="absolute inset-0 flex justify-center items-center">
+                      {/* <span className="absolute inset-0 flex justify-center items-center">
                         Profile Picture
-                      </span>
+                      </span> */}
                     </label>
                     {/* Additional content if needed */}
                   </div>
@@ -88,7 +135,7 @@ export default function Settings() {
                     <input
                       type="text"
                       className="border-0 px-3 py-3 placeholder-blueGray-300 text-blueGray-600 bg-white rounded text-sm shadow focus:outline-none focus:ring w-full ease-linear transition-all duration-150"
-                      defaultValue="lucky.jesse"
+                      defaultValue={userName}
                     />
                   </div>
                 </div>
@@ -103,7 +150,7 @@ export default function Settings() {
                     <input
                       type="text"
                       className="border-0 px-3 py-3 placeholder-blueGray-300 text-blueGray-600 bg-white rounded text-sm shadow focus:outline-none focus:ring w-full ease-linear transition-all duration-150"
-                      defaultValue="Lucky"
+                      defaultValue={firstName}
                     />
                   </div>
                 </div>
@@ -118,7 +165,7 @@ export default function Settings() {
                     <input
                       type="text"
                       className="border-0 px-3 py-3 placeholder-blueGray-300 text-blueGray-600 bg-white rounded text-sm shadow focus:outline-none focus:ring w-full ease-linear transition-all duration-150"
-                      defaultValue="Jesse"
+                      defaultValue={phone}
                     />
                   </div>
                 </div>
@@ -191,7 +238,7 @@ export default function Settings() {
                     <input
                       type="text"
                       className="border-0 px-3 py-3 placeholder-blueGray-300 text-blueGray-600 bg-white rounded text-sm shadow focus:outline-none focus:ring w-full ease-linear transition-all duration-150"
-                      defaultValue="Bld Mihail Kogalniceanu, nr. 8 Bl 1, Sc 1, Ap 09"
+                      defaultValue={address}
                     />
                   </div>
                 </div>
@@ -207,7 +254,7 @@ export default function Settings() {
                     <input
                       type="email"
                       className="border-0 px-3 py-3 placeholder-blueGray-300 text-blueGray-600 bg-white rounded text-sm shadow focus:outline-none focus:ring w-full ease-linear transition-all duration-150"
-                      defaultValue="New York"
+                      defaultValue={city}
                     />
                   </div>
                 </div>
@@ -222,7 +269,7 @@ export default function Settings() {
                     <input
                       type="text"
                       className="border-0 px-3 py-3 placeholder-blueGray-300 text-blueGray-600 bg-white rounded text-sm shadow focus:outline-none focus:ring w-full ease-linear transition-all duration-150"
-                      defaultValue="United States"
+                      defaultValue={country}
                     />
                   </div>
                 </div>
@@ -237,7 +284,7 @@ export default function Settings() {
                     <input
                       type="text"
                       className="border-0 px-3 py-3 placeholder-blueGray-300 text-blueGray-600 bg-white rounded text-sm shadow focus:outline-none focus:ring w-full ease-linear transition-all duration-150"
-                      defaultValue="Postal Code"
+                      defaultValue={postal}
                     />
                   </div>
                 </div>
@@ -260,7 +307,7 @@ export default function Settings() {
                     <textarea
                       type="text"
                       className="border-0 px-3 py-3 placeholder-blueGray-300 text-blueGray-600 bg-white rounded text-sm shadow focus:outline-none focus:ring w-full ease-linear transition-all duration-150"
-                      defaultValue="Thanks for your anticipated assistance"
+                      defaultValue={description}
                       rows="4"
                     ></textarea>
                   </div>

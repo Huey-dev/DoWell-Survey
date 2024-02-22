@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import Layout from "../Layout/Layout";
 import { Link, useNavigate } from "react-router-dom";
 import axios from "axios";
@@ -36,6 +36,18 @@ const LinkSurvey = () => {
   const description = savedSurveyData ? savedSurveyData.description : "";
   const startDate = savedSurveyData ? savedSurveyData.startDate : "";
   const endDate = savedSurveyData ? savedSurveyData.endDate : "";
+  const [syear, smonth, sday] = startDate.split("-");
+  const [eyear, emonth, eday] = endDate.split("-");
+
+  // Create a new Date object using the extracted year, month, and day
+  const dateObject = new Date(syear, smonth - 1, sday); // Note: Month in JavaScript Date object is 0-indexed (0 for January, 1 for February, etc.), so we subtract 1 from the month
+  const edateObject = new Date(eyear, emonth - 1, eday);
+
+  // Format the date as DD-MM-YYYY
+  const sformattedDate = `${sday}-${smonth}-${syear}`;
+  const eformattedDate = `${eday}-${emonth}-${eyear}`;
+  console.log("start", sformattedDate);
+  console.log("end", eformattedDate);
 
   // Retrieve the array from sessionStorage
   const savedSurveyArray = JSON.parse(sessionStorage.getItem("finalizeSurvey"));
@@ -47,9 +59,28 @@ const LinkSurvey = () => {
       : null;
 
   // Access individual properties
-  const country = firstObject ? firstObject.country : "";
-  const region = firstObject ? firstObject.region : "";
-  const numOfParticipants = firstObject ? firstObject.numOfParticipants : "";
+  const country = sessionStorage.getItem("country");
+  const region = sessionStorage.getItem("region");
+  const numOfParticipants = sessionStorage.getItem("numOfParticipants");
+
+  const [userName, setUserName] = useState(null);
+  const [email, setEmail] = useState(null);
+
+  // const [country, setCountry] = useState(null);
+  // const [description, setDescription] = useState(null);
+
+  // Retrieve user_info object from sessionStorage
+  useEffect(() => {
+    const user_info = JSON.parse(sessionStorage.getItem("user_info"));
+    if (user_info) {
+      // Access the profile_img property from the user_info object
+      const Uname = user_info.username ? user_info.username : null;
+      const email = user_info.email ? user_info.email : null;
+
+      setEmail(email);
+      setUserName(Uname);
+    }
+  }, []);
 
   sessionStorage.setItem("formLink", formLink);
   const formData = {
@@ -57,20 +88,20 @@ const LinkSurvey = () => {
     quantity: "1",
     logo: image,
     link: formLink,
-    company_id: "samuel",
+    company_id: userName,
     created_by: name,
     description: description,
-    start_date: "01-11-2023",
-    end_date: "01-11-2024",
-    brand_name: name,
+    start_date: sformattedDate,
+    end_date: eformattedDate,
+    brand_name: userName,
     promotional_sentence: description,
-    username: name,
+    username: userName,
     name: name,
-    email: "samuelmakinde@gmail.com",
-    service: name,
-    country: "ghana",
-    region: "accra",
-    participantsLimit: "20",
+    email: email,
+    service: product,
+    country: country,
+    region: region,
+    participantsLimit: numOfParticipants,
     url: `https://dowelllabs.github.io/DoWell-Survey/survey-iframe?iframe=${formLink}`,
   };
 

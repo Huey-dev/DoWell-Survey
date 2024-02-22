@@ -97,7 +97,7 @@ const LinkSurvey = () => {
         "Qrcode",
         response.data.qrcodes[0].qrcode_image_url
       );
-      console.log("this is response message", response.data.response);
+
       toast.success(response.data.response, {
         onClose: () => {
           console.log("Toast closed, navigating...");

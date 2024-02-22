@@ -10,16 +10,54 @@ const SurveyIframe = () => {
     const location = useLocation();
     const queryParams = new URLSearchParams(location.search);
 
+    const [place_region, setPlace_region] = useState(null);
+
     // Accessing individual query parameters
     const survey_id = queryParams.get('survey_id');
     const [iframe, setIframe] = useState(null);
     const iframe_param = queryParams.get('iframe');
+
+    const [errMsg, setErrMsg] = useState(null);
+
+    const handleDone = async () => {
+
+        try {
+            const count_response = await axios.post(
+
+
+
+                `https://100025.pythonanywhere.com/survey-count/`,
+                {
+                    "link": window.location.href,
+                    "region": place_region
+
+                },
+                {
+                    headers: {
+                        "Content-Type": "multipart/form-data",
+                    },
+
+                }
+            );
+            console.log("suceeeeeeee");
+            window.location.href = 'https://dowelllabs.github.io/DoWell-Survey/';
+
+
+
+        } catch (error) {
+            console.log("failure");
+            window.location.href = 'https://dowelllabs.github.io/DoWell-Survey/';
+
+        }
+
+    }
 
 
 
 
     useEffect(() => {
         const getCurrentAddress = () => {
+            console.log("ssssssssssss")
             // Check if geolocation is supported
             if (navigator.geolocation) {
                 // Get current position
@@ -38,11 +76,15 @@ const SurveyIframe = () => {
                         if (status === google.maps.GeocoderStatus.OK) {
                             if (results[0]) {
                                 var the_region = findRegion(results[0].address_components);
-                                
+                                var the_region_hyphen = Array.from(the_region).join('-');
+                                setPlace_region(the_region_hyphen);
+
+                                console.log("the_region_hyphen", the_region_hyphen);
+
 
                                 const formData = {
                                     "link": window.location.href,
-                                    "region": the_region
+                                    "region": the_region_hyphen
                                 }
 
                                 const response = await axios.post(
@@ -52,11 +94,47 @@ const SurveyIframe = () => {
                                         headers: {
                                             "Content-Type": "multipart/form-data",
                                         },
-                
+
                                     }
                                 );
 
-                                console.log("okaaaaaay", response)
+                                console.log("aaaaaaaaaaaaaaaaa");
+
+                                if (response?.data?.isSuccess === true) {
+                                    const queryParams = new URLSearchParams(window.location.search);
+                                    const survey_id = queryParams.get('survey_id');
+
+                                    const id_response = await axios.post(
+
+                                        `https://100025.pythonanywhere.com/my-survey/?api_key=4f0bd662-8456-4b2e-afa6-293d4135facf`,
+                                        {
+                                            "survey_id": survey_id,
+
+                                        },
+                                        {
+                                            headers: {
+                                                "Content-Type": "multipart/form-data",
+                                            },
+
+                                        }
+                                    );
+
+
+                                    setIframe(id_response?.data[0].url);
+
+                                    setStatus('success');
+
+
+                                }
+                                else {
+                                    setErrMsg(response?.data.message)
+                                    setStatus('error');
+                                    console.log("ssssssssssss")
+                                }
+
+
+
+
 
                             } else {
                                 alert('No results found');
@@ -115,27 +193,19 @@ const SurveyIframe = () => {
                                 >Loading...</span>
 
                             </div>
-                        </div> : status === 'errorRegion' ?
+                        </div>
+                        : status === 'error' ?
                             <div>
                                 <p className='text-center text-5xl my-8 font-bold text-red-500 font-serif'>
                                     Oops!
                                 </p>
                                 <p className='text-center font-bold text-2xl my-8'>
-                                    Sorry, this survey isn't available in your region
+                                    Sorry, {errMsg}
                                 </p>
 
 
-                            </div> : status === 'errorEnded' ?
-                                <div>
-                                    <p className='text-center text-5xl my-8 font-bold text-red-500 font-serif'>
-                                        Oops!
-                                    </p>
-                                    <p className='text-center font-bold text-2xl my-8'>
-                                        Sorry, this survey has ended
-                                    </p>
-
-
-                                </div> :
+                            </div> :
+                            <>
                                 <div className='text-2xl text-center font-bold font-serif'>
                                     Thanks for taking out time to fill our survey form
                                     <div className="flex items-center justify-center p-4">
@@ -143,33 +213,37 @@ const SurveyIframe = () => {
                                     </div>
 
                                 </div>
+                                <div className='flex items-center justify-center pb-4'>
+                                    <div className='bg-[#7ED957] flex items-center justify-center p-4 m-4 border-2 border-black'>
+                                        <div className='p-1 border-2 border-black'>
+                                            <QRCode
+                                                size={40}
+                                                bgColor="white"
+                                                fgColor="black"
+                                                value="https://uxlivinglab.com/"
+                                            />
+
+                                        </div>
+
+                                        <div className='text-center mx-1 font-semibold'>Please Click Here after submitting this form </div>
+                                        <button
+                                            onClick={handleDone}
+
+                                            className="text-sm p-2 font-serif font-semibold bg-[#005734] opacity-80 hover:opacity-100 text-[white] rounded-md"
+                                        >
+                                            Done
+                                        </button>
+
+                                    </div>
+
+                                </div>
+                            </>
+
 
                 }
 
 
-                <div className='flex items-center justify-center pb-4'>
-                    <div className='bg-[#7ED957] flex items-center justify-center p-4 m-4 border-2 border-black'>
-                        <div className='p-1 border-2 border-black'>
-                            <QRCode
-                                size={40}
-                                bgColor="white"
-                                fgColor="black"
-                                value="https://uxlivinglab.com/"
-                            />
 
-                        </div>
-
-                        <div className='text-center mx-1 font-semibold'>You can create your surveys too for any location </div>
-                        <button
-
-                            className="text-sm p-2 font-serif font-semibold bg-[#005734] opacity-80 hover:opacity-100 text-[white] rounded-md"
-                        >
-                            Explore
-                        </button>
-
-                    </div>
-
-                </div>
 
 
 

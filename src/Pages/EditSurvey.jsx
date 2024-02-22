@@ -249,8 +249,9 @@ export default function Edit() {
 
         // Call the fetchData function when the component mounts
         const user_info_session = sessionStorage.getItem("user_info") || "[]";
+        console.log(user_info_session);
         const user_info = JSON.parse(user_info_session);
-        const userName = user_info.username; 
+        const userName = user_info?.username; 
         fetchData(userName);
     }, []);
 
@@ -585,14 +586,11 @@ export default function Edit() {
                                     :
 
                                     <div className="bg-[#282B32] text-white p-4">
-                                        <h6 className="font-bold mb-2">Selection: {locationsSurveyName}</h6>
+                                        <h6 className="font-bold mb-2">Selection: Dowell Surveys</h6>
                                         {
-                                            locations.map((location, index) => (
+                                            survey_results.map((survey, index) => (
                                                 <div key={index}>
-                                                    <h6 className="font-bold text-sm text-[#F0C40D]">{location.name}</h6>
-                                                    <p className="text-sm">{location.category}</p>
-                                                    <p className="text-sm">{`[${location.coordinates[0]}, ${location.coordinates[1]}]`}</p>
-                                                    <p className="text-sm">{`${location.radius}(m) radius`}</p>
+                                                    <h6 className="font-bold text-sm text-[#F0C40D]">{survey.brand_name}</h6>
 
                                                 </div>
                                             ))
@@ -696,7 +694,7 @@ export default function Edit() {
                                                             <div class="flex items-center justify-center space-x-0.5">
                                                                 <button className="flex items-center justify-center rounded-lg bg-[#005734]"
                                                                     onClick={() => {
-                                                                        setSurvey(survey)
+                                                                        setSurvey(survey);
                                                                         setOpen(true);
                                                                         setMode("link");
                                                                     }}>
@@ -707,7 +705,12 @@ export default function Edit() {
                                                                     <TrashIcon className="h-6 w-6 text-white m-1" />
                                                                 </button>
                                                                 <button className="flex items-center justify-center rounded-lg bg-blue-500"
-                                                                    onClick={onPreviewClick}>
+                                                                    onClick={() => 
+                                                                        {
+                                                                            setSurvey(survey);
+                                                                            setOpen(true);
+                                                                            setMode("preview");
+                                                                        }}>
                                                                     <QrCodeIcon className="h-6 w-6 text-white m-1" />
                                                                 </button>
                                                                 <button className="flex items-center justify-center rounded-lg bg-orange-500"

@@ -87,7 +87,7 @@ const LinkSurvey = () => {
     qrcode_type: "Link",
     quantity: "1",
     logo: image,
-    link: formLink,
+    link: "https://dowelllabs.github.io/DoWell-Survey/survey-iframe",
     company_id: userName,
     created_by: name,
     description: description,
@@ -102,7 +102,7 @@ const LinkSurvey = () => {
     country: country,
     region: region,
     participantsLimit: numOfParticipants,
-    url: `https://dowelllabs.github.io/DoWell-Survey/survey-iframe?iframe=${formLink}`,
+    url: formLink,
   };
 
   const handleSubmit = async (e) => {

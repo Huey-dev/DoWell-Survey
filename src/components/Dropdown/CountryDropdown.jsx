@@ -288,7 +288,9 @@ export default function CountryDropdown({ loading }) {
       name="country"
       value={inputData.country}
       autoComplete="country-name"
-      onChange={(e) => setInputData({ ...inputData, country: e.target.value })}
+      onChange={(e) => {
+        sessionStorage.setItem("country", JSON.stringify(e.target.value));
+        setInputData({ ...inputData, country: e.target.value })}}
       className="select w-[200px] h-[33px] bg-[#D9D9D9]"
     >
       <option>Select country</option>

@@ -208,7 +208,7 @@ export default function Edit() {
 
     useEffect(() => {
         // Define the function to fetch data
-        const fetchData = async () => {
+        const fetchData = async (username) => {
             try {
                 // Set loading to true while fetching data
                 console.log('tryingggggg')
@@ -222,7 +222,7 @@ export default function Edit() {
                 //         "Content-Type": "multipart/form-data",
                 //     },
                 // });
-                const formData = { username: "Ijerrycloudo" }
+                const formData = { username: username }
 
                 const response = await axios.post(
                     `https://100025.pythonanywhere.com/my-survey/`,
@@ -248,9 +248,10 @@ export default function Edit() {
         };
 
         // Call the fetchData function when the component mounts
-        const user_info = sessionStorage.getItem("user_info") || "[]";
-        console.log("my iiiiiiiiiii", user_info)
-        fetchData();
+        const user_info_session = sessionStorage.getItem("user_info") || "[]";
+        const user_info = JSON.parse(user_info_session);
+        const userName = user_info.username; 
+        fetchData(userName);
     }, []);
 
 

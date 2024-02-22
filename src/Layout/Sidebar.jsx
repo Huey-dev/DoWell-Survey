@@ -286,9 +286,26 @@ export default function Sidebar() {
                 </Link>
               </li>
 
-              <li className="items-center py-1.5">
+              <li className="items-center py-1">
                 <Link className="bg-gray-400 text-center text-md font-serif py-1 font-bold block text-white hover:text-red-500">
                   Log Out
+                </Link>
+              </li>
+
+              <li className="items-center py-1">
+                <Link
+                  to="/landing"
+                  className="bg-gray-400 text-center text-md font-serif py-1 font-bold block text-white hover:text-black"
+                >
+                  Alternate Landing
+                </Link>
+              </li>
+              <li className="items-center py-1">
+                <Link
+                  to="/survey-iframe"
+                  className="bg-gray-400 text-center text-md font-serif py-1 font-bold block text-white hover:text-black"
+                >
+                  Scanned Survey
                 </Link>
               </li>
             </ul>

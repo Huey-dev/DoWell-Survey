@@ -14,12 +14,23 @@ import { AiFillEdit } from "react-icons/ai";
 import { MdDelete } from "react-icons/md";
 import surveys from "../data/surveys";
 
+
 import axios from "axios";
 
 
 export default function Edit() {
     const [loading, setLoading] = useState(true);
+    const [errorMessage, setErrorMessage] = useState(null);
     const [survey_results, setSurvey_results] = useState([]);
+    const [survey, setSurvey] = useState({});
+    const brandNameRef = useRef(null);
+    const promotionalRef = useRef(null);
+    const limitRef = useRef(null);
+    const startDateRef = useRef(null);
+    const endDateRef = useRef(null);
+    const [image, setImage] = useState(null);
+
+
 
 
     const [open, setOpen] = useState(false);
@@ -104,11 +115,6 @@ export default function Edit() {
 
     const cancelButtonRef = useRef(null)
 
-    const onLinkClick = () => {
-        setOpen(true);
-        setMode("link");
-    }
-
     const onDeleteClick = () => {
         setOpen(true);
         setMode("delete");
@@ -141,6 +147,60 @@ export default function Edit() {
 
 
         }
+
+    }
+
+    const handleImageChange = (event) => {
+        const file = event.target.files[0];
+        // const reader = new FileReader();
+
+        const maxSizeInBytes = 5 * 1024 * 1024; // 5 MB
+        if (file.size > maxSizeInBytes) {
+            setErrorMessage(
+                "File size exceeds the limit (5 MB). Please choose a smaller file."
+            );
+            console.log('bigerrrrrrrrr')
+            // Clear the input field to prevent submission
+            event.target.value = null;
+            return;
+        }
+        console.log("File type:", file.type);
+        setImage(file);
+    };
+
+    const handleEditSubmit = async (e) => {
+        e.preventDefault();
+        // Handle form submission logic here
+        const formData = {
+            start_date: startDateRef,
+            end_date: endDateRef,
+            brand_name: brandNameRef,
+            promotional_sentence: promotionalRef,
+            participantsLimit: limitRef,
+
+        }
+        console.log("tryuuuuuuuuuuuuuug")
+        try {
+            const response = await axios.post(
+                `https://100025.pythonanywhere.com/update-qr-codev2/`,
+                formData,
+                {
+                    headers: {
+                        "Content-Type": "multipart/form-data",
+                    },
+                }
+            );
+            return;
+        }
+        catch (error) {
+            console.log("error");
+        }
+
+
+
+
+        console.log('Form submitted');
+        return;
 
     }
 
@@ -226,7 +286,10 @@ export default function Edit() {
                                     >
                                         <Dialog.Panel className="relative transform overflow-hidden rounded-lg bg-white text-left shadow-xl transition-all w-full max-w-xl">
                                             {mode == "link" ?
-                                                <form action="">
+                                                <form
+                                                    action=""
+                                                    encType="multipart/form-data"
+                                                    onSubmit={handleEditSubmit}>
                                                     <div className="flex flex-col items-center justify-center w-full">
                                                         <div className="flex items-center justify-between w-full text-xl text-white bg-[#005734]">
                                                             <p className="font-bold m-4">EDIT SURVEY</p>
@@ -243,9 +306,18 @@ export default function Edit() {
                                                                 <div className="w-7/12">
                                                                     <input
                                                                         type="file"
+                                                                        name=""
+                                                                        id="file"
                                                                         placeholder="add your form link here"
                                                                         className="border w-full p-1 border-[#B3B4BB] outline-none"
+                                                                        // value={image}
+                                                                        onChange={handleImageChange}
                                                                     />
+                                                                    <small>
+                                                                        {errorMessage && (
+                                                                            <p style={{ color: "red" }}>{errorMessage}</p>
+                                                                        )}
+                                                                    </small>
                                                                 </div>
                                                             </div>
 
@@ -256,6 +328,24 @@ export default function Edit() {
                                                                 <div className="w-7/12">
                                                                     <input
                                                                         type="text"
+                                                                        ref={brandNameRef}
+                                                                        defaultValue={survey?.brand_name || ''}
+                                                                        required
+                                                                        placeholder=""
+                                                                        className="border w-full p-1 border-[#B3B4BB] outline-none"
+                                                                    />
+                                                                </div>
+                                                            </div>
+
+                                                            <div className="flex items-center justify-center w-full">
+                                                                <div className="w-3/12">
+                                                                    <h2 className="font-medium text-left">Participant Limit:</h2>
+                                                                </div>
+                                                                <div className="w-7/12">
+                                                                    <input
+                                                                        type="number"
+                                                                        defaultValue={survey?.participantsLimit || ''}
+                                                                        ref={limitRef}
                                                                         required
                                                                         placeholder=""
                                                                         className="border w-full p-1 border-[#B3B4BB] outline-none"
@@ -269,8 +359,12 @@ export default function Edit() {
                                                                 </div>
                                                                 <div className="w-7/12">
                                                                     <textarea
+                                                                        defaultValue={survey?.promotional_sentence || ''}
+                                                                        maxLength="15"
                                                                         id="description"
                                                                         name="promotional sentence"
+                                                                        ref={promotionalRef}
+                                                                        required
                                                                         placeholder="Enter a promotional sentence to attract participants in (15 words)"
                                                                         className="h-24 resize-none border w-full p-1 border-[#B3B4BB] outline-none"
                                                                     />
@@ -284,16 +378,22 @@ export default function Edit() {
                                                                 <div className="w-7/12 flex items-center justify-between">
                                                                     <input
                                                                         type="date"
+                                                                        defaultValue={survey?.start_date}
                                                                         className="border p-1 border-[#B3B4BB] outline-none"
-                                                                        value={startDate}
+                                                                        //value={startDate}
+                                                                        ref={startDateRef}
                                                                         onChange={(e) => setStartDate(e.target.value)}
+                                                                        required
                                                                     />
                                                                     <p className="mx-1 font-medium">to</p>
                                                                     <input
                                                                         type="date"
+                                                                        defaultValue={survey?.end_date}
                                                                         className="border p-1 border-[#B3B4BB] outline-none"
-                                                                        value={startDate}
+                                                                        ref={endDateRef}
+                                                                        //entevalue={startDate}
                                                                         onChange={(e) => setStartDate(e.target.value)}
+                                                                        required
                                                                     />
                                                                 </div>
                                                             </div>
@@ -306,7 +406,7 @@ export default function Edit() {
                                                             </div>
                                                             <div className="w-7/12 flex justify-center space-x-2">
                                                                 <button
-                                                                    type="button"
+                                                                    //type="button"
                                                                     className="inline-flex w-full justify-center rounded-md bg-white px-3 py-2 text-md font-semibold text-[#005734] shadow-sm hover:bg-gray-50 border-2 border-[#005734]"
                                                                     onClick={() => setOpen(false)}
                                                                     ref={cancelButtonRef}
@@ -393,7 +493,7 @@ export default function Edit() {
                                                                     <QRCode
                                                                         size={190}
                                                                         bgColor="white"
-                                                                        value="https://uxlivinglab.com/"
+                                                                        value={"https://uxlivinglab.com/"}
                                                                         style={{ borderColor: "black", padding: "4px", borderWidth: "2px" }}
                                                                     />
                                                                 </div>
@@ -592,7 +692,11 @@ export default function Edit() {
                                                         <td class="whitespace-nowrap  px-6 py-4">
                                                             <div class="flex items-center justify-center space-x-0.5">
                                                                 <button className="flex items-center justify-center rounded-lg bg-[#005734]"
-                                                                    onClick={onLinkClick}>
+                                                                    onClick={() => {
+                                                                        setSurvey(survey)
+                                                                        setOpen(true);
+                                                                        setMode("link");
+                                                                    }}>
                                                                     <PencilSquareIcon className="h-6 w-6 text-white m-1" />
                                                                 </button>
                                                                 <button className="flex items-center justify-center rounded-lg bg-[#EF4444]"

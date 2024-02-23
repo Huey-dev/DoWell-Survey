@@ -71,7 +71,9 @@ const LinkSurvey = () => {
 
   // Retrieve user_info object from sessionStorage
   useEffect(() => {
+    console.log("before");
     const user_info = JSON.parse(sessionStorage.getItem("user_info"));
+    console.log("after");
     if (user_info) {
       // Access the profile_img property from the user_info object
       const Uname = user_info.username ? user_info.username : null;

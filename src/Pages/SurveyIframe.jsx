@@ -79,7 +79,7 @@ const SurveyIframe = () => {
                                 var the_region_hyphen = Array.from(the_region).join('-');
                                 setPlace_region(the_region_hyphen);
 
-                                console.log("the_region_hyphen", the_region_hyphen);
+                                alert("the_region_hyphen", the_region_hyphen);
 
 
                                 const formData = {

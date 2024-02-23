@@ -1,17 +1,16 @@
 {
   "index.css": {
-    "file": "assets/index-ac3356f6.css",
+    "file": "assets/index-aa4132c4.css",
     "src": "index.css"
   },
   "index.html": {
     "assets": [
-      "assets/logonew-4a24c200.png",
       "assets/dowell-1abe8323.jpeg"
     ],
     "css": [
-      "assets/index-ac3356f6.css"
+      "assets/index-aa4132c4.css"
     ],
-    "file": "assets/index-d94e9880.js",
+    "file": "assets/index-2e04b23d.js",
     "isEntry": true,
     "src": "index.html"
   },
@@ -34,9 +33,5 @@
   "src/assets/dowell.jpeg": {
     "file": "assets/dowell-1abe8323.jpeg",
     "src": "src/assets/dowell.jpeg"
-  },
-  "src/assets/logonew.png": {
-    "file": "assets/logonew-4a24c200.png",
-    "src": "src/assets/logonew.png"
   }
 }

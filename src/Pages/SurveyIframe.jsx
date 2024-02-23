@@ -75,11 +75,24 @@ const SurveyIframe = () => {
                     geocoder.geocode({ 'location': latlng }, async function (results, status) {
                         if (status === google.maps.GeocoderStatus.OK) {
                             if (results[0]) {
-                                var the_region = findRegion(results[0].address_components);
-                                var the_region_hyphen = Array.from(the_region).join('-');
+                                if (results[0]) {
+                                    // Parse address components to find city
+                                    var addressComponents = results[0].address_components;
+                                    for (var i = 0; i < addressComponents.length; i++) {
+                                        var types = addressComponents[i].types;
+                                        if (types.includes('locality')) {
+                                            const the_region = addressComponents[i].long_name;
+                                            break;
+                                        }
+                                    }
+                                }
+
+
+                                
+                                const the_region_hyphen = Array.from(the_region).join('-');
                                 setPlace_region(the_region_hyphen);
 
-                                alert(the_region_hyphen);
+                                alert(the_region);
 
 
                                 const formData = {

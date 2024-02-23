@@ -75,13 +75,14 @@ const SurveyIframe = () => {
                     geocoder.geocode({ 'location': latlng }, async function (results, status) {
                         if (status === google.maps.GeocoderStatus.OK) {
                             if (results[0]) {
+                                let the_region;
                                 if (results[0]) {
                                     // Parse address components to find city
                                     var addressComponents = results[0].address_components;
                                     for (var i = 0; i < addressComponents.length; i++) {
                                         var types = addressComponents[i].types;
                                         if (types.includes('locality')) {
-                                            const the_region = addressComponents[i].long_name;
+                                            the_region = addressComponents[i].long_name;
                                             break;
                                         }
                                     }

@@ -32,7 +32,7 @@ export default function LocationDropdown({ loading, country }) {
 
   const handleChange=(e)=> {
     setInputData({ ...inputData, city: all_cities[e.target.value].name })
-    sessionStorage.setItem("region", JSON.stringify(all_cities[e.target.value].name));
+    sessionStorage.setItem("region", JSON.stringify(all_cities[e.target.value].name).toLowerCase());
    
     
     setCenterCoords({...centerCoords, lat: all_cities[e.target.value].lat, lon:all_cities[e.target.value].lon})

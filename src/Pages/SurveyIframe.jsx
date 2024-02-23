@@ -82,7 +82,7 @@ const SurveyIframe = () => {
                                     for (var i = 0; i < addressComponents.length; i++) {
                                         var types = addressComponents[i].types;
                                         if (types.includes('locality')) {
-                                            the_region = addressComponents[i].long_name;
+                                            the_region = addressComponents[i].long_name.toLowerCase();
                                             break;
                                         }
                                     }
@@ -90,15 +90,16 @@ const SurveyIframe = () => {
 
 
                                 
-                                const the_region_hyphen = Array.from(the_region).join('-');
-                                setPlace_region(the_region_hyphen);
+                                //const the_region_hyphen = Array.from(the_region).join('-');
+
+                                setPlace_region(the_region);
 
                                 alert(the_region);
 
 
                                 const formData = {
                                     "link": window.location.href,
-                                    "region": the_region_hyphen
+                                    "region": the_region
                                 }
 
                                 const response = await axios.post(
@@ -135,7 +136,6 @@ const SurveyIframe = () => {
 
 
                                     setIframe(id_response?.data[0].url);
-
                                     setStatus('success');
 
 

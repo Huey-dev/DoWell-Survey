@@ -28,7 +28,7 @@ export default function Sidebar() {
 
   return (
     <main className="w-full h-full">
-             <nav className="md:left-0 md:block md:fixed md:top-0 md:bottom-0 md:flex-row md:flex-nowrap md:overflow-hidden shadow-xl bg-[#399544] flex flex-wrap items-center justify-between relative md:w-64 z-10 py-4 px-6 hidden md:visible">
+             <nav className="md:left-0 md:block md:fixed md:top-0 md:bottom-0 md:flex-row md:flex-nowrap md:overflow-hidden shadow-xl bg-black flex flex-wrap items-center justify-between relative md:w-64 z-10 py-4 px-6 hidden md:visible">
         <div className="md:flex-col md:items-stretch md:min-h-full md:flex-nowrap px-0 flex flex-wrap items-center justify-between w-full mx-auto">
           <div class="flex items-center justify-center h-full">
             <Link
@@ -104,7 +104,7 @@ export default function Sidebar() {
 
 
 
-      <nav className="w-full shadow md:hidden bg-[#399544]">
+      <nav className="w-full shadow md:hidden bg-black">
         <div className="justify-between px-4 mx-auto lg:max-w-7xl md:items-center md:flex md:px-8">
           <div>
             <div className="flex items-center justify-between py-3 md:py-5 md:block">

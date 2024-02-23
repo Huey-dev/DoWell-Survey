@@ -18,7 +18,7 @@ const FinalizeSample = () => {
   //const { surveys, setSurveys, surveyParams, setSurveyParams } = useGlobalContext();
 
   const [country, setCountry] = useState("");
-  const [region, setRegion] = useState("");
+  const [region, setRegion] = useState(null);
 
   const [place_name, setPlace_name] = useState("");
   const [address, setAddress] = useState("");
@@ -66,6 +66,8 @@ const FinalizeSample = () => {
   const handleDone = () => {
     sessionStorage.setItem("newSurvey", JSON.stringify(surveys));
     sessionStorage.setItem("numOfParticipants", numOfParticipants);
+    // sessionStorage.setItem("userRegion", region);
+
     navigate("/newsurvey");
   };
 
@@ -78,10 +80,9 @@ const FinalizeSample = () => {
               Finalize Sample Size
             </h1>
             <h6 className=" text-white text-sm font-bold pb-0 no-underline">
-              Set a Radius per location and the total number of persons
-              allowed to fill this survey
+              Set a Radius per location and the total number of persons allowed
+              to fill this survey
             </h6>
-
           </div>
           <div className="w-full">
             <div className="text-lg md:text-xl font-bold mt-10">
@@ -139,19 +140,14 @@ const FinalizeSample = () => {
                       </thead>
                       <tbody>
                         {surveys.map((data, index) => (
-                          <tr
-                            key={data.index}
-                            className="border-black border"
-                          >
+                          <tr key={data.index} className="border-black border">
                             <td className="whitespace-nowrap  px-6 py-4 font-medium">
                               {index + 1}
                             </td>
                             <td className="whitespace-nowrap  px-6 py-4">
                               {data.place_name}
                             </td>
-                            <td className="px-6 py-4">
-                              {data.address}
-                            </td>
+                            <td className="px-6 py-4">{data.address}</td>
                             <td className="whitespace-nowrap  px-6 py-4">
                               23.4343, 32.223
                             </td>
@@ -194,13 +190,21 @@ const FinalizeSample = () => {
               placeholder="Enter a number to fill the survey form"
               className="w-[100px] h-[40px] border-2 border-[#B3B4BB] rounded-[5px] outline-none md:w-2/12 pl-[20px] mx-2"
             />
+            {/* <input
+              type="text"
+              name="region"
+              value={region}
+              onChange={(e) => setRegion(e.target.value)}
+              placeholder="Enter your region here"
+              className="w-[100px] h-[40px] border-2 border-[#B3B4BB] rounded-[5px] outline-none md:w-2/12 pl-[20px] mx-2"
+            /> */}
 
-              <button
-                onClick={handleDone}
-                className="w-[100px] mx-1 h-[40px] font-serif font-semibold bg-[#005734] opacity-80 hover:opacity-100 text-[white] rounded-md"
-              >
-                Done
-              </button>
+            <button
+              onClick={handleDone}
+              className="w-[100px] mx-1 h-[40px] font-serif font-semibold bg-[#005734] opacity-80 hover:opacity-100 text-[white] rounded-md"
+            >
+              Done
+            </button>
 
             <button className="w-[100px] h-[40px] font-serif font-semibold bg-[#005734] opacity-80 hover:opacity-100 text-[white] rounded-md">
               Cancel

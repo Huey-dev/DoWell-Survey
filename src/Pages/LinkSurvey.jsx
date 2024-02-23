@@ -63,6 +63,12 @@ const LinkSurvey = () => {
   const country = sessionStorage.getItem("country");
   const region = sessionStorage.getItem("region");
   const numOfParticipants = sessionStorage.getItem("numOfParticipants");
+  // let strippedValue = region.substring(1, region.length - 1);
+
+  // Or remove the quotes using replace()
+  // let strippedValue = valueWithQuotes.replace(/^"(.*)"$/, "$1");
+
+  // console.log("this is region", strippedValue);
 
   const [userName, setUserName] = useState(null);
   const [email, setEmail] = useState(null);

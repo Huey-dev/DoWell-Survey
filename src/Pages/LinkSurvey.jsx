@@ -28,7 +28,8 @@ const LinkSurvey = () => {
     setImage(file);
   };
 
-  const savedSurveyData = JSON.parse(sessionStorage.getItem("surveyData"));
+  const savedSurv = sessionStorage.getItem("surveyData") || "[]";
+  const savedSurveyData = JSON.parse(savedSurv);
 
   // Access individual properties
   const name = savedSurveyData ? savedSurveyData.name : "";
@@ -72,7 +73,12 @@ const LinkSurvey = () => {
   // Retrieve user_info object from sessionStorage
   useEffect(() => {
     console.log("before");
-    const user_info = JSON.parse(sessionStorage.getItem("user_info"));
+
+    const user_info_json = sessionStorage.getItem("user_info") || "[]";
+    console.log("dddddddddd", user_info_json);
+    const user_info = JSON.parse(user_info_json);
+
+    //const user_info = JSON.parse(sessionStorage.getItem("user_info"));
     console.log("after");
     if (user_info) {
       // Access the profile_img property from the user_info object

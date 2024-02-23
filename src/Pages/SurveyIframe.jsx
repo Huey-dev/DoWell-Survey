@@ -94,7 +94,7 @@ const SurveyIframe = () => {
 
                                 setPlace_region(the_region);
 
-                                alert(the_region);
+                              
 
 
                                 const formData = {

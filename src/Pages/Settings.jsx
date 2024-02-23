@@ -17,7 +17,11 @@ export default function Settings() {
 
   // Retrieve user_info object from sessionStorage
   useEffect(() => {
-    const user_info = JSON.parse(sessionStorage.getItem("user_info"));
+
+    const user_info_json = sessionStorage.getItem("user_info") || "[]";
+    const user_info = JSON.parse(user_info_json);
+
+    //const user_info = JSON.parse(sessionStorage.getItem("user_info"));
     if (user_info) {
       // Access the profile_img property from the user_info object
       const imageUrl = user_info.profile_img ? user_info.profile_img : null;

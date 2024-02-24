@@ -5,8 +5,9 @@ import FetchCountryRegion from "../../data/fetchCountryRegion";
 import { useEffect, useState } from "react";
 
 export default function LocationDropdown({ loading, country }) {
-  const { inputData, setInputData, setCenterCoords, centerCoords,api_key } = useGlobalContext();
-  const [all_cities,setCities] = useState();
+  const { inputData, setInputData, setCenterCoords, centerCoords, api_key } =
+    useGlobalContext();
+  const [all_cities, setCities] = useState();
   // const { data:regions } = useQuery({
   //     queryFn: async () => FetchCountryRegion( "e0ab32cf-7bd2-47e7-b2af-2448262ec41e", country),
   //     queryKey: 'regions',
@@ -14,31 +15,34 @@ export default function LocationDropdown({ loading, country }) {
   //     enabled: !!inputData.country
   // })
 
-  useEffect(()=>{
-    async function getCities(){
-      const regions = await FetchCountryRegion(api_key,country);
-      setCities(regions?.data?.data)
+  useEffect(() => {
+    async function getCities() {
+      const regions = await FetchCountryRegion(api_key, country);
+      setCities(regions?.data?.data);
       // console.log("key",api_key)
       // console.log(country)
       // console.log("all_cities",all_cities)
-
     }
-    getCities()
-
-  },[country])
+    getCities();
+  }, [country]);
   // const regions = null;
   // console.log("country",country)
 
-
-  const handleChange=(e)=> {
+  const handleChange = (e) => {
     setInputData({ ...inputData, city: all_cities[e.target.value].name });
-    console.log("dsdsdddddddd", JSON.stringify(all_cities[e.target.value].name.toLowerCase()));
-    sessionStorage.setItem("region", JSON.stringify(all_cities[e.target.value].name.toLowerCase()));
-   
-    
-    setCenterCoords({...centerCoords, lat: all_cities[e.target.value].lat, lon:all_cities[e.target.value].lon})
+    console.log("dsdsdddddddd", all_cities[e.target.value].name.toLowerCase());
+    // sessionStorage.setItem("region", JSON.stringify(all_cities[e.target.value].name.toLowerCase()));
+    sessionStorage.setItem(
+      "region",
+      all_cities[e.target.value].name.toLowerCase()
+    );
 
-  }
+    setCenterCoords({
+      ...centerCoords,
+      lat: all_cities[e.target.value].lat,
+      lon: all_cities[e.target.value].lon,
+    });
+  };
   const data = {
     data: [
       {
@@ -1100,7 +1104,9 @@ export default function LocationDropdown({ loading, country }) {
     >
       <option>Select region</option>
       {all_cities?.map((item, index) => (
-        <option value={index} key={index}>{item.name}</option>
+        <option value={index} key={index}>
+          {item.name}
+        </option>
       ))}
     </select>
   );

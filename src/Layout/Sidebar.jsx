@@ -49,7 +49,7 @@ export default function Sidebar() {
             <ul className="md:flex-col md:min-w-full flex flex-col list-none">
 
 
-              <li className={`font-bold my-2 text-center text-lg h-8 ${location.pathname === '/' ? 'text-[#399544] bg-white rounded-md px-1' : 'text-white hover:text-gray-600'}`}>
+              <li className={`font-bold my-2 text-center text-lg h-8 ${location.pathname === '/' ? 'text-black bg-white rounded-md px-1' : 'text-white hover:text-gray-600'}`}>
                 <Link
                   to="/"
                   
@@ -61,7 +61,7 @@ export default function Sidebar() {
             </ul>
 
             <ul className="md:flex-col md:min-w-full mt-8 flex flex-col list-none">
-            <li className={`font-bold my-2 text-center text-lg h-8 ${location.pathname === '/list-surveys' ? 'text-[#399544] bg-white rounded-md px-1' : 'text-white hover:text-gray-600'}`}>
+            <li className={`font-bold my-2 text-center text-lg h-8 ${location.pathname === '/list-surveys' ? 'text-black bg-white rounded-md px-1' : 'text-white hover:text-gray-600'}`}>
                 <Link
                   to="/list-surveys"
                   
@@ -70,7 +70,7 @@ export default function Sidebar() {
                 </Link>
               </li>
 
-              <li className={`font-bold my-2 text-center text-lg h-8 ${location.pathname === '/settings' ? 'text-[#399544] bg-white rounded-md px-1' : 'text-white hover:text-gray-600'}`}>
+              <li className={`font-bold my-2 text-center text-lg h-8 ${location.pathname === '/settings' ? 'text-black bg-white rounded-md px-1' : 'text-white hover:text-gray-600'}`}>
                 <Link
                   to="/settings"
                   
@@ -79,7 +79,7 @@ export default function Sidebar() {
                 </Link>
               </li>
 
-              <li className={`font-bold my-2 text-center text-lg h-8 ${location.pathname === '/terms-conditions' ? 'text-[#399544] bg-white rounded-md px-1' : 'text-white hover:text-gray-600'}`}>
+              <li className={`font-bold my-2 text-center text-lg h-8 ${location.pathname === '/terms-conditions' ? 'text-black bg-white rounded-md px-1' : 'text-white hover:text-gray-600'}`}>
                 <Link
                   to="/terms-conditions"
                   
@@ -88,7 +88,7 @@ export default function Sidebar() {
                 </Link>
               </li>
 
-              <li className={`font-bold my-2 text-center text-lg h-8 ${location.pathname === '/log-out' ? 'text-[#399544] bg-white rounded-md px-1' : 'text-white hover:text-gray-600'}`}>
+              <li className={`font-bold my-2 text-center text-lg h-8 ${location.pathname === '/log-out' ? 'text-black bg-white rounded-md px-1' : 'text-white hover:text-gray-600'}`}>
                 <Link
                   to="/log-out"
                   
@@ -161,7 +161,7 @@ export default function Sidebar() {
                 }`}
             >
               <ul className="items-center justify-center space-y-2 md:flex md:space-x-6 md:space-y-0">
-                <li className={`font-bold text-lg h-8 ${location.pathname === '/newSurvey' ? 'text-[#399544] bg-white rounded-md px-1' : 'text-white hover:text-gray-600'}`}>
+                <li className={`font-bold text-lg h-8 ${location.pathname === '/newSurvey' ? 'text-black bg-white rounded-md px-1' : 'text-white hover:text-gray-600'}`}>
                   <Link
                     to="/newSurvey"
 
@@ -182,7 +182,7 @@ export default function Sidebar() {
                 }`}
             >
               <ul className="items-center justify-center space-y-2 md:flex md:space-x-6 md:space-y-0">
-                <li className={`font-bold text-lg h-8 ${location.pathname === '/list-surveys' ? 'text-[#399544] bg-[white] rounded-md px-1' : 'text-white hover:text-gray-600'}`}>
+                <li className={`font-bold text-lg h-8 ${location.pathname === '/list-surveys' ? 'text-black bg-[white] rounded-md px-1' : 'text-white hover:text-gray-600'}`}>
                   <Link
                     to="/list-surveys"
 
@@ -190,7 +190,7 @@ export default function Sidebar() {
                     My Surveys
                   </Link>
                 </li>
-                <li className={`font-bold text-lg h-8 ${location.pathname === '/settings' ? 'text-[#399544] bg-white rounded-md px-1' : 'text-white hover:text-gray-600'}`}>
+                <li className={`font-bold text-lg h-8 ${location.pathname === '/settings' ? 'text-black bg-white rounded-md px-1' : 'text-white hover:text-gray-600'}`}>
                   <Link
                     to="/settings"
 
@@ -199,7 +199,7 @@ export default function Sidebar() {
                   </Link>
                 </li>
 
-                <li className={`font-bold text-lg h-8 ${location.pathname === '/terms-conditions' ? 'text-[#399544] bg-white rounded-md px-1' : 'text-white hover:text-gray-600'}`}>
+                <li className={`font-bold text-lg h-8 ${location.pathname === '/terms-conditions' ? 'text-black bg-white rounded-md px-1' : 'text-white hover:text-gray-600'}`}>
                   <Link
                     to="/terms-conditions"
 
@@ -208,7 +208,7 @@ export default function Sidebar() {
                   </Link>
                 </li>
 
-                <li className={`font-bold text-lg h-8 ${location.pathname === '/log-out' ? 'text-[#399544] bg-white rounded-md px-1' : 'text-white hover:text-gray-600'}`}>
+                <li className={`font-bold text-lg h-8 ${location.pathname === '/log-out' ? 'text-black bg-white rounded-md px-1' : 'text-white hover:text-gray-600'}`}>
                   <Link
                     to="/log-out"
 

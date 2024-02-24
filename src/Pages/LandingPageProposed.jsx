@@ -87,7 +87,8 @@ const LandingPage = () => {
                     }
                 );
                 //const data = response?.data
-                const user_info = response?.data?.userinfo;       
+                const user_info = response?.data?.userinfo;
+                console.log("the user info is," user_info);       
                 sessionStorage.setItem("user_info", JSON.stringify(user_info));
             
             } catch (error) {

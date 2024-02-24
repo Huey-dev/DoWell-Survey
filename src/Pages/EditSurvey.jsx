@@ -494,12 +494,8 @@ export default function Edit() {
                                                         <div className="flex flex-col space-y-2 mt-4 my-8 w-full">
                                                             <div className="flex items-center justify-center w-full">
                                                                 <div className="w-5/12">
-                                                                    <QRCode
-                                                                        size={190}
-                                                                        bgColor="white"
-                                                                        value={"https://uxlivinglab.com/"}
-                                                                        style={{ borderColor: "black", padding: "4px", borderWidth: "2px" }}
-                                                                    />
+                                                                    <img src={`data:image/png;base64,${survey.image}`} className="w-full h-full" alt="" />
+                                                                    
                                                                 </div>
                                                                 <div className="w-5/12">
                                                                     <p className="text-center text-md font-semibold my-1">Print or share Qr codes on your media platforms</p>
@@ -625,7 +621,7 @@ export default function Edit() {
                                                     <CircleMarker key={index} center={location.coordinates} radius={location.radius}>
                                                         <Marker position={location.coordinates}>
                                                             <Popup>
-                                                                {location.name}
+                                                                {"Dowell Survey"}
                                                             </Popup>
                                                         </Marker>
 

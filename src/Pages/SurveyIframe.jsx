@@ -239,15 +239,7 @@ const SurveyIframe = () => {
                                                     >
                                                         Okay, got it!
                                                     </button>
-
-
                                                 </div>
-
-
-
-
-
-
                                             </div>
                                         </div>
 

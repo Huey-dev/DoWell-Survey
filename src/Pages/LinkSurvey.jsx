@@ -36,6 +36,7 @@ const LinkSurvey = () => {
   const product = savedSurveyData ? savedSurveyData.product : "";
   const description = savedSurveyData ? savedSurveyData.description : "";
   const startDate = savedSurveyData ? savedSurveyData.startDate : "";
+
   const endDate = savedSurveyData ? savedSurveyData.endDate : "";
   const [syear, smonth, sday] = startDate.split("-");
   const [eyear, emonth, eday] = endDate.split("-");

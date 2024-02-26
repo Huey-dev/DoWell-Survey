@@ -5,172 +5,210 @@ import { MdDelete } from "react-icons/md";
 import { Link, useNavigate } from "react-router-dom";
 
 const FinalizeSample = () => {
-  const [sampleData, setSampleData] = useState([]);
-  const [country, setCountry] = useState("");
-  const [region, setRegion] = useState("");
-  const [numOfParticipants, setNumOfParticipants] = useState("");
-  const [editingNo, setEditingNo] = useState(null);
-
   const navigate = useNavigate();
 
-  const handleAdd = () => {
-    if (country && region && numOfParticipants) {
-      if (editingNo !== null) {
-        // If editing, update the existing row
-        const updatedData = sampleData.map((data) =>
-          data.no === editingNo
-            ? { no: editingNo, country, region, numOfParticipants }
-            : data
-        );
-        setSampleData(updatedData);
-        setEditingNo(null); // Reset editing state
-      } else {
-        // If adding, create a new row
-        const newData = {
-          no: sampleData.length + 1,
-          country,
-          region,
-          numOfParticipants,
-        };
-        setSampleData([...sampleData, newData]);
-      }
+  const [sampleData, setSampleData] = useState([]);
 
-      // Clear the input fields
-      setCountry("");
-      setRegion("");
-      setNumOfParticipants("");
-    }
+  const stored_locations = sessionStorage.getItem("newSurvey") || "[]";
+  const [surveys, setSurveys] = useState(JSON.parse(stored_locations));
+
+  const participants_no = sessionStorage.getItem("numOfParticipants") || 0;
+  const [numOfParticipants, setNumOfParticipants] = useState(participants_no);
+
+  //const { surveys, setSurveys, surveyParams, setSurveyParams } = useGlobalContext();
+
+  const [country, setCountry] = useState("");
+  const [region, setRegion] = useState(null);
+
+  const [place_name, setPlace_name] = useState("");
+  const [address, setAddress] = useState("");
+  const [cordinates, setCordinates] = useState("");
+  const [location_coord, setLocation_coord] = useState("");
+
+  const [radius, setRadius] = useState("");
+
+  const [editingNo, setEditingNo] = useState(null);
+
+  const handleSet = () => {
+    const updatedData = surveys.map((data) =>
+      data.placeId === editingNo
+        ? { id: editingNo, place_name, address, location_coord, radius }
+        : data
+    );
+    setSurveys(updatedData);
+    setEditingNo(null); // Reset editing state
+
+    // Clear the input fields
+    setPlace_name("");
+    setLocation_coord("");
+    setAddress("");
+    setRadius("");
+    console.log("successfully set the survey creation");
+    //setNumOfParticipants("");
   };
 
-  const handleDelete = (no) => {
-    const updatedData = sampleData.filter((data) => data.no !== no);
+  const handleDelete = (placeId) => {
+    const updatedData = surveys.filter((data) => data.placeId !== placeId);
 
-    // Renumber the remaining rows after deletion
-    const renumberedData = updatedData.map((data, index) => ({
-      ...data,
-      no: index + 1,
-    }));
-
-    setSampleData(renumberedData);
+    setSurveys(updatedData);
   };
 
   const handleEdit = (data) => {
-    // Set the editing state and populate input fields with the data
-    setEditingNo(data.no);
-    setCountry(data.country);
-    setRegion(data.region);
-    setNumOfParticipants(data.numOfParticipants);
+    // Set the editing state
+    setEditingNo(data.placeId);
+    setPlace_name(data.place_name);
+    setAddress(data.address);
+    setLocation_coord(data.location_coord);
+    setRadius(data.radius || " ");
+    //setNumOfParticipants(data.numOfParticipants);
   };
 
-  const handleSubmit = (e) => {
-    e.preventDefault();
-    sessionStorage.setItem("finalizeSurvey", JSON.stringify(sampleData));
+  const handleDone = () => {
+    sessionStorage.setItem("newSurvey", JSON.stringify(surveys));
+    sessionStorage.setItem("numOfParticipants", numOfParticipants);
+    // sessionStorage.setItem("userRegion", region);
+
     navigate("/newsurvey");
   };
 
   return (
     <Layout>
-      <main className="w-full h-full">
-        <div className="px-4 md:px-10 mt-[40px] md:pl-[310px]">
+      <main className="w-full h-full mb-10">
+        <div className="px-4 md:px-10 mt-[40px] md:pl-[310px] md:mt-0">
+          <div className="px-2 items-center flex justify-between bg-[#005734]">
+            <h1 className=" text-white text-2xl font-semibold pt-1 pb-3 no-underline">
+              Finalize Sample Size
+            </h1>
+            <h6 className=" text-white text-sm font-bold pb-0 no-underline">
+              Set a Radius per location and the total number of persons allowed
+              to fill this survey
+            </h6>
+          </div>
           <div className="w-full">
-            <div className="w-full">
-              <h1 className="text-[30px] font-semibold">
-                Finalize Sample Size
-              </h1>
-              <p>Input Number of people allowed to fill this survey below</p>
+            <div className="text-lg md:text-xl font-bold mt-10">
+              Your Current Selection
             </div>
-            <div className="w-full md:flex md:justify-between mt-[30px]">
-              <select
-                value={country}
-                onChange={(e) => setCountry(e.target.value)}
-                className="w-full md:w-3/12 h-[50px] border-2  border-[#B3B4BB] rounded-[5px] outline-none"
-                style={{ paddingLeft: "1rem" }}
-              >
-                <option value="">Select country/countries</option>
-                <option value="Country 1">Country 1</option>
-                <option value="Country 2">Country 2</option>
-                <option value="Country 3">Country 3</option>
-              </select>
-              <select
-                value={region}
-                onChange={(e) => setRegion(e.target.value)}
-                className="w-full mt-7 md:mt-0 md:w-3/12 h-[50px] border-2  border-[#B3B4BB] rounded-[5px] outline-none"
-                style={{ paddingLeft: "1rem" }}
-              >
-                <option value="">Select region/regions</option>
-                <option value="Region 1">Region 1</option>
-                <option value="Region 2">Region 2</option>
-                <option value="Region 3">Region 3</option>
-              </select>
+
+            <div className="flex mb-10 mt-4">
+              <div className="bg-green-200 px-4 flex items-center">
+                {`${place_name}, ${address}, ${location_coord}`}
+              </div>
+
               <input
                 type="number"
-                name="number"
-                value={numOfParticipants}
-                onChange={(e) => setNumOfParticipants(e.target.value)}
-                placeholder="Num.of People"
-                className="w-full h-[50px] mt-7 md:mt-0 border-2 border-[#B3B4BB] rounded-[5px] outline-none md:w-2/12 pl-[20px]"
+                name="radius"
+                value={radius}
+                onChange={(e) => setRadius(e.target.value)}
+                placeholder="Enter a Radius(m)"
+                className="w-[100px] h-[40px] border-2 border-[#B3B4BB] rounded-[5px] outline-none md:w-2/12 pl-[20px] mx-2"
               />
               <button
-                onClick={handleAdd}
-                className="w-full mt-7 md:mt-0 h-[50px] font-serif font-semibold bg-[#005734] opacity-80 hover:opacity-100 text-[white] rounded-md md:w-2/12"
+                onClick={handleSet}
+                className="w-[100px] h-[40px] font-serif font-semibold bg-[#005734] opacity-80 hover:opacity-100 text-[white] rounded-md"
               >
-                Add
+                Set
               </button>
             </div>
           </div>
-          <div className="w-full h-full  mt-[70px]  ">
-            {sampleData.length > 0 && (
-              <table className="w-full text-center">
-                <thead>
-                  <tr className="border-b-[1px] border-gray-950">
-                    <th>No</th>
-                    <th>Country</th>
-                    <th>Region</th>
-                    <th>Num</th>
-                  </tr>
-                </thead>
-                <tbody>
-                  {sampleData.map((data) => (
-                    <tr key={data.no} className="w-full">
-                      <td className="w-1/12 h-full">{data.no}</td>
-                      <td className="w-3/12 h-full">{data.country}</td>
-                      <td className="w-3/12 h-full">{data.region}</td>
-                      <td className="w-2/12 h-full">
-                        {data.numOfParticipants}
-                      </td>
-                      <td className=" w-3/12 h-full">
-                        <button onClick={() => handleEdit(data)}>
-                          <AiFillEdit />
-                        </button>
-                        <button
-                          onClick={() => handleDelete(data.no)}
-                          className="ml-[20px]"
-                        >
-                          <MdDelete />{" "}
-                        </button>
-                      </td>
-                    </tr>
-                  ))}
-                </tbody>
-              </table>
-            )}
+          {surveys.length > 0 && (
+            <div className="flex flex-col w-full">
+              <div className="overflow-x-auto w-full">
+                <div className="inline-block py-2 w-full">
+                  <div className="overflow-hidden w-full">
+                    <table className="max-w-full text-center text-sm font-light w-full border border-black">
+                      <thead className="border-b bg-[#BBF7D0] font-medium dark:border-neutral-500">
+                        <tr>
+                          <th scope="col" className=" px-6 py-4">
+                            #
+                          </th>
+                          <th scope="col" className=" px-6 py-4">
+                            Place Name
+                          </th>
+                          <th scope="col" className=" px-6 py-4">
+                            Address
+                          </th>
+                          <th scope="col" className=" px-6 py-4">
+                            Cordinates
+                          </th>
+                          <th scope="col" className=" px-6 py-4">
+                            Radius(m)
+                          </th>
+                          <th scope="col" className=" px-6 py-4">
+                            Actions
+                          </th>
+                        </tr>
+                      </thead>
+                      <tbody>
+                        {surveys.map((data, index) => (
+                          <tr key={data.index} className="border-black border">
+                            <td className="whitespace-nowrap  px-6 py-4 font-medium">
+                              {index + 1}
+                            </td>
+                            <td className="whitespace-nowrap  px-6 py-4">
+                              {data.place_name}
+                            </td>
+                            <td className="px-6 py-4">{data.address}</td>
+                            <td className="whitespace-nowrap  px-6 py-4">
+                              23.4343, 32.223
+                            </td>
+
+                            <td className="whitespace-nowrap  px-6 py-4">
+                              {data.radius}
+                            </td>
+
+                            <td className="whitespace-nowrap  px-6 py-4">
+                              <button onClick={() => handleEdit(data)}>
+                                <AiFillEdit />
+                              </button>
+                              <button
+                                onClick={() => handleDelete(data.placeId)}
+                                className="ml-[20px]"
+                              >
+                                <MdDelete />{" "}
+                              </button>
+                            </td>
+                          </tr>
+                        ))}
+                      </tbody>
+                    </table>
+                  </div>
+                </div>
+              </div>
+            </div>
+          )}
+
+          <div className="flex items-center justify-center text-base mt-10 md:text-2xl font-bold">
+            Enter Maximum Number of Persons to fill the Survey
           </div>
 
-          <div className="w-[250px] mt-[100px]  flex justify-between">
+          <div className="flex items-center justify-center">
+            <input
+              type="number"
+              name="numofParticipants"
+              value={numOfParticipants}
+              onChange={(e) => setNumOfParticipants(e.target.value)}
+              placeholder="Enter a number to fill the survey form"
+              className="w-[100px] h-[40px] border-2 border-[#B3B4BB] rounded-[5px] outline-none md:w-2/12 pl-[20px] mx-2"
+            />
+            {/* <input
+              type="text"
+              name="region"
+              value={region}
+              onChange={(e) => setRegion(e.target.value)}
+              placeholder="Enter your region here"
+              className="w-[100px] h-[40px] border-2 border-[#B3B4BB] rounded-[5px] outline-none md:w-2/12 pl-[20px] mx-2"
+            /> */}
+
             <button
-              // onClick={handleAdd}
-              className="w-[100px] h-[50px] font-serif font-bold opacity-80 hover:opacity-100 bg-[#005734] text-[white] rounded-[5px] "
-            >
-              Cancel
-            </button>
-            {/* <Link to="/link-form"> */}
-            <button
-              onClick={handleSubmit}
-              className="w-[100px] h-[50px] font-serif font-bold opacity-80 hover:opacity-100 bg-[#005734] text-[white] rounded-[5px] "
+              onClick={handleDone}
+              className="w-[100px] mx-1 h-[40px] font-serif font-semibold bg-[#005734] opacity-80 hover:opacity-100 text-[white] rounded-md"
             >
               Done
             </button>
-            {/* </Link> */}
+
+            <button className="w-[100px] h-[40px] font-serif font-semibold bg-[#005734] opacity-80 hover:opacity-100 text-[white] rounded-md">
+              Cancel
+            </button>
           </div>
         </div>
       </main>

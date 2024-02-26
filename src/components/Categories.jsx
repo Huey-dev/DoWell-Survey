@@ -116,23 +116,20 @@ export default function Category({ loading }) {
   };
   const categories = data?.categories;
   return (
-    <select
+    <input
       disabled={loading}
       name="category"
       id="category"
       onChange={(e) =>
         setInputData({ ...inputData, query_string: e.target.value })
       }
-      className="select w-[200px] h-[33px] bg-[#D9D9D9]"
+      className="select w-[200px] h-[33px] bg-[#D9D9D9] px-3"
       autoComplete="category-name"
       value={inputData.query_string}
-    >
-      <option>Select Category</option>
+      placeholder="..e.g School"
+    />
+     
 
-      {categories.map((item) => (
-        <option key={item}>{item}</option>
-      ))}
-    </select>
   );
 }
 

@@ -165,8 +165,7 @@ const LinkSurvey = () => {
           <div className="w-full h-full flex flex-col justify-center items-center">
             <div>
               <h1>
-                Input your form link and promotional image so as to create your
-                survey survey created
+                Input your form link and promotional image to create your survey
               </h1>
             </div>
             <div className=" flex flex-col mt-[50px]">

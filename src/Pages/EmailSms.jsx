@@ -5,16 +5,19 @@ import axios from "axios";
 import { Link, useNavigate } from "react-router-dom";
 import { toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
+import "./pages.css";
 
 export const EmailSms = () => {
   const getQrcode = sessionStorage.getItem("Qrcode");
+  const numOfParticipant = sessionStorage.getItem("numOfParticipants");
   const [email, setEmail] = useState(null);
   const [sms, setSms] = useState(null);
   const surveyData = sessionStorage.getItem("surveyData") || "[]";
   const surveyData1 = JSON.parse(surveyData);
   const [loading, setLoading] = useState(false);
 
-  //console.log("log this", console_data);
+  const renderedEmail = email && email.split("@")[0];
+
   const navigate = useNavigate();
 
   const handleSubmit = async (e) => {
@@ -22,7 +25,7 @@ export const EmailSms = () => {
     setLoading(true);
 
     const formData = {
-      toname: "jerry",
+      toname: renderedEmail,
       toemail: email,
       subject: "Survey has been created",
       email_content: `<!DOCTYPE html>
@@ -31,11 +34,28 @@ export const EmailSms = () => {
         <meta charset="UTF-8">
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
         <title>Document</title>
+          <style>
+          .form__body {
+            background-color: #f4f4f4;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+            padding: 20px;
+            border-radius: 10px;
+          }
+
+        .form__p {
+          font-size: 20px;
+          line-height: 1.5;
+          color: #333;
+        }
+  </style>
       </head>
       <body>
-        <h3>a survey has been created for ${surveyData1.name}. The time period is between ${surveyData1.startDate}
-        to ${surveyData1.endDate}, and it is for a maximum number of 50 persons. Link to the Qrcode can be found at 
-        ${getQrcode} </h3>
+        <div style="font-family: 'Arial', sans-serif; background-color: #f4f4f4; padding: 20px; border-radius: 10px; box-shadow: 0 0 20px rgba(0, 0, 0, 0.2);">
+         <p style="font-size: 16px; line-height: 1.5; color: #333;">A survey has been created for ${surveyData1.name}. The time period is between ${surveyData1.startDate}
+          to ${surveyData1.endDate}, and it is for a maximum number of ${numOfParticipant} persons. Link to the Qrcode can be found at 
+          ${getQrcode}</p>
+        </div>
+       
       </body>
       </html>`,
     };
@@ -71,7 +91,6 @@ export const EmailSms = () => {
         <div className="w-full md:w-[400px] flex flex-col justify-center items-center gap-5">
           <div className="flex justify-center items-center">
             <img src={getQrcode ? getQrcode : ""} className="w-3/6" alt="" />
-
           </div>
           <form
             action=""

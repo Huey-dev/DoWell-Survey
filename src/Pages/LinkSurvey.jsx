@@ -145,7 +145,6 @@ const LinkSurvey = () => {
 
       toast.success(response.data.response, {
         onClose: () => {
-          console.log("Toast closed, navigating...");
           navigate("/email-sms");
         },
       });

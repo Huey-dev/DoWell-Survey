@@ -48,83 +48,126 @@ const SurveyIframe = () => {
                     },
                 }
             );
-            console.log("suceeeeeeee");
+
             window.location.href = "https://dowelllabs.github.io/DoWell-Survey/";
         } catch (error) {
-            console.log("failure");
+
             window.location.href = "https://dowelllabs.github.io/DoWell-Survey/";
         }
     };
 
     useEffect(() => {
         const getCurrentAddress = () => {
-            console.log("ssssssssssss");
+            console.log("starting get current address function");
             // Check if geolocation is supported
             if (navigator.geolocation) {
                 // Get current position
                 navigator.geolocation.getCurrentPosition(
                     function (position) {
-                    // Get latitude and longitude
-                    var latlng = {
-                        lat: position.coords.latitude,
-                        lng: position.coords.longitude,
-                    };
+                        // Get latitude and longitude
+                        var latlng = {
+                            lat: position.coords.latitude,
+                            lng: position.coords.longitude,
+                        };
 
-                    // Initialize geocoder
-                    var geocoder = new google.maps.Geocoder();
+                        // Initialize geocoder
+                        var geocoder = new google.maps.Geocoder();
 
-                    // Geocode coordinates to get address
-                    geocoder.geocode(
-                        { location: latlng },
-                        async function (results, status) {
-                            if (status === google.maps.GeocoderStatus.OK) {
-                                if (results[0]) {
-                                    let the_region;
+                        // Geocode coordinates to get address
+                        geocoder.geocode(
+                            { location: latlng },
+                            async function (results, status) {
+                                if (status === google.maps.GeocoderStatus.OK) {
                                     if (results[0]) {
-                                        // Parse address components to find city
-                                        var addressComponents = results[0].address_components;
-                                        for (var i = 0; i < addressComponents.length; i++) {
-                                            var types = addressComponents[i].types;
-                                            if (types.includes("locality")) {
-                                                the_region =
-                                                    addressComponents[i].long_name.toLowerCase();
-                                                break;
+                                        let the_region;
+                                        if (results[0]) {
+                                            // Parse address components to find city
+                                            var addressComponents = results[0].address_components;
+                                            for (var i = 0; i < addressComponents.length; i++) {
+                                                var types = addressComponents[i].types;
+                                                if (types.includes("locality")) {
+                                                    the_region =
+                                                        addressComponents[i].long_name.toLowerCase();
+                                                    break;
+                                                }
                                             }
                                         }
-                                    }
 
-                                    //const the_region_hyphen = Array.from(the_region).join('-');
+                                        //const the_region_hyphen = Array.from(the_region).join('-');
 
-                                    setPlace_region(the_region);
+                                        setPlace_region(the_region);
 
-                                    const formData = {
-                                        link: window.location.href,
-                                        region: the_region,
-                                    };
+                                        const formData = {
+                                            link: window.location.href,
+                                            region: the_region,
+                                        };
 
-                                    const response = await axios.post(
-                                        `https://100025.pythonanywhere.com/get-dowell-survey-status/?api_key=4f0bd662-8456-4b2e-afa6-293d4135facf`,
-                                        formData,
-                                        {
-                                            headers: {
-                                                "Content-Type": "multipart/form-data",
-                                            },
+                                        console.log("the form data is", formData);
+
+                                        try {
+                                            const response = await axios.post(
+                                                `https://100025.pythonanywhere.com/get-dowell-survey-status/?api_key=4f0bd662-8456-4b2e-afa6-293d4135facf`,
+                                                formData,
+                                                {
+                                                    headers: {
+                                                        "Content-Type": "multipart/form-data",
+                                                    },
+                                                }
+                                            );
+
+                                            if (response?.data?.isSuccess === true) {
+                                                const queryParams = new URLSearchParams(
+                                                    window.location.search
+                                                );
+                                                const survey_id = queryParams.get("survey_id");
+
+                                                try {
+                                                    const id_response = await axios.post(
+                                                        `https://100025.pythonanywhere.com/my-survey/?api_key=4f0bd662-8456-4b2e-afa6-293d4135facf`,
+                                                        {
+                                                            survey_id: survey_id,
+                                                        },
+                                                        {
+                                                            headers: {
+                                                                "Content-Type": "multipart/form-data",
+                                                            },
+                                                        }
+                                                    );
+                                                    setStatus("success");
+                                                    console.log("completed get survey and response is,", response);
+
+                                                    setIframe(id_response?.data[0].url);
+
+                                                }
+                                                catch (error) {
+                                                    console.log("error in request to fetch survey form");
+                                                    setStatus("error");
+                                                    setErrMsg("Error in fetching Survey Form");
+
+
+                                                }
+
+                                            }
+                                            else {
+                                                console.log("error and response is", response);
+                                                setStatus("error");
+                                                setErrMsg(response?.data.message);
+                                                
+                                            }
+
+
+
                                         }
-                                    );
+                                        catch (error) {
+                                            console.log("Error in checking survey status");
+                                            setStatus("error");
+                                            setErrMsg("Error in checking survey status");
 
-                                    console.log("aaaaaaaaaaaaaaaaa");
+                                        }
 
-                                    if (response?.data?.isSuccess === true) {
-                                        const queryParams = new URLSearchParams(
-                                            window.location.search
-                                        );
-                                        const survey_id = queryParams.get("survey_id");
-
-                                        const id_response = await axios.post(
-                                            `https://100025.pythonanywhere.com/my-survey/?api_key=4f0bd662-8456-4b2e-afa6-293d4135facf`,
-                                            {
-                                                survey_id: survey_id,
-                                            },
+                                        const response = await axios.post(
+                                            `https://100025.pythonanywhere.com/get-dowell-survey-status/?api_key=4f0bd662-8456-4b2e-afa6-293d4135facf`,
+                                            formData,
                                             {
                                                 headers: {
                                                     "Content-Type": "multipart/form-data",
@@ -132,22 +175,45 @@ const SurveyIframe = () => {
                                             }
                                         );
 
-                                        setIframe(id_response?.data[0].url);
-                                        setStatus("success");
+                                        console.log("completed get status and response is,", response);
+
+                                        if (response?.data?.isSuccess === true) {
+                                            const queryParams = new URLSearchParams(
+                                                window.location.search
+                                            );
+                                            const survey_id = queryParams.get("survey_id");
+
+                                            const id_response = await axios.post(
+                                                `https://100025.pythonanywhere.com/my-survey/?api_key=4f0bd662-8456-4b2e-afa6-293d4135facf`,
+                                                {
+                                                    survey_id: survey_id,
+                                                },
+                                                {
+                                                    headers: {
+                                                        "Content-Type": "multipart/form-data",
+                                                    },
+                                                }
+                                            );
+                                            setStatus("success");
+                                            console.log("completed get survey and response is,", response);
+
+                                            setIframe(id_response?.data[0].url);
+
+                                        } else {
+                                            console.log("completed get status(false) and response is,", response);
+                                            setErrMsg(response?.data.message);
+                                            setStatus("error");
+
+                                        }
                                     } else {
-                                        setErrMsg(response?.data.message);
-                                        setStatus("error");
-                                        console.log("ssssssssssss");
+                                        alert("No results found");
                                     }
                                 } else {
-                                    alert("No results found");
+                                    alert("Geocoder failed due to: " + status);
                                 }
-                            } else {
-                                alert("Geocoder failed due to: " + status);
                             }
-                        }
-                    );
-                });
+                        );
+                    });
             } else {
                 alert("Geolocation is not supported by this browser.");
             }
@@ -207,7 +273,7 @@ const SurveyIframe = () => {
                                                 <button
                                                     className="font-serif font-bold text-center m-4"
                                                     onClick={() => setOpen(false)}
-                                                    //ref={headingRef}
+                                                //ref={headingRef}
                                                 >
                                                     <XMarkIcon className="h-6 w-6 m-1" />
                                                 </button>

@@ -19,18 +19,10 @@ import LocationDropdown from "../components/Dropdown/LocationDropdown";
 import Category from "../components/Categories";
 
 import axios from "axios";
+import errorImage from "../../public/error.png";
+
 
 const LandingPage = () => {
-
-    //start the whole creation process afresh
-    sessionStorage.setItem("newSurvey", "[]");
-    sessionStorage.setItem("country", "[]");
-    sessionStorage.setItem("region", "[]");
-    sessionStorage.setItem("numOfParticipants", "[]");
-    sessionStorage.setItem("formLink", "[]");
-    sessionStorage.setItem("surveyData", "[]");
-
-
 
 
 
@@ -208,24 +200,38 @@ const LandingPage = () => {
         console.log("i,m executing fine");
         return (
             <div className="flex items-center justify-center">
-            <div
-                class="m-12 inline-block h-16 w-16 animate-spin text-green-800 rounded-full border-4 border-solid border-current border-r-transparent align-[-0.125em] motion-reduce:animate-[spin_1.5s_linear_infinite]"
-                role="status"
-            >
-                <span class="!absolute !-m-px !h-px !w-px !overflow-hidden !whitespace-nowrap !border-0 !p-0 ![clip:rect(0,0,0,0)]">
-                    Loading...
-                </span>
+                <div
+                    class="m-12 inline-block h-16 w-16 animate-spin text-green-800 rounded-full border-4 border-solid border-current border-r-transparent align-[-0.125em] motion-reduce:animate-[spin_1.5s_linear_infinite]"
+                    role="status"
+                >
+                    <span class="!absolute !-m-px !h-px !w-px !overflow-hidden !whitespace-nowrap !border-0 !p-0 ![clip:rect(0,0,0,0)]">
+                        Loading...
+                    </span>
+                </div>
             </div>
-        </div>
         )
-        
+
 
     }
 
     if (pageError) {
         return (
-            <div>
-                Error fetching user info
+            <div className="h-screen flex flex-col items-center justify-center">
+                <div>
+                    <img src={errorImage} alt="error-image" />
+                </div>
+                <h1 className="text-center text-[28px] md:text-[34px] font-medium text-[#7F7F7F]">
+                    Oops, Something went wrong
+                </h1>
+                <h1 className="text-[18px] md:text-[20px] text-[#7F7F7F]">
+                    Error fetching user info
+                </h1>
+                <button
+                    className="bg-[#015734] font-medium text-[17px] my-8 px-5 py-2 text-white rounded-[5px]"
+                    onClick={() => window.location.reload()}
+                >
+                    Try Again
+                </button>
             </div>
         )
     }

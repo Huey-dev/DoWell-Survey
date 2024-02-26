@@ -21,9 +21,25 @@ import Category from "../components/Categories";
 import axios from "axios";
 
 const LandingPage = () => {
+
+    //start the whole creation process afresh
+    sessionStorage.setItem("newSurvey", "[]");
+    sessionStorage.setItem("country", "[]");
+    sessionStorage.setItem("region", "[]");
+    sessionStorage.setItem("numOfParticipants", "[]");
+    sessionStorage.setItem("formLink", "[]");
+    sessionStorage.setItem("surveyData", "[]");
+
+
+
+
+
     const navigate = useNavigate();
     const stored_locations = sessionStorage.getItem("newSurvey") || "[]";
     const [surveys, setSurveys] = useState(JSON.parse(stored_locations));
+
+    const [pageload, setPageLoad] = useState(true);
+    const [pageError, setPageError] = useState(null);
 
 
 
@@ -64,43 +80,51 @@ const LandingPage = () => {
     useEffect(() => {
         // Define the function to fetch data
         const fetchData = async () => {
-            try {
-                // Set loading to true while fetching data
-                console.log('tryingggggg');
+            const queryParams = new URLSearchParams(window.location.search);
+            const session_id = queryParams.get('session_id');
+            let user_info;
 
-                const queryParams = new URLSearchParams(window.location.search);
-                const session_id = queryParams.get('session_id');
-                //setLoading(true);
-
+            if (session_id) {
                 const formData = {
                     "session_id": session_id
                 }
 
-                const response = await axios.post(
-                    `https://100014.pythonanywhere.com/api/userinfo/`,
-                    formData,
-                    {
-                        headers: {
-                            "Content-Type": "application/json",
-                        },
+                for (let i = 0; i <= 3; i++) {
 
+                    console.log("the number of trys is-", i);
+                    try {
+                        const response = await axios.post(
+                            `https://100014.pythonanywhere.com/api/userinfo/`,
+                            formData,
+                            {
+                                headers: {
+                                    "Content-Type": "application/json",
+                                },
+
+                            }
+                        );
+                        user_info = response?.data?.userinfo;
+                        if (user_info) {
+                            sessionStorage.setItem("user_info", JSON.stringify(user_info));
+                            break;
+                        }
                     }
-                );
-                //const data = response?.data
-                const user_info = response?.data?.userinfo;       
-                sessionStorage.setItem("user_info", JSON.stringify(user_info));
-            
-            } catch (error) {
-                // If there's an error, update the error state
-                console.log("error is", error);
-            } finally {
-                // Set loading to false when data fetching is complete, regardless of success or failure
-
+                    catch (error) {
+                        console.log("error is", error);
+                    }
+                }
+                if (!user_info) {
+                    setPageError("Error fetching User Data, click to reload")
+                }
+                setPageLoad(false);
+            }
+            else {
+                setPageLoad(false);
             }
         };
 
-        // Call the fetchData function when the component mounts
         fetchData();
+
     }, []);
 
     // const defaultSearchOptions = {
@@ -180,6 +204,32 @@ const LandingPage = () => {
         navigate("/finalize-Sample");
     };
 
+    if (pageload) {
+        console.log("i,m executing fine");
+        return (
+            <div className="flex items-center justify-center">
+            <div
+                class="m-12 inline-block h-16 w-16 animate-spin text-green-800 rounded-full border-4 border-solid border-current border-r-transparent align-[-0.125em] motion-reduce:animate-[spin_1.5s_linear_infinite]"
+                role="status"
+            >
+                <span class="!absolute !-m-px !h-px !w-px !overflow-hidden !whitespace-nowrap !border-0 !p-0 ![clip:rect(0,0,0,0)]">
+                    Loading...
+                </span>
+            </div>
+        </div>
+        )
+        
+
+    }
+
+    if (pageError) {
+        return (
+            <div>
+                Error fetching user info
+            </div>
+        )
+    }
+
     return (
         (receivedKey != "ENTER API KEY") ?
             <Layout>
@@ -191,7 +241,7 @@ const LandingPage = () => {
                                 DoWell Surveys
                             </h1>
                             <h6 className=" text-white text-sm font-bold pb-0 no-underline">
-                                Samantha will do surveys in 150000 locations worldwide
+                                Samanta will do surveys in 150000 locations worldwide
                             </h6>
 
                         </div>
@@ -249,7 +299,7 @@ const LandingPage = () => {
                                 </div>
 
                                 <div>
-                                    <h2 className="font-semibold text-white">Select Category</h2>
+                                    <h2 className="font-semibold text-white">Enter a Category</h2>
                                     <Category loading={loading} />
                                 </div>
 
@@ -330,6 +380,7 @@ const LandingPage = () => {
                                                                     updatedList.push({
                                                                         placeId,
                                                                         place_name,
+                                                                        phone,
                                                                         address,
                                                                         website,
                                                                         numOfParticipants: 1,

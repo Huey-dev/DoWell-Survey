@@ -1,18 +1,23 @@
 {
   "index.css": {
-    "file": "assets/index-aa4132c4.css",
+    "file": "assets/index-a4bda7e8.css",
     "src": "index.css"
   },
   "index.html": {
     "assets": [
-      "assets/dowell-1abe8323.jpeg"
+      "assets/dowell-1abe8323.jpeg",
+      "assets/allow-c9b26216.png"
     ],
     "css": [
-      "assets/index-aa4132c4.css"
+      "assets/index-a4bda7e8.css"
     ],
-    "file": "assets/index-e82c648f.js",
+    "file": "assets/index-36244ca2.js",
     "isEntry": true,
     "src": "index.html"
+  },
+  "src/assets/allow.png": {
+    "file": "assets/allow-c9b26216.png",
+    "src": "src/assets/allow.png"
   },
   "src/assets/bakery1.jpeg": {
     "file": "assets/bakery1-bfc659b0.jpeg",

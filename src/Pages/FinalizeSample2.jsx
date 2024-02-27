@@ -13,6 +13,7 @@ const FinalizeSample = () => {
   const [surveys, setSurveys] = useState(JSON.parse(stored_locations));
 
   const participants_no = sessionStorage.getItem("numOfParticipants") || 0;
+  const region = sessionStorage.getItem("region") || "";
   const [numOfParticipants, setNumOfParticipants] = useState(participants_no);
 
 
@@ -108,7 +109,7 @@ const FinalizeSample = () => {
             )}
             <div>
               <div className="flex items-center justify-center text-base mt-10 md:text-2xl font-bold">
-                Enter Maximum Number of Persons to fill the Survey
+                Enter Maximum Number of Persons in {region} allowed to fill the Survey 
               </div>
 
               <div className="flex items-center justify-center">

@@ -371,6 +371,7 @@ const SurveyIframe = () => {
                                     className="border-2 border-green-500 h-full"
                                     src={iframe}
                                     width="640"
+                                    height="640"
                                     frameborder="0"
                                     marginheight="0"
                                     marginwidth="0"

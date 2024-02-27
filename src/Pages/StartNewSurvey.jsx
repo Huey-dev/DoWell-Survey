@@ -64,7 +64,7 @@ const StartNewSurvey = () => {
             name="name"
             value={name}
             onChange={(e) => setName(e.target.value)}
-            placeholder="Enter your name"
+            placeholder="Enter the Survey name"
             className="border-2 w-full sm:w-[40%] p-1 border-[#B3B4BB] rounded-[5px] outline-none"
           />
 

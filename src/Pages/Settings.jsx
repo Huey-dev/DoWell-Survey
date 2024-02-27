@@ -176,54 +176,7 @@ export default function Settings() {
               </div>
 
               {/* Survey created section */}
-              <div className="w-full h-full mt-10">
-                <hr className="mt-6 border-b-1 border-blueGray-300" />
-                <h1 className="text-blueGray-400 text-sm mt-3 mb-6 font-bold uppercase">
-                  Surveys Details
-                </h1>
 
-                <div className="w-full h-full md:flex  ">
-                  <div className="w-full lg:w-4/12 px-4">
-                    <div className="relative w-full mb-3">
-                      <label
-                        className="block uppercase text-blueGray-600 text-xs font-bold mb-2"
-                        htmlFor="grid-password"
-                      >
-                        Total Survey created
-                      </label>
-                      <p className="border-0 px-3 py-3 placeholder-blueGray-300 text-blueGray-600 bg-white rounded text-sm shadow focus:outline-none focus:ring w-full ease-linear transition-all duration-150">
-                        40
-                      </p>
-                    </div>
-                  </div>
-                  <div className="w-full lg:w-4/12 px-4">
-                    <div className="relative w-full mb-3">
-                      <label
-                        className="block uppercase text-blueGray-600 text-xs font-bold mb-2"
-                        htmlFor="grid-password"
-                      >
-                        Active Survey
-                      </label>
-                      <p className="border-0 px-3 py-3 placeholder-blueGray-300 text-blueGray-600 bg-white rounded text-sm shadow focus:outline-none focus:ring w-full ease-linear transition-all duration-150">
-                        20
-                      </p>
-                    </div>
-                  </div>
-                  <div className="w-full lg:w-4/12 px-4">
-                    <div className="relative w-full mb-3">
-                      <label
-                        className="block uppercase text-blueGray-600 text-xs font-bold mb-2"
-                        htmlFor="grid-password"
-                      >
-                        Closed survey
-                      </label>
-                      <p className="border-0 px-3 py-3 placeholder-blueGray-300 text-blueGray-600 bg-white rounded text-sm shadow focus:outline-none focus:ring w-full ease-linear transition-all duration-150">
-                        30
-                      </p>
-                    </div>
-                  </div>
-                </div>
-              </div>
 
               <hr className="mt-6 border-b-1 border-blueGray-300" />
 

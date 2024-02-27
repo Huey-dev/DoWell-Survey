@@ -66,7 +66,12 @@ const LinkSurvey = () => {
   // let strippedValue = region.substring(1, region.length - 1);
 
   const [userName, setUserName] = useState(null);
+
+
+  //stay safe, dont try this at home
+  const coords = sessionStorage.getItem("coords") || "0.00,0.00";
   const [email, setEmail] = useState(null);
+
 
   // const [country, setCountry] = useState(null);
   // const [description, setDescription] = useState(null);
@@ -102,7 +107,7 @@ const LinkSurvey = () => {
     description: description,
     start_date: sformattedDate,
     end_date: eformattedDate,
-    brand_name: userName,
+    brand_name: coords,
     promotional_sentence: description,
     username: userName,
     name: name,
@@ -141,7 +146,7 @@ const LinkSurvey = () => {
       });
     } catch (error) {
       setLoading(false);
-      toast.success("Qr code Creation Failed", {
+      toast.error("Qr code Creation Failed", {
         autoClose: false,
         closeOnClick: true,
       });

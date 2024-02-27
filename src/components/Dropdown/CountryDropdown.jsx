@@ -14,7 +14,7 @@ export default function CountryDropdown({ loading }) {
     async function getCountries(){
       const response = await FetchCountries(api_key);
       setAllCountries(response?.data?.data[0]?.countries)
-      console.log(response?.data?.data[0]?.countries)
+      //console.log(response?.data?.data[0]?.countries)
       
     }
     getCountries();

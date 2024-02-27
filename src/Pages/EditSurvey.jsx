@@ -38,6 +38,9 @@ export default function Edit() {
     const [numOfParticipants, setNumOfParticipants] = useState("");
     const [editingNo, setEditingNo] = useState(null);
 
+
+    const [circleMarker, setCircleMarker] = useState([0.0, 0.0]);
+
     const position = [51.505, -0.09];
     const center = [9.055625, 7.480715];
 
@@ -136,39 +139,38 @@ export default function Edit() {
 
     const onLocateClick = (survey) => {
         setFormData({
-            brand_name: survey.brand_name,
+            //brand_name: survey.brand_name,
+            survey_name: survey.name,
+            country: survey.country,
+            region_for_survey: survey.region,
             promotional_sentence: survey.promotional_sentence,
             username: survey.username,
-            name: survey.name,
-            email: survey.email,
+
+            //email: survey.email,
             participantsLimit: survey.participantsLimit,
-            url: survey.url,
+            form_link: survey.url,
         });
 
-        const { brand_name, places } = survey;
-        if (places && places.length > 0) {
-            const bounds = places.reduce(
-                (acc, place) => [
-                    [
-                        Math.min(acc[0][0], place.coordinates[0]),
-                        Math.min(acc[0][1], place.coordinates[1]),
-                    ],
-                    [
-                        Math.max(acc[1][0], place.coordinates[0]),
-                        Math.max(acc[1][1], place.coordinates[1]),
-                    ],
-                ],
-                [places[0].coordinates, places[0].coordinates]
-            );
+        var coordinatesString = survey.brand_name;
+        var coordinatesArray = coordinatesString.split(',');
 
-            setLocationsSurveyName(brand_name);
-            setMapBounds(bounds);
-            setLocations(places);
-            map.fitBounds(bounds);
+        // Convert the substrings to numbers
+        var latitude = parseFloat(coordinatesArray[0]);
+        var longitude = parseFloat(coordinatesArray[1]);
 
-            map.flyTo(places[0].coordinates, 13);
+        if (!isNaN(latitude) && !isNaN(longitude) && coordinatesArray.length === 2) {
+            // Array has two valid numbers
+            var coordinatesArrayWithNumbers = [latitude, longitude];
+            console.log(coordinatesArrayWithNumbers);
+            window.scrollTo(0, 0);
+            setCircleMarker(coordinatesArrayWithNumbers);
+            map.flyTo(coordinatesArrayWithNumbers, 13);
+        } else {
+            // Array does not have two valid numbers
+            console.error("Invalid coordinates format");
         }
     };
+
     const handleImageChange = (event) => {
         const file = event.target.files[0];
         // const reader = new FileReader();
@@ -555,14 +557,14 @@ export default function Edit() {
                                                                             <FaFacebook className="h-6 w-6 m-1 text-white" />
                                                                         </a>
                                                                         <a
-                                                                            href={`http://x.com/share?url=${baseUrl}${survey.qr_code}&text=Please follow this link to scan my qr code on ${survey.brand_name}`}
+                                                                            href={`http://x.com/share?url=${baseUrl}${survey.qr_code}&text=Please follow this link to scan my qr code on ${survey.name}`}
                                                                             className="flex p-1 items-center justify-center bg-black rounded-full"
                                                                         //onClick={onLinkClick}
                                                                         >
                                                                             <FaXTwitter className="h-6 w-6 text-white m-1" />
                                                                         </a>
                                                                         <a
-                                                                            href={`whatsapp://send?text=${baseUrl}${survey.qr_code} Please follow this link to scan my qr code on ${survey.brand_name}`}
+                                                                            href={`whatsapp://send?text=${baseUrl}${survey.qr_code} Please follow this link to scan my qr code on ${survey.name}`}
                                                                             className="flex items-center justify-center bg-[#00E676] p-1 rounded-full"
                                                                         //onClick={onLinkClick}
                                                                         >
@@ -602,7 +604,10 @@ export default function Edit() {
                                 My Surveys
                             </h1>
                             <h6 className=" text-white text-sm font-bold pb-0 no-underline">
-                                Preview Qrcodes, View Survey Locations, edit Surveys
+                                {`Total Surveys Active Surveys Closed Surveys`}
+                            </h6>
+                            <h6 className=" text-white text-sm font-bold pb-0 no-underline">
+                                Preview, print and Share Qrcodes, View Survey Locations.
                             </h6>
                         </div>
 
@@ -663,26 +668,24 @@ export default function Edit() {
                                     <MapContainer
                                         ref={setMap}
                                         scrollWheelZoom={false}
-                                        bounds={mapBounds}
+                                        center={circleMarker} zoom={13}
                                         style={{ height: "100%", width: "100%", zIndex: "1" }}
                                     >
                                         <TileLayer
                                             url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
                                             attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
                                         />
-                                        {locations.map((location, index) => (
-                                            <>
-                                                <CircleMarker
-                                                    key={index}
-                                                    center={location.coordinates}
-                                                    radius={location.radius}
-                                                >
-                                                    <Marker position={location.coordinates}>
-                                                        <Popup>{"Dowell-survey"}</Popup>
-                                                    </Marker>
-                                                </CircleMarker>
-                                            </>
-                                        ))}
+                                        <>
+                                            <CircleMarker
+                                                //key={index}
+                                                center={circleMarker}
+                                                radius={30}
+                                            >
+                                                <Marker position={circleMarker}>
+                                                    <Popup>{formData.survey_name}</Popup>
+                                                </Marker>
+                                            </CircleMarker>
+                                        </>
                                     </MapContainer>
                                 )}
                             </div>
@@ -711,7 +714,7 @@ export default function Edit() {
                                                 className="border-b bg-[#005734] font-medium text-white dark:border-neutral-500">
                                                 <tr>
                                                     <th scope="col" className="whitespace-nowrap px-6 py-4">
-                                                        BRAND NAME
+                                                        SURVEY NAME
                                                     </th>
                                                     <th scope="col" className="break-words px-6 py-4">
                                                         SURVEY LINK
@@ -741,7 +744,7 @@ export default function Edit() {
                                                                 className="border-b dark:border-neutral-500"
                                                             >
                                                                 <td className="px-6 py-4 font-medium bg-[#F3F6FF]">
-                                                                    {survey_results[i].brand_name}
+                                                                    {survey_results[i].name}
                                                                 </td>
                                                                 <td className="break-all px-6 py-4">{survey_results[i].url}</td>
                                                                 <td className="px-6 py-4 bg-[#F3F6FF]">{`${survey_results[i].start_date} to ${survey_results[i].end_date}.`}</td>

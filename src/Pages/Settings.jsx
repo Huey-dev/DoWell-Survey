@@ -1,4 +1,5 @@
 // import React from "react";
+import axios from "axios";
 import Layout from "../Layout/Layout";
 import { useEffect, useState } from "react";
 
@@ -14,12 +15,35 @@ export default function Settings() {
   const [postal, setPostal] = useState(null);
   const [address, setAddress] = useState(null);
   const [description, setDescription] = useState(null);
+  const [totalSurvey, setTotalSurvey] = useState(null);
+  const [activeSurvey, setActiveSurvey] = useState(null);
+  const [closedSurvey, setClosedSurvey] = useState(null);
 
   // Retrieve user_info object from sessionStorage
   useEffect(() => {
-
     const user_info_json = sessionStorage.getItem("user_info") || "[]";
     const user_info = JSON.parse(user_info_json);
+
+    const surveyData = async (username) => {
+      try {
+        const formData = { username: username };
+
+        const response = await axios.post(
+          `https://100025.pythonanywhere.com/my-survey/`,
+          formData,
+          {
+            headers: {
+              "Content-Type": "application/json",
+            },
+          }
+        );
+        const data = response?.data[0];
+        console.log(data);
+      } catch (error) {
+        console.log("Hi there");
+        console.log(error);
+      }
+    };
 
     //const user_info = JSON.parse(sessionStorage.getItem("user_info"));
     if (user_info) {
@@ -46,8 +70,11 @@ export default function Settings() {
       setUserName(Uname);
       setPhone(phone);
       setProfileImageUrl(imageUrl);
+      surveyData(Uname);
     }
   }, []);
+
+  useEffect(() => {});
 
   return (
     <Layout>

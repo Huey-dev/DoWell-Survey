@@ -246,7 +246,7 @@ export default function Edit() {
         );
         const data = response?.data;
         setSurvey_results(data);
-        console.log(response?.data);
+        // console.log(response?.data);
         //console.log("successsssss", response);
       } catch (error) {
         // If there's an error, update the error state

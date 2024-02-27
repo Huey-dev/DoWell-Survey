@@ -134,10 +134,11 @@ const SurveyIframe = () => {
                         setStatus("success");
                         console.log(
                           "completed get survey and response is,",
-                          response
+                          id_response?.data[0].url
                         );
 
-                        setIframe(id_response?.data[0].url);
+                        setIframe(id_response?.data[1].url);
+                        
                       } catch (error) {
                         console.log("error in request to fetch survey form");
                         setStatus("error");
@@ -154,53 +155,7 @@ const SurveyIframe = () => {
                     setErrMsg("Error in checking survey status");
                   }
 
-                  const response = await axios.post(
-                    `https://100025.pythonanywhere.com/get-dowell-survey-status/?api_key=4f0bd662-8456-4b2e-afa6-293d4135facf`,
-                    formData,
-                    {
-                      headers: {
-                        "Content-Type": "multipart/form-data",
-                      },
-                    }
-                  );
 
-                  console.log(
-                    "completed get status and response is,",
-                    response
-                  );
-
-                  if (response?.data?.isSuccess === true) {
-                    const queryParams = new URLSearchParams(
-                      window.location.search
-                    );
-                    const survey_id = queryParams.get("survey_id");
-
-                    const id_response = await axios.post(
-                      `https://100025.pythonanywhere.com/my-survey/?api_key=4f0bd662-8456-4b2e-afa6-293d4135facf`,
-                      {
-                        survey_id: survey_id,
-                      },
-                      {
-                        headers: {
-                          "Content-Type": "multipart/form-data",
-                        },
-                      }
-                    );
-                    setStatus("success");
-                    console.log(
-                      "completed get survey and response is,",
-                      response
-                    );
-
-                    setIframe(id_response?.data[0].url);
-                  } else {
-                    console.log(
-                      "completed get status(false) and response is,",
-                      response
-                    );
-                    setErrMsg(response?.data.message);
-                    setStatus("error");
-                  }
                 } else {
                   alert("No results found");
                 }

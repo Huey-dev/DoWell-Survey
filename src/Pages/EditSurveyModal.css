@@ -85,3 +85,10 @@
     height: 250px;
   }
 }
+.survey-container {
+  height: 49vh;
+}
+
+.map, .survey-info {
+  flex: 1;
+}

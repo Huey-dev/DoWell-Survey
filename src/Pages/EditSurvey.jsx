@@ -5,7 +5,6 @@ import {MapPinIcon, PencilSquareIcon, QrCodeIcon, TrashIcon, XMarkIcon} from "@h
 import {FaXTwitter} from "react-icons/fa6";
 import {FaFacebook, FaInstagram, FaLinkedinIn, FaWhatsapp,} from "react-icons/fa";
 //import { FaTimes } from "react-icons/fa";
-import QRCode from "react-qr-code";
 import {CircleMarker, MapContainer, Marker, Popup, TileLayer,} from "react-leaflet";
 import "./EditSurveyModal.css";
 import surveys from "../data/surveys";
@@ -23,6 +22,7 @@ export default function Edit() {
     const startDateRef = useRef(null);
     const endDateRef = useRef(null);
     const [image, setImage] = useState(null);
+    const [formData, setFormData] = useState({});
 
     const [open, setOpen] = useState(false);
     const [mode, setMode] = useState(null);
@@ -134,9 +134,18 @@ export default function Edit() {
     };
 
     const onLocateClick = (survey) => {
+        setFormData({
+            brand_name: survey.brand_name,
+            promotional_sentence: survey.promotional_sentence,
+            username: survey.username,
+            name: survey.name,
+            email: survey.email,
+            participantsLimit: survey.participantsLimit,
+            url: survey.url,
+        });
+
         const {brand_name, places} = survey;
-        if (places.length > 0) {
-            //console.log(places[0].coordinates)
+        if (places && places.length > 0) {
             const bounds = places.reduce(
                 (acc, place) => [
                     [
@@ -150,16 +159,15 @@ export default function Edit() {
                 ],
                 [places[0].coordinates, places[0].coordinates]
             );
-            console.log(bounds);
 
             setLocationsSurveyName(brand_name);
             setMapBounds(bounds);
             setLocations(places);
             map.fitBounds(bounds);
-            //window.scroll(0, 0);
+
+            map.flyTo(places[0].coordinates, 13);
         }
     };
-
     const handleImageChange = (event) => {
         const file = event.target.files[0];
         // const reader = new FileReader();
@@ -511,18 +519,7 @@ export default function Edit() {
                                                     <div className="flex flex-col space-y-2 mt-4 my-8 w-full">
                                                         <div className="flex items-center justify-center w-full">
                                                             <div className="w-5/12" id="qr-code">
-                                                                <QRCode
-                                                                    value={`${survey.url}`}
-                                                                    size={150}
-                                                                    imageSettings={{
-                                                                        src: `${baseUrl}${survey.logo}`,
-                                                                        x: null,
-                                                                        y: null,
-                                                                        height: 24,
-                                                                        width: 24,
-                                                                        excavate: true,
-                                                                    }}
-                                                                />
+                                                                <img src={`${baseUrl}${survey.qr_code}`} alt="qr-code"/>
                                                             </div>
                                                             <div className="w-5/12">
                                                                 <p className="text-center text-md font-semibold my-1">
@@ -537,7 +534,7 @@ export default function Edit() {
                                                                     Print
                                                                 </button>
                                                                 <div
-                                                                    class="flex items-center justify-center space-x-0.5 my-1">
+                                                                    className="flex items-center justify-center space-x-0.5 my-1">
                                                                     <a
                                                                         href="#"
                                                                         className="flex p-1 items-center justify-center bg-[#0866FF] rounded-full"
@@ -602,24 +599,37 @@ export default function Edit() {
                                 {loading ? (
                                     <div className="flex items-center justify-center h-full">
                                         <div
-                                            class="m-12 inline-block h-16 w-16 animate-spin text-green-800 rounded-full border-4 border-solid border-current border-r-transparent align-[-0.125em] motion-reduce:animate-[spin_1.5s_linear_infinite]"
+                                            className="m-12 inline-block h-16 w-16 animate-spin text-green-800 rounded-full border-4 border-solid border-current border-r-transparent align-[-0.125em] motion-reduce:animate-[spin_1.5s_linear_infinite]"
                                             role="status"
                                         >
                       <span
-                          class="!absolute !-m-px !h-px !w-px !overflow-hidden !whitespace-nowrap !border-0 !p-0 ![clip:rect(0,0,0,0)]">
+                          className="!absolute !-m-px !h-px !w-px !overflow-hidden !whitespace-nowrap !border-0 !p-0 ![clip:rect(0,0,0,0)]">
                         Loading...
                       </span>
                                         </div>
                                     </div>
                                 ) : (
-                                    <div className="bg-[#282B32] text-white p-4">
-                                        <h6 className="font-bold mb-2">
-                                            Selection: Dowell Surveys
+                                    <div style={{
+                                        backgroundColor: '#282B32',
+                                        color: '#F0C40D',
+                                        padding: '20px',
+                                        border: '1px solid #F0C40D',
+                                        borderRadius: '10px',
+                                        margin: '20px',
+                                        textAlign: 'center'
+                                    }}>
+                                        <h6 style={{fontWeight: 'bold', marginBottom: '10px', fontSize: '20px'}}>
+                                            Survey Information
                                         </h6>
-                                        {survey_results.map((survey, index) => (
-                                            <div key={index}>
-                                                <h6 className="font-bold text-sm text-[#F0C40D]">
-                                                    {survey.brand_name}
+                                        {Object.keys(formData).map((key, index) => (
+                                            <div key={index} style={{marginBottom: '10px'}}>
+                                                <h6 style={{
+                                                    fontWeight: 'bold',
+                                                    fontSize: '16px',
+                                                    color: '#fff',
+                                                    textAlign: 'left'
+                                                }}>
+                                                    {`${key.replace(/_/g, ' ').split(' ').map(word => word.charAt(0).toUpperCase() + word.slice(1)).join(' ')}: ${formData[key]}`}
                                                 </h6>
                                             </div>
                                         ))}
@@ -629,11 +639,11 @@ export default function Edit() {
                             <div className="flex items-center justify-center w-7/12 h-96">
                                 {loading ? (
                                     <div
-                                        class="m-12 inline-block h-16 w-16 animate-spin text-green-800 rounded-full border-4 border-solid border-current border-r-transparent align-[-0.125em] motion-reduce:animate-[spin_1.5s_linear_infinite]"
+                                        className="m-12 inline-block h-16 w-16 animate-spin text-green-800 rounded-full border-4 border-solid border-current border-r-transparent align-[-0.125em] motion-reduce:animate-[spin_1.5s_linear_infinite]"
                                         role="status"
                                     >
                     <span
-                        class="!absolute !-m-px !h-px !w-px !overflow-hidden !whitespace-nowrap !border-0 !p-0 ![clip:rect(0,0,0,0)]">
+                        className="!absolute !-m-px !h-px !w-px !overflow-hidden !whitespace-nowrap !border-0 !p-0 ![clip:rect(0,0,0,0)]">
                       Loading...
                     </span>
                                     </div>
@@ -667,44 +677,44 @@ export default function Edit() {
                         </div>
                     </div>
 
-                    <div class="flex flex-col min-w-full">
-                        <div class="overflow-x-auto min-w-full">
-                            <div class="inline-block py-2 min-w-full">
-                                <div class="overflow-hidden">
+                    <div className="flex flex-col min-w-full">
+                        <div className="overflow-x-auto min-w-full">
+                            <div className="inline-block py-2 min-w-full">
+                                <div className="overflow-hidden">
                                     {loading ? (
                                         <div className="flex items-center justify-center">
                                             <div
-                                                class="m-12 inline-block h-16 w-16 animate-spin text-green-800 rounded-full border-4 border-solid border-current border-r-transparent align-[-0.125em] motion-reduce:animate-[spin_1.5s_linear_infinite]"
+                                                className="m-12 inline-block h-16 w-16 animate-spin text-green-800 rounded-full border-4 border-solid border-current border-r-transparent align-[-0.125em] motion-reduce:animate-[spin_1.5s_linear_infinite]"
                                                 role="status"
                                             >
                         <span
-                            class="!absolute !-m-px !h-px !w-px !overflow-hidden !whitespace-nowrap !border-0 !p-0 ![clip:rect(0,0,0,0)]">
+                            className="!absolute !-m-px !h-px !w-px !overflow-hidden !whitespace-nowrap !border-0 !p-0 ![clip:rect(0,0,0,0)]">
                           Loading...
                         </span>
                                             </div>
                                         </div>
                                     ) : (
-                                        <table class="min-w-full text-center text-sm font-light">
+                                        <table className="min-w-full text-center text-sm font-light">
                                             <thead
-                                                class="border-b bg-[#005734] font-medium text-white dark:border-neutral-500">
+                                                className="border-b bg-[#005734] font-medium text-white dark:border-neutral-500">
                                             <tr>
-                                                <th scope="col" class="whitespace-nowrap px-6 py-4">
+                                                <th scope="col" className="whitespace-nowrap px-6 py-4">
                                                     BRAND NAME
                                                 </th>
-                                                <th scope="col" class="break-words px-6 py-4">
+                                                <th scope="col" className="break-words px-6 py-4">
                                                     SURVEY LINK
                                                 </th>
-                                                <th scope="col" class=" px-6 py-4">
+                                                <th scope="col" className=" px-6 py-4">
                                                     DURATION
                                                 </th>
 
-                                                <th scope="col" class=" px-6 py-4">
+                                                <th scope="col" className=" px-6 py-4">
                                                     REGION
                                                 </th>
-                                                <th scope="col" class=" px-6 py-4">
+                                                <th scope="col" className=" px-6 py-4">
                                                     STATUS
                                                 </th>
-                                                <th scope="col" class=" px-6 py-4">
+                                                <th scope="col" className=" px-6 py-4">
                                                     ACTIONS
                                                 </th>
                                             </tr>
@@ -713,18 +723,18 @@ export default function Edit() {
                                             {survey_results.map((survey, index) => (
                                                 <tr
                                                     key={index}
-                                                    class="border-b dark:border-neutral-500"
+                                                    className="border-b dark:border-neutral-500"
                                                 >
-                                                    <td class="px-6 py-4 font-medium bg-[#F3F6FF]">
+                                                    <td className="px-6 py-4 font-medium bg-[#F3F6FF]">
                                                         {survey.brand_name}
                                                     </td>
-                                                    <td class="break-all px-6 py-4">{survey.link}</td>
-                                                    <td class="px-6 py-4 bg-[#F3F6FF]">{`${survey.start_date} to ${survey.end_date}. Limit ${survey.participantsLimit} person(s)`}</td>
+                                                    <td className="break-all px-6 py-4">{survey.url}</td>
+                                                    <td className="px-6 py-4 bg-[#F3F6FF]">{`${survey.start_date} to ${survey.end_date}. Limit ${survey.participantsLimit} person(s)`}</td>
 
-                                                    <td class="px-6 py-4">
+                                                    <td className="px-6 py-4">
                                                         3 places(Click marker to view)
                                                     </td>
-                                                    <td class="whitespace-nowrap bg-[#F3F6FF] font-medium">
+                                                    <td className="whitespace-nowrap bg-[#F3F6FF] font-medium">
                                                         {new Date(survey.start_date) > currentDate ? (
                                                             <div className="mx-4 my-2 bg-[#399544] text-white">
                                                                 {" "}
@@ -742,8 +752,8 @@ export default function Edit() {
                                                             </div>
                                                         )}
                                                     </td>
-                                                    <td class="whitespace-nowrap  px-6 py-4">
-                                                        <div class="flex items-center justify-center space-x-0.5">
+                                                    <td className="whitespace-nowrap  px-6 py-4">
+                                                        <div className="flex items-center justify-center space-x-0.5">
                                                             <button
                                                                 className="flex items-center justify-center rounded-lg bg-[#005734]"
                                                                 onClick={() => {

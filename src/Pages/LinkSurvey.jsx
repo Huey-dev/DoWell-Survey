@@ -65,11 +65,6 @@ const LinkSurvey = () => {
   const numOfParticipants = sessionStorage.getItem("numOfParticipants");
   // let strippedValue = region.substring(1, region.length - 1);
 
-  // Or remove the quotes using replace()
-  // let strippedValue = valueWithQuotes.replace(/^"(.*)"$/, "$1");
-
-  // console.log("this is region", strippedValue);
-
   const [userName, setUserName] = useState(null);
   const [email, setEmail] = useState(null);
 
@@ -133,11 +128,7 @@ const LinkSurvey = () => {
         }
       );
       setLoading(false);
-      setLoading(false);
-      console.log(
-        "this is response",
-        response.data.qrcodes[0].qrcode_image_url
-      );
+
       sessionStorage.setItem(
         "Qrcode",
         response.data.qrcodes[0].qrcode_image_url

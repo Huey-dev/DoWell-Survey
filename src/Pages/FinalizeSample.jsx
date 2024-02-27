@@ -12,8 +12,8 @@ const FinalizeSample = () => {
   const stored_locations = sessionStorage.getItem("newSurvey") || "[]";
   const [surveys, setSurveys] = useState(JSON.parse(stored_locations));
 
-  const participants_no = sessionStorage.getItem("numOfParticipants") || 0;
-  const [numOfParticipants, setNumOfParticipants] = useState(participants_no);
+  // const participants_no = sessionStorage.getItem("numOfParticipants") || 0;
+  const [numOfParticipants, setNumOfParticipants] = useState("");
 
   //const { surveys, setSurveys, surveyParams, setSurveyParams } = useGlobalContext();
 
@@ -202,6 +202,7 @@ const FinalizeSample = () => {
             <button
               onClick={handleDone}
               className="w-[100px] mx-1 h-[40px] font-serif font-semibold bg-[#005734] opacity-80 hover:opacity-100 text-[white] rounded-md"
+              disabled={!numOfParticipants.trim()}
             >
               Done
             </button>

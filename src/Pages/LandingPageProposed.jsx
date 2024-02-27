@@ -27,8 +27,8 @@ const LandingPage = () => {
 
 
     const navigate = useNavigate();
-    const stored_locations = sessionStorage.getItem("newSurvey") || "[]";
-    const [surveys, setSurveys] = useState(JSON.parse(stored_locations));
+    //const stored_locations = sessionStorage.getItem("newSurvey") || "[]";
+    const [surveys, setSurveys] = useState([]);
 
     const [pageload, setPageLoad] = useState(true);
     const [pageError, setPageError] = useState(null);
@@ -36,7 +36,7 @@ const LandingPage = () => {
 
 
     const context = useGlobalContext();
-    console.log("context Value: ", context)
+    console.log("context Value: ", context);
     const { inputData, setInputData, setAPIKey, api_key, setCenterCoords, centerCoords, placeAPIKey } = context;
     const [loading, setLoading] = useState(false);
     const [receivedKey, setRecievedKey] = useState("EhdQUTM2K0hNLCBOYWlyb2JpLCBLZW55YSImOiQKCg2PPDr");
@@ -457,12 +457,14 @@ const LandingPage = () => {
                                     <div className="flex justify-center items-center p-2">
                                         <button
                                             type="button"
-                                            className="mb-2 w-[150px] h-[30px] font-serif font-bold text-center opacity-80 hover:opacity-100 text-sm md:text-md text-white cursor-pointer bg-[#005734]"
+                                            className={`mb-2 w-[150px] h-[30px] font-serif font-bold ${surveys.length < 1? "opacity-60 cursor-not-allowed": "opacity-80 hover:opacity-100"} text-center text-sm md:text-md text-white bg-[#005734]`}
                                             //disabled={surveys.findIndex((obj) => obj.id === id) !== -1}
                                             onClick={handleConfirmSelection}
+                                            disabled={surveys.length < 1? true : false}
                                         >
                                             Confirm Selection
                                         </button>
+
                                     </div>
 
 

@@ -19,7 +19,7 @@ import LocationDropdown from "../components/Dropdown/LocationDropdown";
 import Category from "../components/Categories";
 
 import axios from "axios";
-import errorImage from "../../public/error.png";
+import errorImage from "../assets/error.png";
 
 
 const LandingPage = () => {
@@ -220,7 +220,7 @@ const LandingPage = () => {
                 <div>
                     <img src={errorImage} alt="error-image" />
                 </div>
-                <h1 className="text-center text-[28px] md:text-[34px] font-medium text-[#7F7F7F]">
+                <h1 className="text-center text-2xl md:text-[34px] font-medium text-[#7F7F7F]">
                     Oops, Something went wrong
                 </h1>
                 <h1 className="text-[18px] md:text-[20px] text-[#7F7F7F]">

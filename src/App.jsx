@@ -11,6 +11,7 @@ import Edit from "./Pages/EditSurvey";
 import EditSurveyTemp from "./Pages/EditSurveyTemp";
 import Settings from "./Pages/Settings";
 import SurveyIframe from "./Pages/SurveyIframe";
+import CheckRegion from "./Pages/CheckRegion";
 import TermsCondition from "./Pages/TermsCondition";
 
 import RedirectToExternalWebsite from "./Pages/RedirectToExternalWebsite"
@@ -30,6 +31,7 @@ function App() {
           <Router basename="/DoWell-Survey">
             <Routes>
               <Route path="/survey-iframe" element={<SurveyIframe />} />
+              <Route path="/check-my-region" element={<CheckRegion />} />
               <Route path="*" element={<RedirectToExternalWebsite />} />
 
               {/* <PreviewProvider> */}

@@ -163,7 +163,7 @@ export default function Sidebar() {
               <ul className="items-center justify-center space-y-2 md:flex md:space-x-6 md:space-y-0">
                 <li className={`font-bold text-lg h-8 ${location.pathname === '/newSurvey' ? 'text-black bg-white rounded-md px-1' : 'text-white hover:text-gray-600'}`}>
                   <Link
-                    to="/newSurvey"
+                    to="/"
 
                   >
                     New Survey

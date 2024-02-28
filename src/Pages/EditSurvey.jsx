@@ -604,7 +604,7 @@ export default function Edit() {
                                 My Surveys
                             </h1>
                             <h6 className=" text-white text-sm font-bold pb-0 no-underline">
-                                {`Total Surveys Active Surveys Closed Surveys`}
+                                {`Total Surveys ${survey_results[0]?.total_survey || ""} Active Surveys${survey_results[0]?.active_survey || ""} Closed Surveys ${survey_results[0]?.closed_survey || ""}`}
                             </h6>
                             <h6 className=" text-white text-sm font-bold pb-0 no-underline">
                                 Preview, print and Share Qrcodes, View Survey Locations.
@@ -772,7 +772,7 @@ export default function Edit() {
                                                                 </td>
                                                                 <td className="whitespace-nowrap  px-6 py-4">
                                                                     <div className="flex items-center justify-center space-x-0.5">
-                                                                        <button
+                                                                        {/* <button
                                                                             className="flex items-center justify-center rounded-lg bg-[#005734]"
                                                                             onClick={() => {
                                                                                 setSurvey(survey_results[i]);
@@ -781,7 +781,7 @@ export default function Edit() {
                                                                             }}
                                                                         >
                                                                             <PencilSquareIcon className="h-6 w-6 text-white m-1" />
-                                                                        </button>
+                                                                        </button> */}
                                                                         {/* <button
                                                                     className="flex items-center justify-center rounded-lg bg-[#EF4444]"
                                                                     onClick={onDeleteClick}

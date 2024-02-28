@@ -7,12 +7,13 @@
     "assets": [
       "assets/dowell-1abe8323.jpeg",
       "assets/error-c827f698.png",
-      "assets/allow-c9b26216.png"
+      "assets/allow-c9b26216.png",
+      "assets/mapicon-026738f4.png"
     ],
     "css": [
       "assets/index-b48d73a4.css"
     ],
-    "file": "assets/index-8c20f0f9.js",
+    "file": "assets/index-65536699.js",
     "isEntry": true,
     "src": "index.html"
   },
@@ -47,5 +48,9 @@
   "src/assets/logonew.png": {
     "file": "assets/logonew-4a24c200.png",
     "src": "src/assets/logonew.png"
+  },
+  "src/assets/mapicon.png": {
+    "file": "assets/mapicon-026738f4.png",
+    "src": "src/assets/mapicon.png"
   }
 }

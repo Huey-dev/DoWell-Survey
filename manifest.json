@@ -1,19 +1,18 @@
 {
   "index.css": {
-    "file": "assets/index-b48d73a4.css",
+    "file": "assets/index-3cfb7b23.css",
     "src": "index.css"
   },
   "index.html": {
     "assets": [
       "assets/dowell-1abe8323.jpeg",
       "assets/error-c827f698.png",
-      "assets/allow-c9b26216.png",
-      "assets/mapicon-026738f4.png"
+      "assets/allow-c9b26216.png"
     ],
     "css": [
-      "assets/index-b48d73a4.css"
+      "assets/index-3cfb7b23.css"
     ],
-    "file": "assets/index-12ab8674.js",
+    "file": "assets/index-8c4009a6.js",
     "isEntry": true,
     "src": "index.html"
   },

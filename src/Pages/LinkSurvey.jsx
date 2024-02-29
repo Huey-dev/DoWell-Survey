@@ -66,13 +66,13 @@ const LinkSurvey = () => {
   const numOfParticipants = sessionStorage.getItem("numOfParticipants");
   // let strippedValue = region.substring(1, region.length - 1);
 
-  // Or remove the quotes using replace()
-  // let strippedValue = valueWithQuotes.replace(/^"(.*)"$/, "$1");
-
-  // console.log("this is region", strippedValue);
-
   const [userName, setUserName] = useState(null);
+
+
+  //stay safe, dont try this at home
+  const coords = sessionStorage.getItem("coords") || "0.00,0.00";
   const [email, setEmail] = useState(null);
+
 
   // const [country, setCountry] = useState(null);
   // const [description, setDescription] = useState(null);
@@ -108,7 +108,7 @@ const LinkSurvey = () => {
     description: description,
     start_date: sformattedDate,
     end_date: eformattedDate,
-    brand_name: userName,
+    brand_name: coords,
     promotional_sentence: description,
     username: userName,
     name: name,
@@ -134,11 +134,7 @@ const LinkSurvey = () => {
         }
       );
       setLoading(false);
-      setLoading(false);
-      console.log(
-        "this is response",
-        response.data.qrcodes[0].qrcode_image_url
-      );
+
       sessionStorage.setItem(
         "Qrcode",
         response.data.qrcodes[0].qrcode_image_url
@@ -146,13 +142,12 @@ const LinkSurvey = () => {
 
       toast.success(response.data.response, {
         onClose: () => {
-          console.log("Toast closed, navigating...");
           navigate("/email-sms");
         },
       });
     } catch (error) {
       setLoading(false);
-      toast.success("Qr code Creation Failed", {
+      toast.error("Qr code Creation Failed", {
         autoClose: false,
         closeOnClick: true,
       });

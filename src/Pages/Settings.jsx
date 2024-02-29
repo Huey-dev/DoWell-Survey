@@ -1,11 +1,190 @@
 // import React from "react";
 import axios from "axios";
 import Layout from "../Layout/Layout";
-import { useEffect, useState } from "react";
 import { data } from "autoprefixer";
+import { Fragment, useEffect, useRef, useState } from "react";
+import {
+  CircleMarker,
+  MapContainer,
+  Marker,
+  Popup,
+  TileLayer,
+} from "react-leaflet";
+import {
+  MapPinIcon,
+  PencilSquareIcon,
+  QrCodeIcon,
+  TrashIcon,
+  XMarkIcon,
+} from "@heroicons/react/24/outline";
+import { Dialog, Transition } from "@headlessui/react";
 
 // Components
+
+const CheckRegionModal = ({ open, setOpen, regionLoading, addr }) => {
+  const [map, setMap] = useState(null);
+
+  const cancelButtonRef = useRef(null);
+  return (
+    <Transition.Root show={open} as={Fragment}>
+      <Dialog
+        as="div"
+        className="relative z-10"
+        initialFocus={cancelButtonRef}
+        onClose={() => setOpen(false)}
+      >
+        <Transition.Child
+          as={Fragment}
+          enter="ease-out duration-300"
+          enterFrom="opacity-0"
+          enterTo="opacity-100"
+          leave="ease-in duration-200"
+          leaveFrom="opacity-100"
+          leaveTo="opacity-0"
+        >
+          <div className="fixed inset-0 bg-gray-500 bg-opacity-75 transition-opacity" />
+        </Transition.Child>
+
+        <div className="fixed inset-0 z-10 w-screen overflow-y-auto">
+          <div className="flex min-h-full items-center justify-center p-4 text-center sm:items-center sm:p-0">
+            <Transition.Child
+              as={Fragment}
+              enter="ease-out duration-300"
+              enterFrom="opacity-0 translate-y-4 sm:translate-y-0 sm:scale-95"
+              enterTo="opacity-100 translate-y-0 sm:scale-100"
+              leave="ease-in duration-200"
+              leaveFrom="opacity-100 translate-y-0 sm:scale-100"
+              leaveTo="opacity-0 translate-y-4 sm:translate-y-0 sm:scale-95"
+            >
+              <Dialog.Panel className="relative transform overflow-hidden rounded-lg bg-white text-left shadow-xl transition-all w-full max-w-xl">
+                <div className="flex flex-col items-center justify-center w-full">
+                  <div className="flex items-center justify-between w-full text-white bg-[#005734] text-lg">
+                    <p className="font-bold mx-4 my-2 ">
+                      Please click &ldquo;Allow&ldquo; to grant location access
+                    </p>
+                    <button
+                      className="font-serif font-bold text-center m-4"
+                      onClick={() => setOpen(false)}
+                    >
+                      <XMarkIcon className="h-4 w-4 m-1" />
+                    </button>
+                  </div>
+
+                  <div className="flex flex-col space-y-2 mt-4 my-8 w-full">
+                    <div className="flex items-center justify-center w-full space-x-2">
+                      <div className="w-6/12 h-64" id="qr-code">
+                        {regionLoading ? (
+                          <div className="flex items-center justify-center">
+                            <div
+                              className="m-12 inline-block h-16 w-16 animate-spin text-green-800 rounded-full border-4 border-solid border-current border-r-transparent align-[-0.125em] motion-reduce:animate-[spin_1.5s_linear_infinite]"
+                              role="status"
+                            >
+                              <span className="!absolute !-m-px !h-px !w-px !overflow-hidden !whitespace-nowrap !border-0 !p-0 ![clip:rect(0,0,0,0)]">
+                                Loading...
+                              </span>
+                            </div>
+                          </div>
+                        ) : (
+                          <MapContainer
+                            ref={setMap}
+                            scrollWheelZoom={false}
+                            zoomControl={false}
+                            center={addr?.latlng}
+                            zoom={13}
+                            style={{
+                              height: "100%",
+                              width: "100%",
+                              zIndex: "1",
+                            }}
+                          >
+                            <TileLayer
+                              url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
+                              attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
+                            />
+                            <>
+                              <CircleMarker
+                                //key={index}
+                                center={addr?.latlng}
+                                radius={30}
+                              >
+                                <Marker position={addr?.latlng}>
+                                  <Popup>{"You are Here!"}</Popup>
+                                </Marker>
+                              </CircleMarker>
+                            </>
+                          </MapContainer>
+                        )}
+                      </div>
+                      <div className="w-5/12">
+                        {regionLoading ? (
+                          <div className="flex items-center justify-center">
+                            <div
+                              className="m-12 inline-block h-16 w-16 animate-spin text-green-800 rounded-full border-4 border-solid border-current border-r-transparent align-[-0.125em] motion-reduce:animate-[spin_1.5s_linear_infinite]"
+                              role="status"
+                            >
+                              <span className="!absolute !-m-px !h-px !w-px !overflow-hidden !whitespace-nowrap !border-0 !p-0 ![clip:rect(0,0,0,0)]">
+                                Loading...
+                              </span>
+                            </div>
+                          </div>
+                        ) : (
+                          <>
+                            <h1 className="text-md font-bold">
+                              Your Location Information
+                            </h1>
+                            <h1 className="text-md font-semibold">
+                              Country:{" "}
+                              <span className="text-[#7F7F7F]">
+                                {" "}
+                                {addr?.country}
+                              </span>
+                            </h1>
+                            <h1 className="text-md font-semibold">
+                              Region:{" "}
+                              <span className="text-[#7F7F7F]">
+                                {" "}
+                                {addr?.region}
+                              </span>
+                            </h1>
+                            <h1 className="text-md font-semibold">
+                              Latitude:{" "}
+                              <span className="text-[#7F7F7F]">
+                                {" "}
+                                {addr?.latlng[0]}
+                              </span>
+                            </h1>
+                            <h1 className="text-md font-semibold">
+                              Longitude:{" "}
+                              <span className="text-[#7F7F7F]">
+                                {" "}
+                                {addr?.latlng[1]}
+                              </span>
+                            </h1>
+                          </>
+                        )}
+                      </div>
+                    </div>
+                  </div>
+
+                  <div className="flex items-center justify-between w-full bg-[#005734] text-[#005734]">
+                    d
+                  </div>
+                </div>
+              </Dialog.Panel>
+            </Transition.Child>
+          </div>
+        </div>
+      </Dialog>
+    </Transition.Root>
+  );
+};
+
 export default function Settings() {
+  const [open, setOpen] = useState(false);
+
+  const [regionLoading, setRegionLoading] = useState(false);
+  const [addr, setAddr] = useState({ country: "", region: "", latlng: [] });
+
   const [profileImageUrl, setProfileImageUrl] = useState("");
   const [userName, setUserName] = useState(null);
   const [firstName, setFirstName] = useState(null);
@@ -21,6 +200,87 @@ export default function Settings() {
   const [closedSurvey, setClosedSurvey] = useState(null);
 
   // Retrieve user_info object from sessionStorage
+  const getCurrentAddress = () => {
+    setRegionLoading(true);
+
+    if (navigator.geolocation) {
+      // Get current position
+      navigator.geolocation.getCurrentPosition(function (position) {
+        // Get latitude and longitude
+        var latlng = {
+          lat: position.coords.latitude,
+          lng: position.coords.longitude,
+        };
+
+        // Initialize geocoder
+        var geocoder = new google.maps.Geocoder();
+
+        // Geocode coordinates to get address
+        geocoder.geocode(
+          { location: latlng },
+          async function (results, status) {
+            if (status === google.maps.GeocoderStatus.OK) {
+              if (results[0]) {
+                let the_region;
+                let the_country;
+
+                if (results[0]) {
+                  // Parse address components to find city
+                  var addressComponents = results[0].address_components;
+                  console.log(
+                    "the entire address component is",
+                    addressComponents
+                  );
+
+                  for (var i = 0; i < addressComponents.length; i++) {
+                    var types = addressComponents[i].types;
+                    if (types.includes("locality")) {
+                      the_region = addressComponents[i].long_name;
+                      console.log(
+                        "the entire address component is",
+                        addressComponents[i]
+                      );
+                      break;
+                    }
+                  }
+
+                  for (var i = 0; i < addressComponents.length; i++) {
+                    var types = addressComponents[i].types;
+                    if (types.includes("country")) {
+                      the_country = addressComponents[i].long_name;
+                      //console.log("the entire address component is", addressComponents[i]);
+                      break;
+                    }
+                  }
+                }
+
+                //const the_region_hyphen = Array.from(the_region).join('-');
+                setRegionLoading(false);
+                console.log("the entire address component is", {
+                  region: the_region,
+                  country: the_country,
+                  latlng: latlng,
+                });
+
+                setAddr({
+                  region: the_region,
+                  country: the_country,
+                  latlng: [latlng?.lat, latlng?.lng],
+                });
+              } else {
+                alert("No results found");
+              }
+            } else {
+              alert("Geocoder failed due to: " + status);
+            }
+          }
+        );
+      });
+    } else {
+      alert("Geolocation is not supported by this browser.");
+    }
+  };
+
   useEffect(() => {
     const user_info_json = sessionStorage.getItem("user_info") || "[]";
     const user_info = JSON.parse(user_info_json);
@@ -84,12 +344,29 @@ export default function Settings() {
   return (
     <Layout>
       <div className="px-4 md:px-10 mt-[26px] md:pl-80 flex flex-col gap-5">
+        <CheckRegionModal
+          open={open}
+          setOpen={setOpen}
+          regionLoading={regionLoading}
+          addr={addr}
+        />
         <div className="relative flex flex-col min-w-0 break-words w-full mb-6 shadow-lg rounded-lg bg-blueGray-100 border-0">
           <div className="rounded-t bg-white mb-0 px-6 py-6">
             <div className="text-center flex justify-between">
               <h6 className="text-blueGray-700 text-xl font-bold">
                 My account
               </h6>
+
+              <button
+                className="mb-2 w-[150px] h-[30px] font-serif font-bold opacity-80 hover:opacity-100 text-center text-sm md:text-md text-white bg-[#005734]"
+                onClick={() => {
+                  setOpen(true);
+                  getCurrentAddress();
+                }}
+              >
+                check my region
+              </button>
+
               <a
                 href="https://100093.pythonanywhere.com/ "
                 target="_blank"
@@ -208,51 +485,45 @@ export default function Settings() {
               </div>
 
               {/* Survey created section */}
-              <div className="w-full h-full mt-10">
-                <hr className="mt-6 border-b-1 border-blueGray-300" />
-                <h1 className="text-blueGray-400 text-sm mt-3 mb-6 font-bold uppercase">
-                  Surveys Details
-                </h1>
 
-                <div className="w-full h-full md:flex  ">
-                  <div className="w-full lg:w-4/12 px-4">
-                    <div className="relative w-full mb-3">
-                      <label
-                        className="block uppercase text-blueGray-600 text-xs font-bold mb-2"
-                        htmlFor="grid-password"
-                      >
-                        Total Survey created
-                      </label>
-                      <p className="border-0 px-3 py-3 placeholder-blueGray-300 text-blueGray-600 bg-white rounded text-sm shadow focus:outline-none focus:ring w-full ease-linear transition-all duration-150">
-                        {totalSurvey}
-                      </p>
-                    </div>
+              <div className="w-full h-full md:flex  ">
+                <div className="w-full lg:w-4/12 px-4">
+                  <div className="relative w-full mb-3">
+                    <label
+                      className="block uppercase text-blueGray-600 text-xs font-bold mb-2"
+                      htmlFor="grid-password"
+                    >
+                      Total Survey created
+                    </label>
+                    <p className="border-0 px-3 py-3 placeholder-blueGray-300 text-blueGray-600 bg-white rounded text-sm shadow focus:outline-none focus:ring w-full ease-linear transition-all duration-150">
+                      {totalSurvey}
+                    </p>
                   </div>
-                  <div className="w-full lg:w-4/12 px-4">
-                    <div className="relative w-full mb-3">
-                      <label
-                        className="block uppercase text-blueGray-600 text-xs font-bold mb-2"
-                        htmlFor="grid-password"
-                      >
-                        Active Survey
-                      </label>
-                      <p className="border-0 px-3 py-3 placeholder-blueGray-300 text-blueGray-600 bg-white rounded text-sm shadow focus:outline-none focus:ring w-full ease-linear transition-all duration-150">
-                        {activeSurvey}
-                      </p>
-                    </div>
+                </div>
+                <div className="w-full lg:w-4/12 px-4">
+                  <div className="relative w-full mb-3">
+                    <label
+                      className="block uppercase text-blueGray-600 text-xs font-bold mb-2"
+                      htmlFor="grid-password"
+                    >
+                      Active Survey
+                    </label>
+                    <p className="border-0 px-3 py-3 placeholder-blueGray-300 text-blueGray-600 bg-white rounded text-sm shadow focus:outline-none focus:ring w-full ease-linear transition-all duration-150">
+                      {activeSurvey}
+                    </p>
                   </div>
-                  <div className="w-full lg:w-4/12 px-4">
-                    <div className="relative w-full mb-3">
-                      <label
-                        className="block uppercase text-blueGray-600 text-xs font-bold mb-2"
-                        htmlFor="grid-password"
-                      >
-                        Closed survey
-                      </label>
-                      <p className="border-0 px-3 py-3 placeholder-blueGray-300 text-blueGray-600 bg-white rounded text-sm shadow focus:outline-none focus:ring w-full ease-linear transition-all duration-150">
-                        {closedSurvey}
-                      </p>
-                    </div>
+                </div>
+                <div className="w-full lg:w-4/12 px-4">
+                  <div className="relative w-full mb-3">
+                    <label
+                      className="block uppercase text-blueGray-600 text-xs font-bold mb-2"
+                      htmlFor="grid-password"
+                    >
+                      Closed survey
+                    </label>
+                    <p className="border-0 px-3 py-3 placeholder-blueGray-300 text-blueGray-600 bg-white rounded text-sm shadow focus:outline-none focus:ring w-full ease-linear transition-all duration-150">
+                      {closedSurvey}
+                    </p>
                   </div>
                 </div>
               </div>

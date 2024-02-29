@@ -12,18 +12,14 @@ const FinalizeSample = () => {
   const stored_locations = sessionStorage.getItem("newSurvey") || "[]";
   const [surveys, setSurveys] = useState(JSON.parse(stored_locations));
 
-  const participants_no = sessionStorage.getItem("numOfParticipants") || 0;
-  const [numOfParticipants, setNumOfParticipants] = useState(participants_no);
-
-
+  // const participants_no = sessionStorage.getItem("numOfParticipants") || 0;
+  const [numOfParticipants, setNumOfParticipants] = useState("");
 
   const handleDelete = (placeId) => {
     const updatedData = surveys.filter((data) => data.placeId !== placeId);
 
     setSurveys(updatedData);
   };
-
-
 
   const handleDone = () => {
     sessionStorage.setItem("newSurvey", JSON.stringify(surveys));
@@ -42,8 +38,7 @@ const FinalizeSample = () => {
               Finalize Sample Size
             </h1>
             <h6 className=" text-white text-sm font-bold pb-0 no-underline">
-              Set the total number of persons allowed
-              to fill this survey
+              Set the total number of persons allowed to fill this survey
             </h6>
           </div>
           <div className="flex flex-col justify-between w-full h-full">
@@ -74,7 +69,10 @@ const FinalizeSample = () => {
                         </thead>
                         <tbody>
                           {surveys.map((data, index) => (
-                            <tr key={data.index} className="border-black border">
+                            <tr
+                              key={data.index}
+                              className="border-black border"
+                            >
                               <td className="whitespace-nowrap  px-6 py-4 font-medium">
                                 {index + 1}
                               </td>
@@ -83,13 +81,11 @@ const FinalizeSample = () => {
                               </td>
                               <td className="px-6 py-4">{data.address}</td>
 
-
                               <td className="whitespace-nowrap  px-6 py-4">
                                 {data.phone}
                               </td>
 
                               <td className="whitespace-nowrap  px-6 py-4">
-
                                 <button
                                   onClick={() => handleDelete(data.placeId)}
                                   className="ml-[20px]"
@@ -108,7 +104,7 @@ const FinalizeSample = () => {
             )}
             <div>
               <div className="flex items-center justify-center text-base mt-10 md:text-2xl font-bold">
-                Enter Maximum Number of Persons to fill the Survey
+                Enter Maximum Number of Persons allowed to fill the Survey 
               </div>
 
               <div className="flex items-center justify-center">
@@ -131,23 +127,23 @@ const FinalizeSample = () => {
 
                 <button
                   onClick={handleDone}
-                  className="w-[100px] mx-1 h-[40px] font-serif font-semibold bg-[#005734] opacity-80 hover:opacity-100 text-[white] rounded-md"
+                  // className="w-[100px] mx-1 h-[40px] font-serif font-semibold bg-[#005734] opacity-80 hover:opacity-100 text-[white] rounded-md"
+                  className={`w-[100px] mx-1 h-[40px] font-serif font-semibold bg-[#005734] ${
+                    !numOfParticipants.trim()
+                      ? "opacity-60 cursor-not-allowed"
+                      : "opacity-80 hover:opacity-100"
+                  } text-[white] rounded-md`}
+                  disabled={!numOfParticipants.trim()}
                 >
                   Done
                 </button>
 
-                <button className="w-[100px] h-[40px] font-serif font-semibold bg-[#005734] opacity-80 hover:opacity-100 text-[white] rounded-md">
+                <button className="w-[100px] h-[40px] font-serif font-semibold bg-[#005734] opacity-90 hover:opacity-100 text-[white] rounded-md">
                   Cancel
                 </button>
               </div>
-
             </div>
-
           </div>
-
-
-
-
         </div>
       </main>
     </Layout>

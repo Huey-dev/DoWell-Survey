@@ -1,6 +1,8 @@
 import { useState } from "react";
 import Layout from "../Layout/Layout";
 import { useNavigate } from "react-router-dom";
+import { toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 
 const StartNewSurvey = () => {
   const [startDate, setStartDate] = useState(getCurrentDate());
@@ -34,7 +36,9 @@ const StartNewSurvey = () => {
   const handleSubmit = async () => {
     // Validate form fields
     if (!name || !product || !description || !endDate || !startDate) {
-      alert("Please fill in all fields");
+      toast.success("Please fill all fields", {
+        onClose: () => {},
+      });
       return;
     }
     saveToLocalStorage();
@@ -60,7 +64,7 @@ const StartNewSurvey = () => {
             name="name"
             value={name}
             onChange={(e) => setName(e.target.value)}
-            placeholder="Enter your name"
+            placeholder="Enter the Survey name"
             className="border-2 w-full sm:w-[40%] p-1 border-[#B3B4BB] rounded-[5px] outline-none"
           />
 

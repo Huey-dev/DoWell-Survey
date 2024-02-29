@@ -537,7 +537,7 @@ export default function Edit() {
                                 >
                                   Print
                                 </button>
-                                <div class="flex items-center justify-center space-x-0.5 my-1">
+                                <div className="flex items-center justify-center space-x-0.5 my-1">
                                   <a
                                     href="#"
                                     className="flex p-1 items-center justify-center bg-[#0866FF] rounded-full"
@@ -600,10 +600,10 @@ export default function Edit() {
                 {loading ? (
                   <div className="flex items-center justify-center h-full">
                     <div
-                      class="m-12 inline-block h-16 w-16 animate-spin text-green-800 rounded-full border-4 border-solid border-current border-r-transparent align-[-0.125em] motion-reduce:animate-[spin_1.5s_linear_infinite]"
+                      className="m-12 inline-block h-16 w-16 animate-spin text-green-800 rounded-full border-4 border-solid border-current border-r-transparent align-[-0.125em] motion-reduce:animate-[spin_1.5s_linear_infinite]"
                       role="status"
                     >
-                      <span class="!absolute !-m-px !h-px !w-px !overflow-hidden !whitespace-nowrap !border-0 !p-0 ![clip:rect(0,0,0,0)]">
+                      <span className="!absolute !-m-px !h-px !w-px !overflow-hidden !whitespace-nowrap !border-0 !p-0 ![clip:rect(0,0,0,0)]">
                         Loading...
                       </span>
                     </div>
@@ -626,10 +626,10 @@ export default function Edit() {
               <div className="flex items-center justify-center w-7/12 h-96">
                 {loading ? (
                   <div
-                    class="m-12 inline-block h-16 w-16 animate-spin text-green-800 rounded-full border-4 border-solid border-current border-r-transparent align-[-0.125em] motion-reduce:animate-[spin_1.5s_linear_infinite]"
+                    className="m-12 inline-block h-16 w-16 animate-spin text-green-800 rounded-full border-4 border-solid border-current border-r-transparent align-[-0.125em] motion-reduce:animate-[spin_1.5s_linear_infinite]"
                     role="status"
                   >
-                    <span class="!absolute !-m-px !h-px !w-px !overflow-hidden !whitespace-nowrap !border-0 !p-0 ![clip:rect(0,0,0,0)]">
+                    <span className="!absolute !-m-px !h-px !w-px !overflow-hidden !whitespace-nowrap !border-0 !p-0 ![clip:rect(0,0,0,0)]">
                       Loading...
                     </span>
                   </div>
@@ -663,42 +663,42 @@ export default function Edit() {
             </div>
           </div>
 
-          <div class="flex flex-col min-w-full">
-            <div class="overflow-x-auto min-w-full">
-              <div class="inline-block py-2 min-w-full">
-                <div class="overflow-hidden">
+          <div className="flex flex-col min-w-full">
+            <div className="overflow-x-auto min-w-full">
+              <div className="inline-block py-2 min-w-full">
+                <div className="overflow-hidden">
                   {loading ? (
                     <div className="flex items-center justify-center">
                       <div
-                        class="m-12 inline-block h-16 w-16 animate-spin text-green-800 rounded-full border-4 border-solid border-current border-r-transparent align-[-0.125em] motion-reduce:animate-[spin_1.5s_linear_infinite]"
+                        className="m-12 inline-block h-16 w-16 animate-spin text-green-800 rounded-full border-4 border-solid border-current border-r-transparent align-[-0.125em] motion-reduce:animate-[spin_1.5s_linear_infinite]"
                         role="status"
                       >
-                        <span class="!absolute !-m-px !h-px !w-px !overflow-hidden !whitespace-nowrap !border-0 !p-0 ![clip:rect(0,0,0,0)]">
+                        <span className="!absolute !-m-px !h-px !w-px !overflow-hidden !whitespace-nowrap !border-0 !p-0 ![clip:rect(0,0,0,0)]">
                           Loading...
                         </span>
                       </div>
                     </div>
                   ) : (
-                    <table class="min-w-full text-center text-sm font-light">
-                      <thead class="border-b bg-[#005734] font-medium text-white dark:border-neutral-500">
+                    <table className="min-w-full text-center text-sm font-light">
+                      <thead className="border-b bg-[#005734] font-medium text-white dark:border-neutral-500">
                         <tr>
-                          <th scope="col" class="whitespace-nowrap px-6 py-4">
+                          <th scope="col" className="whitespace-nowrap px-6 py-4">
                             BRAND NAME
                           </th>
-                          <th scope="col" class="break-words px-6 py-4">
+                          <th scope="col" className="break-words px-6 py-4">
                             SURVEY LINK
                           </th>
-                          <th scope="col" class=" px-6 py-4">
+                          <th scope="col" className=" px-6 py-4">
                             DURATION
                           </th>
 
-                          <th scope="col" class=" px-6 py-4">
+                          <th scope="col" className=" px-6 py-4">
                             REGION
                           </th>
-                          <th scope="col" class=" px-6 py-4">
+                          <th scope="col" className=" px-6 py-4">
                             STATUS
                           </th>
-                          <th scope="col" class=" px-6 py-4">
+                          <th scope="col" className=" px-6 py-4">
                             ACTIONS
                           </th>
                         </tr>
@@ -707,18 +707,18 @@ export default function Edit() {
                         {survey_results.map((survey, index) => (
                           <tr
                             key={index}
-                            class="border-b dark:border-neutral-500"
+                            className="border-b dark:border-neutral-500"
                           >
-                            <td class="px-6 py-4 font-medium bg-[#F3F6FF]">
+                            <td className="px-6 py-4 font-medium bg-[#F3F6FF]">
                               {survey.brand_name}
                             </td>
-                            <td class="break-all px-6 py-4">{survey.link}</td>
-                            <td class="px-6 py-4 bg-[#F3F6FF]">{`${survey.start_date} to ${survey.end_date}. Limit ${survey.participantsLimit} person(s)`}</td>
+                            <td className="break-all px-6 py-4">{survey.link}</td>
+                            <td className="px-6 py-4 bg-[#F3F6FF]">{`${survey.start_date} to ${survey.end_date}. Limit ${survey.participantsLimit} person(s)`}</td>
 
-                            <td class="px-6 py-4">
+                            <td className="px-6 py-4">
                               3 places(Click marker to view)
                             </td>
-                            <td class="whitespace-nowrap bg-[#F3F6FF] font-medium">
+                            <td className="whitespace-nowrap bg-[#F3F6FF] font-medium">
                               {new Date(survey.start_date) > currentDate ? (
                                 <div className="mx-4 my-2 bg-[#399544] text-white">
                                   {" "}
@@ -736,8 +736,8 @@ export default function Edit() {
                                 </div>
                               )}
                             </td>
-                            <td class="whitespace-nowrap  px-6 py-4">
-                              <div class="flex items-center justify-center space-x-0.5">
+                            <td className="whitespace-nowrap  px-6 py-4">
+                              <div className="flex items-center justify-center space-x-0.5">
                                 <button
                                   className="flex items-center justify-center rounded-lg bg-[#005734]"
                                   onClick={() => {

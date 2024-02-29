@@ -2,6 +2,7 @@
 import axios from "axios";
 import Layout from "../Layout/Layout";
 import { useEffect, useState } from "react";
+import { data } from "autoprefixer";
 
 // Components
 export default function Settings() {
@@ -39,6 +40,10 @@ export default function Settings() {
         );
         const data = response?.data[0];
         console.log(data);
+        setActiveSurvey(data.active_survey);
+        setTotalSurvey(data.total_survey);
+        setClosedSurvey(data.closed_survey);
+        return data;
       } catch (error) {
         console.log("Hi there");
         console.log(error);
@@ -219,7 +224,7 @@ export default function Settings() {
                         Total Survey created
                       </label>
                       <p className="border-0 px-3 py-3 placeholder-blueGray-300 text-blueGray-600 bg-white rounded text-sm shadow focus:outline-none focus:ring w-full ease-linear transition-all duration-150">
-                        40
+                        {totalSurvey}
                       </p>
                     </div>
                   </div>
@@ -232,7 +237,7 @@ export default function Settings() {
                         Active Survey
                       </label>
                       <p className="border-0 px-3 py-3 placeholder-blueGray-300 text-blueGray-600 bg-white rounded text-sm shadow focus:outline-none focus:ring w-full ease-linear transition-all duration-150">
-                        20
+                        {activeSurvey}
                       </p>
                     </div>
                   </div>
@@ -245,7 +250,7 @@ export default function Settings() {
                         Closed survey
                       </label>
                       <p className="border-0 px-3 py-3 placeholder-blueGray-300 text-blueGray-600 bg-white rounded text-sm shadow focus:outline-none focus:ring w-full ease-linear transition-all duration-150">
-                        30
+                        {closedSurvey}
                       </p>
                     </div>
                   </div>

@@ -56,7 +56,7 @@ export default function Sidebar() {
                 >
                   New Survey
                 </Link>
-              </li>
+              </li>s
 
             </ul>
 

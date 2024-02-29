@@ -31,7 +31,6 @@ function App() {
           <Router basename="/DoWell-Survey">
             <Routes>
               <Route path="/survey-iframe" element={<SurveyIframe />} />
-              <Route path="/check-my-region" element={<CheckRegion />} />
               <Route path="*" element={<RedirectToExternalWebsite />} />
 
               {/* <PreviewProvider> */}

@@ -3,7 +3,7 @@ import { Dialog, Transition } from "@headlessui/react";
 import Layout from "../Layout/Layout";
 import { MapPinIcon, PencilSquareIcon, QrCodeIcon, TrashIcon, XMarkIcon } from "@heroicons/react/24/outline";
 import { FaXTwitter } from "react-icons/fa6";
-import { FaFacebook, FaInstagram, FaLinkedinIn, FaWhatsapp, FaTelegram } from "react-icons/fa";
+import { FaFacebook, FaInstagram, FaLinkedinIn, FaWhatsapp, FaTelegram, FaDownload } from "react-icons/fa";
 //import { FaTimes } from "react-icons/fa";
 import { CircleMarker, MapContainer, Marker, Popup, TileLayer, } from "react-leaflet";
 import "./EditSurveyModal.css";
@@ -73,6 +73,14 @@ export default function Edit() {
         console.log(`${baseUrl}${survey.logo}`)
         window.print();
     };
+
+    const onQRCodeDownloadClick = () => {
+        const link = document.createElement('a');
+        const imageUrl = `${baseUrl}${survey.qr_code}`;
+        link.download = 'dowell_qr_code';
+        link.click();
+
+    }
 
     const backendUrl = "https://100025.pythonanywhere.com/my-survey/?api_key=4f0bd662-8456-4b2e-afa6-293d4135facf"
 
@@ -522,9 +530,9 @@ export default function Edit() {
                                                         </div>
 
                                                         <div className="flex flex-col space-y-2 mt-4 my-8 w-full">
-                                                            <div className="flex items-center justify-center w-full">
+                                                            <div className="flex items-center justify-center w-full space-x-1">
                                                                 <div className="w-5/12" id="qr-code">
-                                                                    <QRCode
+                                                                    {/* <QRCode
                                                                         size={190}
                                                                         bgColor="white"
                                                                         value={`https://dowelllabs.github.io/DoWell-Survey/survey-iframe?survey_id=${survey.id}`}
@@ -533,20 +541,39 @@ export default function Edit() {
                                                                             padding: "4px",
                                                                             borderWidth: "2px",
                                                                         }}
-                                                                    />
+
+                                                                    /> */}
+                                                                    <img src={`${baseUrl}${survey.qr_code}`}
+                                                                        style={{
+                                                                            borderColor: "black",
+                                                                            //padding: "0.2px",
+                                                                            borderWidth: "2px",
+                                                                        }} alt="qr_code" />
+
+
+
                                                                 </div>
                                                                 <div className="w-5/12">
                                                                     <p className="text-center text-md font-semibold my-1">
                                                                         Print or share Qr codes on your media
                                                                         platforms
                                                                     </p>
-                                                                    <button
-                                                                        type="submit"
-                                                                        className="inline-flex my-1 w-full justify-center bg-blue-700 px-3 py-2 text-md font-semibold text-white shadow-sm hover:bg-[#3B82F6]"
-                                                                        onClick={onQRCodePrintClick}
-                                                                    >
-                                                                        Print
-                                                                    </button>
+                                                                    <div className="flex justify-center items-center space-x-1">
+                                                                        <button
+                                                                            type="submit"
+                                                                            className="inline-flex my-1 w-full justify-center bg-blue-700 px-3 py-2 text-md font-semibold text-white shadow-sm hover:bg-[#3B82F6]"
+                                                                            onClick={onQRCodePrintClick}
+                                                                        >
+                                                                            Print
+                                                                        </button>
+                                                                        <a href={`${baseUrl}${survey.qr_code}`} className="flex p-1 items-center justify-center bg-[#CE6868] rounded-md" download>
+                                                                            <FaDownload className="h-6 w-6 m-1 text-white" />
+                                                                        </a>
+                                                                    </div>
+
+                                                                    {/* <button onClick={onQRCodeDownloadClick}>
+                                                                        <FaDownload />
+                                                                    </button> */}
                                                                     <div
                                                                         className="flex items-center justify-center space-x-0.5 my-1">
                                                                         <a

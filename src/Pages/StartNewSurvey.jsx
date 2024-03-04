@@ -59,12 +59,12 @@ const StartNewSurvey = () => {
           /> */}
 
           <input
-            type="text"
+            type="email"
             id="name"
             name="name"
             value={name}
             onChange={(e) => setName(e.target.value)}
-            placeholder="Enter your name"
+            placeholder="Enter your email address"
             className="border-2 w-full sm:w-[40%] p-1 border-[#B3B4BB] rounded-[5px] outline-none"
           />
 

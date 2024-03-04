@@ -4,7 +4,8 @@ import { PreviewProvider } from "./Context/PreviewContext";
 import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
 import PreviewPage from "./Pages/PreviewPage";
 import StartNewSurvey from "./Pages/StartNewSurvey";
-import FinalizeSample from "./Pages/FinalizeSample2";
+// import FinalizeSample from "./Pages/FinalizeSample2";
+import FinalizeSample from "./Pages/FinalizeSample";
 import LinkSurvey from "./Pages/LinkSurvey";
 import { EmailSms } from "./Pages/EmailSms";
 import Edit from "./Pages/EditSurvey";
@@ -31,6 +32,7 @@ function App() {
           <Router basename="/DoWell-Survey">
             <Routes>
               <Route path="/survey-iframe" element={<SurveyIframe />} />
+              {/* <Route path="/finalise" element={<FinalizeSample />} /> */}
               <Route path="*" element={<RedirectToExternalWebsite />} />
 
               {/* <PreviewProvider> */}

@@ -30,6 +30,7 @@ import errorImage from "../assets/error.png";
 
 
 const LandingPage = () => {
+    const [searchRegion, setSearchRegion] = useState(null);
 
 
 
@@ -168,6 +169,7 @@ const LandingPage = () => {
                 };
                 const placeDetail = await FetchPlaceDetail(placeDetailOptions);
                 setPlaceDetails(placeDetail.data.succesful_results);
+                //setSearchRegion(inputData.city);
             }
         } catch (error) {
             // Handle errors
@@ -393,7 +395,9 @@ const LandingPage = () => {
                                                                         address,
                                                                         website,
                                                                         numOfParticipants: 1,
+                                                                        searchRegion: searchRegion
                                                                     });
+                                                                    
                                                                 } else {
                                                                     // Value present, remove it
                                                                     updatedList.splice(valueIndex, 1);
@@ -432,6 +436,8 @@ const LandingPage = () => {
                                                     <p className="text-sm font-semibold">{survey.place_name}</p>
                                                     <hr class="h-px my-1 bg-black border-0"></hr>
                                                     <p className="text-xs">{survey.address}</p>
+                                                    {/* <p className="text-xs">{survey.searchRegion}</p> */}
+
                                                 </div>
 
                                                 <button
@@ -458,15 +464,31 @@ const LandingPage = () => {
                                     }
 
                                     <div className="flex justify-center items-center p-2">
-                                        <button
+                                        { surveys.length < 1 ? 
+                                        (
+                                            <button
                                             type="button"
-                                            className={`mb-2 w-[150px] h-[30px] font-serif font-bold ${surveys.length < 1 ? "opacity-60 cursor-not-allowed" : "opacity-80 hover:opacity-100"} text-center text-sm md:text-md text-white bg-[#005734]`}
+                                            className={`mb-2 w-[150px] h-[30px] font-serif font-bold opacity-80 hover:opacity-100 text-center text-sm md:text-md text-white bg-[#005734]`}
                                             //disabled={surveys.findIndex((obj) => obj.id === id) !== -1}
                                             onClick={handleConfirmSelection}
-                                            disabled={surveys.length < 1 ? true : false}
+                                            //disabled={surveys.length < 1 ? true : false}
+                                        >
+                                            Skip & Proceed
+                                        </button>
+                                        ) : (
+                                            <button
+                                            type="button"
+                                            className={`mb-2 w-[150px] h-[30px] font-serif font-bold opacity-80 hover:opacity-100 text-center text-sm md:text-md text-white bg-[#005734]`}
+                                            //disabled={surveys.findIndex((obj) => obj.id === id) !== -1}
+                                            onClick={handleConfirmSelection}
+                                            //disabled={surveys.length < 1 ? true : false}
                                         >
                                             Confirm Selection
                                         </button>
+                                        )
+
+                                        }
+
 
                                     </div>
 

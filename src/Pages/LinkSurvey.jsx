@@ -118,6 +118,7 @@ const LinkSurvey = () => {
     participantsLimit: numOfParticipants,
     url: formLink,
   };
+   console.log("the forrm data is", formData);
 
   const handleSubmit = async (e) => {
     setLoading(true);

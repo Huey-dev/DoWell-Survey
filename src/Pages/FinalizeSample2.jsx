@@ -104,7 +104,7 @@ const FinalizeSample = () => {
             )}
             <div>
               <div className="flex items-center justify-center text-base mt-10 md:text-2xl font-bold">
-                Enter Maximum Number of Persons to fill the Survey
+                Enter Maximum Number of Persons allowed to fill the Survey 
               </div>
 
               <div className="flex items-center justify-center">

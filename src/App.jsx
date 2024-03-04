@@ -11,6 +11,7 @@ import Edit from "./Pages/EditSurvey";
 import EditSurveyTemp from "./Pages/EditSurveyTemp";
 import Settings from "./Pages/Settings";
 import SurveyIframe from "./Pages/SurveyIframe";
+import CheckRegion from "./Pages/CheckRegion";
 import TermsCondition from "./Pages/TermsCondition";
 
 import RedirectToExternalWebsite from "./Pages/RedirectToExternalWebsite"

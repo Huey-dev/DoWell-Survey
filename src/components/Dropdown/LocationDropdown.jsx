@@ -31,11 +31,16 @@ export default function LocationDropdown({ loading, country }) {
   const handleChange = (e) => {
     setInputData({ ...inputData, city: all_cities[e.target.value].name });
     console.log("dsdsdddddddd", all_cities[e.target.value].name.toLowerCase());
+    
     // sessionStorage.setItem("region", JSON.stringify(all_cities[e.target.value].name.toLowerCase()));
     sessionStorage.setItem(
       "region",
       all_cities[e.target.value].name.toLowerCase()
     );
+    var coords = all_cities[e.target.value].lat + ',' + all_cities[e.target.value].lon;
+    console.log("cordinates", all_cities[e.target.value]);
+    sessionStorage.setItem('coords', coords);
+
 
     setCenterCoords({
       ...centerCoords,

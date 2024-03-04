@@ -77,7 +77,7 @@ export const EmailSms = () => {
       });
     } catch (error) {
       setLoading(false);
-      toast.success(error.response.data.message, {
+      toast.error(error.response.data.message, {
         onClose: () => {
           navigate("/list-surveys");
         },

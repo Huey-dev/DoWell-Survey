@@ -1,14 +1,14 @@
-import React, {Fragment, useEffect, useRef, useState} from "react";
-import {Dialog, Transition} from "@headlessui/react";
+import React, { Fragment, useEffect, useRef, useState } from "react";
+import { Dialog, Transition } from "@headlessui/react";
 import Layout from "../Layout/Layout";
-import {MapPinIcon, PencilSquareIcon, QrCodeIcon, TrashIcon, XMarkIcon} from "@heroicons/react/24/outline";
-import {FaXTwitter} from "react-icons/fa6";
-import {FaFacebook, FaInstagram, FaLinkedinIn, FaWhatsapp,} from "react-icons/fa";
+import { MapPinIcon, PencilSquareIcon, QrCodeIcon, TrashIcon, XMarkIcon } from "@heroicons/react/24/outline";
+import { FaXTwitter } from "react-icons/fa6";
+import { FaFacebook, FaInstagram, FaLinkedinIn, FaWhatsapp, FaTelegram, FaDownload } from "react-icons/fa";
 //import { FaTimes } from "react-icons/fa";
-import QRCode from "react-qr-code";
-import {CircleMarker, MapContainer, Marker, Popup, TileLayer,} from "react-leaflet";
+import { CircleMarker, MapContainer, Marker, Popup, TileLayer, } from "react-leaflet";
 import "./EditSurveyModal.css";
 import surveys from "../data/surveys";
+import QRCode from "react-qr-code";
 
 import axios from "axios";
 
@@ -23,6 +23,7 @@ export default function Edit() {
     const startDateRef = useRef(null);
     const endDateRef = useRef(null);
     const [image, setImage] = useState(null);
+    const [formData, setFormData] = useState({});
 
     const [open, setOpen] = useState(false);
     const [mode, setMode] = useState(null);
@@ -36,6 +37,9 @@ export default function Edit() {
     const [region, setRegion] = useState("");
     const [numOfParticipants, setNumOfParticipants] = useState("");
     const [editingNo, setEditingNo] = useState(null);
+
+
+    const [circleMarker, setCircleMarker] = useState([0.0, 0.0]);
 
     const position = [51.505, -0.09];
     const center = [9.055625, 7.480715];
@@ -70,6 +74,14 @@ export default function Edit() {
         window.print();
     };
 
+    const onQRCodeDownloadClick = () => {
+        const link = document.createElement('a');
+        const imageUrl = `${baseUrl}${survey.qr_code}`;
+        link.download = 'dowell_qr_code';
+        link.click();
+
+    }
+
     const backendUrl = "https://100025.pythonanywhere.com/my-survey/?api_key=4f0bd662-8456-4b2e-afa6-293d4135facf"
 
     const handleAdd = () => {
@@ -78,7 +90,7 @@ export default function Edit() {
                 // If editing, update the existing row
                 const updatedData = sampleData.map((data) =>
                     data.no === editingNo
-                        ? {no: editingNo, country, region, numOfParticipants}
+                        ? { no: editingNo, country, region, numOfParticipants }
                         : data
                 );
                 setSampleData(updatedData);
@@ -134,29 +146,36 @@ export default function Edit() {
     };
 
     const onLocateClick = (survey) => {
-        const {brand_name, places} = survey;
-        if (places.length > 0) {
-            //console.log(places[0].coordinates)
-            const bounds = places.reduce(
-                (acc, place) => [
-                    [
-                        Math.min(acc[0][0], place.coordinates[0]),
-                        Math.min(acc[0][1], place.coordinates[1]),
-                    ],
-                    [
-                        Math.max(acc[1][0], place.coordinates[0]),
-                        Math.max(acc[1][1], place.coordinates[1]),
-                    ],
-                ],
-                [places[0].coordinates, places[0].coordinates]
-            );
-            console.log(bounds);
+        setFormData({
+            //brand_name: survey.brand_name,
+            survey_name: survey.name,
+            country: survey.country,
+            region_for_survey: survey.region,
+            promotional_sentence: survey.promotional_sentence,
+            username: survey.username,
 
-            setLocationsSurveyName(brand_name);
-            setMapBounds(bounds);
-            setLocations(places);
-            map.fitBounds(bounds);
-            //window.scroll(0, 0);
+            //email: survey.email,
+            participantsLimit: survey.participantsLimit,
+            form_link: survey.url,
+        });
+
+        var coordinatesString = survey.brand_name;
+        var coordinatesArray = coordinatesString.split(',');
+
+        // Convert the substrings to numbers
+        var latitude = parseFloat(coordinatesArray[0]);
+        var longitude = parseFloat(coordinatesArray[1]);
+
+        if (!isNaN(latitude) && !isNaN(longitude) && coordinatesArray.length === 2) {
+            // Array has two valid numbers
+            var coordinatesArrayWithNumbers = [latitude, longitude];
+            console.log(coordinatesArrayWithNumbers);
+            window.scrollTo(0, 0);
+            setCircleMarker(coordinatesArrayWithNumbers);
+            map.flyTo(coordinatesArrayWithNumbers, 13);
+        } else {
+            // Array does not have two valid numbers
+            console.error("Invalid coordinates format");
         }
     };
 
@@ -224,7 +243,7 @@ export default function Edit() {
                 //         "Content-Type": "multipart/form-data",
                 //     },
                 // });
-                const formData = {username: username};
+                const formData = { username: username };
 
                 const response = await axios.post(
                     `https://100025.pythonanywhere.com/my-survey/`,
@@ -276,7 +295,7 @@ export default function Edit() {
                                 leaveFrom="opacity-100"
                                 leaveTo="opacity-0"
                             >
-                                <div className="fixed inset-0 bg-gray-500 bg-opacity-75 transition-opacity"/>
+                                <div className="fixed inset-0 bg-gray-500 bg-opacity-75 transition-opacity" />
                             </Transition.Child>
 
                             <div className="fixed inset-0 z-10 w-screen overflow-y-auto">
@@ -307,7 +326,7 @@ export default function Edit() {
                                                                 className="font-serif font-bold text-center m-4"
                                                                 onClick={() => setOpen(false)}
                                                             >
-                                                                <XMarkIcon className="h-6 w-6 m-1"/>
+                                                                <XMarkIcon className="h-6 w-6 m-1" />
                                                             </button>
                                                         </div>
 
@@ -330,7 +349,7 @@ export default function Edit() {
                                                                     />
                                                                     <small>
                                                                         {errorMessage && (
-                                                                            <p style={{color: "red"}}>
+                                                                            <p style={{ color: "red" }}>
                                                                                 {errorMessage}
                                                                             </p>
                                                                         )}
@@ -383,18 +402,18 @@ export default function Edit() {
                                                                     </h2>
                                                                 </div>
                                                                 <div className="w-7/12">
-                                  <textarea
-                                      defaultValue={
-                                          survey?.promotional_sentence || ""
-                                      }
-                                      maxLength="15"
-                                      id="description"
-                                      name="promotional sentence"
-                                      ref={promotionalRef}
-                                      required
-                                      placeholder="Enter a promotional sentence to attract participants in (15 words)"
-                                      className="h-24 resize-none border w-full p-1 border-[#B3B4BB] outline-none"
-                                  />
+                                                                    <textarea
+                                                                        defaultValue={
+                                                                            survey?.promotional_sentence || ""
+                                                                        }
+                                                                        maxLength="15"
+                                                                        id="description"
+                                                                        name="promotional sentence"
+                                                                        ref={promotionalRef}
+                                                                        required
+                                                                        placeholder="Enter a promotional sentence to attract participants in (15 words)"
+                                                                        className="h-24 resize-none border w-full p-1 border-[#B3B4BB] outline-none"
+                                                                    />
                                                                 </div>
                                                             </div>
 
@@ -446,7 +465,7 @@ export default function Edit() {
                                                                 <button
                                                                     type="submit"
                                                                     className="inline-flex w-full justify-center rounded-md bg-[#005734] px-3 py-2 text-md font-semibold text-white shadow-sm hover:bg-green-500"
-                                                                    //onClick={() => setOpen(false)}
+                                                                //onClick={() => setOpen(false)}
                                                                 >
                                                                     Save
                                                                 </button>
@@ -454,123 +473,152 @@ export default function Edit() {
                                                         </div>
                                                     </div>
                                                 </form>
-                                            ) : mode == "delete" ? (
-                                                <div className="flex flex-col items-center justify-center w-full">
-                                                    <div
-                                                        className="flex items-center justify-between w-full text-white bg-[#EF4444] text-xl">
-                                                        <p className="font-bold m-4">DELETE SURVEY</p>
-                                                        <button
-                                                            className="font-serif font-bold text-center m-4"
-                                                            onClick={() => setOpen(false)}
-                                                        >
-                                                            <XMarkIcon className="h-6 w-6 m-1"/>
-                                                        </button>
-                                                    </div>
+                                            ) :
+                                                // mode == "delete" ? (
+                                                //     <div className="flex flex-col items-center justify-center w-full">
+                                                //         <div
+                                                //             className="flex items-center justify-between w-full text-white bg-[#EF4444] text-xl">
+                                                //             <p className="font-bold m-4">DELETE SURVEY</p>
+                                                //             <button
+                                                //                 className="font-serif font-bold text-center m-4"
+                                                //                 onClick={() => setOpen(false)}
+                                                //             >
+                                                //                 <XMarkIcon className="h-6 w-6 m-1"/>
+                                                //             </button>
+                                                //         </div>
 
-                                                    <div className="flex flex-col space-y-2 my-4 w-full">
-                                                        <div className="w-full">
-                                                            <p className="text-md font-semibold text-center">
-                                                                Are you sure you want to delete this survey?
-                                                            </p>
-                                                        </div>
-                                                    </div>
-                                                    <div className="flex items-center justify-center w-full my-4">
-                                                        <div className="w-3/12"></div>
-                                                        <div className="w-7/12 flex justify-center space-x-2">
+                                                //         <div className="flex flex-col space-y-2 my-4 w-full">
+                                                //             <div className="w-full">
+                                                //                 <p className="text-md font-semibold text-center">
+                                                //                     Are you sure you want to delete this survey?
+                                                //                 </p>
+                                                //             </div>
+                                                //         </div>
+                                                //         <div className="flex items-center justify-center w-full my-4">
+                                                //             <div className="w-3/12"></div>
+                                                //             <div className="w-7/12 flex justify-center space-x-2">
+                                                //                 <button
+                                                //                     type="button"
+                                                //                     className="inline-flex w-full justify-center rounded-md bg-white px-3 py-2 text-md font-semibold text-[#EF4444] shadow-sm hover:bg-gray-50 border-2 border-[#EF4444]"
+                                                //                     onClick={() => setOpen(false)}
+                                                //                     ref={cancelButtonRef}
+                                                //                 >
+                                                //                     Cancel
+                                                //                 </button>
+                                                //                 <button
+                                                //                     type="submit"
+                                                //                     className="inline-flex w-full justify-center rounded-md bg-red-700 px-3 py-2 text-md font-semibold text-white shadow-sm hover:bg-[#EF4444]"
+                                                //                     //onClick={() => setOpen(false)}
+                                                //                 >
+                                                //                     Save
+                                                //                 </button>
+                                                //             </div>
+                                                //         </div>
+                                                //     </div>
+                                                // ) : 
+                                                (
+                                                    <div className="flex flex-col items-center justify-center w-full">
+                                                        <div
+                                                            className="flex items-center justify-between w-full text-white bg-[#3B82F6] text-xl">
+                                                            <p className="font-bold m-4">PREVIEW QR CODE</p>
                                                             <button
-                                                                type="button"
-                                                                className="inline-flex w-full justify-center rounded-md bg-white px-3 py-2 text-md font-semibold text-[#EF4444] shadow-sm hover:bg-gray-50 border-2 border-[#EF4444]"
+                                                                className="font-serif font-bold text-center m-4"
                                                                 onClick={() => setOpen(false)}
-                                                                ref={cancelButtonRef}
                                                             >
-                                                                Cancel
-                                                            </button>
-                                                            <button
-                                                                type="submit"
-                                                                className="inline-flex w-full justify-center rounded-md bg-red-700 px-3 py-2 text-md font-semibold text-white shadow-sm hover:bg-[#EF4444]"
-                                                                //onClick={() => setOpen(false)}
-                                                            >
-                                                                Save
+                                                                <XMarkIcon className="h-6 w-6 m-1" />
                                                             </button>
                                                         </div>
-                                                    </div>
-                                                </div>
-                                            ) : (
-                                                <div className="flex flex-col items-center justify-center w-full">
-                                                    <div
-                                                        className="flex items-center justify-between w-full text-white bg-[#3B82F6] text-xl">
-                                                        <p className="font-bold m-4">PREVIEW QR CODE</p>
-                                                        <button
-                                                            className="font-serif font-bold text-center m-4"
-                                                            onClick={() => setOpen(false)}
-                                                        >
-                                                            <XMarkIcon className="h-6 w-6 m-1"/>
-                                                        </button>
-                                                    </div>
 
-                                                    <div className="flex flex-col space-y-2 mt-4 my-8 w-full">
-                                                        <div className="flex items-center justify-center w-full">
-                                                            <div className="w-5/12" id="qr-code">
-                                                                
-                                                                <img src={`${baseUrl}${survey.qr_code}`} className="" alt="" />
-                                                            </div>
-                                                            <div className="w-5/12">
-                                                                <p className="text-center text-md font-semibold my-1">
-                                                                    Print or share Qr codes on your media
-                                                                    platforms
-                                                                </p>
-                                                                <button
-                                                                    type="submit"
-                                                                    className="inline-flex my-1 w-full justify-center bg-blue-700 px-3 py-2 text-md font-semibold text-white shadow-sm hover:bg-[#3B82F6]"
-                                                                    onClick={onQRCodePrintClick}
-                                                                >
-                                                                    Print
-                                                                </button>
-                                                                <div
-                                                                    class="flex items-center justify-center space-x-0.5 my-1">
-                                                                    <a
-                                                                        href={`http://www.facebook.com/share.php?u=${baseUrl}${survey.qr_code}`}
-                                                                        className="flex p-1 items-center justify-center bg-[#0866FF] rounded-full"
+                                                        <div className="flex flex-col space-y-2 mt-4 my-8 w-full">
+                                                            <div className="flex items-center justify-center w-full space-x-1">
+                                                                <div className="w-5/12" id="qr-code">
+                                                                    {/* <QRCode
+                                                                        size={190}
+                                                                        bgColor="white"
+                                                                        value={`https://dowelllabs.github.io/DoWell-Survey/survey-iframe?survey_id=${survey.id}`}
+                                                                        style={{
+                                                                            borderColor: "black",
+                                                                            padding: "4px",
+                                                                            borderWidth: "2px",
+                                                                        }}
+
+                                                                    /> */}
+                                                                    <img src={`${baseUrl}${survey.qr_code}`}
+                                                                        style={{
+                                                                            borderColor: "black",
+                                                                            //padding: "0.2px",
+                                                                            borderWidth: "2px",
+                                                                        }} alt="qr_code" />
+
+
+
+                                                                </div>
+                                                                <div className="w-5/12">
+                                                                    <p className="text-center text-md font-semibold my-1">
+                                                                        Print or share Qr codes on your media
+                                                                        platforms
+                                                                    </p>
+                                                                    <div className="flex justify-center items-center space-x-1">
+                                                                        <button
+                                                                            type="submit"
+                                                                            className="inline-flex my-1 w-full justify-center bg-blue-700 px-3 py-2 text-md font-semibold text-white shadow-sm hover:bg-[#3B82F6]"
+                                                                            onClick={onQRCodePrintClick}
+                                                                        >
+                                                                            Print
+                                                                        </button>
+                                                                        <a href={`${baseUrl}${survey.qr_code}`} className="flex p-1 items-center justify-center bg-[#CE6868] rounded-md" download>
+                                                                            <FaDownload className="h-6 w-6 m-1 text-white" />
+                                                                        </a>
+                                                                    </div>
+
+                                                                    {/* <button onClick={onQRCodeDownloadClick}>
+                                                                        <FaDownload />
+                                                                    </button> */}
+                                                                    <div
+                                                                        className="flex items-center justify-center space-x-0.5 my-1">
+                                                                        <a
+                                                                            href={`http://www.facebook.com/share.php?u=${baseUrl}${survey.qr_code}`}
+                                                                            className="flex p-1 items-center justify-center bg-[#0866FF] rounded-full"
                                                                         //onClick={onLinkClick}
-                                                                    >
-                                                                        <FaFacebook className="h-6 w-6 m-1 text-white"/>
-                                                                    </a>
-                                                                    <a
-                                                                        href="#"
-                                                                        className="flex p-1 items-center justify-center bg-black rounded-full"
+                                                                        >
+                                                                            <FaFacebook className="h-6 w-6 m-1 text-white" />
+                                                                        </a>
+                                                                        <a
+                                                                            href={`http://x.com/share?url=${baseUrl}${survey.qr_code}&text=Please follow this link to scan my qr code on ${survey.name}`}
+                                                                            className="flex p-1 items-center justify-center bg-black rounded-full"
                                                                         //onClick={onLinkClick}
-                                                                    >
-                                                                        <FaXTwitter className="h-6 w-6 text-white m-1"/>
-                                                                    </a>
-                                                                    <a
-                                                                        href="#"
-                                                                        className="flex items-center justify-center bg-[#00E676] p-1 rounded-full"
+                                                                        >
+                                                                            <FaXTwitter className="h-6 w-6 text-white m-1" />
+                                                                        </a>
+                                                                        <a
+                                                                            href={`whatsapp://send?text=${baseUrl}${survey.qr_code} Please follow this link to scan my qr code on ${survey.name}`}
+                                                                            className="flex items-center justify-center bg-[#00E676] p-1 rounded-full"
                                                                         //onClick={onLinkClick}
-                                                                    >
-                                                                        <FaWhatsapp className="h-6 w-6 text-white m-1"/>
-                                                                    </a>
-                                                                    <a
-                                                                        href="#"
-                                                                        className="flex items-center justify-center bg-[#0A66C2] p-1 rounded-full"
+                                                                        >
+                                                                            <FaWhatsapp className="h-6 w-6 text-white m-1" />
+                                                                        </a>
+                                                                        <a
+                                                                            href={`https://www.linkedin.com/sharing/share-offsite/?url=${baseUrl}${survey.qr_code}`}
+                                                                            className="flex items-center justify-center bg-[#0A66C2] p-1 rounded-full"
                                                                         //onClick={onLinkClick}
-                                                                    >
-                                                                        <FaLinkedinIn
-                                                                            className="h-6 w-6 text-white m-1"/>
-                                                                    </a>
-                                                                    <a
-                                                                        href="#"
-                                                                        className="flex items-center justify-center bg-[#FF00FF] p-1 rounded-full"
+                                                                        >
+                                                                            <FaLinkedinIn
+                                                                                className="h-6 w-6 text-white m-1" />
+                                                                        </a>
+                                                                        <a
+                                                                            href={`https://telegram.me/share/url?url=${baseUrl}${survey.qr_code}`}
+                                                                            className="flex items-center justify-center bg-[#30A4DC] p-1 rounded-full"
                                                                         //onClick={onLinkClick}
-                                                                    >
-                                                                        <FaInstagram
-                                                                            className="h-6 w-6 text-white m-1"/>
-                                                                    </a>
+                                                                        >
+                                                                            <FaTelegram
+                                                                                className="h-6 w-6 text-white m-1" />
+                                                                        </a>
+                                                                    </div>
                                                                 </div>
                                                             </div>
                                                         </div>
                                                     </div>
-                                                </div>
-                                            )}
+                                                )}
                                         </Dialog.Panel>
                                     </Transition.Child>
                                 </div>
@@ -583,7 +631,10 @@ export default function Edit() {
                                 My Surveys
                             </h1>
                             <h6 className=" text-white text-sm font-bold pb-0 no-underline">
-                                Preview Qrcodes, View Survey Locations, edit Surveys
+                                {`Total Surveys ${survey_results[0]?.total_survey || ""} Active Surveys${survey_results[0]?.active_survey || ""} Closed Surveys ${survey_results[0]?.closed_survey || ""}`}
+                            </h6>
+                            <h6 className=" text-white text-sm font-bold pb-0 no-underline">
+                                Preview, print and Share Qrcodes, View Survey Locations.
                             </h6>
                         </div>
 
@@ -592,24 +643,37 @@ export default function Edit() {
                                 {loading ? (
                                     <div className="flex items-center justify-center h-full">
                                         <div
-                                            class="m-12 inline-block h-16 w-16 animate-spin text-green-800 rounded-full border-4 border-solid border-current border-r-transparent align-[-0.125em] motion-reduce:animate-[spin_1.5s_linear_infinite]"
+                                            className="m-12 inline-block h-16 w-16 animate-spin text-green-800 rounded-full border-4 border-solid border-current border-r-transparent align-[-0.125em] motion-reduce:animate-[spin_1.5s_linear_infinite]"
                                             role="status"
                                         >
-                      <span
-                          class="!absolute !-m-px !h-px !w-px !overflow-hidden !whitespace-nowrap !border-0 !p-0 ![clip:rect(0,0,0,0)]">
-                        Loading...
-                      </span>
+                                            <span
+                                                className="!absolute !-m-px !h-px !w-px !overflow-hidden !whitespace-nowrap !border-0 !p-0 ![clip:rect(0,0,0,0)]">
+                                                Loading...
+                                            </span>
                                         </div>
                                     </div>
                                 ) : (
-                                    <div className="bg-[#282B32] text-white p-4">
-                                        <h6 className="font-bold mb-2">
-                                            Selection: Dowell Surveys
+                                    <div style={{
+                                        backgroundColor: '#282B32',
+                                        color: '#F0C40D',
+                                        padding: '20px',
+                                        border: '1px solid #F0C40D',
+                                        borderRadius: '10px',
+                                        margin: '20px',
+                                        textAlign: 'center'
+                                    }}>
+                                        <h6 style={{ fontWeight: 'bold', marginBottom: '10px', fontSize: '20px' }}>
+                                            Survey Information
                                         </h6>
-                                        {survey_results.map((survey, index) => (
-                                            <div key={index}>
-                                                <h6 className="font-bold text-sm text-[#F0C40D]">
-                                                    {survey.brand_name}
+                                        {Object.keys(formData).map((key, index) => (
+                                            <div key={index} style={{ marginBottom: '10px' }}>
+                                                <h6 style={{
+                                                    fontWeight: 'bold',
+                                                    fontSize: '16px',
+                                                    color: '#fff',
+                                                    textAlign: 'left'
+                                                }}>
+                                                    {`${key.replace(/_/g, ' ').split(' ').map(word => word.charAt(0).toUpperCase() + word.slice(1)).join(' ')}: ${formData[key]}`}
                                                 </h6>
                                             </div>
                                         ))}
@@ -619,159 +683,162 @@ export default function Edit() {
                             <div className="flex items-center justify-center w-7/12 h-96">
                                 {loading ? (
                                     <div
-                                        class="m-12 inline-block h-16 w-16 animate-spin text-green-800 rounded-full border-4 border-solid border-current border-r-transparent align-[-0.125em] motion-reduce:animate-[spin_1.5s_linear_infinite]"
+                                        className="m-12 inline-block h-16 w-16 animate-spin text-green-800 rounded-full border-4 border-solid border-current border-r-transparent align-[-0.125em] motion-reduce:animate-[spin_1.5s_linear_infinite]"
                                         role="status"
                                     >
-                    <span
-                        class="!absolute !-m-px !h-px !w-px !overflow-hidden !whitespace-nowrap !border-0 !p-0 ![clip:rect(0,0,0,0)]">
-                      Loading...
-                    </span>
+                                        <span
+                                            className="!absolute !-m-px !h-px !w-px !overflow-hidden !whitespace-nowrap !border-0 !p-0 ![clip:rect(0,0,0,0)]">
+                                            Loading...
+                                        </span>
                                     </div>
                                 ) : (
                                     <MapContainer
                                         ref={setMap}
                                         scrollWheelZoom={false}
-                                        bounds={mapBounds}
-                                        style={{height: "100%", width: "100%", zIndex: "1"}}
+                                        center={circleMarker} zoom={13}
+                                        style={{ height: "100%", width: "100%", zIndex: "1" }}
                                     >
                                         <TileLayer
                                             url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
                                             attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
                                         />
-                                        {locations.map((location, index) => (
-                                            <>
-                                                <CircleMarker
-                                                    key={index}
-                                                    center={location.coordinates}
-                                                    radius={location.radius}
-                                                >
-                                                    <Marker position={location.coordinates}>
-                                                        <Popup>{"Dowell-survey"}</Popup>
-                                                    </Marker>
-                                                </CircleMarker>
-                                            </>
-                                        ))}
+                                        <>
+                                            <CircleMarker
+                                                //key={index}
+                                                center={circleMarker}
+                                                radius={30}
+                                            >
+                                                <Marker position={circleMarker}>
+                                                    <Popup>{formData.survey_name}</Popup>
+                                                </Marker>
+                                            </CircleMarker>
+                                        </>
                                     </MapContainer>
                                 )}
                             </div>
                         </div>
                     </div>
 
-                    <div class="flex flex-col min-w-full">
-                        <div class="overflow-x-auto min-w-full">
-                            <div class="inline-block py-2 min-w-full">
-                                <div class="overflow-hidden">
+                    <div className="flex flex-col min-w-full">
+                        <div className="overflow-x-auto min-w-full">
+                            <div className="inline-block py-2 min-w-full">
+                                <div className="overflow-hidden">
                                     {loading ? (
                                         <div className="flex items-center justify-center">
                                             <div
-                                                class="m-12 inline-block h-16 w-16 animate-spin text-green-800 rounded-full border-4 border-solid border-current border-r-transparent align-[-0.125em] motion-reduce:animate-[spin_1.5s_linear_infinite]"
+                                                className="m-12 inline-block h-16 w-16 animate-spin text-green-800 rounded-full border-4 border-solid border-current border-r-transparent align-[-0.125em] motion-reduce:animate-[spin_1.5s_linear_infinite]"
                                                 role="status"
                                             >
-                        <span
-                            class="!absolute !-m-px !h-px !w-px !overflow-hidden !whitespace-nowrap !border-0 !p-0 ![clip:rect(0,0,0,0)]">
-                          Loading...
-                        </span>
+                                                <span
+                                                    className="!absolute !-m-px !h-px !w-px !overflow-hidden !whitespace-nowrap !border-0 !p-0 ![clip:rect(0,0,0,0)]">
+                                                    Loading...
+                                                </span>
                                             </div>
                                         </div>
                                     ) : (
-                                        <table class="min-w-full text-center text-sm font-light">
+                                        <table className="min-w-full text-center text-sm font-light">
                                             <thead
-                                                class="border-b bg-[#005734] font-medium text-white dark:border-neutral-500">
-                                            <tr>
-                                                <th scope="col" class="whitespace-nowrap px-6 py-4">
-                                                    BRAND NAME
-                                                </th>
-                                                <th scope="col" class="break-words px-6 py-4">
-                                                    SURVEY LINK
-                                                </th>
-                                                <th scope="col" class=" px-6 py-4">
-                                                    DURATION
-                                                </th>
+                                                className="border-b bg-[#005734] font-medium text-white dark:border-neutral-500">
+                                                <tr>
+                                                    <th scope="col" className="whitespace-nowrap px-6 py-4">
+                                                        SURVEY NAME
+                                                    </th>
+                                                    <th scope="col" className="break-words px-6 py-4">
+                                                        SURVEY LINK
+                                                    </th>
+                                                    <th scope="col" className=" px-6 py-4">
+                                                        DURATION
+                                                    </th>
 
-                                                <th scope="col" class=" px-6 py-4">
-                                                    REGION
-                                                </th>
-                                                <th scope="col" class=" px-6 py-4">
-                                                    STATUS
-                                                </th>
-                                                <th scope="col" class=" px-6 py-4">
-                                                    ACTIONS
-                                                </th>
-                                            </tr>
+                                                    <th scope="col" className=" px-6 py-4">
+                                                        PARTICIPANTS
+                                                    </th>
+                                                    <th scope="col" className=" px-6 py-4">
+                                                        STATUS
+                                                    </th>
+                                                    <th scope="col" className=" px-6 py-4">
+                                                        ACTIONS
+                                                    </th>
+                                                </tr>
                                             </thead>
                                             <tbody>
-                                            {survey_results.map((survey, index) => (
-                                                <tr
-                                                    key={index}
-                                                    class="border-b dark:border-neutral-500"
-                                                >
-                                                    <td class="px-6 py-4 font-medium bg-[#F3F6FF]">
-                                                        {survey.brand_name}
-                                                    </td>
-                                                    <td class="break-all px-6 py-4">{survey.link}</td>
-                                                    <td class="px-6 py-4 bg-[#F3F6FF]">{`${survey.start_date} to ${survey.end_date}. Limit ${survey.participantsLimit} person(s)`}</td>
+                                                {(() => {
+                                                    const components = [];
+                                                    for (let i = 1; i < survey_results.length; i++) {
+                                                        components.push(
+                                                            <tr
+                                                                key={i}
+                                                                className="border-b dark:border-neutral-500"
+                                                            >
+                                                                <td className="px-6 py-4 font-medium bg-[#F3F6FF]">
+                                                                    {survey_results[i].name}
+                                                                </td>
+                                                                <td className="break-all px-6 py-4">{survey_results[i].url}</td>
+                                                                <td className="px-6 py-4 bg-[#F3F6FF]">{`${survey_results[i].start_date} to ${survey_results[i].end_date}.`}</td>
 
-                                                    <td class="px-6 py-4">
-                                                        3 places(Click marker to view)
-                                                    </td>
-                                                    <td class="whitespace-nowrap bg-[#F3F6FF] font-medium">
-                                                        {new Date(survey.start_date) > currentDate ? (
-                                                            <div className="mx-4 my-2 bg-[#399544] text-white">
-                                                                {" "}
-                                                                CREATED{" "}
-                                                            </div>
-                                                        ) : new Date(survey.end_date) < currentDate ? (
-                                                            <div className="mx-4 my-2 bg-[#EF4444] text-white">
-                                                                {" "}
-                                                                ENDED{" "}
-                                                            </div>
-                                                        ) : (
-                                                            <div className="mx-4 my-2 bg-[#3B82F6] text-white">
-                                                                {" "}
-                                                                ONGOING{" "}
-                                                            </div>
-                                                        )}
-                                                    </td>
-                                                    <td class="whitespace-nowrap  px-6 py-4">
-                                                        <div class="flex items-center justify-center space-x-0.5">
-                                                            <button
-                                                                className="flex items-center justify-center rounded-lg bg-[#005734]"
-                                                                onClick={() => {
-                                                                    setSurvey(survey);
-                                                                    setOpen(true);
-                                                                    setMode("link");
-                                                                }}
-                                                            >
-                                                                <PencilSquareIcon className="h-6 w-6 text-white m-1"/>
-                                                            </button>
-                                                            <button
-                                                                className="flex items-center justify-center rounded-lg bg-[#EF4444]"
-                                                                onClick={onDeleteClick}
-                                                            >
-                                                                <TrashIcon className="h-6 w-6 text-white m-1"/>
-                                                            </button>
-                                                            <button
-                                                                className="flex items-center justify-center rounded-lg bg-blue-500"
-                                                                onClick={() => {
-                                                                    setSurvey(survey);
-                                                                    setOpen(true);
-                                                                    setMode("preview");
-                                                                }}
-                                                            >
-                                                                <QrCodeIcon className="h-6 w-6 text-white m-1"/>
-                                                            </button>
-                                                            <button
-                                                                className="flex items-center justify-center rounded-lg bg-orange-500"
-                                                                onClick={() => {
-                                                                    onLocateClick(survey);
-                                                                }}
-                                                            >
-                                                                <MapPinIcon className="h-6 w-6 text-white m-1"/>
-                                                            </button>
-                                                        </div>
-                                                    </td>
-                                                </tr>
-                                            ))}
+                                                                <td className="px-6 py-4">
+                                                                    {`Limit ${survey_results[i].participantsLimit} person(s)`}
+                                                                </td>
+                                                                <td className="whitespace-nowrap bg-[#F3F6FF] font-medium">
+                                                                    {new Date(survey_results[i].start_date) > currentDate ? (
+                                                                        <div className="mx-4 my-2 bg-[#399544] text-white">
+                                                                            {" "}
+                                                                            CREATED{" "}
+                                                                        </div>
+                                                                    ) : new Date(survey_results[i].end_date) < currentDate ? (
+                                                                        <div className="mx-4 my-2 bg-[#EF4444] text-white">
+                                                                            {" "}
+                                                                            ENDED{" "}
+                                                                        </div>
+                                                                    ) : (
+                                                                        <div className="mx-4 my-2 bg-[#3B82F6] text-white">
+                                                                            {" "}
+                                                                            ONGOING{" "}
+                                                                        </div>
+                                                                    )}
+                                                                </td>
+                                                                <td className="whitespace-nowrap  px-6 py-4">
+                                                                    <div className="flex items-center justify-center space-x-0.5">
+                                                                        {/* <button
+                                                                            className="flex items-center justify-center rounded-lg bg-[#005734]"
+                                                                            onClick={() => {
+                                                                                setSurvey(survey_results[i]);
+                                                                                setOpen(true);
+                                                                                setMode("link");
+                                                                            }}
+                                                                        >
+                                                                            <PencilSquareIcon className="h-6 w-6 text-white m-1" />
+                                                                        </button> */}
+                                                                        {/* <button
+                                                                    className="flex items-center justify-center rounded-lg bg-[#EF4444]"
+                                                                    onClick={onDeleteClick}
+                                                                >
+                                                                    <TrashIcon className="h-6 w-6 text-white m-1"/>
+                                                                </button> */}
+                                                                        <button
+                                                                            className="flex items-center justify-center rounded-lg bg-blue-500"
+                                                                            onClick={() => {
+                                                                                setSurvey(survey_results[i]);
+                                                                                setOpen(true);
+                                                                                setMode("preview");
+                                                                            }}
+                                                                        >
+                                                                            <QrCodeIcon className="h-6 w-6 text-white m-1" />
+                                                                        </button>
+                                                                        <button
+                                                                            className="flex items-center justify-center rounded-lg bg-orange-500"
+                                                                            onClick={() => {
+                                                                                onLocateClick(survey_results[i]);
+                                                                            }}
+                                                                        >
+                                                                            <MapPinIcon className="h-6 w-6 text-white m-1" />
+                                                                        </button>
+                                                                    </div>
+                                                                </td>
+                                                            </tr>);
+                                                    }
+                                                    return components;
+                                                })()}
                                             </tbody>
                                         </table>
                                     )}

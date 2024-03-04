@@ -1,4 +1,9 @@
-import { useState, useEffect } from "react";
+import React, { Fragment, useEffect, useRef, useState } from "react";
+import { CircleMarker, MapContainer, Marker, Popup, TileLayer, } from "react-leaflet";
+import { Dialog, Transition } from "@headlessui/react";
+import { MapPinIcon, PencilSquareIcon, QrCodeIcon, TrashIcon, XMarkIcon } from "@heroicons/react/24/outline";
+import QRCode from "react-qr-code";
+
 import Layout from "../Layout/Layout";
 import MySurveysProposed from "./MySurveysProposed";
 import MainMap from "../components/Map";
@@ -11,7 +16,7 @@ import { useNavigate } from "react-router-dom";
 import { FaGlobe, FaPhoneAlt } from "react-icons/fa";
 import { IoMdCompass } from "react-icons/io";
 import { TiLocation } from "react-icons/ti";
-import { XMarkIcon } from '@heroicons/react/24/outline';
+
 
 
 import CountryDropdown from "../components/Dropdown/CountryDropdown";
@@ -19,16 +24,19 @@ import LocationDropdown from "../components/Dropdown/LocationDropdown";
 import Category from "../components/Categories";
 
 import axios from "axios";
-import errorImage from "../../public/error.png";
+import errorImage from "../assets/error.png";
+
+
 
 
 const LandingPage = () => {
 
 
 
+
     const navigate = useNavigate();
-    const stored_locations = sessionStorage.getItem("newSurvey") || "[]";
-    const [surveys, setSurveys] = useState(JSON.parse(stored_locations));
+    //const stored_locations = sessionStorage.getItem("newSurvey") || "[]";
+    const [surveys, setSurveys] = useState([]);
 
     const [pageload, setPageLoad] = useState(true);
     const [pageError, setPageError] = useState(null);
@@ -36,7 +44,7 @@ const LandingPage = () => {
 
 
     const context = useGlobalContext();
-    console.log("context Value: ", context)
+    console.log("context Value: ", context);
     const { inputData, setInputData, setAPIKey, api_key, setCenterCoords, centerCoords, placeAPIKey } = context;
     const [loading, setLoading] = useState(false);
     const [receivedKey, setRecievedKey] = useState("EhdQUTM2K0hNLCBOYWlyb2JpLCBLZW55YSImOiQKCg2PPDr");
@@ -119,15 +127,6 @@ const LandingPage = () => {
 
     }, []);
 
-    // const defaultSearchOptions = {
-    //   radius1: inputData.radius1,
-    //   radius2: inputData.radius2,
-    //   center_lat: 29.40303,
-    //   center_lon: 73.60256,
-    //   query_string: inputData.query_string,
-    //   limit: "60",
-    //   api_key: "EhdQUTM2K0hNLCBOYWlyb2JpLCBLZW55YSImOiQKCg2PPDr",
-    // };
 
 
     const handleSearch = async () => {
@@ -220,7 +219,7 @@ const LandingPage = () => {
                 <div>
                     <img src={errorImage} alt="error-image" />
                 </div>
-                <h1 className="text-center text-[28px] md:text-[34px] font-medium text-[#7F7F7F]">
+                <h1 className="text-center text-2xl md:text-[34px] font-medium text-[#7F7F7F]">
                     Oops, Something went wrong
                 </h1>
                 <h1 className="text-[18px] md:text-[20px] text-[#7F7F7F]">
@@ -242,10 +241,14 @@ const LandingPage = () => {
                 <main className="w-full h-full overflow-x-hidden">
                     {/* <MainMap/> */}
                     <div className="px-8 md:pl-[310px] mt-[60px] md:mt-0">
+                
                         <div className="px-2 items-center flex justify-between bg-[#005734]">
                             <h1 className=" text-white text-2xl font-semibold pt-1 pb-3 no-underline">
                                 DoWell Surveys
                             </h1>
+
+
+
                             <h6 className=" text-white text-sm font-bold pb-0 no-underline">
                                 Samanta will do surveys in 150000 locations worldwide
                             </h6>
@@ -457,12 +460,14 @@ const LandingPage = () => {
                                     <div className="flex justify-center items-center p-2">
                                         <button
                                             type="button"
-                                            className="mb-2 w-[150px] h-[30px] font-serif font-bold text-center opacity-80 hover:opacity-100 text-sm md:text-md text-white cursor-pointer bg-[#005734]"
+                                            className={`mb-2 w-[150px] h-[30px] font-serif font-bold ${surveys.length < 1 ? "opacity-60 cursor-not-allowed" : "opacity-80 hover:opacity-100"} text-center text-sm md:text-md text-white bg-[#005734]`}
                                             //disabled={surveys.findIndex((obj) => obj.id === id) !== -1}
                                             onClick={handleConfirmSelection}
+                                            disabled={surveys.length < 1 ? true : false}
                                         >
                                             Confirm Selection
                                         </button>
+
                                     </div>
 
 

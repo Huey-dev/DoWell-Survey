@@ -18,6 +18,11 @@ const FinalizeSample = () => {
   const stored_locations = sessionStorage.getItem("newSurvey") || "[]";
   const [surveys, setSurveys] = useState(JSON.parse(stored_locations));
 
+  //extract the regions 
+  const uniqueRegions = [...new Set(surveys.map(obj => obj.searchRegion))];
+
+
+
   // const participants_no = sessionStorage.getItem("numOfParticipants") || 0;
   const [numOfParticipants, setNumOfParticipants] = useState("");
 
@@ -69,54 +74,49 @@ const FinalizeSample = () => {
                       <table className="max-w-full text-center text-sm font-light w-full bg-white">
                         <thead className="bg-[#005734] font-medium dark:border-neutral-500 text-white">
                           <tr>
-                            <th scope="col" className=" px-6 py-4">
+                            <th scope="col" className="whitespace-nowrap px-6 py-4">
                               #
                             </th>
-                            <th scope="col" className=" px-6 py-4">
+                            <th scope="col" className="whitespace-nowrap px-6 py-4">
                               Place Name
                             </th>
-                            <th scope="col" className=" px-6 py-4">
+                            <th scope="col" className="whitespace-nowrap px-6 py-4">
                               Address
                             </th>
-                            <th scope="col" className=" px-6 py-4">
+                            <th scope="col" className="whitespace-nowrap px-6 py-4">
                               Mobile Number
                             </th>
-                            <th scope="col" className=" px-6 py-4">
-                              Actions
+                            <th scope="col" className="whitespace-nowrap px-6 py-4">
+                              Region
                             </th>
                           </tr>
                         </thead>
                         <tbody>
                           {surveys.length >= 1 ? (
-                            
-                              surveys.map((data, index) => (
-                                <tr
-                                  key={data.index}
-                                  className="border-black border"
-                                >
-                                  <td className="whitespace-nowrap  px-6 py-4 font-medium">
-                                    {index + 1}
-                                  </td>
-                                  <td className="whitespace-nowrap  px-6 py-4">
-                                    {data.place_name}
-                                  </td>
-                                  <td className="px-6 py-4">{data.address}</td>
 
-                                  <td className="whitespace-nowrap  px-6 py-4">
-                                    {data.phone}
-                                  </td>
+                            surveys.map((data, index) => (
+                              <tr
+                                key={data.index}
+                                className="border-black border-b"
+                              >
+                                <td className="px-6 py-4 font-medium">
+                                  {index + 1}
+                                </td>
+                                <td className="px-6 py-4">
+                                  {data.place_name}
+                                </td>
+                                <td className="px-6 py-4">{data.address}</td>
 
-                                  <td className="whitespace-nowrap  px-6 py-4">
-                                    <button
-                                      onClick={() => handleDelete(data.placeId)}
-                                      className="ml-[20px]"
-                                    >
-                                      <MdDelete />{" "}
-                                    </button>
-                                  </td>
-                                </tr>
-                              ))
-                            
+                                <td className="px-6 py-4">
+                                  {data.phone}
+                                </td>
+
+                                <td className="font-bold px-6 py-4">
+                                  {data.searchRegion}
+                                </td>
+                              </tr>
+                            ))
+
                           ) : (
 
                             <tr
@@ -150,7 +150,7 @@ const FinalizeSample = () => {
                       <div className="flex flex-col items-center justify-center w-7/12 bg-white border-black border-b h-full">
                         <div
                           className="flex items-center justify-center w-full text-white bg-[#005734] text-sm">
-                          <p className="font-bold m-1 ">Specify Region(s) for the Survey</p>
+                          <p className="font-bold m-1 ">Set Survey Type</p>
 
                         </div>
 
@@ -160,7 +160,7 @@ const FinalizeSample = () => {
                               <div className="w-5/12">
                                 <div class="flex items-center">
                                   <input id="default-radio-2" type="radio" value="regional" checked={surveyType === 'regional'} onChange={handleRadioChange} name="default-radio" class="w-4 h-4 text-green-600 bg-gray-100 border-gray-300 focus:ring-green-500 focus:ring-2" />
-                                  <label for="default-radio-2" class="ms-2 text-sm font-medium text-gray-900 dark:text-gray-300"><span className="font-bold">Region:</span> Only People in regions of the selected locations can take the Survey (Port Harcourt, Ghana, Mali, Ivory Coast)</label>
+                                  <label for="default-radio-2" class="ms-2 text-sm font-medium text-gray-900 dark:text-gray-300"><span className="font-bold">Region:</span> Only People in regions of the selected locations can take the Survey : {uniqueRegions.map((item, index) => (<span key={index} className="font-bold">{item},</span>))}</label>
                                 </div>
 
 

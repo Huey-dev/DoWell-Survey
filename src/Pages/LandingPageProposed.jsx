@@ -140,8 +140,8 @@ const LandingPage = () => {
             return;
         }
         try {
-            setSurveys([]);
-            sessionStorage.setItem("newSurvey", "[]");
+            //setSurveys([]);
+            //sessionStorage.setItem("newSurvey", "[]");
 
             setLoading(true);
 
@@ -169,7 +169,9 @@ const LandingPage = () => {
                 };
                 const placeDetail = await FetchPlaceDetail(placeDetailOptions);
                 setPlaceDetails(placeDetail.data.succesful_results);
-                //setSearchRegion(inputData.city);
+
+                
+                setSearchRegion(inputData.city);
             }
         } catch (error) {
             // Handle errors
@@ -433,9 +435,9 @@ const LandingPage = () => {
                                         surveys.map((survey) => (
                                             <div className="p-2 flex justify-between items-center bg-[#DEDEDE] my-4">
                                                 <div>
-                                                    <p className="text-sm font-semibold">{survey.place_name}</p>
+                                                    <p className="text-sm">{survey.place_name}</p>
                                                     <hr class="h-px my-1 bg-black border-0"></hr>
-                                                    <p className="text-xs">{survey.address}</p>
+                                                    <p className="text-xs">Region: <span className="font-bold">{survey.searchRegion}</span></p>
                                                     {/* <p className="text-xs">{survey.searchRegion}</p> */}
 
                                                 </div>
@@ -466,6 +468,7 @@ const LandingPage = () => {
                                     <div className="flex justify-center items-center p-2">
                                         { surveys.length < 1 ? 
                                         (
+                                            <div className="flex flex-col items-center justify-center">
                                             <button
                                             type="button"
                                             className={`mb-2 w-[150px] h-[30px] font-serif font-bold opacity-80 hover:opacity-100 text-center text-sm md:text-md text-white bg-[#005734]`}
@@ -475,6 +478,8 @@ const LandingPage = () => {
                                         >
                                             Skip & Proceed
                                         </button>
+                                        <p className="text-sm font-semibold font-serif text-center">(Skipping will set the survey type to global)</p>
+                                            </div>
                                         ) : (
                                             <button
                                             type="button"

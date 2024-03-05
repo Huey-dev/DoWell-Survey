@@ -41,7 +41,7 @@ const LinkSurvey = () => {
   const [eyear, emonth, eday] = endDate.split("-");
 
   // Create a new Date object using the extracted year, month, and day
-  const dateObject = new Date(syear, smonth - 1, sday); // Note: Month in JavaScript Date object is 0-indexed (0 for January, 1 for February, etc.), so we subtract 1 from the month
+  const dateObject = new Date(syear, smonth - 1, sday);
   const edateObject = new Date(eyear, emonth - 1, eday);
 
   // Format the date as DD-MM-YYYY

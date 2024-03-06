@@ -32,6 +32,14 @@ import errorImage from "../assets/error.png";
 const LandingPage = () => {
     const [searchRegion, setSearchRegion] = useState(null);
 
+    //parameters for the search by area
+    const [caliberation, setCaliberation] = useState("area");
+    const [scale, setScale] = useState(null);
+    const [area, setArea] = useState({});
+    const [iteration, setIteration] = useState({ current_iteration: 1, total_iterations: 16 });
+    const [searchData, setSearchData] = useState({});
+
+
 
 
 
@@ -169,19 +177,18 @@ const LandingPage = () => {
                 };
                 const placeDetail = await FetchPlaceDetail(placeDetailOptions);
                 setPlaceDetails(placeDetail.data.succesful_results);
-
-                
-                setSearchRegion(inputData.city);
             }
         } catch (error) {
             // Handle errors
             console.error("Error:", error);
         } finally {
             console.log("finally block executed")
+            setSearchRegion(inputData.city);
             setLoading(false);
 
         }
     };
+
 
     const isValidInput = (inputData) => {
         // Implement your input validation logic here
@@ -198,6 +205,47 @@ const LandingPage = () => {
         sessionStorage.setItem("newSurvey", JSON.stringify(surveys));
         navigate("/finalize-Sample");
     };
+
+    const loadMore = async () => {
+        const start_radius = Math.sqrt((785000 * (iteration.current_iteration - 1)) / 3.14);
+        const end_radius = Math.sqrt((785000 * iteration.current_iteration) / 3.14);
+
+        for (let i = iteration.current_iteration; i < iteration.total_iterations + 1; i++) {
+
+
+            try {
+
+                setLoading(true);
+                const searchOptions = {
+                    radius1: inputData.start_radius,
+                    radius2: inputData.end_radius,
+                    center_lat: centerCoords.lat,  //needs to change
+                    center_lon: centerCoords.lon,   //needs to change
+                    query_string: inputData.query_string,  //needs to change
+                    limit: "60",
+                    api_key: placeAPIKey,
+                };
+
+            }
+
+            catch (error) {
+                console.log("error");
+
+            }
+
+            finally {
+                console.log("new radiuses are ", start_radius, end_radius);
+                console.log("the iteration", iteration);
+                setIteration({ ...iteration, current_iteration: iteration.current_iteration + 1 })
+                setLoading(false);
+
+            }
+            break;
+
+
+
+        }
+    }
 
     if (pageload) {
         console.log("i,m executing fine");
@@ -245,7 +293,7 @@ const LandingPage = () => {
                 <main className="w-full h-full overflow-x-hidden">
                     {/* <MainMap/> */}
                     <div className="px-8 md:pl-[310px] mt-[60px] md:mt-0">
-                
+
                         <div className="px-2 items-center flex justify-between bg-[#005734]">
                             <h1 className=" text-white text-2xl font-semibold pt-1 pb-3 no-underline">
                                 DoWell Surveys
@@ -266,7 +314,7 @@ const LandingPage = () => {
 
                         </div>
                         <div className="bg-[#282B32] my-4 py-2 flex flex-col justify-center items-center space-y-2">
-                            <div className="flex flex-wrap justify-center space-x-4">
+                            <div className="flex flex-wrap justify-center space-x-2">
                                 <div>
                                     <h2 className="font-semibold text-white">Select Country</h2>
                                     <CountryDropdown loading={loading} />
@@ -278,11 +326,11 @@ const LandingPage = () => {
                                 </div>
 
                                 <div>
-                                    <h2 className="font-semibold text-white">Select Distance(m) from Location's Center</h2>
+                                    <h2 className="font-semibold text-white">Set Distance(m) from Location's Center</h2>
                                     <div className="flex justify-center space-x-1">
                                         <input
                                             type="text"
-                                            className="w-[100px] bg-[#D9D9D9] px-3 py-[0.25rem] outline-none"
+                                            className="w-[60px] bg-[#D9D9D9] px-3 py-[0.25rem] outline-none"
                                             placeholder="From"
                                             value={inputData.radius1}
                                             onChange={(e) =>
@@ -295,7 +343,7 @@ const LandingPage = () => {
                                         />
                                         <input
                                             type="text"
-                                            className="w-[100px] bg-[#D9D9D9] px-3 py-[0.25rem] outline-none"
+                                            className="w-[60px] bg-[#D9D9D9] px-3 py-[0.25rem] outline-none"
                                             placeholder="To"
                                             value={inputData.radius2}
                                             onChange={(e) =>
@@ -310,6 +358,7 @@ const LandingPage = () => {
                                     </div>
 
                                 </div>
+
 
                                 <div>
                                     <h2 className="font-semibold text-white">Enter a Category</h2>
@@ -330,7 +379,22 @@ const LandingPage = () => {
 
                         <div className="flex justify-between space-x-4">
                             <div className="w-9/12 h-screen bg-[#EFF3F6] px-2 overflow-y-auto border border-[#B3B4BB]">
-                                <p className="text-[18px] font-bold pt-[10px]"> {placeDetails.length} search results </p>
+                                <div className="flex justify-between">
+                                    <p className="text-[18px] font-bold pt-[10px]"> {placeDetails.length} search results </p>
+                                    {/* <button
+                                        type="button"
+                                        className={`mb-2 w-[150px] h-[30px] font-serif font-bold opacity-80 hover:opacity-100 text-center text-sm md:text-md text-white bg-[#005734]`}
+                                        //disabled={surveys.findIndex((obj) => obj.id === id) !== -1}
+                                        onClick={loadMore}
+                                        disabled={loading}
+                                    //disabled={surveys.length < 1 ? true : false}
+                                    >
+                                        {loading ? "Loading..." : "Load More"}
+                                    </button> */}
+
+
+                                </div>
+
 
                                 <div className="flex flex-wrap justify-center">
                                     {placeDetails.map((product) => {
@@ -399,7 +463,7 @@ const LandingPage = () => {
                                                                         numOfParticipants: 1,
                                                                         searchRegion: searchRegion
                                                                     });
-                                                                    
+
                                                                 } else {
                                                                     // Value present, remove it
                                                                     updatedList.splice(valueIndex, 1);
@@ -466,31 +530,31 @@ const LandingPage = () => {
                                     }
 
                                     <div className="flex justify-center items-center p-2">
-                                        { surveys.length < 1 ? 
-                                        (
-                                            <div className="flex flex-col items-center justify-center">
-                                            <button
-                                            type="button"
-                                            className={`mb-2 w-[150px] h-[30px] font-serif font-bold opacity-80 hover:opacity-100 text-center text-sm md:text-md text-white bg-[#005734]`}
-                                            //disabled={surveys.findIndex((obj) => obj.id === id) !== -1}
-                                            onClick={handleConfirmSelection}
-                                            //disabled={surveys.length < 1 ? true : false}
-                                        >
-                                            Skip & Proceed
-                                        </button>
-                                        <p className="text-sm font-semibold font-serif text-center">(Skipping will set the survey type to global)</p>
-                                            </div>
-                                        ) : (
-                                            <button
-                                            type="button"
-                                            className={`mb-2 w-[150px] h-[30px] font-serif font-bold opacity-80 hover:opacity-100 text-center text-sm md:text-md text-white bg-[#005734]`}
-                                            //disabled={surveys.findIndex((obj) => obj.id === id) !== -1}
-                                            onClick={handleConfirmSelection}
-                                            //disabled={surveys.length < 1 ? true : false}
-                                        >
-                                            Confirm Selection
-                                        </button>
-                                        )
+                                        {surveys.length < 1 ?
+                                            (
+                                                <div className="flex flex-col items-center justify-center">
+                                                    <button
+                                                        type="button"
+                                                        className={`mb-2 w-[150px] h-[30px] font-serif font-bold opacity-80 hover:opacity-100 text-center text-sm md:text-md text-white bg-[#005734]`}
+                                                        //disabled={surveys.findIndex((obj) => obj.id === id) !== -1}
+                                                        onClick={handleConfirmSelection}
+                                                    //disabled={surveys.length < 1 ? true : false}
+                                                    >
+                                                        Skip & Proceed
+                                                    </button>
+                                                    <p className="text-sm font-semibold font-serif text-center">(Skipping will set the survey type to global)</p>
+                                                </div>
+                                            ) : (
+                                                <button
+                                                    type="button"
+                                                    className={`mb-2 w-[150px] h-[30px] font-serif font-bold opacity-80 hover:opacity-100 text-center text-sm md:text-md text-white bg-[#005734]`}
+                                                    //disabled={surveys.findIndex((obj) => obj.id === id) !== -1}
+                                                    onClick={handleConfirmSelection}
+                                                //disabled={surveys.length < 1 ? true : false}
+                                                >
+                                                    Confirm Selection
+                                                </button>
+                                            )
 
                                         }
 

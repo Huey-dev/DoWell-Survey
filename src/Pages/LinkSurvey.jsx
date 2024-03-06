@@ -62,6 +62,21 @@ const LinkSurvey = () => {
   // Access individual properties
   const country = sessionStorage.getItem("country");
   const region = sessionStorage.getItem("region");
+  const the_region = JSON.parse(region);
+  console.log("aaaaaaaaa", the_region);
+  let form_link;
+
+  if (the_region.includes("all")) {
+    console.log("eeeeeeeeeeeeeeeeeeeeeeee");
+     form_link = "https://dowelllabs.github.io/DoWell-Survey/survey-iframe-all";
+  } else {
+     form_link = "https://dowelllabs.github.io/DoWell-Survey/survey-iframe";
+  }
+
+
+
+
+
   const numOfParticipants = sessionStorage.getItem("numOfParticipants");
   // let strippedValue = region.substring(1, region.length - 1);
 
@@ -97,11 +112,63 @@ const LinkSurvey = () => {
   }, []);
 
   sessionStorage.setItem("formLink", formLink);
+  // const formData = {
+  //   qrcode_type: "Link",
+  //   quantity: "1",
+  //   logo: image,
+  //   link: "https://dowelllabs.github.io/DoWell-Survey/survey-iframe",
+  //   company_id: userName,
+  //   created_by: name,
+  //   description: description,
+  //   start_date: sformattedDate,
+  //   end_date: eformattedDate,
+  //   brand_name: coords,
+  //   promotional_sentence: description,
+  //   username: userName,
+  //   name: name,
+  //   email: email,
+  //   service: product,
+  //   country: country,
+  //   region: region,
+  //   participantsLimit: numOfParticipants,
+  //   url: formLink,
+  // };
+
+  // const formData = new FormData();
+
+  // formData.append("qrcode_type", "link");
+  // formData.append("quantity", "1");
+  // formData.append("logo", image);
+  // formData.append("link", "https://dowelllabs.github.io/DoWell-Survey/survey-iframe");
+  // formData.append("company_id", userName);
+  // formData.append("created_by", name);
+  // formData.append("description", description);
+  // formData.append("start_date", sformattedDate);
+  // formData.append("end_date", eformattedDate);
+  // formData.append("brand_name", coords);
+  // formData.append("promotional_sentence", description);
+  // formData.append("username", userName);
+  // formData.append("name", name);
+  // formData.append("email", email);
+  // formData.append("service", product);
+  // formData.append("country", "nigeria");
+  // formData.append("region", "nairobi");
+  // formData.append("participantsLimit", numOfParticipants);
+  // formData.append("url", formLink);
+  // formData.append("category", "school");
+  // formData.append("longitude", 32.322);
+  // formData.append("latitude", 54.43);
+
+
+
+
+
+
   const formData = {
     qrcode_type: "Link",
     quantity: "1",
     logo: image,
-    link: "https://dowelllabs.github.io/DoWell-Survey/survey-iframe",
+    link: form_link,
     company_id: userName,
     created_by: name,
     description: description,
@@ -113,12 +180,19 @@ const LinkSurvey = () => {
     name: name,
     email: email,
     service: product,
-    country: country,
-    region: region,
+    country: "nigeria",
+    region: the_region,
     participantsLimit: numOfParticipants,
     url: formLink,
+    category: "school",
+    longitude: 43.44,
+    latitude: 43.33
   };
-   console.log("the forrm data is", formData);
+
+
+  
+
+  console.log("the forrm data is", formData);
 
   const handleSubmit = async (e) => {
     setLoading(true);
@@ -147,6 +221,7 @@ const LinkSurvey = () => {
       });
     } catch (error) {
       setLoading(false);
+      console.log("error is this", error);
       toast.error("Qr code Creation Failed", {
         autoClose: false,
         closeOnClick: true,

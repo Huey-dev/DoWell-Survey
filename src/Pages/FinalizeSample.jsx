@@ -27,7 +27,7 @@ const FinalizeSample = () => {
   const [numOfParticipants, setNumOfParticipants] = useState("");
 
   const handleRadioChange = (e) => {
-    const selectedValue = event.target.value;
+    const selectedValue = e.target.value;
     setSurveyType(selectedValue);
     console.log(`Selected option: ${selectedValue}`);
   };
@@ -44,9 +44,14 @@ const FinalizeSample = () => {
     console.log("surveyType", surveyType);
 
     if (surveyType === 'global') {
-      sessionStorage.setItem("region", surveyType);
+      sessionStorage.setItem("region", JSON.stringify(['all']));
+      sessionStorage.setItem("country", "all");
     }
-    sessionStorage.setItem("country", "all");
+    else //surveyType === regional
+    {
+      sessionStorage.setItem("region", JSON.stringify(uniqueRegions));
+    }
+    
     // sessionStorage.setItem("userRegion", region);
 
     navigate("/newsurvey");

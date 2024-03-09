@@ -18,6 +18,8 @@ import { IoMdCompass } from "react-icons/io";
 import { TiLocation } from "react-icons/ti";
 
 
+import payload from "./payload";
+
 
 import CountryDropdown from "../components/Dropdown/CountryDropdown";
 import LocationDropdown from "../components/Dropdown/LocationDropdown";
@@ -36,8 +38,9 @@ const LandingPage = () => {
     const [caliberation, setCaliberation] = useState("area");
     const [scale, setScale] = useState(null);
     const [area, setArea] = useState({});
-    const [iteration, setIteration] = useState({ current_iteration: 1, total_iterations: 16 });
+    const [iteration, setIteration] = useState({ current_iteration: 0, total_iterations: 0, no_iterations_rounded: 0 });
     const [searchData, setSearchData] = useState({});
+    const [searchNumbers, setSearchNumbers] = useState({ start: 0, end: 0 });
 
 
 
@@ -47,7 +50,7 @@ const LandingPage = () => {
     //const stored_locations = sessionStorage.getItem("newSurvey") || "[]";
     const [surveys, setSurveys] = useState([]);
 
-    const [pageload, setPageLoad] = useState(true);
+    const [pageload, setPageLoad] = useState(false);
     const [pageError, setPageError] = useState(null);
 
 
@@ -86,55 +89,79 @@ const LandingPage = () => {
         center_lon: centerCoords.lon,
     };
 
-    useEffect(() => {
-        // Define the function to fetch data
-        const fetchData = async () => {
-            const queryParams = new URLSearchParams(window.location.search);
-            const session_id = queryParams.get('session_id');
-            let user_info;
+    const isItemInStorage = sessionStorage.getItem('user_info') === null;
+    const [requestEmail, setRequestEmail] = useState(isItemInStorage);
+    const [email, setEmail] = useState(null);
 
-            if (session_id) {
-                const formData = {
-                    "session_id": session_id
-                }
 
-                for (let i = 0; i <= 3; i++) {
 
-                    console.log("the number of trys is-", i);
-                    try {
-                        const response = await axios.post(
-                            `https://100014.pythonanywhere.com/api/userinfo/`,
-                            formData,
-                            {
-                                headers: {
-                                    "Content-Type": "application/json",
-                                },
+    // useEffect(() => {
+    //     // Define the function to fetch data
+    //     const fetchData = async () => {
+    //         const queryParams = new URLSearchParams(window.location.search);
+    //         const session_id = queryParams.get('session_id');
+    //         let user_info;
 
-                            }
-                        );
-                        user_info = response?.data?.userinfo;
-                        if (user_info) {
-                            sessionStorage.setItem("user_info", JSON.stringify(user_info));
-                            break;
-                        }
-                    }
-                    catch (error) {
-                        console.log("error is", error);
-                    }
-                }
-                if (!user_info) {
-                    setPageError("Error fetching User Data, click to reload")
-                }
-                setPageLoad(false);
-            }
-            else {
-                setPageLoad(false);
-            }
-        };
+    //         if (session_id) {
+    //             const formData = {
+    //                 "session_id": session_id
+    //             }
 
-        fetchData();
+    //             for (let i = 0; i <= 3; i++) {
 
-    }, []);
+    //                 console.log("the number of trys is-", i);
+    //                 try {
+    //                     const response = await axios.post(
+    //                         `https://100014.pythonanywhere.com/api/userinfo/`,
+    //                         formData,
+    //                         {
+    //                             headers: {
+    //                                 "Content-Type": "application/json",
+    //                             },
+
+    //                         }
+    //                     );
+    //                     user_info = response?.data?.userinfo;
+    //                     if (user_info) {
+    //                         sessionStorage.setItem("user_info", JSON.stringify(user_info));
+    //                         break;
+    //                     }
+    //                 }
+    //                 catch (error) {
+    //                     console.log("error is", error);
+    //                 }
+    //             }
+    //             if (!user_info) {
+    //                 setPageError("Error fetching User Data, click to reload")
+    //             }
+    //             setPageLoad(false);
+    //         }
+    //         else {
+    //             setPageLoad(false);
+    //         }
+    //     };
+
+    //     fetchData();
+
+    // }, []);
+
+    const handleEmailConfirm = () => {
+        const user_info = {
+            username: email,
+            city: "Nil",
+            country: "Nil",
+            email: email,
+            first_name: email,
+            last_name: email,
+            phone: "xxx-xxx-xxxx",
+            profile_img: "https://100093.pythonanywhere.com/static/clientadmin/img/logomissing.png",
+            timezone: "Continent/City",
+            user_country: ""
+        }
+        sessionStorage.setItem("user_info", JSON.stringify(user_info));
+        setRequestEmail(false);
+
+    }
 
 
 
@@ -147,48 +174,119 @@ const LandingPage = () => {
             alert("'From' has to be larger than 'To'");
             return;
         }
-        try {
-            //setSurveys([]);
-            //sessionStorage.setItem("newSurvey", "[]");
 
-            setLoading(true);
+        if (scale < 500 || scale > 2000) {
+            alert("'Scale should be between 500 and 2000");
+            return;
+        }
 
-            //Try commenting this so that only one 'search option' is defined. 
-            const searchOptions = {
-                radius1: inputData.radius1,
-                radius2: inputData.radius2,
-                center_lat: centerCoords.lat,
-                center_lon: centerCoords.lon,
-                query_string: inputData.query_string,
-                limit: "60",
-                api_key: placeAPIKey,
-            };
-            const response = await FetchNearby(searchOptions)
-            console.log("response_data", response.data.place_id_list)
-            setNearbyResults(response.data.place_id_list)
-            console.log("coordinates used for the search are", centerCoords.lat, centerCoords.lon)
-            console.log("nearby", nearbyResults);
-            if (response.data.place_id_list?.length > 0) {
-                // setPlaceIds(nearbyResults.data.place_id_list);
-                const placeDetailOptions = {
-                    place_id_list: response.data.place_id_list,
-                    center_loc: "",
+        const area_inner = 3.14 * (Number(inputData.radius1) * Number(inputData.radius1));
+        const area_outer = 3.14 * (Number(inputData.radius2) * Number(inputData.radius2));
+        const survey_area = area_outer - area_inner;
+        const area_of_one = 3.14 * (scale * scale);
+        const no_iterations = survey_area / area_of_one;
+        const no_iterations_rounded = Math.ceil(no_iterations);
+
+        let maps_places = [];
+        console.log("checks", area_inner);
+        console.log("checks", area_outer);
+        console.log("checks", survey_area);
+        console.log("checks", no_iterations);
+
+
+
+
+        setLoading(true);
+        let i;
+
+        for (i = 1; i < no_iterations + 1; i++) {
+            const start_radius = Math.sqrt((area_inner + (area_of_one * (i - 1))) / 3.14);
+            let end_radius;
+
+
+            if (i >= no_iterations) { //this means that it is the last iteration and you shouldnt make the radius higher than the end distance (because of the way we obtain the radiuses, this happens if the no_iterations is a fraction)
+                end_radius = inputData.radius2;
+            }
+            else {
+                end_radius = Math.sqrt((area_inner + (area_of_one * i)) / 3.14);
+            }
+            console.log("iter_data", end_radius, start_radius, i);
+
+            try {
+
+                const searchOptions = {
+                    radius1: start_radius,
+                    radius2: end_radius,
+                    center_lat: centerCoords.lat,
+                    center_lon: centerCoords.lon,
+                    query_string: inputData.query_string,
+                    limit: "60",
                     api_key: placeAPIKey,
                 };
-                const placeDetail = await FetchPlaceDetail(placeDetailOptions);
-                setPlaceDetails(placeDetail.data.succesful_results);
+                console.log("no issues here", searchOptions)
+                const response = await FetchNearby(searchOptions)
+
+                if (response.data.place_id_list?.length > 0) {
+
+                    const placeDetailOptions = {
+                        place_id_list: response.data.place_id_list,
+                        center_loc: "",
+                        api_key: placeAPIKey,
+                    };
+                    console.log("none here too")
+                    const placeDetail = await FetchPlaceDetail(placeDetailOptions);
+
+                    maps_places = [...maps_places, ...placeDetail.data.succesful_results];
+                    console.log(maps_places.length);
+                }
+
+
+                // maps_places = [...maps_places, ...payload];
+                // console.log("wahaaaaaaaaaaaaaaaa", maps_places.length);
+            } catch (error) {
+
+                console.error("Error:", error);
+            } finally {
+
+
             }
-        } catch (error) {
-            // Handle errors
-            console.error("Error:", error);
-        } finally {
-            console.log("finally block executed")
-            setSearchRegion(inputData.city);
-            setLoading(false);
+
+            if (maps_places.length >= 60) {
+                
+                break;
+            }
 
         }
-    };
 
+        if (i > no_iterations ) { //set to current iteration, no need to go further
+            setIteration({ current_iteration: no_iterations_rounded, total_iterations: no_iterations, no_iterations_rounded: no_iterations_rounded});
+        }
+        else {
+            setIteration({ current_iteration: i, total_iterations: no_iterations, no_iterations_rounded: no_iterations_rounded});
+        }
+
+        if (maps_places.length < 1) { //search reached the last sector with no result
+            setSearchNumbers({ start: 0, end: 0 });
+        }
+        else {
+            setSearchNumbers((searchNumbers) => ({ start: 0, end: 0 + maps_places.length }));
+        }
+
+        
+        
+
+        setArea({ area_of_one: area_of_one, area_inner: area_inner });
+        setSearchData({
+            center_lat: centerCoords.lat,
+            center_lon: centerCoords.lon,
+            query_string: inputData.query_string,
+            radius2: inputData.radius2
+        });
+
+        setSearchRegion(inputData.city);
+        setPlaceDetails(maps_places);
+        setLoading(false);
+    };
 
     const isValidInput = (inputData) => {
         // Implement your input validation logic here
@@ -207,24 +305,53 @@ const LandingPage = () => {
     };
 
     const loadMore = async () => {
-        const start_radius = Math.sqrt((785000 * (iteration.current_iteration - 1)) / 3.14);
-        const end_radius = Math.sqrt((785000 * iteration.current_iteration) / 3.14);
+        setLoading(true);
+        let maps_places = [];
+        let i;
 
-        for (let i = iteration.current_iteration; i < iteration.total_iterations + 1; i++) {
+        for ( i = iteration.current_iteration + 1; i < iteration.total_iterations + 1; i++) {
+            const start_radius = Math.sqrt((area.area_inner + (area.area_of_one * (i - 1))) / 3.14);
+            let end_radius;
+
+
+            if (i >= iteration.total_iterations) { //this means that it is the last iteration and you shouldnt make the radius higher than the end distance (because of the way we obtain the radiuses, this happens if the no_iterations is a fraction)
+                end_radius = searchData.radius2;
+            }
+            else {
+                end_radius = Math.sqrt((area.area_inner + (area.area_of_one * i)) / 3.14);
+            }
+            console.log("iter_data", end_radius, start_radius, i);
 
 
             try {
 
-                setLoading(true);
                 const searchOptions = {
-                    radius1: inputData.start_radius,
-                    radius2: inputData.end_radius,
-                    center_lat: centerCoords.lat,  //needs to change
-                    center_lon: centerCoords.lon,   //needs to change
-                    query_string: inputData.query_string,  //needs to change
+                    radius1: start_radius,
+                    radius2: end_radius,
+                    center_lat: searchData.center_lat,
+                    center_lon: searchData.center_lon,
+                    query_string: searchData.query_string,
                     limit: "60",
                     api_key: placeAPIKey,
                 };
+
+                console.log("no issues here", searchOptions)
+                const response = await FetchNearby(searchOptions)
+
+                if (response.data.place_id_list?.length > 0) {
+                    // setPlaceIds(nearbyResults.data.place_id_list);
+                    const placeDetailOptions = {
+                        place_id_list: response.data.place_id_list,
+                        center_loc: "",
+                        api_key: placeAPIKey,
+                    };
+                    console.log("none here too")
+                    const placeDetail = await FetchPlaceDetail(placeDetailOptions);
+                    //setPlaceDetails(placeDetail.data.succesful_results);
+                    maps_places = [...maps_places, ...placeDetail.data.succesful_results];
+                }
+                // maps_places = [...maps_places, ...payload];
+                // console.log("wahaaaaaaaaaaaaaaaa", maps_places.length);
 
             }
 
@@ -234,17 +361,31 @@ const LandingPage = () => {
             }
 
             finally {
-                console.log("new radiuses are ", start_radius, end_radius);
-                console.log("the iteration", iteration);
-                setIteration({ ...iteration, current_iteration: iteration.current_iteration + 1 })
-                setLoading(false);
+
 
             }
-            break;
-
-
-
+            if (maps_places.length >= 60) {
+                
+                break;
+            }
         }
+
+        if (i > iteration.total_iterations ) { //set to current iteration, no need to go further
+            setIteration({ ...iteration, current_iteration: iteration.no_iterations_rounded });
+        }
+        else {
+            setIteration({ ...iteration, current_iteration: i });
+        }
+
+        if (maps_places.length < 1) { //search reached the last sector with no result
+            setSearchNumbers({ start: 0, end: 0 });
+        }
+        else {
+            setSearchNumbers((searchNumbers) => ({ start: searchNumbers.end + 1, end: searchNumbers.end + maps_places.length }));
+        }
+        
+        setPlaceDetails(maps_places);
+        setLoading(false);
     }
 
     if (pageload) {
@@ -265,24 +406,36 @@ const LandingPage = () => {
 
     }
 
-    if (pageError) {
+    if (requestEmail) {
         return (
             <div className="h-screen flex flex-col items-center justify-center">
-                <div>
-                    <img src={errorImage} alt="error-image" />
-                </div>
-                <h1 className="text-center text-2xl md:text-[34px] font-medium text-[#7F7F7F]">
-                    Oops, Something went wrong
-                </h1>
+
+
                 <h1 className="text-[18px] md:text-[20px] text-[#7F7F7F]">
-                    Error fetching user info
+                    Please Input your Email Address
                 </h1>
+                <form 
+                onSubmit={handleEmailConfirm}
+                action=""
+                className="flex flex-col">
+                <input
+                  type="email"
+                  required
+                  id="formLink"
+                  placeholder="add your form link here"
+                  className="w-full md:w-[400px] mt-[10px] h-[50px] border-2 border-[#B3B4BB] rounded-[5px] outline-none pl-[20px]"
+                  value={email}
+                  onChange={(e) => setEmail(e.target.value)}
+                />
                 <button
                     className="bg-[#015734] font-medium text-[17px] my-8 px-5 py-2 text-white rounded-[5px]"
-                    onClick={() => window.location.reload()}
+                    //onClick={handleEmailConfirm}
+                    disabled={!email}
                 >
-                    Try Again
+                        Confirm
                 </button>
+                </form>
+
             </div>
         )
     }
@@ -359,6 +512,35 @@ const LandingPage = () => {
 
                                 </div>
 
+                                <div>
+                                    <h2 className="font-semibold text-white">Caliberation</h2>
+                                    <select
+                                        disabled={loading}
+                                        id="caliberation"
+                                        name="caliberation"
+                                        value={caliberation}
+                                        //autoComplete="country-name"
+                                        onChange={(e) => {
+                                            setCaliberation(e.target.value);
+
+                                        }}
+                                        className="select w-[100px] h-[33px] bg-[#D9D9D9]"
+                                    >
+
+                                        <option value="area">area</option>
+                                    </select>
+                                </div>
+
+                                <div>
+                                    <h2 className="font-semibold text-white">Set Scale</h2>
+                                    <input
+                                        type="number"
+                                        className="w-[100px] bg-[#D9D9D9] px-3 py-[0.25rem] outline-none"
+                                        placeholder="min. 500"
+                                        value={scale}
+                                        onChange={(e) => setScale(e.target.value)}
+                                        disabled={loading} />
+                                </div>
 
                                 <div>
                                     <h2 className="font-semibold text-white">Enter a Category</h2>
@@ -379,18 +561,23 @@ const LandingPage = () => {
 
                         <div className="flex justify-between space-x-4">
                             <div className="w-9/12 h-screen bg-[#EFF3F6] px-2 overflow-y-auto border border-[#B3B4BB]">
-                                <div className="flex justify-between">
-                                    <p className="text-[18px] font-bold pt-[10px]"> {placeDetails.length} search results </p>
-                                    {/* <button
-                                        type="button"
-                                        className={`mb-2 w-[150px] h-[30px] font-serif font-bold opacity-80 hover:opacity-100 text-center text-sm md:text-md text-white bg-[#005734]`}
-                                        //disabled={surveys.findIndex((obj) => obj.id === id) !== -1}
-                                        onClick={loadMore}
-                                        disabled={loading}
-                                    //disabled={surveys.length < 1 ? true : false}
-                                    >
-                                        {loading ? "Loading..." : "Load More"}
-                                    </button> */}
+                                <div className="flex space-x-2 items-center mt-2">
+                                    <p className="text-[28px] font-bold"> {`${searchNumbers.start} - ${searchNumbers.end}`} <span className="font-normal text-xs">{`(${iteration.current_iteration} of ${iteration.no_iterations_rounded} sectors searched)`}</span> </p>
+                                    {
+                                        iteration.current_iteration < iteration.total_iterations && (
+                                            <button
+                                                type="button"
+                                                className={`px-2 rounded-md h-[30px] font-serif font-bold opacity-80 hover:opacity-100 text-center text-sm md:text-md text-white bg-[#005734]`}
+                                                //disabled={surveys.findIndex((obj) => obj.id === id) !== -1}
+                                                onClick={loadMore}
+                                                disabled={loading}
+                                            //disabled={surveys.length < 1 ? true : false}
+                                            >
+                                                {loading ? "Loading..." : "Load More"}
+                                            </button>
+                                        )
+                                    }
+
 
 
                                 </div>
@@ -535,7 +722,7 @@ const LandingPage = () => {
                                                 <div className="flex flex-col items-center justify-center">
                                                     <button
                                                         type="button"
-                                                        className={`mb-2 w-[150px] h-[30px] font-serif font-bold opacity-80 hover:opacity-100 text-center text-sm md:text-md text-white bg-[#005734]`}
+                                                        className={`rounded-md mb-2 w-[150px] h-[30px] font-serif font-bold opacity-80 hover:opacity-100 text-center text-sm md:text-md text-white bg-[#005734]`}
                                                         //disabled={surveys.findIndex((obj) => obj.id === id) !== -1}
                                                         onClick={handleConfirmSelection}
                                                     //disabled={surveys.length < 1 ? true : false}

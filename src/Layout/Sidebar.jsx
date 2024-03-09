@@ -28,7 +28,7 @@ export default function Sidebar() {
 
   return (
     <main className="w-full h-full">
-             <nav className="md:left-0 md:block md:fixed md:top-0 md:bottom-0 md:flex-row md:flex-nowrap md:overflow-hidden shadow-xl bg-black flex flex-wrap items-center justify-between relative md:w-64 z-10 py-4 px-6 hidden md:visible">
+      <nav className="md:left-0 md:block md:fixed md:top-0 md:bottom-0 md:flex-row md:flex-nowrap md:overflow-hidden shadow-xl bg-black flex flex-wrap items-center justify-between relative md:w-64 z-10 py-4 px-6 hidden md:visible">
         <div className="md:flex-col md:items-stretch md:min-h-full md:flex-nowrap px-0 flex flex-wrap items-center justify-between w-full mx-auto">
           <div class="flex items-center justify-center h-full">
             <Link
@@ -49,57 +49,78 @@ export default function Sidebar() {
             <ul className="md:flex-col md:min-w-full flex flex-col list-none">
 
 
-              <li className={`font-bold my-2 text-center text-lg h-8 ${location.pathname === '/' ? 'text-black bg-white rounded-md px-1' : 'text-white hover:text-gray-600'}`}>
-                <Link
-                  to="/"
-                  
-                >
+
+              <Link
+                to="/"
+
+              >
+                <li className={`font-bold my-2 border border-white text-center text-lg h-8 ${location.pathname === '/' ? 'text-black bg-white rounded-md px-1' : 'text-white hover:text-gray-600'}`}>
                   New Survey
-                </Link>
-              </li>s
+                </li>
+
+              </Link>
+
+
+              <li className={`font-bold my-2 text-center text-md h-8 ${location.pathname === '/finalize-Sample' ? 'text-black bg-white rounded-md px-1' : 'text-white'}`}>
+                1. Finalise Sample Size
+              </li>
+              <li className={`font-bold my-2 text-center text-md h-8 ${location.pathname === '/newsurvey' ? 'text-black bg-white rounded-md px-1' : 'text-white'}`}>
+                2. Link Survey Form
+              </li>
+              <li className={`font-bold my-2 text-center text-md h-8 ${location.pathname === '/email-sms' ? 'text-black bg-white rounded-md px-1' : 'text-white'}`}>
+                (Sms, email)3.Start Survey
+              </li>
 
             </ul>
 
             <ul className="md:flex-col md:min-w-full mt-8 flex flex-col list-none">
-            <li className={`font-bold my-2 text-center text-lg h-8 ${location.pathname === '/list-surveys' ? 'text-black bg-white rounded-md px-1' : 'text-white hover:text-gray-600'}`}>
-                <Link
-                  to="/list-surveys"
-                  
-                >
-                 My Surveys
-                </Link>
-              </li>
 
-              <li className={`font-bold my-2 text-center text-lg h-8 ${location.pathname === '/settings' ? 'text-black bg-white rounded-md px-1' : 'text-white hover:text-gray-600'}`}>
-                <Link
-                  to="/settings"
-                  
-                >
-                 Settings/Privacy
-                </Link>
-              </li>
+              <Link
+                to="/list-surveys"
 
-              <li className={`font-bold my-2 text-center text-lg h-8 ${location.pathname === '/terms-conditions' ? 'text-black bg-white rounded-md px-1' : 'text-white hover:text-gray-600'}`}>
-                <Link
-                  to="/terms-conditions"
-                  
-                >
-                 Terms and Conditions
-                </Link>
-              </li>
+              >
+                <li className={`font-bold my-2 text-center text-lg border border-white h-8 ${location.pathname === '/list-surveys' ? 'text-black bg-white rounded-md px-1' : 'text-white hover:text-gray-600'}`}>
+                  My Surveys
+                </li>
 
-              <li className={`font-bold my-2 text-center text-lg h-8 ${location.pathname === '/log-out' ? 'text-black bg-white rounded-md px-1' : 'text-white hover:text-gray-600'}`}>
+              </Link>
+              <Link
+                to="/settings"
+
+              >
+                <li className={`font-bold my-2 text-center text-lg border border-white h-8 ${location.pathname === '/settings' ? 'text-black bg-white rounded-md px-1' : 'text-white hover:text-gray-600'}`}>
+                  Settings/Privacy
+                </li>
+
+              </Link>
+
+
+
+              <Link
+                to="/terms-conditions"
+
+              >
+                <li className={`font-bold my-2 border border-white text-center text-lg h-8 ${location.pathname === '/terms-conditions' ? 'text-black bg-white rounded-md px-1' : 'text-white hover:text-gray-600'}`}>
+                Terms and Conditions
+                </li>
+                
+              </Link>
+
+
+              
                 <Link
-                  to="/log-out"
-                  
+                  to="/"
+
                 >
-                 Log Out
+                  <li className={`font-bold my-2 text-center border border-white text-lg h-8 ${location.pathname === '/log-out' ? 'text-black bg-white rounded-md px-1' : 'text-white hover:text-gray-600'}`}>
+                  Log Out
+                  </li>
                 </Link>
-              </li>
+              
             </ul>
           </div>
         </div>
-      </nav> 
+      </nav>
 
 
 

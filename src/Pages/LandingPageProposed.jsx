@@ -550,6 +550,17 @@ const LandingPage = () => {
   const navigate = useNavigate();
   //const stored_locations = sessionStorage.getItem("newSurvey") || "[]";
   const [surveys, setSurveys] = useState([]);
+  const [searchRegion, setSearchRegion] = useState(null);
+
+  //parameters for the search by area
+  const [caliberation, setCaliberation] = useState("area");
+  const [scale, setScale] = useState(null);
+  const [area, setArea] = useState({});
+  const [iteration, setIteration] = useState({
+    current_iteration: 1,
+    total_iterations: 16,
+  });
+  const [searchData, setSearchData] = useState({});
 
   const [pageload, setPageLoad] = useState(true);
   const [pageError, setPageError] = useState(null);

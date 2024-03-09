@@ -4,13 +4,15 @@ import { PreviewProvider } from "./Context/PreviewContext";
 import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
 import PreviewPage from "./Pages/PreviewPage";
 import StartNewSurvey from "./Pages/StartNewSurvey";
-import FinalizeSample from "./Pages/FinalizeSample2";
+// import FinalizeSample from "./Pages/FinalizeSample2";
+import FinalizeSample from "./Pages/FinalizeSample";
 import LinkSurvey from "./Pages/LinkSurvey";
 import { EmailSms } from "./Pages/EmailSms";
 import Edit from "./Pages/EditSurvey";
 import EditSurveyTemp from "./Pages/EditSurveyTemp";
 import Settings from "./Pages/Settings";
 import SurveyIframe from "./Pages/SurveyIframe";
+import SurveyIframeAll from "./Pages/SurveyIframeAll";
 import CheckRegion from "./Pages/CheckRegion";
 import TermsCondition from "./Pages/TermsCondition";
 

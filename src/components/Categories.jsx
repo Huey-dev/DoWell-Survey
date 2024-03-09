@@ -123,7 +123,7 @@ export default function Category({ loading }) {
       onChange={(e) =>
         setInputData({ ...inputData, query_string: e.target.value })
       }
-      className="select w-[200px] h-[33px] bg-[#D9D9D9] px-3"
+      className="select w-[150px] h-[33px] bg-[#D9D9D9] px-3"
       autoComplete="category-name"
       value={inputData.query_string}
       placeholder="..e.g School"

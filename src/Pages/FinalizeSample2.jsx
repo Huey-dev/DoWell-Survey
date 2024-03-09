@@ -60,7 +60,7 @@ const FinalizeSample = () => {
                               Address
                             </th>
                             <th scope="col" className=" px-6 py-4">
-                              Mobile Number
+                              Mobile Numbers
                             </th>
                             <th scope="col" className=" px-6 py-4">
                               Actions

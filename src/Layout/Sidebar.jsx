@@ -45,89 +45,94 @@ export default function Sidebar() {
 
           <div className="md:flex md:flex-col md:items-stretch md:opacity-100 md:relative md:mt-4 md:shadow-none shadow absolute top-0 left-0 right-0 z-40 overflow-y-auto overflow-x-hidden h-auto items-center justify-between flex-1">
             <ul className="md:flex-col md:min-w-full flex flex-col list-none">
+              <Link to="/">
+                <li
+                  className={`font-bold my-2 border border-white text-center text-lg h-8 ${
+                    location.pathname === "/"
+                      ? "text-black bg-white rounded-md px-1"
+                      : "text-white hover:text-gray-600"
+                  }`}
+                >
+                  New Survey
+                </li>
+              </Link>
+
               <li
-                className={`font-bold my-2 text-center text-lg h-8 ${
-                  location.pathname === "/"
+                className={`font-bold my-2 text-center text-md h-8 ${
+                  location.pathname === "/finalize-Sample"
                     ? "text-black bg-white rounded-md px-1"
-                    : "text-white bg-[#FF3131] hover:text-gray-600"
+                    : "text-white"
                 }`}
               >
-                <Link to="/">New Survey</Link>
+                1. Finalise Sample Size
               </li>
               <li
-                className={`font-bold my-2  flex  w-full h-20 ${
-                  location.pathname === "/start-survey"
+                className={`font-bold my-2 text-center text-md h-8 ${
+                  location.pathname === "/newsurvey"
                     ? "text-black bg-white rounded-md px-1"
-                    : "text-white bg-[#A6A6A6] hover:text-gray-600"
+                    : "text-white"
                 }`}
               >
-                <Link to="/start-survey">
-                  <span className="text-[12px]">
-                    A. Email <br /> B. SMS <br /> C. SMS & EMAIL
-                  </span>
-                  <span>Start Survey</span>
-                </Link>
+                2. Link Survey Form
               </li>
               <li
-                className={`font-bold my-2 text-center text-lg h-8 ${
-                  location.pathname === "/"
+                className={`font-bold my-2 text-center text-md h-8 ${
+                  location.pathname === "/email-sms"
                     ? "text-black bg-white rounded-md px-1"
-                    : "text-white bg-[#A6A6A6] hover:text-gray-600"
+                    : "text-white"
                 }`}
               >
-                <Link to="/">Stop Survey</Link>
-              </li>
-              <li
-                className={`font-bold my-2 text-center text-lg h-8 ${
-                  location.pathname === "/"
-                    ? "text-black bg-white rounded-md px-1"
-                    : "text-white bg-[#A6A6A6] hover:text-gray-600"
-                }`}
-              >
-                <Link to="/">Repeat</Link>
+                (Sms, email)3.Start Survey
               </li>
             </ul>
 
             <ul className="md:flex-col md:min-w-full mt-8 flex flex-col list-none">
-              <li
-                className={`font-bold my-2 text-center text-lg h-8 ${
-                  location.pathname === "/list-surveys"
-                    ? "text-black bg-white rounded-md px-1"
-                    : "text-white hover:text-gray-600"
-                }`}
-              >
-                <Link to="/list-surveys">My Surveys</Link>
-              </li>
+              <Link to="/list-surveys">
+                <li
+                  className={`font-bold my-2 text-center text-lg border border-white h-8 ${
+                    location.pathname === "/list-surveys"
+                      ? "text-black bg-white rounded-md px-1"
+                      : "text-white hover:text-gray-600"
+                  }`}
+                >
+                  My Surveys
+                </li>
+              </Link>
+              <Link to="/settings">
+                <li
+                  className={`font-bold my-2 text-center text-lg border border-white h-8 ${
+                    location.pathname === "/settings"
+                      ? "text-black bg-white rounded-md px-1"
+                      : "text-white hover:text-gray-600"
+                  }`}
+                >
+                  Settings/Privacy
+                </li>
+              </Link>
 
-              <li
-                className={`font-bold my-2 text-center text-lg h-8 ${
-                  location.pathname === "/settings"
-                    ? "text-black bg-white rounded-md px-1"
-                    : "text-white hover:text-gray-600"
-                }`}
-              >
-                <Link to="/settings">Settings/Privacy</Link>
-              </li>
+              <Link to="/terms-conditions">
+                <li
+                  className={`font-bold my-2 border border-white text-center text-lg h-8 ${
+                    location.pathname === "/terms-conditions"
+                      ? "text-black bg-white rounded-md px-1"
+                      : "text-white hover:text-gray-600"
+                  }`}
+                >
+                  Terms and Conditions
+                </li>
+              </Link>
 
-              <li
-                className={`font-bold my-2 text-center text-lg h-8 ${
-                  location.pathname === "/terms-conditions"
-                    ? "text-black bg-white rounded-md px-1"
-                    : "text-white hover:text-gray-600"
-                }`}
-              >
-                <Link to="/terms-conditions">Terms and Conditions</Link>
-              </li>
-
-              <li
-                className={`font-bold my-2 text-center text-lg h-8 ${
-                  location.pathname === "/log-out"
-                    ? "text-black bg-white rounded-md px-1"
-                    : "text-white hover:text-gray-600"
-                }`}
-              >
-                <Link to="/log-out">Log Out</Link>
-              </li>
+              <Link to="/">
+                <li
+                  className={`font-bold my-2 text-center border border-white text-lg h-8 ${
+                    location.pathname === "/log-out"
+                      ? "text-black bg-white rounded-md px-1"
+                      : "text-white hover:text-gray-600"
+                  }`}
+                >
+                  Log Out
+                </li>
+              </Link>
             </ul>
           </div>
         </div>

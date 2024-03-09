@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import Layout from "../Layout/Layout";
 import { AiFillEdit } from "react-icons/ai";
 import { MdDelete } from "react-icons/md";
@@ -104,7 +104,7 @@ const FinalizeSample = () => {
             )}
             <div>
               <div className="flex items-center justify-center text-base mt-10 md:text-2xl font-bold">
-                Enter Maximum Number of Persons allowed to fill the Survey 
+                Enter Maximum Number of Persons allowed to fill the Survey
               </div>
 
               <div className="flex items-center justify-center">

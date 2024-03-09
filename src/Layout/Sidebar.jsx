@@ -25,10 +25,9 @@ export default function Sidebar() {
   const [navbar, setNavbar] = useState(false);
   const location = useLocation();
 
-
   return (
     <main className="w-full h-full">
-             <nav className="md:left-0 md:block md:fixed md:top-0 md:bottom-0 md:flex-row md:flex-nowrap md:overflow-hidden shadow-xl bg-black flex flex-wrap items-center justify-between relative md:w-64 z-10 py-4 px-6 hidden md:visible">
+      <nav className="md:left-0 md:block md:fixed md:top-0 md:bottom-0 md:flex-row md:flex-nowrap md:overflow-hidden shadow-xl bg-black flex flex-wrap items-center justify-between relative md:w-64 z-10 py-4 px-6 hidden md:visible">
         <div className="md:flex-col md:items-stretch md:min-h-full md:flex-nowrap px-0 flex flex-wrap items-center justify-between w-full mx-auto">
           <div class="flex items-center justify-center h-full">
             <Link
@@ -44,65 +43,95 @@ export default function Sidebar() {
             </Link>
           </div>
 
-
           <div className="md:flex md:flex-col md:items-stretch md:opacity-100 md:relative md:mt-4 md:shadow-none shadow absolute top-0 left-0 right-0 z-40 overflow-y-auto overflow-x-hidden h-auto items-center justify-between flex-1">
             <ul className="md:flex-col md:min-w-full flex flex-col list-none">
-
-
-              <li className={`font-bold my-2 text-center text-lg h-8 ${location.pathname === '/' ? 'text-black bg-white rounded-md px-1' : 'text-white hover:text-gray-600'}`}>
-                <Link
-                  to="/"
-                  
-                >
-                  New Survey
+              <li
+                className={`font-bold my-2 text-center text-lg h-8 ${
+                  location.pathname === "/"
+                    ? "text-black bg-white rounded-md px-1"
+                    : "text-white bg-[#FF3131] hover:text-gray-600"
+                }`}
+              >
+                <Link to="/">New Survey</Link>
+              </li>
+              <li
+                className={`font-bold my-2  flex  w-full h-20 ${
+                  location.pathname === "/start-survey"
+                    ? "text-black bg-white rounded-md px-1"
+                    : "text-white bg-[#A6A6A6] hover:text-gray-600"
+                }`}
+              >
+                <Link to="/start-survey">
+                  <span className="text-[12px]">
+                    A. Email <br /> B. SMS <br /> C. SMS & EMAIL
+                  </span>
+                  <span>Start Survey</span>
                 </Link>
-              </li>s
-
+              </li>
+              <li
+                className={`font-bold my-2 text-center text-lg h-8 ${
+                  location.pathname === "/"
+                    ? "text-black bg-white rounded-md px-1"
+                    : "text-white bg-[#A6A6A6] hover:text-gray-600"
+                }`}
+              >
+                <Link to="/">Stop Survey</Link>
+              </li>
+              <li
+                className={`font-bold my-2 text-center text-lg h-8 ${
+                  location.pathname === "/"
+                    ? "text-black bg-white rounded-md px-1"
+                    : "text-white bg-[#A6A6A6] hover:text-gray-600"
+                }`}
+              >
+                <Link to="/">Repeat</Link>
+              </li>
             </ul>
 
             <ul className="md:flex-col md:min-w-full mt-8 flex flex-col list-none">
-            <li className={`font-bold my-2 text-center text-lg h-8 ${location.pathname === '/list-surveys' ? 'text-black bg-white rounded-md px-1' : 'text-white hover:text-gray-600'}`}>
-                <Link
-                  to="/list-surveys"
-                  
-                >
-                 My Surveys
-                </Link>
+              <li
+                className={`font-bold my-2 text-center text-lg h-8 ${
+                  location.pathname === "/list-surveys"
+                    ? "text-black bg-white rounded-md px-1"
+                    : "text-white hover:text-gray-600"
+                }`}
+              >
+                <Link to="/list-surveys">My Surveys</Link>
               </li>
 
-              <li className={`font-bold my-2 text-center text-lg h-8 ${location.pathname === '/settings' ? 'text-black bg-white rounded-md px-1' : 'text-white hover:text-gray-600'}`}>
-                <Link
-                  to="/settings"
-                  
-                >
-                 Settings/Privacy
-                </Link>
+              <li
+                className={`font-bold my-2 text-center text-lg h-8 ${
+                  location.pathname === "/settings"
+                    ? "text-black bg-white rounded-md px-1"
+                    : "text-white hover:text-gray-600"
+                }`}
+              >
+                <Link to="/settings">Settings/Privacy</Link>
               </li>
 
-              <li className={`font-bold my-2 text-center text-lg h-8 ${location.pathname === '/terms-conditions' ? 'text-black bg-white rounded-md px-1' : 'text-white hover:text-gray-600'}`}>
-                <Link
-                  to="/terms-conditions"
-                  
-                >
-                 Terms and Conditions
-                </Link>
+              <li
+                className={`font-bold my-2 text-center text-lg h-8 ${
+                  location.pathname === "/terms-conditions"
+                    ? "text-black bg-white rounded-md px-1"
+                    : "text-white hover:text-gray-600"
+                }`}
+              >
+                <Link to="/terms-conditions">Terms and Conditions</Link>
               </li>
 
-              <li className={`font-bold my-2 text-center text-lg h-8 ${location.pathname === '/log-out' ? 'text-black bg-white rounded-md px-1' : 'text-white hover:text-gray-600'}`}>
-                <Link
-                  to="/log-out"
-                  
-                >
-                 Log Out
-                </Link>
+              <li
+                className={`font-bold my-2 text-center text-lg h-8 ${
+                  location.pathname === "/log-out"
+                    ? "text-black bg-white rounded-md px-1"
+                    : "text-white hover:text-gray-600"
+                }`}
+              >
+                <Link to="/log-out">Log Out</Link>
               </li>
             </ul>
           </div>
         </div>
-      </nav> 
-
-
-
+      </nav>
 
       <nav className="w-full shadow md:hidden bg-black">
         <div className="justify-between px-4 mx-auto lg:max-w-7xl md:items-center md:flex md:px-8">
@@ -153,77 +182,76 @@ export default function Sidebar() {
                 </button>
               </div>
             </div>
-
           </div>
           <div>
             <div
-              className={`flex-1 justify-self-center pb-3 mt-8 md:block md:pb-0 md:mt-0 ${navbar ? "block" : "hidden"
-                }`}
+              className={`flex-1 justify-self-center pb-3 mt-8 md:block md:pb-0 md:mt-0 ${
+                navbar ? "block" : "hidden"
+              }`}
             >
               <ul className="items-center justify-center space-y-2 md:flex md:space-x-6 md:space-y-0">
-                <li className={`font-bold text-lg h-8 ${location.pathname === '/newSurvey' ? 'text-black bg-white rounded-md px-1' : 'text-white hover:text-gray-600'}`}>
-                  <Link
-                    to="/"
-
-                  >
-                    New Survey
-                  </Link>
+                <li
+                  className={`font-bold text-lg h-8 ${
+                    location.pathname === "/newSurvey"
+                      ? "text-black bg-white rounded-md px-1"
+                      : "text-white hover:text-gray-600"
+                  }`}
+                >
+                  <Link to="/">New Survey</Link>
                 </li>
-
-
-
               </ul>
             </div>
-
           </div>
           <div>
             <div
-              className={`flex-1 justify-self-center pb-3 mt-8 md:block md:pb-0 md:mt-0 ${navbar ? "block" : "hidden"
-                }`}
+              className={`flex-1 justify-self-center pb-3 mt-8 md:block md:pb-0 md:mt-0 ${
+                navbar ? "block" : "hidden"
+              }`}
             >
               <ul className="items-center justify-center space-y-2 md:flex md:space-x-6 md:space-y-0">
-                <li className={`font-bold text-lg h-8 ${location.pathname === '/list-surveys' ? 'text-black bg-[white] rounded-md px-1' : 'text-white hover:text-gray-600'}`}>
-                  <Link
-                    to="/list-surveys"
-
-                  >
-                    My Surveys
-                  </Link>
+                <li
+                  className={`font-bold text-lg h-8 ${
+                    location.pathname === "/list-surveys"
+                      ? "text-black bg-[white] rounded-md px-1"
+                      : "text-white hover:text-gray-600"
+                  }`}
+                >
+                  <Link to="/list-surveys">My Surveys</Link>
                 </li>
-                <li className={`font-bold text-lg h-8 ${location.pathname === '/settings' ? 'text-black bg-white rounded-md px-1' : 'text-white hover:text-gray-600'}`}>
-                  <Link
-                    to="/settings"
-
-                  >
-                    Settings/Privacy
-                  </Link>
-                </li>
-
-                <li className={`font-bold text-lg h-8 ${location.pathname === '/terms-conditions' ? 'text-black bg-white rounded-md px-1' : 'text-white hover:text-gray-600'}`}>
-                  <Link
-                    to="/terms-conditions"
-
-                  >
-                    Terms and Conditions
-                  </Link>
+                <li
+                  className={`font-bold text-lg h-8 ${
+                    location.pathname === "/settings"
+                      ? "text-black bg-white rounded-md px-1"
+                      : "text-white hover:text-gray-600"
+                  }`}
+                >
+                  <Link to="/settings">Settings/Privacy</Link>
                 </li>
 
-                <li className={`font-bold text-lg h-8 ${location.pathname === '/log-out' ? 'text-black bg-white rounded-md px-1' : 'text-white hover:text-gray-600'}`}>
-                  <Link
-                    to="/log-out"
-
-                  >
-                    Log Out
-                  </Link>
+                <li
+                  className={`font-bold text-lg h-8 ${
+                    location.pathname === "/terms-conditions"
+                      ? "text-black bg-white rounded-md px-1"
+                      : "text-white hover:text-gray-600"
+                  }`}
+                >
+                  <Link to="/terms-conditions">Terms and Conditions</Link>
                 </li>
 
-
+                <li
+                  className={`font-bold text-lg h-8 ${
+                    location.pathname === "/log-out"
+                      ? "text-black bg-white rounded-md px-1"
+                      : "text-white hover:text-gray-600"
+                  }`}
+                >
+                  <Link to="/log-out">Log Out</Link>
+                </li>
               </ul>
             </div>
           </div>
         </div>
       </nav>
-
     </main>
   );
 }

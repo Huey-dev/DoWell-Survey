@@ -29,7 +29,9 @@ export default function Edit() {
     const [mode, setMode] = useState(null);
     const [startDate, setStartDate] = useState(getCurrentDate());
 
-    const currentDate = new Date();
+    const currentDate = new Date().setHours(0, 0, 0, 0);
+
+    console.log("today is", currentDate);
 
     //sample size parameters and states
     const [sampleData, setSampleData] = useState([]);
@@ -82,7 +84,7 @@ export default function Edit() {
 
     }
 
-    const backendUrl = "https://100025.pythonanywhere.com/my-survey/?api_key=4f0bd662-8456-4b2e-afa6-293d4135facf"
+    const backendUrl = "https://100025.pythonanywhere.com/my-survey/?api_key=a0955eef-146b-4efd-a14a-85727d5b6014"
 
     const handleAdd = () => {
         if (country && region && numOfParticipants) {
@@ -780,12 +782,12 @@ export default function Edit() {
                                                                     {`Limit ${survey_results[i].participantsLimit} person(s)`}
                                                                 </td>
                                                                 <td className="whitespace-nowrap bg-[#F3F6FF] font-medium">
-                                                                    {new Date(survey_results[i].start_date) > currentDate ? (
+                                                                    {new Date(survey_results[i].start_date).setHours(0, 0, 0, 0) > currentDate ? (
                                                                         <div className="mx-4 my-2 bg-[#399544] text-white">
                                                                             {" "}
                                                                             CREATED{" "}
                                                                         </div>
-                                                                    ) : new Date(survey_results[i].end_date) < currentDate ? (
+                                                                    ) : new Date(survey_results[i].end_date).setHours(0, 0, 0, 0) < currentDate ? (
                                                                         <div className="mx-4 my-2 bg-[#EF4444] text-white">
                                                                             {" "}
                                                                             ENDED{" "}

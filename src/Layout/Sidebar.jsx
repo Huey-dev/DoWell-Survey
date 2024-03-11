@@ -35,7 +35,7 @@ export default function Sidebar() {
               to="/"
             >
               <img
-                className="w-32 h-32 rounded-full border-2 border-gray-600"
+                className="w-24 h-24 rounded-full border-2 border-gray-600"
                 style={{ maxHeight: "150px" }}
                 src={dowelllogo}
                 alt="Default avatar"
@@ -84,6 +84,28 @@ export default function Sidebar() {
               >
                 (Sms, email)3.Start Survey
               </li>
+              <Link to="/stop-survey">
+                <li
+                  className={`font-bold my-2 border border-white text-center text-lg h-8 ${
+                    location.pathname === "/stop-survey"
+                      ? "text-black bg-white rounded-md px-1"
+                      : "text-white hover:text-gray-600"
+                  }`}
+                >
+                  4. Stop Survey
+                </li>
+              </Link>
+              <Link to="/stop-survey">
+                <li
+                  className={`font-bold my-2 border border-white text-center text-lg h-8 ${
+                    location.pathname === "/repeat"
+                      ? "text-black bg-white rounded-md px-1"
+                      : "text-white hover:text-gray-600"
+                  }`}
+                >
+                  5. Repeat
+                </li>
+              </Link>
             </ul>
 
             <ul className="md:flex-col md:min-w-full mt-8 flex flex-col list-none">

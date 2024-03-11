@@ -19,7 +19,7 @@ const FinalizeSample = () => {
   const [surveys, setSurveys] = useState(JSON.parse(stored_locations));
 
   //extract the regions 
-  const uniqueRegions = [...new Set(surveys.map(obj => obj.searchRegion))];
+  const uniqueRegions = [...new Set(surveys.map(obj => obj.searchRegion.toLowerCase()))];
 
 
 

@@ -66,7 +66,7 @@ const SurveyIframeAll = () => {
 
             try {
                 const id_response = await axios.post(
-                    `https://100025.pythonanywhere.com/my-survey/?api_key=4f0bd662-8456-4b2e-afa6-293d4135facf`,
+                    `https://100025.pythonanywhere.com/my-survey/?api_key=a0955eef-146b-4efd-a14a-85727d5b6014`,
                     {
                         survey_id: survey_id,
                     },

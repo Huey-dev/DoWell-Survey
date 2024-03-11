@@ -10,6 +10,12 @@ import "./pages.css";
 export const EmailSms = () => {
   const getQrcode = sessionStorage.getItem("Qrcode");
   const numOfParticipant = sessionStorage.getItem("numOfParticipants");
+  const user_info_json = sessionStorage.getItem("user_info") || "[]";
+  const user_info = JSON.parse(user_info_json);
+  let Uname;
+  if (user_info) {
+    Uname = user_info.username ? user_info.username : null; 
+  }
   const [email, setEmail] = useState(null);
   // const [emails, setEmails] = useState([]);
 
@@ -95,8 +101,8 @@ export const EmailSms = () => {
       <body>
         <div style="font-family: 'Arial', sans-serif; background-color: #f4f4f4; padding: 20px; border-radius: 10px; box-shadow: 0 0 20px rgba(0, 0, 0, 0.2);">
         <img src="${getQrcode}" alt="QR Code" style="max-width: 100%; height: auto;">
-        <p style="font-size: 16px; line-height: 1.5; color: #333;">A survey has been created for ${surveyData1.name}. The time period is between ${surveyData1.startDate}
-          to ${surveyData1.endDate}, and it is for a maximum number of ${numOfParticipant} persons. Link to the Qrcode can be found at
+        <p style="font-size: 16px; line-height: 1.5; color: #333;">A survey has been created by ${Uname}. The time period is between ${sformattedDate}
+          to ${eformattedDate}, and it is for a maximum number of ${numOfParticipant} persons. Link to the Qrcode can be found at
           ${getQrcode}</p>
         </div>
 
@@ -112,7 +118,7 @@ export const EmailSms = () => {
       };
 
       const updateSurvey = await axios.put(
-        `https://100025.pythonanywhere.com/update-qr-codev2?api_key=504a51bf-c483-4ac5-b2dd-4f209eabcbf8`,
+        `https://100025.pythonanywhere.com/update-qr-codev2?api_key=a0955eef-146b-4efd-a14a-85727d5b6014`,
         updatedSurveyData,
         {
           headers: {
@@ -123,7 +129,7 @@ export const EmailSms = () => {
       console.log("this is survey response", updateSurvey);
 
       const response = await axios.post(
-        `https://100085.pythonanywhere.com/api/email/?api_key=dd7010c6-17b7-4cd4-ac70-f20492efa73e`,
+        `https://100085.pythonanywhere.com/api/email/?api_key=4f0bd662-8456-4b2e-afa6-293d4135facf`,
         formData,
         {
           headers: {

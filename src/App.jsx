@@ -93,6 +93,7 @@ import StartNewSurvey from "./Pages/StartNewSurvey";
 import FinalizeSample from "./Pages/FinalizeSample";
 import LinkSurvey from "./Pages/LinkSurvey";
 import { EmailSms } from "./Pages/EmailSms";
+import Stop from "./Pages/StopSurvey";
 import Edit from "./Pages/EditSurvey";
 import EditSurveyTemp from "./Pages/EditSurveyTemp";
 import Settings from "./Pages/Settings";
@@ -104,6 +105,7 @@ import TermsCondition from "./Pages/TermsCondition";
 import RedirectToExternalWebsite from "./Pages/RedirectToExternalWebsite";
 import ModalPopUp from "./Pages/ModalPopUp";
 import StartSurvey from "./Pages/StartSurvey";
+import StopSurvey from "./Pages/StopSurvey";
 // import Search from "./Pages/Npm";
 //import { useLocation } from 'react-router-dom';
 
@@ -145,6 +147,7 @@ function App() {
             <Route path="/link-form" element={<LinkSurvey />} />
             <Route path="/email-sms" element={<EmailSms />} />
             <Route path="/start-survey" element={<StartSurvey />} />
+            <Route path="/stop-survey" element={<Stop />} />
 
             <Route path="/list-surveys" element={<Edit />} />
             <Route path="/list-surveys2" element={<EditSurveyTemp />} />

@@ -35,7 +35,7 @@ export default function Sidebar() {
               to="/"
             >
               <img
-                className="w-24 h-24 rounded-full border-2 border-gray-600"
+                className="w-32 h-32 rounded-full border-2 border-gray-600"
                 style={{ maxHeight: "150px" }}
                 src={dowelllogo}
                 alt="Default avatar"
@@ -47,7 +47,7 @@ export default function Sidebar() {
             <ul className="md:flex-col md:min-w-full flex flex-col list-none">
               <Link to="/">
                 <li
-                  className={`font-bold my-2 border border-white text-center text-lg h-8 ${
+                  className={`font-bold my-2 border bg-[#FF3131] border-white text-center text-lg h-8 ${
                     location.pathname === "/"
                       ? "text-black bg-white rounded-md px-1"
                       : "text-white hover:text-gray-600"
@@ -58,7 +58,7 @@ export default function Sidebar() {
               </Link>
 
               <li
-                className={`font-bold my-2 text-center text-md h-8 ${
+                className={`font-bold bg-[#7ED957] my-2 text-center text-md h-8 ${
                   location.pathname === "/finalize-Sample"
                     ? "text-black bg-white rounded-md px-1"
                     : "text-white"
@@ -67,7 +67,7 @@ export default function Sidebar() {
                 1. Finalise Sample Size
               </li>
               <li
-                className={`font-bold my-2 text-center text-md h-8 ${
+                className={`font-bold bg-[#A6A6A6] my-2 text-center text-md h-8 ${
                   location.pathname === "/newsurvey"
                     ? "text-black bg-white rounded-md px-1"
                     : "text-white"
@@ -76,34 +76,30 @@ export default function Sidebar() {
                 2. Link Survey Form
               </li>
               <li
-                className={`font-bold my-2 text-center text-md h-8 ${
+                className={`font-bold  my-2 text-center text-md flex h-16 ${
                   location.pathname === "/email-sms"
                     ? "text-black bg-white rounded-md px-1"
                     : "text-white"
                 }`}
               >
-                (Sms, email)3.Start Survey
+                <p className="w-[100px] text-[10px] bg-[#396E2E]">
+                  A. SMS <br />
+                  B. Email <br />
+                  C. SMS & EMAIL
+                </p>
+                <p className="bg-[#A6A6A6] ml-2 w-[120px] flex justify-center items-center">
+                  3.Start Survey
+                </p>
               </li>
               <Link to="/stop-survey">
                 <li
-                  className={`font-bold my-2 border border-white text-center text-lg h-8 ${
-                    location.pathname === "/stop-survey"
+                  className={`font-bold bg-[#A6A6A6] border border-white my-2 text-center text-md h-8 ${
+                    location.pathname === "/start-survey"
                       ? "text-black bg-white rounded-md px-1"
-                      : "text-white hover:text-gray-600"
+                      : "text-white"
                   }`}
                 >
-                  4. Stop Survey
-                </li>
-              </Link>
-              <Link to="/stop-survey">
-                <li
-                  className={`font-bold my-2 border border-white text-center text-lg h-8 ${
-                    location.pathname === "/repeat"
-                      ? "text-black bg-white rounded-md px-1"
-                      : "text-white hover:text-gray-600"
-                  }`}
-                >
-                  5. Repeat
+                  Stop Survey
                 </li>
               </Link>
             </ul>
@@ -111,7 +107,7 @@ export default function Sidebar() {
             <ul className="md:flex-col md:min-w-full mt-8 flex flex-col list-none">
               <Link to="/list-surveys">
                 <li
-                  className={`font-bold my-2 text-center text-lg border border-white h-8 ${
+                  className={`font-bold bg-[#FF3131] my-2 text-center text-lg border border-white h-8 ${
                     location.pathname === "/list-surveys"
                       ? "text-black bg-white rounded-md px-1"
                       : "text-white hover:text-gray-600"
@@ -122,7 +118,7 @@ export default function Sidebar() {
               </Link>
               <Link to="/settings">
                 <li
-                  className={`font-bold my-2 text-center text-lg border border-white h-8 ${
+                  className={`font-bold bg-[#A6A6A6] my-2 text-center text-lg border border-white h-8 ${
                     location.pathname === "/settings"
                       ? "text-black bg-white rounded-md px-1"
                       : "text-white hover:text-gray-600"
@@ -134,7 +130,7 @@ export default function Sidebar() {
 
               <Link to="/terms-conditions">
                 <li
-                  className={`font-bold my-2 border border-white text-center text-lg h-8 ${
+                  className={`font-bold bg-[#A6A6A6] my-2 border border-white text-center text-lg h-8 ${
                     location.pathname === "/terms-conditions"
                       ? "text-black bg-white rounded-md px-1"
                       : "text-white hover:text-gray-600"
@@ -146,7 +142,7 @@ export default function Sidebar() {
 
               <Link to="/">
                 <li
-                  className={`font-bold my-2 text-center border border-white text-lg h-8 ${
+                  className={`font-bold bg-[#A6A6A6] my-2 text-center border border-white text-lg h-8 ${
                     location.pathname === "/log-out"
                       ? "text-black bg-white rounded-md px-1"
                       : "text-white hover:text-gray-600"
@@ -226,6 +222,49 @@ export default function Sidebar() {
                 >
                   <Link to="/">New Survey</Link>
                 </li>
+                <li
+                  className={`font-bold my-2 bg-[#7ED957] text-md h-8 ${
+                    location.pathname === "/finalize-Sample"
+                      ? "text-black bg-white rounded-md px-1"
+                      : "text-white"
+                  }`}
+                >
+                  1. Finalise Sample Size
+                </li>
+                <li
+                  className={`font-bold my-2 bg-[#A6A6A6]  text-md h-8 ${
+                    location.pathname === "/newsurvey"
+                      ? "text-black bg-white rounded-md px-1"
+                      : "text-white"
+                  }`}
+                >
+                  2. Link Survey Form
+                </li>
+                <li
+                  className={`font-bold my-2 text-md w-full flex h-16 ${
+                    location.pathname === "/email-sms"
+                      ? "text-black bg-white rounded-md px-1"
+                      : "text-white"
+                  }`}
+                >
+                  <p className="w-[100px] text-sm bg-[#396E2E]">
+                    A. SMS <br />
+                    B. Email <br />
+                    C. SMS & EMAIL
+                  </p>
+                  <p className="bg-[#A6A6A6] ml-2 w-[120px] flex justify-center items-center">
+                    3.Start Survey
+                  </p>
+                </li>
+                <li
+                  className={`font-bold my-2 bg-[#A6A6A6] text-md h-8 ${
+                    location.pathname === "/start-survey"
+                      ? "text-black bg-white rounded-md px-1"
+                      : "text-white"
+                  }`}
+                >
+                  <Link to="/stop-survey">Stop Survey </Link>
+                </li>
               </ul>
             </div>
           </div>
@@ -237,7 +276,7 @@ export default function Sidebar() {
             >
               <ul className="items-center justify-center space-y-2 md:flex md:space-x-6 md:space-y-0">
                 <li
-                  className={`font-bold text-lg h-8 ${
+                  className={`font-bold bg-[#FF3131] text-lg h-8 ${
                     location.pathname === "/list-surveys"
                       ? "text-black bg-[white] rounded-md px-1"
                       : "text-white hover:text-gray-600"
@@ -246,7 +285,7 @@ export default function Sidebar() {
                   <Link to="/list-surveys">My Surveys</Link>
                 </li>
                 <li
-                  className={`font-bold text-lg h-8 ${
+                  className={`font-bold bg-[#A6A6A6] text-lg h-8 ${
                     location.pathname === "/settings"
                       ? "text-black bg-white rounded-md px-1"
                       : "text-white hover:text-gray-600"
@@ -256,7 +295,7 @@ export default function Sidebar() {
                 </li>
 
                 <li
-                  className={`font-bold text-lg h-8 ${
+                  className={`font-bold bg-[#A6A6A6] text-lg h-8 ${
                     location.pathname === "/terms-conditions"
                       ? "text-black bg-white rounded-md px-1"
                       : "text-white hover:text-gray-600"
@@ -266,7 +305,7 @@ export default function Sidebar() {
                 </li>
 
                 <li
-                  className={`font-bold text-lg h-8 ${
+                  className={`font-bold bg-[#A6A6A6] text-lg h-8 ${
                     location.pathname === "/log-out"
                       ? "text-black bg-white rounded-md px-1"
                       : "text-white hover:text-gray-600"

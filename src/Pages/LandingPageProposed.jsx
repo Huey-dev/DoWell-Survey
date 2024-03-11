@@ -33,6 +33,7 @@ import errorImage from "../assets/error.png";
 
 const LandingPage = () => {
     const [searchRegion, setSearchRegion] = useState(null);
+    const [searchCords, setSearchCords] = useState("");
 
     //parameters for the search by area
     const [caliberation, setCaliberation] = useState("area");
@@ -286,6 +287,9 @@ const LandingPage = () => {
             query_string: inputData.query_string,
             radius2: inputData.radius2
         });
+
+        const search_cords = centerCoords.lat + ',' + centerCoords.lon;
+        setSearchCords(search_cords);
 
         setSearchRegion(inputData.city);
         setPlaceDetails(maps_places);
@@ -652,7 +656,8 @@ const LandingPage = () => {
                                                                         address,
                                                                         website,
                                                                         numOfParticipants: 1,
-                                                                        searchRegion: searchRegion
+                                                                        searchRegion: searchRegion,
+                                                                        search_cords: searchCords,
                                                                     });
 
                                                                 } else {

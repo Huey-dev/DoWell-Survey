@@ -11,7 +11,7 @@ const StartNewSurvey = () => {
 
   const country = sessionStorage.getItem("country");
   const region = sessionStorage.getItem("region");
-  const the_region = JSON.parse(region);
+  const the_region = region;
   console.log("aaaaaaaaa", the_region);
   let form_link;
 

@@ -1,200 +1,211 @@
-import React, { Fragment, useEffect, useRef, useState } from "react";
-import { Dialog, Transition } from "@headlessui/react";
+import React, { useEffect, useState } from "react";
 import Layout from "../Layout/Layout";
-import { MapPinIcon, PencilSquareIcon, QrCodeIcon, TrashIcon, XMarkIcon } from "@heroicons/react/24/outline";
-import { FaXTwitter } from "react-icons/fa6";
-import { FaFacebook, FaInstagram, FaLinkedinIn, FaWhatsapp, FaTelegram, FaDownload } from "react-icons/fa";
-//import { FaTimes } from "react-icons/fa";
-import { CircleMarker, MapContainer, Marker, Popup, TileLayer, } from "react-leaflet";
-import "./EditSurveyModal.css";
-import surveys from "../data/surveys";
-import QRCode from "react-qr-code";
+import axios from "axios";
+import Modal from "react-modal";
 import { toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 
-import axios from "axios";
+Modal.setAppElement("#root");
 
-export default function StopSurvey() {
-    const [loading, setLoading] = useState(true);
-    const [stopLoading, setStopLoading] = useState(false);
+const Stop = () => {
+  const [surveyDatas, setSurveyDatas] = useState([]);
+  const [surveyId, setSurveyId] = useState(null);
+  const [qrcodeId, setQrcodeId] = useState(null);
+  const [isModalOpen, setIsModalOpen] = useState(false);
+  const [loading, setLoading] = useState(false);
 
-    const [survey_results, setSurvey_results] = useState([]);
-    const [survey, setSurvey] = useState({});
-
-
-    const [open, setOpen] = useState(false);
-    const [mode, setMode] = useState(null);
-
-
-    const currentDate = new Date().setHours(0, 0, 0, 0);
-    let the_today = new Date();
-
-    let previousDay = new Date(the_today);
-    previousDay.setDate(the_today.getDate() - 1);
-
-    let the_year = previousDay.getFullYear();
-    let the_month = String(previousDay.getMonth() + 1).padStart(2, '0'); // Months are 0-indexed
-    let the_day = String(previousDay.getDate()).padStart(2, '0');
-
-    // Create a formatted string
-    let formattedPreviousDay = `${the_year}-${the_month}-${the_day}`;
-
-
-
-
-
-    const cancelButtonRef = useRef(null);
-
-    const onStopClick = () => {
-        setOpen(true);
-
-    };
-
-    const handleStopClick = async (e) => {
-        e.preventDefault();
-        setStopLoading(true);
-
-        try {
-            const updatedSurveyData = {
-                id: sessionStorage.getItem("id"),
-                qrcode_id: sessionStorage.getItem("qrcode_id"),
-
-                end_date: formattedPreviousDay,
-            };
-
-            const updateSurvey = await axios.put(
-                `https://100025.pythonanywhere.com/update-qr-codev2?api_key=a0955eef-146b-4efd-a14a-85727d5b6014`,
-                updatedSurveyData,
-                {
-                    headers: {
-                        "Content-Type": "multipart/form-data",
-                    },
-                }
-            );
-
-            setStopLoading(false);
-            toast.success("Your survey has stopped");
+  const getSurvey = async () => {
+    setLoading(true);
+    try {
+      const user_info = sessionStorage.getItem("user_info");
+      const userInfo = JSON.parse(user_info);
+      const response = await axios.post(
+        `https://100025.pythonanywhere.com/my-survey/`,
+        {
+          username: userInfo.email,
         }
+      );
 
-        catch (error) {
-            console.log(error);
-            setStopLoading(false);
-            toast.error("Error stopping survey");
-        }
+      const currentDate = new Date();
 
+      // Filter objects where end_date is after or equal to the current date
+      const filteredSurveys = response.data.slice(1).filter((survey) => {
+        const endDate = new Date(survey.end_date);
+        return endDate >= currentDate;
+      });
+      setLoading(false);
+      setSurveyDatas(filteredSurveys);
+    } catch (error) {
+      setLoading(false);
+      console.log(error);
     }
+  };
 
+  useEffect(() => {
+    getSurvey();
+  }, []);
 
+  const stopSurvey = async () => {
+    try {
+      setLoading(true);
+      const currentDate = new Date();
+
+      // Subtract one day from the current date to get the new end date
+      currentDate.setDate(currentDate.getDate() - 1);
+      const day = currentDate.getDate().toString().padStart(2, "0"); // Get the day and pad with leading zero if needed
+      const month = (currentDate.getMonth() + 1).toString().padStart(2, "0"); // Get the month (months are zero-based) and pad with leading zero if needed
+      const year = currentDate.getFullYear();
+
+      const formattedDate = `${day}-${month}-${year}`;
+      // Make an API call to stop the survey using the selectedSurveyId
+      await axios.put(
+        `https://100025.pythonanywhere.com/update-qr-codev2?api_key=dd7010c6-17b7-4cd4-ac70-f20492efa73e`,
+        {
+          id: surveyId,
+          stop_survey: true,
+          // end_date: currentDate.toISOString().split("T")[0],
+          end_date: formattedDate,
+        }
+      );
+      setLoading(false);
+      setSurveyDatas((prevState) =>
+        prevState.filter((survey) => survey.id !== surveyId)
+      );
+      toast.success("Survey Successfully Stopped", {
+        onClose: () => {},
+      });
+    } catch (error) {
+      setLoading(false);
+      console.error("Error stopping survey:", error);
+      toast.success("Survey Can't be stopped", {
+        onClose: () => {},
+      });
+    }
+    closeModal();
+  };
+
+  const openModal = (surveyId, qrcodeId) => {
+    setSurveyId(surveyId);
+    setQrcodeId(qrcodeId);
+    setIsModalOpen(true);
+  };
+
+  const closeModal = () => {
+    setSurveyId(null);
+    setQrcodeId(null);
+    setIsModalOpen(false);
+  };
+
+  if (loading) {
     return (
-        <Layout>
-            <main className="w-full h-full">
-                <div className="px-4 md:px-10 md:pl-[310px]">
-                    <Transition.Root show={open} as={Fragment}>
-                        <Dialog
-                            as="div"
-                            className="relative z-10"
-                            initialFocus={cancelButtonRef}
-                            onClose={() => setOpen(false)}
-                        >
-                            <Transition.Child
-                                as={Fragment}
-                                enter="ease-out duration-300"
-                                enterFrom="opacity-0"
-                                enterTo="opacity-100"
-                                leave="ease-in duration-200"
-                                leaveFrom="opacity-100"
-                                leaveTo="opacity-0"
-                            >
-                                <div className="fixed inset-0 bg-gray-500 bg-opacity-75 transition-opacity" />
-                            </Transition.Child>
-
-                            <div className="fixed inset-0 z-10 w-screen overflow-y-auto">
-                                <div
-                                    className="flex min-h-full items-center justify-center p-4 text-center sm:items-center sm:p-0">
-                                    <Transition.Child
-                                        as={Fragment}
-                                        enter="ease-out duration-300"
-                                        enterFrom="opacity-0 translate-y-4 sm:translate-y-0 sm:scale-95"
-                                        enterTo="opacity-100 translate-y-0 sm:scale-100"
-                                        leave="ease-in duration-200"
-                                        leaveFrom="opacity-100 translate-y-0 sm:scale-100"
-                                        leaveTo="opacity-0 translate-y-4 sm:translate-y-0 sm:scale-95"
-                                    >
-                                        <Dialog.Panel
-                                            className="relative transform overflow-hidden rounded-lg bg-white text-left shadow-xl transition-all w-full max-w-xl">
-                                            <div className="flex flex-col items-center justify-center w-full">
-                                                <div
-                                                    className="flex items-center justify-between w-full text-white bg-[#EF4444] text-xl">
-                                                    <p className="font-bold m-4">STOP SURVEY</p>
-                                                    <button
-                                                        className="font-serif font-bold text-center m-4"
-                                                        onClick={() => setOpen(false)}
-                                                    >
-                                                        <XMarkIcon className="h-6 w-6 m-1" />
-                                                    </button>
-                                                </div>
-
-                                                <div className="flex flex-col space-y-2 my-4 w-full">
-                                                    <div className="w-full">
-                                                        <p className="text-md font-semibold text-center">
-                                                            Are you sure you want to stop this survey?.
-                                                        </p>
-                                                    </div>
-                                                </div>
-                                                <div className="flex items-center justify-center w-full my-4">
-                                                    <div className="w-3/12"></div>
-                                                    <div className="w-7/12 flex justify-center space-x-2">
-                                                        <button
-                                                            type="button"
-                                                            className="inline-flex w-full justify-center rounded-md bg-white px-3 py-2 text-md font-semibold text-[#EF4444] shadow-sm hover:bg-gray-50 border-2 border-[#EF4444]"
-                                                            onClick={() => setOpen(false)}
-                                                            ref={cancelButtonRef}
-                                                        >
-                                                            Cancel
-                                                        </button>
-                                                        <button
-                                                            type="submit"
-                                                            className="inline-flex w-full justify-center rounded-md bg-red-700 px-3 py-2 text-md font-semibold text-white shadow-sm hover:bg-[#EF4444]"
-                                                            onClick={handleStopClick}
-                                                        >
-                                                            {stopLoading ? "loading" : " Yes, Stop"}
-                                                        </button>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                        </Dialog.Panel>
-                                    </Transition.Child>
-                                </div>
-                            </div>
-                        </Dialog>
-                    </Transition.Root>
-                    <div className="relative pb-2">
-                        <div className="px-2 items-center flex justify-between bg-[#005734] mb-2">
-                            <h1 className=" text-white text-2xl font-semibold pt-1 pb-3 no-underline">
-                                Stop Surveys
-                            </h1>
-
-                        </div>
-
-                    </div>
-
-                    <div className="flex flex-col justify-center items-center h-screen">
-                        <h1 className="text-5xl text-center font-semibold"> Your Survey is currently running</h1>
-                        <div className="mt-8">  <button
-                            className="rounded-md mb-2 w-[150px] h-[30px] font-serif font-bold opacity-80 hover:opacity-100 text-center text-sm md:text-md text-white bg-[#EF4444]"
-                            onClick={() => {
-                                //setSurvey(survey_results[i]);
-                                setOpen(true);
-                            }}
-                        >
-                            STOP SURVEY
-                        </button></div>
-
-                    </div>
-
-
-                </div>
-            </main>
-        </Layout>
+      <Layout>
+        <div className="flex items-center justify-center h-full">
+          <div
+            className="m-12 inline-block h-16 w-16 animate-spin text-green-800 rounded-full border-4 border-solid border-current border-r-transparent align-[-0.125em] motion-reduce:animate-[spin_1.5s_linear_infinite]"
+            role="status"
+          >
+            <span className="!absolute !-m-px !h-px !w-px !overflow-hidden !whitespace-nowrap !border-0 !p-0 ![clip:rect(0,0,0,0)]">
+              Loading...
+            </span>
+          </div>
+        </div>
+      </Layout>
     );
-}
+  }
+
+  return (
+    <Layout>
+      <main>
+        <div className="px-4 md:px-10 md:pl-[310px]">
+          <div className="">
+            <div className="min-w-full max-h-[calc(100vh-64px)] overflow-y-auto">
+              <table className="min-w-full">
+                <thead>
+                  <tr className="h-20 bg-[#005734]">
+                    <th className="px-2 py-3  text-left text-xs leading-4 font-medium text-white text-bold uppercase tracking-wider">
+                      Survey Name
+                    </th>
+                    <th className="px-3 py-3  text-left text-xs leading-4 font-medium text-white text-bold uppercase tracking-wider">
+                      Survey Link
+                    </th>
+                    <th className="px-3 py-3  text-left text-xs leading-4 font-medium text-white text-bold uppercase tracking-wider">
+                      End Date
+                    </th>
+                    <th className="px-3 py-3  text-left text-xs leading-4 font-medium text-white text-bold uppercase tracking-wider">
+                      Stop Survey
+                    </th>
+                  </tr>
+                </thead>
+                <tbody>
+                  {surveyDatas.map((survey, index) => (
+                    <tr
+                      key={index}
+                      className={
+                        index % 2 === 0 ? "bg-gray-100" : "bg-blue-100"
+                      }
+                    >
+                      <td className="px-2 py-4 whitespace-no-wrap">
+                        {survey.name}
+                      </td>
+                      <td className="px-4 py-4 whitespace-no-wrap">
+                        {survey.link}
+                      </td>
+                      <td className="px-2 py-4 whitespace-no-wrap">
+                        {survey.end_date}
+                      </td>
+                      <td
+                        className="px-2  py-4 whitespace-no-wrap text-sm bg-red-600 h-[40px] flex justify-center text-white rounded-md items-center cursor-pointer mt-2"
+                        onClick={() => openModal(survey.id, survey.qrcode_id)}
+                      >
+                        Stop Survey
+                      </td>
+                    </tr>
+                  ))}
+                </tbody>
+              </table>
+            </div>
+          </div>
+        </div>
+      </main>
+      <Modal
+        isOpen={isModalOpen}
+        onRequestClose={closeModal}
+        contentLabel="Confirm Stop Survey"
+        style={{
+          overlay: {
+            backgroundColor: "rgba(0, 0, 0, 0.5)",
+          },
+          content: {
+            top: "50%",
+            left: "50%",
+            right: "auto",
+            bottom: "auto",
+            marginRight: "-50%",
+            transform: "translate(-50%, -50%)",
+            width: "300px", // Adjust the width as needed
+          },
+        }}
+      >
+        <div>
+          <p>Are you sure you want to stop this survey?</p>
+          <div className="w-full h-full flex justify-between mt-5">
+            <button
+              onClick={stopSurvey}
+              className="w-20 h-10 bg-red-800 text-white flex justify-center items-center"
+            >
+              Yes
+            </button>
+            <button
+              onClick={closeModal}
+              className="w-20 h-10 bg-green-800 text-white flex justify-center items-center"
+            >
+              No
+            </button>
+          </div>
+        </div>
+      </Modal>
+    </Layout>
+  );
+};
+
+export default Stop;

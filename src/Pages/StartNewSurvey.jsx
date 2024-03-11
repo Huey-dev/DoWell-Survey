@@ -15,12 +15,13 @@ const StartNewSurvey = () => {
   console.log("aaaaaaaaa", the_region);
   let form_link;
 
-  if (the_region.includes("all")) {
-    console.log("eeeeeeeeeeeeeeeeeeeeeeee");
-    form_link = "https://dowelllabs.github.io/DoWell-Survey/survey-iframe-all";
-  } else {
-    form_link = "https://dowelllabs.github.io/DoWell-Survey/survey-iframe";
-  }
+  // if (the_region.includes("all")) {
+  //   console.log("eeeeeeeeeeeeeeeeeeeeeeee");
+  //   form_link = "https://dowelllabs.github.io/DoWell-Survey/survey-iframe-all";
+  // } else {
+  //   form_link = "https://dowelllabs.github.io/DoWell-Survey/survey-iframe";
+  // }
+  form_link = "https://dowelllabs.github.io/DoWell-Survey/survey-iframe";
 
   const numOfParticipants = sessionStorage.getItem("numOfParticipants");
   const coords = sessionStorage.getItem("coords") || "0.00,0.00";

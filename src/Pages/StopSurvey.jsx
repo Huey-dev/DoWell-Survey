@@ -56,83 +56,34 @@ export default function StopSurvey() {
 
         try {
             const updatedSurveyData = {
-                id: survey?.id,
-                qrcode_id: survey?.qrcode_id,
-    
+                id: sessionStorage.getItem("id"),
+                qrcode_id: sessionStorage.getItem("qrcode_id"),
+
                 end_date: formattedPreviousDay,
-              };
-    
-              const updateSurvey = await axios.put(
+            };
+
+            const updateSurvey = await axios.put(
                 `https://100025.pythonanywhere.com/update-qr-codev2?api_key=a0955eef-146b-4efd-a14a-85727d5b6014`,
                 updatedSurveyData,
                 {
-                  headers: {
-                    "Content-Type": "multipart/form-data",
-                  },
+                    headers: {
+                        "Content-Type": "multipart/form-data",
+                    },
                 }
-              );
+            );
 
-              setStopLoading(false);
-              toast.success("Your survey has started");
+            setStopLoading(false);
+            toast.success("Your survey has stopped");
         }
 
-        catch(error) {
+        catch (error) {
             console.log(error);
             setStopLoading(false);
             toast.error("Error stopping survey");
         }
-        
+
     }
 
-
-
-    useEffect(() => {
-        // Define the function to fetch data
-        const fetchData = async (username) => {
-            try {
-                // Set loading to true while fetching data
-                console.log("tryingggggg");
-                setLoading(true);
-
-                // const response = await axios({
-                //     method: 'get',
-                //     url: 'https://100025.pythonanywhere.com/my-survey/',
-                //     data: data,
-                //     headers: {
-                //         "Content-Type": "multipart/form-data",
-                //     },
-                // });
-                const formData = { username: username };
-
-                const response = await axios.post(
-                    `https://100025.pythonanywhere.com/my-survey/`,
-                    formData,
-                    {
-                        headers: {
-                            "Content-Type": "application/json",
-                        },
-                    }
-                );
-                const data = response?.data;
-                setSurvey_results(data);
-                console.log(response?.data);
-                //console.log("successsssss", response);
-            } catch (error) {
-                // If there's an error, update the error state
-                console.log("error is", error);
-            } finally {
-                // Set loading to false when data fetching is complete, regardless of success or failure
-                setLoading(false);
-            }
-        };
-
-        // Call the fetchData function when the component mounts
-        const user_info_session = sessionStorage.getItem("user_info") || "[]";
-        console.log(user_info_session);
-        const user_info = JSON.parse(user_info_session);
-        const userName = user_info?.username;
-        fetchData(userName);
-    }, []);
 
     return (
         <Layout>
@@ -204,9 +155,9 @@ export default function StopSurvey() {
                                                         <button
                                                             type="submit"
                                                             className="inline-flex w-full justify-center rounded-md bg-red-700 px-3 py-2 text-md font-semibold text-white shadow-sm hover:bg-[#EF4444]"
-                                                        onClick={handleStopClick}
+                                                            onClick={handleStopClick}
                                                         >
-                                                           {stopLoading ? "loading" : " Yes, Stop"}
+                                                            {stopLoading ? "loading" : " Yes, Stop"}
                                                         </button>
                                                     </div>
                                                 </div>
@@ -227,112 +178,21 @@ export default function StopSurvey() {
 
                     </div>
 
-                    <div className="flex flex-col min-w-full">
-                        <div className="overflow-x-auto min-w-full">
-                            <div className="inline-block py-2 min-w-full">
-                                <div className="overflow-hidden">
-                                    {loading ? (
-                                        <div className="flex items-center justify-center">
-                                            <div
-                                                className="m-12 inline-block h-16 w-16 animate-spin text-green-800 rounded-full border-4 border-solid border-current border-r-transparent align-[-0.125em] motion-reduce:animate-[spin_1.5s_linear_infinite]"
-                                                role="status"
-                                            >
-                                                <span
-                                                    className="!absolute !-m-px !h-px !w-px !overflow-hidden !whitespace-nowrap !border-0 !p-0 ![clip:rect(0,0,0,0)]">
-                                                    Loading...
-                                                </span>
-                                            </div>
-                                        </div>
-                                    ) : (
-                                        <table className="min-w-full text-center text-sm font-light">
-                                            <thead
-                                                className="border-b bg-[#005734] font-medium text-white dark:border-neutral-500">
-                                                <tr>
-                                                    <th scope="col" className="whitespace-nowrap px-6 py-4">
-                                                        SURVEY NAME
-                                                    </th>
-                                                    <th scope="col" className="break-words px-6 py-4">
-                                                        SURVEY LINK
-                                                    </th>
-                                                    <th scope="col" className=" px-6 py-4">
-                                                        DURATION
-                                                    </th>
+                    <div className="flex flex-col justify-center items-center h-screen">
+                        <h1 className="text-5xl text-center font-semibold"> Your Survey is currently running</h1>
+                        <div className="mt-8">  <button
+                            className="rounded-md mb-2 w-[150px] h-[30px] font-serif font-bold opacity-80 hover:opacity-100 text-center text-sm md:text-md text-white bg-[#EF4444]"
+                            onClick={() => {
+                                //setSurvey(survey_results[i]);
+                                setOpen(true);
+                            }}
+                        >
+                            STOP SURVEY
+                        </button></div>
 
-                                                    <th scope="col" className=" px-6 py-4">
-                                                        PARTICIPANTS
-                                                    </th>
-                                                    <th scope="col" className=" px-6 py-4">
-                                                        STATUS
-                                                    </th>
-                                                    <th scope="col" className=" px-6 py-4">
-                                                        ACTION
-                                                    </th>
-                                                </tr>
-                                            </thead>
-                                            <tbody>
-                                                {(() => {
-                                                    const components = [];
-                                                    for (let i = 1; i < survey_results.length; i++) {
-                                                        if (new Date(survey_results[i].start_date).setHours(0, 0, 0, 0) <= currentDate & new Date(survey_results[i].end_date).setHours(0, 0, 0, 0) >= currentDate) {
-                                                            components.push(
-                                                                <tr
-                                                                    key={i}
-                                                                    className="border-b dark:border-neutral-500"
-                                                                >
-                                                                    <td className="px-6 py-4 font-medium bg-[#F3F6FF]">
-                                                                        {survey_results[i].name}
-                                                                    </td>
-                                                                    <td className="break-all px-6 py-4">{survey_results[i].url}</td>
-                                                                    <td className="px-6 py-4 bg-[#F3F6FF]">{`${survey_results[i].start_date} to ${survey_results[i].end_date}.`}</td>
-
-                                                                    <td className="px-6 py-4">
-                                                                        {`Limit ${survey_results[i].participantsLimit} person(s)`}
-                                                                    </td>
-                                                                    <td className="whitespace-nowrap bg-[#F3F6FF] font-medium">
-                                                                        <div className="mx-4 my-2 bg-[#3B82F6] text-white">
-                                                                            {" "}
-                                                                            ONGOING{" "}
-                                                                        </div>
-                                                                    </td>
-                                                                    <td className="whitespace-nowrap  px-6 py-4">
-                                                                        <div className="flex items-center justify-center space-x-0.5">
-                                                                            {/* <button
-                                                                                className="flex items-center justify-center rounded-lg bg-[#005734]"
-                                                                                onClick={() => {
-                                                                                    setSurvey(survey_results[i]);
-                                                                                    setOpen(true);
-                                                                                    setMode("link");
-                                                                                }}
-                                                                            >
-                                                                                <PencilSquareIcon className="h-6 w-6 text-white m-1" />
-                                                                            </button> */}
-
-                                                                            <button
-                                                                                className="rounded-md mb-2 w-[150px] h-[30px] font-serif font-bold opacity-80 hover:opacity-100 text-center text-sm md:text-md text-white bg-[#EF4444]"
-                                                                                onClick={() => {
-                                                                                    setSurvey(survey_results[i]);
-                                                                                    setOpen(true);
-                                                                                }}
-                                                                            >
-                                                                                STOP SURVEY
-                                                                            </button>
-
-                                                                        </div>
-                                                                    </td>
-                                                                </tr>);
-
-                                                        }
-
-                                                    }
-                                                    return components;
-                                                })()}
-                                            </tbody>
-                                        </table>
-                                    )}
-                                </div>
-                            </div>
-                        </div>
                     </div>
+
+
                 </div>
             </main>
         </Layout>

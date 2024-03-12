@@ -5,6 +5,8 @@ import { useLocation } from "react-router-dom";
 import axios from "axios";
 import { Dialog, Transition } from "@headlessui/react";
 import allow from "../assets/allow.png";
+import { toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 
 import {
   TrashIcon,
@@ -34,6 +36,8 @@ const SurveyIframe = () => {
 
   const [errMsg, setErrMsg] = useState(null);
 
+
+
   const handleDone = async () => {
     try {
       const count_response = await axios.post(
@@ -49,9 +53,13 @@ const SurveyIframe = () => {
         }
       );
 
-      window.location.href = "https://dowelllabs.github.io/DoWell-Survey/";
+      toast.success("Thanks for your response", {
+        onClose: () => {},
+      });
     } catch (error) {
-      window.location.href = "https://dowelllabs.github.io/DoWell-Survey/";
+      toast.error("An error has occured", {
+        onClose: () => {},
+      });
     }
   };
 

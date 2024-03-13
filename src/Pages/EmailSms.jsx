@@ -70,7 +70,7 @@ export const EmailSms = () => {
     const formData = {
       toname: renderedEmail,
       toemail: email,
-      subject: "Survey has been created",
+      subject: "Survey Creation Confirmation",
       email_content: `<!DOCTYPE html>
       <html lang="en">
       <head>
@@ -112,7 +112,7 @@ export const EmailSms = () => {
       };
 
       const updateSurvey = await axios.put(
-        `https://100025.pythonanywhere.com/update-qr-codev2?api_key=504a51bf-c483-4ac5-b2dd-4f209eabcbf8`,
+        `https://100025.pythonanywhere.com/update-qr-codev2?api_key=dd7010c6-17b7-4cd4-ac70-f20492efa73e`,
         updatedSurveyData,
         {
           headers: {

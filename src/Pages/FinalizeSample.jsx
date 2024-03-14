@@ -46,7 +46,7 @@ const FinalizeSample = () => {
     console.log("surveyType", surveyType);
 
     if (surveyType === 'global') {
-      sessionStorage.setItem("region", JSON.stringify(['all']));
+      sessionStorage.setItem("region", JSON.stringify(["all"]));
       sessionStorage.setItem("country", "all");
       sessionStorage.setItem('coords', "0.0,0.0");
     }

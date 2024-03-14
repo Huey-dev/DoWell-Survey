@@ -9,11 +9,14 @@ import "./pages.css";
 import { MapPinIcon, PencilSquareIcon, QrCodeIcon, TrashIcon, XMarkIcon } from "@heroicons/react/24/outline";
 import { Dialog, Transition } from "@headlessui/react";
 import CSVReader from 'react-csv-reader';
+import { MdOutlineEmail } from "react-icons/md";
+import { FiUpload } from "react-icons/fi";
 
 
 
-const EmailCsvModal = ({ open, setOpen }) => {
+const EmailCsvModal = ({ open, setOpen, getQrcode, Uname, sformattedDate, eformattedDate, numOfParticipant }) => {
   const [csvEmails, setCsvEmails] = useState([]);
+  const [csvSendLoading, setCsvSendLoading] = useState(false);
 
   const handleCSVRead = (data, fileInfo) => {
     // Assuming the first column in the CSV file contains the list of numbers
@@ -26,11 +29,12 @@ const EmailCsvModal = ({ open, setOpen }) => {
 
   const handleSubmit = async () => {
     //const emails = csvEmails.map((email) => `dsdsdsds`)
+    setCsvSendLoading(true);
 
     const formData = {
-      fromname: "testers",
-      fromemail: "makinde@mak.com",
-      to_email_list: [{ email: "jerrychinedu@gmail.com", name: "jerry" }, { email: "jerryihediwa1@gmail.com", name: "jerrhjy" }],
+      fromname: "Dowell Surveys",
+      fromemail: "",
+      to_email_list: csvEmails,
       subject: "Survey has been created",
       email_content: `<!DOCTYPE html>
       <html lang="en">
@@ -55,27 +59,39 @@ const EmailCsvModal = ({ open, setOpen }) => {
       </head>
       <body>
         <div style="font-family: 'Arial', sans-serif; background-color: #f4f4f4; padding: 20px; border-radius: 10px; box-shadow: 0 0 20px rgba(0, 0, 0, 0.2);">
-        
-        <p style="font-size: 16px; line-height: 1.5; color: #333;">A survey has been creat
-          toand it is for a maximum number ofons. Link to the Qrcode can be found at
-          </p>
+        <img src="${getQrcode}" alt="QR Code" style="max-width: 100%; height: auto;">
+        <p style="font-size: 16px; line-height: 1.5; color: #333;">A survey has been created by ${Uname}. The time period is between ${sformattedDate}
+          to ${eformattedDate}, and it is for a maximum number of ${numOfParticipant} persons. Link to the Qrcode can be found at
+          ${getQrcode}</p>
         </div>
 
       </body>
       </html>`,
     };
 
-    const response = await axios.post(
-      `https://100085.pythonanywhere.com/api/dowell_bulk_email/?api_key=4f0bd662-8456-4b2e-afa6-293d4135facf`,
-      formData,
-      {
-        headers: {
-          "Content-Type": "application/json",
-        },
-      }
-    );
-    console.log("this is email endpoints for trying", response);
+    try {
+      const response = await axios.post(
+        `https://100085.pythonanywhere.com/api/dowell_bulk_email/?api_key=4f0bd662-8456-4b2e-afa6-293d4135facf`,
+        formData,
+        {
+          headers: {
+            "Content-Type": "application/json",
+          },
+        }
+      );
+      
+      setCsvSendLoading(false);
+      toast.success("Email(s) sent successfully", {
+        onClose: () => {},
+      });
+    }
+    catch(error) {
+      setCsvSendLoading(false);
+      toast.error("Error in sending mail(s)", {
+        onClose: () => {},
+      });
 
+    }
 
 
   }
@@ -124,7 +140,7 @@ const EmailCsvModal = ({ open, setOpen }) => {
                 className="relative transform overflow-hidden rounded-lg bg-white text-left shadow-xl transition-all w-full max-w-xl">
                 <div className="flex flex-col items-center justify-center w-full">
                   <div
-                    className="flex items-center justify-between w-full text-white bg-[#005734] text-lg">
+                    className="flex items-center justify-between w-full text-white bg-[#3B82F6] text-lg">
                     <p className="font-bold mx-4 my-2 ">Send Email Via CSV upload</p>
                     <button
                       className="font-serif font-bold text-center m-4"
@@ -136,29 +152,80 @@ const EmailCsvModal = ({ open, setOpen }) => {
 
 
                   <div className="w-full h-full flex justify-between">
-                    <div className="w-6/12 justify-center items-center p-20 border-dashed border-2 border-black m-2 h-64 relative">
-                    <CSVReader
-                      onFileLoaded={handleCSVRead}
-                      inputStyle={{
-                        position: 'absolute',
-                        left: 0,
-                        top: 0,
-                        height: '100%',
-                        width: '100%',
-                        cursor: 'pointer',
-                        opacity: 0,
-                      }}
-                      parserOptions={{ header: false, skipEmptyLines: true }}
-                    />
+                    <div className="w-6/12 flex flex-col justify-center items-center border-dashed border-2 border-[#B1B0B0] m-2 h-64 relative">
+
+                      <FiUpload className="h-12 w-12 m-1 text-black" />
+                      <p className="font-semibold"> click to upload csv file</p>
+
+                      <CSVReader
+                        onFileLoaded={handleCSVRead}
+                        inputStyle={{
+                          position: 'absolute',
+                          left: 0,
+                          top: 0,
+                          height: '100%',
+                          width: '100%',
+                          cursor: 'pointer',
+                          opacity: 0,
+                        }}
+                        parserOptions={{ header: false, skipEmptyLines: true }}
+                      />
                     </div>
 
-                    <div className="w-6/12 h-full w-full m-2 bg-black">
-                      <div className="flex items-center">
+                    <div className="w-6/12 h-full w-full m-2">
+                      <div className="flex items-center justify-center w-full text-white font-semibold bg-[#4F6D75] text-md">
+                        Email Listings
+                      </div>
+                      <div className="my-2 h-44 bg-[#EFF3F6] border border-gray-200 overflow-y-auto">
+                        {csvEmails.map((email, index) => (
+                          <div key={index} className='flex text-sm bg-white my-1'>
+                            <div className="w-2/12 flex justify-center items-center">
+                              <MdOutlineEmail className="h-4 w-4 m-1" />
+                            </div>
+                            <div className="w-9/12">
+                              <p>{email.name}</p>
+                              <p className="font-semibold">{email.email}</p>
+
+                            </div>
+                          </div>
+
+                        ))}
 
                       </div>
+                      <div className="flex justify-center">
+                        {
+
+                          csvSendLoading ? (
+
+                            <button
+                            className="w-[150px] h-[30px] font-serif font-bold text-center text-sm md:text-md text-white bg-[#3B82F6 cursor-not-allowed"                          
+                          disabled
+                          >
+                            Processing
+                          </button>
+                            
+                          ) : (
+                            <button
+                            className={`${csvEmails.length < 1 ? "opacity-60 cursor-not-allowed" : "hover:opacity-100 opacity-80"} w-[150px] h-[30px] font-serif font-bold text-center text-sm md:text-md text-white bg-[#3B82F6]`}
+                          onClick={handleSubmit}
+                          disabled={csvEmails.length < 1}
+                          >
+                           Send Emails
+                          </button>
+                          )
+                        }
+                      
+                      </div>
+
+
+
+
+
+
+
 
                     </div>
-                    
+
 
 
                   </div>
@@ -363,56 +430,56 @@ export const EmailSms = () => {
             </div>
 
             <div class="flex items-center w-4/6">
-              <hr class="flex-grow border-t border-[#005734]"/>
-                <span class="px-3 font-serif text-xl font-semibold text-gray-500">
-                  Send Survey Notification
-                </span>
-                <hr class="flex-grow border-t border-[#005734]"/>
-                </div>
+              <hr class="flex-grow border-t border-[#005734]" />
+              <span class="px-3 font-serif text-xl font-semibold text-gray-500">
+                Send Survey Notification
+              </span>
+              <hr class="flex-grow border-t border-[#005734]" />
+            </div>
 
-                <div className="flex justify-center items-center w-4/6 space-x-2">
-                <button
-                  className="w-[150px] h-[30px] font-serif font-bold opacity-80 hover:opacity-100 text-center text-sm md:text-md text-white bg-[#005734]"
-                  // onClick={() => {
-                  //   setOpen(true)
-                  // }}
-                  >
-                  Via Email
-                </button>
-                <button
-                  className="w-[150px] h-[30px] font-serif font-bold opacity-80 hover:opacity-100 text-center text-sm md:text-md text-white bg-[#005734]"
-                  onClick={() => {
-                    setOpen(true)
-                  }}>
-                  Via Email (csv)
-                </button>
-                <button
-                  className="w-[150px] h-[30px] font-serif font-bold opacity-80 hover:opacity-100 text-center text-sm md:text-md text-white bg-[#005734]"
-                  // onClick={() => {
-                  //   setOpen(true)
-                  // }}
-                  >
-                  Via SMS
-                </button>
-
-                </div>
-
-                <div className="flex justify-center items-center w-4/6">
-                <button
-                  className="mb-2 w-[466px] h-[30px] font-serif font-bold opacity-80 hover:opacity-100 text-center text-sm md:text-md text-white bg-[#005734]"
-                  // onClick={() => {
-                  //   setOpen(true)
-                  // }}
-                  >
-                  Start the Survey
-                </button>
-
-                </div>
-                
-
+            <div className="flex justify-center items-center w-4/6 space-x-2">
+              <button
+                className="w-[150px] h-[30px] font-serif font-bold opacity-80 hover:opacity-100 text-center text-sm md:text-md text-white bg-[#005734]"
+              // onClick={() => {
+              //   setOpen(true)
+              // }}
+              >
+                Via Email
+              </button>
+              <button
+                className="w-[150px] h-[30px] font-serif font-bold opacity-80 hover:opacity-100 text-center text-sm md:text-md text-white bg-[#3B82F6]"
+                onClick={() => {
+                  setOpen(true)
+                }}>
+                Via Email (csv)
+              </button>
+              <button
+                className="w-[150px] h-[30px] font-serif font-bold opacity-80 hover:opacity-100 text-center text-sm md:text-md text-white bg-orange-500"
+              // onClick={() => {
+              //   setOpen(true)
+              // }}
+              >
+                Via SMS
+              </button>
 
             </div>
+
+            <div className="flex justify-center items-center w-4/6">
+              <button
+                className="mb-2 w-[466px] h-[30px] font-serif font-bold opacity-80 hover:opacity-100 text-center text-sm md:text-md text-white bg-[#005734]"
+              // onClick={() => {
+              //   setOpen(true)
+              // }}
+              >
+                Start the Survey
+              </button>
+
+            </div>
+
+
+
           </div>
+        </div>
       </main>
     </Layout>
 

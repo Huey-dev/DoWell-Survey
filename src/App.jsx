@@ -124,7 +124,7 @@ function App() {
               <Route path="/survey-iframe" element={<SurveyIframe />} />
               <Route path="/survey-iframe-all" element={<SurveyIframeAll />} />
               {/* <Route path="/finalise" element={<FinalizeSample />} /> */}
-              <Route path="/email-sms" element={<EmailSms />} />
+              {/* <Route path="/email-sms" element={<EmailSms />} /> */}
               
               <Route path="*" element={<RedirectToExternalWebsite />} />
             </Routes>

@@ -11,6 +11,28 @@ import { Dialog, Transition } from "@headlessui/react";
 import CSVReader from 'react-csv-reader';
 import { MdOutlineEmail } from "react-icons/md";
 import { FiUpload } from "react-icons/fi";
+import { FaSquarePhone } from "react-icons/fa6";
+
+
+const extractPhoneNumbersFromSessionStorage = () => {
+  const surveyData = JSON.parse(sessionStorage.getItem("newSurvey"));
+  console.log('survey data),', surveyData);
+  if (!surveyData) return [];
+  const numbers = surveyData
+    .filter((entry) => entry.phone && entry.phone !== "None")
+    .map((entry) => ({ phone: entry.phone, address: entry.place_name }));
+  console.log("hers the", numbers);
+  return numbers;
+};
+
+
+function getCurrentDate() {
+  const today = new Date();
+  const year = today.getFullYear();
+  const month = String(today.getMonth() + 1).padStart(2, "0");
+  const day = String(today.getDate()).padStart(2, "0");
+  return `${year}-${month}-${day}`;
+}
 
 
 
@@ -21,10 +43,10 @@ const EmailCsvModal = ({ open, setOpen, getQrcode, Uname, sformattedDate, eforma
   const handleCSVRead = (data, fileInfo) => {
     // Assuming the first column in the CSV file contains the list of numbers
     const numbersColumnIndex = 0;
-    const extractedNumbers = data.map((row, index) => ({ email: row[numbersColumnIndex], name: row[numbersColumnIndex] }));
+    const extractedMails = data.map((row, index) => ({ email: row[1], name: row[0] }));
     console.log("thus us the extraction", data);
 
-    setCsvEmails(extractedNumbers);
+    setCsvEmails(extractedMails);
   };
 
   const handleSubmit = async () => {
@@ -33,7 +55,7 @@ const EmailCsvModal = ({ open, setOpen, getQrcode, Uname, sformattedDate, eforma
 
     const formData = {
       fromname: "Dowell Surveys",
-      fromemail: "",
+      fromemail: "user@username.com",
       to_email_list: csvEmails,
       subject: "Survey has been created",
       email_content: `<!DOCTYPE html>
@@ -71,7 +93,7 @@ const EmailCsvModal = ({ open, setOpen, getQrcode, Uname, sformattedDate, eforma
 
     try {
       const response = await axios.post(
-        `https://100085.pythonanywhere.com/api/dowell_bulk_email/?api_key=4f0bd662-8456-4b2e-afa6-293d4135facf`,
+        `https://100085.pythonanywhere.com/api/dowell_bulk_email/`,
         formData,
         {
           headers: {
@@ -79,16 +101,16 @@ const EmailCsvModal = ({ open, setOpen, getQrcode, Uname, sformattedDate, eforma
           },
         }
       );
-      
+
       setCsvSendLoading(false);
       toast.success("Email(s) sent successfully", {
-        onClose: () => {},
+        onClose: () => { },
       });
     }
-    catch(error) {
+    catch (error) {
       setCsvSendLoading(false);
       toast.error("Error in sending mail(s)", {
-        onClose: () => {},
+        onClose: () => { },
       });
 
     }
@@ -98,11 +120,6 @@ const EmailCsvModal = ({ open, setOpen, getQrcode, Uname, sformattedDate, eforma
 
 
   const cancelButtonRef = useRef(null);
-
-
-
-
-
 
   return (
     <Transition.Root show={open} as={Fragment}>
@@ -172,7 +189,7 @@ const EmailCsvModal = ({ open, setOpen, getQrcode, Uname, sformattedDate, eforma
                       />
                     </div>
 
-                    <div className="w-6/12 h-full w-full m-2">
+                    <div className="w-6/12 h-full m-2">
                       <div className="flex items-center justify-center w-full text-white font-semibold bg-[#4F6D75] text-md">
                         Email Listings
                       </div>
@@ -198,23 +215,23 @@ const EmailCsvModal = ({ open, setOpen, getQrcode, Uname, sformattedDate, eforma
                           csvSendLoading ? (
 
                             <button
-                            className="w-[150px] h-[30px] font-serif font-bold text-center text-sm md:text-md text-white bg-[#3B82F6 cursor-not-allowed"                          
-                          disabled
-                          >
-                            Processing
-                          </button>
-                            
+                              className="w-full h-[30px] font-serif font-bold text-center text-sm md:text-md text-white bg-[#3B82F6] cursor-not-allowed"
+                              disabled
+                            >
+                              Processing
+                            </button>
+
                           ) : (
                             <button
-                            className={`${csvEmails.length < 1 ? "opacity-60 cursor-not-allowed" : "hover:opacity-100 opacity-80"} w-[150px] h-[30px] font-serif font-bold text-center text-sm md:text-md text-white bg-[#3B82F6]`}
-                          onClick={handleSubmit}
-                          disabled={csvEmails.length < 1}
-                          >
-                           Send Emails
-                          </button>
+                              className={`${csvEmails.length < 1 ? "opacity-60 cursor-not-allowed" : "hover:opacity-100 opacity-80"} w-full h-[30px] font-serif font-bold text-center text-sm md:text-md text-white bg-[#3B82F6]`}
+                              onClick={handleSubmit}
+                              disabled={csvEmails.length < 1}
+                            >
+                              Send Emails
+                            </button>
                           )
                         }
-                      
+
                       </div>
 
 
@@ -242,8 +259,409 @@ const EmailCsvModal = ({ open, setOpen, getQrcode, Uname, sformattedDate, eforma
   )
 }
 
+const SmsModal = ({ smsOpen, setSmsOpen, phoneNumbers }) => {
+
+
+
+
+
+  const cancelButtonRef = useRef(null);
+
+
+
+
+
+
+  return (
+    <Transition.Root show={smsOpen} as={Fragment}>
+      <Dialog
+        as="div"
+        className="relative z-10"
+        initialFocus={cancelButtonRef}
+        onClose={() => setSmsOpen(false)}
+      >
+        <Transition.Child
+          as={Fragment}
+          enter="ease-out duration-300"
+          enterFrom="opacity-0"
+          enterTo="opacity-100"
+          leave="ease-in duration-200"
+          leaveFrom="opacity-100"
+          leaveTo="opacity-0"
+        >
+          <div className="fixed inset-0 bg-gray-500 bg-opacity-75 transition-opacity" />
+        </Transition.Child>
+
+        <div className="fixed inset-0 z-10 w-screen overflow-y-auto">
+          <div
+            className="flex min-h-full items-center justify-center p-4 text-center sm:items-center sm:p-0">
+            <Transition.Child
+              as={Fragment}
+              enter="ease-out duration-300"
+              enterFrom="opacity-0 translate-y-4 sm:translate-y-0 sm:scale-95"
+              enterTo="opacity-100 translate-y-0 sm:scale-100"
+              leave="ease-in duration-200"
+              leaveFrom="opacity-100 translate-y-0 sm:scale-100"
+              leaveTo="opacity-0 translate-y-4 sm:translate-y-0 sm:scale-95"
+            >
+              <Dialog.Panel
+                className="relative transform overflow-hidden rounded-lg bg-white text-left shadow-xl transition-all w-full max-w-xl">
+                <div className="flex flex-col items-center justify-center w-full">
+                  <div
+                    className="flex items-center justify-between w-full text-white bg-orange-500 text-lg">
+                    <p className="font-bold mx-4 my-2 ">Send Notifications via SMS</p>
+                    <button
+                      className="font-serif font-bold text-center m-4"
+                      onClick={() => setSmsOpen(false)}
+                    >
+                      <XMarkIcon className="h-4 w-4 m-1" />
+                    </button>
+                  </div>
+
+                  <div className="flex w-full flex-col h-64 overflow-y-auto bg-[#EFF3F6] px-4 m-2">
+                    {
+                      phoneNumbers.length < 1 ? 
+                      (
+                        <div className="flex justify-center items-center h-full">
+                          <p className="text-gray-500 text-center text-lg font-semibold">You did not Select any Location with Mobile Nos.</p>
+
+                        </div>
+                        
+                      ) :
+                      (
+                        phoneNumbers.map((phoneNumber, index) => (
+                          <div key={index} className='flex w-full text-sm bg-white mt-3 rounded-lg'>
+                            <div className="w-2/12 flex justify-center items-center">
+                              <MdOutlineEmail className="h-4 w-4 m-1" />
+                            </div>
+                            <div className="w-10/12 text-black">
+                              <p>{phoneNumber.address}</p>
+                              <p className="font-semibold">{phoneNumber.phone}</p>
+  
+                            </div>
+                          </div>
+                        ))
+
+                      )
+                    }
+
+
+                  </div>
+                  <button className="w-[150px] m-2 h-[30px] font-serif font-bold text-center text-sm md:text-md text-white bg-orange-500 opacity-60 cursor-not-allowed">
+                    Send SMS
+
+                  </button>
+
+
+
+
+
+                </div>
+
+              </Dialog.Panel>
+            </Transition.Child>
+          </div>
+        </div>
+      </Dialog>
+    </Transition.Root>
+  )
+}
+
+const SmsCsvModal = ({ smsCsvOpen, setSmsCsvOpen }) => {
+  const [csvNumbers, setCsvNumbers] = useState([]);
+
+  const handleCSVNumbersRead = (data, fileInfo) => {
+    // Assuming the first column in the CSV file contains the list of numbers
+    const numbersColumnIndex = 0;
+    const extractedNumbers = data.map((row, index) => ({ number: row[1], name: row[0] }));
+    console.log("thus us the extraction", data);
+
+    setCsvNumbers(extractedNumbers);
+  };
+
+  const cancelButtonRef = useRef(null);
+
+  return (
+    <Transition.Root show={smsCsvOpen} as={Fragment}>
+      <Dialog
+        as="div"
+        className="relative z-10"
+        initialFocus={cancelButtonRef}
+        onClose={() => setSmsCsvOpen(false)}
+      >
+        <Transition.Child
+          as={Fragment}
+          enter="ease-out duration-300"
+          enterFrom="opacity-0"
+          enterTo="opacity-100"
+          leave="ease-in duration-200"
+          leaveFrom="opacity-100"
+          leaveTo="opacity-0"
+        >
+          <div className="fixed inset-0 bg-gray-500 bg-opacity-75 transition-opacity" />
+        </Transition.Child>
+
+        <div className="fixed inset-0 z-10 w-screen overflow-y-auto">
+          <div
+            className="flex min-h-full items-center justify-center p-4 text-center sm:items-center sm:p-0">
+            <Transition.Child
+              as={Fragment}
+              enter="ease-out duration-300"
+              enterFrom="opacity-0 translate-y-4 sm:translate-y-0 sm:scale-95"
+              enterTo="opacity-100 translate-y-0 sm:scale-100"
+              leave="ease-in duration-200"
+              leaveFrom="opacity-100 translate-y-0 sm:scale-100"
+              leaveTo="opacity-0 translate-y-4 sm:translate-y-0 sm:scale-95"
+            >
+              <Dialog.Panel
+                className="relative transform overflow-hidden rounded-lg bg-white text-left shadow-xl transition-all w-full max-w-xl">
+                <div className="flex flex-col items-center justify-center w-full">
+                  <div
+                    className="flex items-center justify-between w-full text-white bg-orange-600 text-lg">
+                    <p className="font-bold mx-4 my-2 ">Send Notifications via SMS(CSV upload)</p>
+                    <button
+                      className="font-serif font-bold text-center m-4"
+                      onClick={() => setSmsCsvOpen(false)}
+                    >
+                      <XMarkIcon className="h-4 w-4 m-1" />
+                    </button>
+                  </div>
+
+                  <div className="w-full h-full flex justify-between">
+                    <div className="w-6/12 flex flex-col justify-center items-center border-dashed border-2 border-[#B1B0B0] m-2 h-64 relative">
+
+                      <FiUpload className="h-12 w-12 m-1 text-black" />
+                      <p className="font-semibold"> click to upload csv file</p>
+
+                      <CSVReader
+                        onFileLoaded={handleCSVNumbersRead}
+                        inputStyle={{
+                          position: 'absolute',
+                          left: 0,
+                          top: 0,
+                          height: '100%',
+                          width: '100%',
+                          cursor: 'pointer',
+                          opacity: 0,
+                        }}
+                        parserOptions={{ header: false, skipEmptyLines: true }}
+                      />
+                    </div>
+
+                    <div className="w-6/12 h-full m-2">
+                      <div className="flex items-center justify-center w-full text-white font-semibold bg-[#4F6D75] text-md">
+                        SMS Listings
+                      </div>
+                      <div className="my-2 h-44 bg-[#EFF3F6] border border-gray-200 overflow-y-auto">
+                        {csvNumbers.map((number, index) => (
+                          <div key={index} className='flex text-sm bg-white my-1'>
+                            <div className="w-2/12 flex justify-center items-center">
+                              <FaSquarePhone className="h-4 w-4 m-1" />
+                            </div>
+                            <div className="w-9/12">
+                              <p>{number.name}</p>
+                              <p className="font-semibold">{number.number}</p>
+
+                            </div>
+                          </div>
+
+                        ))}
+
+                      </div>
+                      <div className="flex justify-center">
+                      <button className="w-full m-2 h-[30px] font-serif font-bold text-center text-sm md:text-md text-white bg-orange-600 opacity-60 cursor-not-allowed">
+                    Send SMS
+
+                  </button>
+
+                      </div>
+                    </div>
+                  </div>
+
+
+
+
+
+
+                </div>
+
+              </Dialog.Panel>
+            </Transition.Child>
+          </div>
+        </div>
+      </Dialog>
+    </Transition.Root>
+  )
+}
+
+const StartSurveyModal = ({ startOpen, setStartOpen }) => {
+  const [startDate, setStartDate] = useState(getCurrentDate());
+  const [endDate, setEndDate] = useState(getCurrentDate());
+  const [startLoading, setStartLoading] = useState(false);
+
+  const [syear, smonth, sday] = startDate.split("-");
+  const [eyear, emonth, eday] = endDate.split("-");
+  const sformattedDate = `${sday}-${smonth}-${syear}`;
+  const eformattedDate = `${eday}-${emonth}-${eyear}`;
+
+
+  const cancelButtonRef = useRef(null);
+
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+    setStartLoading(true);
+
+
+    try {
+      const updatedSurveyData = {
+        id: sessionStorage.getItem("id"),
+        qrcode_id: sessionStorage.getItem("qrcode_id"),
+        start_date: sformattedDate,
+        end_date: eformattedDate,
+      };
+
+      const updateSurvey = await axios.put(
+        `https://100025.pythonanywhere.com/update-qr-codev2?api_key=a0955eef-146b-4efd-a14a-85727d5b6014`,
+        updatedSurveyData,
+        {
+          headers: {
+            "Content-Type": "multipart/form-data",
+          },
+        }
+      );
+      console.log("this is survey updatedSurveyData", updatedSurveyData);
+
+
+      setStartLoading(false);
+      toast.success("Your survey has started", {
+        onClose: () => {
+          // navigate("/list-surveys");
+        },
+      });
+    } catch (error) {
+
+      setStartLoading(false);
+      toast.error("Error updating survey: ", {
+        onClose: () => {
+          //  navigate("/list-surveys");
+        },
+      });
+    }
+  }
+
+  return (
+    <Transition.Root show={startOpen} as={Fragment}>
+      <Dialog
+        as="div"
+        className="relative z-10"
+        initialFocus={cancelButtonRef}
+        onClose={() => setStartOpen(false)}
+      >
+        <Transition.Child
+          as={Fragment}
+          enter="ease-out duration-300"
+          enterFrom="opacity-0"
+          enterTo="opacity-100"
+          leave="ease-in duration-200"
+          leaveFrom="opacity-100"
+          leaveTo="opacity-0"
+        >
+          <div className="fixed inset-0 bg-gray-500 bg-opacity-75 transition-opacity" />
+        </Transition.Child>
+
+        <div className="fixed inset-0 z-10 w-screen overflow-y-auto">
+          <div
+            className="flex min-h-full items-center justify-center p-4 text-center sm:items-center sm:p-0">
+            <Transition.Child
+              as={Fragment}
+              enter="ease-out duration-300"
+              enterFrom="opacity-0 translate-y-4 sm:translate-y-0 sm:scale-95"
+              enterTo="opacity-100 translate-y-0 sm:scale-100"
+              leave="ease-in duration-200"
+              leaveFrom="opacity-100 translate-y-0 sm:scale-100"
+              leaveTo="opacity-0 translate-y-4 sm:translate-y-0 sm:scale-95"
+            >
+              <Dialog.Panel
+                className="relative transform overflow-hidden rounded-lg bg-white text-left shadow-xl transition-all w-full max-w-xl">
+                <div className="flex flex-col items-center justify-center w-full">
+                  <div
+                    className="flex items-center justify-between w-full text-white bg-[#005734] text-lg">
+                    <p className="font-bold mx-4 my-2 ">Start this Survey</p>
+                    <button
+                      className="font-serif font-bold text-center m-4"
+                      onClick={() => setStartOpen(false)}
+                    >
+                      <XMarkIcon className="h-4 w-4 m-1" />
+                    </button>
+                  </div>
+
+                  <div className="flex flex-col space-y-2 my-8 w-full">
+
+
+
+
+                    <div className="flex items-center justify-center w-full">
+                      <div className="w-3/12">
+                        <h2 className="font-medium text-left">
+                          Set Duration:
+                        </h2>
+                      </div>
+                      <div
+                        className="w-7/12 flex items-center justify-between">
+                        <input
+                          type="date"
+
+                          className="border p-1 border-[#B3B4BB] outline-none"
+                          value={startDate}
+                          onChange={(e) => setStartDate(e.target.value)}
+                        />
+                        <p className="mx-1 font-medium">to</p>
+                        <input
+                          type="date"
+
+                          className="border p-1 border-[#B3B4BB] outline-none"
+                          value={endDate}
+                          onChange={(e) => setEndDate(e.target.value)}
+                        />
+                      </div>
+                    </div>
+                    <div className="flex justify-center items-center">
+                      <button
+                        className={`${startLoading ? "opacity-60 cursor-not-allowed" : "hover:opacity-100 opacity-80"} w-[150px] h-[30px] font-serif font-bold text-center text-sm md:text-md text-white bg-[#005734]`}
+                        onClick={handleSubmit}
+                        disabled={startLoading}>
+                        {
+                          startLoading ? "Starting" : "Start Survey"
+                        }
+
+
+                      </button>
+
+                    </div>
+                  </div>
+
+
+
+
+
+
+
+                </div>
+
+              </Dialog.Panel>
+            </Transition.Child>
+          </div>
+        </div>
+      </Dialog>
+    </Transition.Root>
+  )
+}
+
 export const EmailSms = () => {
   const [open, setOpen] = useState(false);
+  const [smsOpen, setSmsOpen] = useState(false);
+  const [startOpen, setStartOpen] = useState(false);
+  const [smsCsvOpen, setSmsCsvOpen] = useState(false);
 
   const getQrcode = sessionStorage.getItem("Qrcode");
   const numOfParticipant = sessionStorage.getItem("numOfParticipants");
@@ -256,13 +674,16 @@ export const EmailSms = () => {
   const [email, setEmail] = useState(null);
   // const [emails, setEmails] = useState([]);
 
+
+
+  const [phoneNumbers, setPhoneNumbers] = useState(extractPhoneNumbersFromSessionStorage());
+
   const [sms, setSms] = useState(null);
   const surveyData = sessionStorage.getItem("surveyData") || "[]";
   const surveyData1 = JSON.parse(surveyData);
   const [loading, setLoading] = useState(false);
   const [startDate, setStartDate] = useState(getCurrentDate());
   const [endDate, setEndDate] = useState(getCurrentDate());
-  const [phoneNumbers, setPhoneNumbers] = useState([]);
   const [selectedNumbers, setSelectedNumbers] = useState([]);
   const [showNumbersFromMap, setShowNumbersFromMap] = useState(false);
 
@@ -291,20 +712,7 @@ export const EmailSms = () => {
 
   const navigate = useNavigate();
 
-  const extractPhoneNumbersFromSessionStorage = () => {
-    const surveyData = JSON.parse(sessionStorage.getItem("newSurvey"));
-    if (!surveyData) return [];
-    const numbers = surveyData
-      .filter((entry) => entry.phone && entry.phone !== "None")
-      .map((entry) => entry.phone);
-    return numbers;
-  };
 
-  useEffect(() => {
-    // Logic to extract phone numbers from QR code information
-    const numbers = extractPhoneNumbersFromSessionStorage();
-    setPhoneNumbers(numbers);
-  }, []);
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -415,18 +823,22 @@ export const EmailSms = () => {
     <Layout>
       <main className="w-full h-screen mb-10">
         <div className="px-4 md:px-10 mt-[40px] md:pl-[310px] md:mt-0">
-          <EmailCsvModal open={open} setOpen={setOpen} />
+          <SmsModal smsOpen={smsOpen} setSmsOpen={setSmsOpen} phoneNumbers={phoneNumbers} />
+          <SmsCsvModal smsCsvOpen={smsCsvOpen} setSmsCsvOpen={setSmsCsvOpen} />
+          <StartSurveyModal startOpen={startOpen} setStartOpen={setStartOpen} />
+          <EmailCsvModal open={open} setOpen={setOpen} getQrcode={getQrcode} Uname={Uname} sformattedDate={sformattedDate}
+            eformattedDate={eformattedDate} numOfParticipant={numOfParticipant} />
           <div className="px-2 items-center flex justify-between bg-[#005734]">
             <h1 className=" text-white text-2xl font-semibold pt-1 pb-3 no-underline">
-              Finalize Sample Size
+              Start Survey
             </h1>
             <h6 className=" text-white text-sm font-bold pb-0 no-underline">
-              Set the total number of persons allowed to fill this survey
+              Send Survey via Mails and SMS
             </h6>
           </div>
           <div className="w-full flex flex-col justify-center items-center gap-5 bg-[#EFF3F6]">
             <div className="flex justify-center items-center">
-              <img src="https://100025.pythonanywhere.com/media/company_qrcode/app-store.png" className="w-4/6 mt-2 border-2 border-[#005734]" alt="" />
+              <img src={getQrcode} className="w-4/6 mt-2 border-2 border-[#005734]" alt="" />
             </div>
 
             <div class="flex items-center w-4/6">
@@ -439,7 +851,7 @@ export const EmailSms = () => {
 
             <div className="flex justify-center items-center w-4/6 space-x-2">
               <button
-                className="w-[150px] h-[30px] font-serif font-bold opacity-80 hover:opacity-100 text-center text-sm md:text-md text-white bg-[#005734]"
+                className="w-[150px] h-[30px] font-serif font-bold opacity-80 hover:opacity-100 text-center text-sm md:text-md text-white bg-[#399544]"
               // onClick={() => {
               //   setOpen(true)
               // }}
@@ -455,11 +867,20 @@ export const EmailSms = () => {
               </button>
               <button
                 className="w-[150px] h-[30px] font-serif font-bold opacity-80 hover:opacity-100 text-center text-sm md:text-md text-white bg-orange-500"
-              // onClick={() => {
-              //   setOpen(true)
-              // }}
+                onClick={() => {
+                  setSmsOpen(true)
+                }}
               >
                 Via SMS
+              </button>
+
+              <button
+                className="w-[150px] h-[30px] font-serif font-bold opacity-80 hover:opacity-100 text-center text-sm md:text-md text-white bg-orange-600"
+                onClick={() => {
+                  setSmsCsvOpen(true)
+                }}
+              >
+                Via SMS(csv)
               </button>
 
             </div>
@@ -467,9 +888,9 @@ export const EmailSms = () => {
             <div className="flex justify-center items-center w-4/6">
               <button
                 className="mb-2 w-[466px] h-[30px] font-serif font-bold opacity-80 hover:opacity-100 text-center text-sm md:text-md text-white bg-[#005734]"
-              // onClick={() => {
-              //   setOpen(true)
-              // }}
+                onClick={() => {
+                  setStartOpen(true)
+                }}
               >
                 Start the Survey
               </button>

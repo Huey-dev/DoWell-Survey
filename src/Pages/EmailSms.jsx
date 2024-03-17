@@ -6,10 +6,18 @@ import { Link, useNavigate } from "react-router-dom";
 import { toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import "./pages.css";
+import EmailModal from "./EmailModal";
+import SmsModal from "./SmsModal";
 
 export const EmailSms = () => {
   const getQrcode = sessionStorage.getItem("Qrcode");
   const numOfParticipant = sessionStorage.getItem("numOfParticipants");
+  const user_info_json = sessionStorage.getItem("user_info") || "[]";
+  const user_info = JSON.parse(user_info_json);
+  let Uname;
+  if (user_info) {
+    Uname = user_info.username ? user_info.username : null;
+  }
   const [email, setEmail] = useState(null);
   // const [emails, setEmails] = useState([]);
 
@@ -22,6 +30,25 @@ export const EmailSms = () => {
   const [phoneNumbers, setPhoneNumbers] = useState([]);
   const [selectedNumbers, setSelectedNumbers] = useState([]);
   const [showNumbersFromMap, setShowNumbersFromMap] = useState(false);
+  const [regionValue, setRegionValue] = useState("");
+  const [updatedInfo, setUpdatedInfo] = useState(null);
+
+  // useEffect(() => {
+  //   // Retrieve the stringified array from session storage
+  //   const regionString = sessionStorage.getItem("region");
+
+  //   const regionArray = JSON.parse(regionString);
+
+  //   if (Array.isArray(regionArray) && regionArray.length > 0) {
+  //     const regionText = regionArray
+  //       .map((region) => region.toUpperCase())
+  //       .join(", ");
+
+  //     setRegionValue(${regionText});
+  //   } else {
+  //     setRegionValue("Unknown Region");
+  //   }
+  // }, []); // Run this effect only once after the component is mounted
 
   const handleOpenPhoneNumbersModal = () => {
     setShowNumbersFromMap(true);
@@ -72,36 +99,68 @@ export const EmailSms = () => {
       toemail: email,
       subject: "Survey Creation Confirmation",
       email_content: `<!DOCTYPE html>
-      <html lang="en">
-      <head>
-        <meta charset="UTF-8">
-        <meta name="viewport" content="width=device-width, initial-scale=1.0">
-        <title>Document</title>
-          <style>
-          .form__body {
-            background-color: #f4f4f4;
-            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
-            padding: 20px;
-            border-radius: 10px;
-          }
-
-        .form__p {
-          font-size: 20px;
-          line-height: 1.5;
-          color: #333;
-        }
-  </style>
-      </head>
-      <body>
-        <div style="font-family: 'Arial', sans-serif; background-color: #f4f4f4; padding: 20px; border-radius: 10px; box-shadow: 0 0 20px rgba(0, 0, 0, 0.2);">
-        <img src="${getQrcode}" alt="QR Code" style="max-width: 100%; height: auto;">
-        <p style="font-size: 16px; line-height: 1.5; color: #333;">A survey has been created for ${surveyData1.name}. The time period is between ${surveyData1.startDate}
-          to ${surveyData1.endDate}, and it is for a maximum number of ${numOfParticipant} persons. Link to the Qrcode can be found at
-          ${getQrcode}</p>
-        </div>
-
-      </body>
-      </html>`,
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Survey Confirmation</title>
+    <style>
+      body {
+        font-family: "Arial", sans-serif;
+        background-color: #f4f4f4;
+        padding: 20px;
+        border-radius: 10px;
+        box-shadow: 0 0 20px rgba(0, 0, 0, 0.2);
+      }
+      p {
+        margin-top: 30px;
+      }
+      .details {
+        font-size: 16px;
+        line-height: 1.5;
+        color: #333;
+        margin-top: 50px;
+      }
+      .qr-code {
+        max-width: 100%;
+        height: auto;
+      }
+    </style>
+  </head>
+  <body>
+    <p>Dear User,</p>
+    <p>
+      This is to confirm that your survey, <strong>${
+        updatedInfo ? updatedInfo.name : ""
+      }</strong>,
+      has been successfully created on our platform. Below, you'll find the
+      details of your survey. You can share the QR Code/Link with your intended
+      participants or platform to start gathering responses.
+    </p>
+    <div class="details">
+      <ul>
+        <li>Start Date: <strong>${surveyData1.startDate}</strong></li>
+        <li>End Date: <strong>${surveyData1.endDate}</strong></li>
+        <li>
+          Maximum Number of Participants/Responses:
+          <strong>${numOfParticipant}</strong>
+        </li>
+        <li>
+          Target Location/Audience:
+          <strong>${regionValue} Region's</strong>
+        </li>
+        <li>QR Code Link: <strong>${getQrcode}</strong></li>
+      </ul>
+    </div>
+    <h2>QR Code:</h2>
+    <img
+      src="${getQrcode}"
+      alt="QR Code"
+      style="max-width: 200px; height: 200px"
+    />
+  </body>
+</html>
+`,
     };
     try {
       const updatedSurveyData = {
@@ -112,7 +171,7 @@ export const EmailSms = () => {
       };
 
       const updateSurvey = await axios.put(
-        `https://100025.pythonanywhere.com/update-qr-codev2?api_key=dd7010c6-17b7-4cd4-ac70-f20492efa73e`,
+        `https://100025.pythonanywhere.com/update-qr-codev2?api_key=a0955eef-146b-4efd-a14a-85727d5b6014`,
         updatedSurveyData,
         {
           headers: {
@@ -120,10 +179,11 @@ export const EmailSms = () => {
           },
         }
       );
-      console.log("this is survey response", updateSurvey);
+      setUpdatedInfo(updateSurvey.data);
+      console.log("this is survey response", updatedInfo);
 
       const response = await axios.post(
-        `https://100085.pythonanywhere.com/api/email/?api_key=dd7010c6-17b7-4cd4-ac70-f20492efa73e`,
+        `https://100085.pythonanywhere.com/api/email/?api_key=4f0bd662-8456-4b2e-afa6-293d4135facf`,
         formData,
         {
           headers: {
@@ -181,9 +241,8 @@ export const EmailSms = () => {
             className=" flex flex-col"
           >
             <div className="w-full md:w-[400px] flex flex-col gap-3 py-">
-              <div className="w-full md:w-[400px] flex flex-col gap-2 text-left  ">
+              {/* <div className="w-full md:w-[400px] flex flex-col gap-2 text-left  ">
                 <h3 className="font-serif font-bold text-md">Email </h3>
-
                 <input
                   type="email"
                   id="email"
@@ -194,9 +253,11 @@ export const EmailSms = () => {
                   value={email}
                   onChange={(e) => setEmail(e.target.value)}
                 />
-              </div>
+              </div> */}
+              <EmailModal />
+              <SmsModal />
 
-              <div className="w-full md:w-[400px] flex flex-col gap-2 text-left  mt-4">
+              {/* <div className="w-full md:w-[400px] flex flex-col gap-2 text-left  mt-4">
                 <h3 className="font-serif font-bold text-md">SMS</h3>
 
                 <input
@@ -209,7 +270,7 @@ export const EmailSms = () => {
                   value={sms}
                   onChange={(e) => setSms(e.target.value)}
                 />
-              </div>
+              </div> */}
               <div className="w-full md:w-[400px] flex  gap-2 text-left  mt-4">
                 {/* <input type="checkbox" name="map" id="" />{" "} */}
                 <span>Select numbers and emails from map search</span>

@@ -11,16 +11,17 @@ const StartNewSurvey = () => {
 
   const country = sessionStorage.getItem("country");
   const region = sessionStorage.getItem("region");
-  const the_region = JSON.parse(region);
+  const the_region = region;
   console.log("aaaaaaaaa", the_region);
   let form_link;
 
-  if (the_region.includes("all")) {
-    console.log("eeeeeeeeeeeeeeeeeeeeeeee");
-    form_link = "https://dowelllabs.github.io/DoWell-Survey/survey-iframe-all";
-  } else {
-    form_link = "https://dowelllabs.github.io/DoWell-Survey/survey-iframe";
-  }
+  // if (the_region.includes("all")) {
+  //   console.log("eeeeeeeeeeeeeeeeeeeeeeee");
+  //   form_link = "https://dowelllabs.github.io/DoWell-Survey/survey-iframe-all";
+  // } else {
+  //   form_link = "https://dowelllabs.github.io/DoWell-Survey/survey-iframe";
+  // }
+  form_link = "https://dowelllabs.github.io/DoWell-Survey/survey-iframe";
 
   const numOfParticipants = sessionStorage.getItem("numOfParticipants");
   const coords = sessionStorage.getItem("coords") || "0.00,0.00";
@@ -133,10 +134,12 @@ const StartNewSurvey = () => {
       setLoading(false);
       sessionStorage.setItem("id", response.data.qrcodes[0].id);
       sessionStorage.setItem("qrcode_id", response.data.qrcodes[0].qrcode_id);
+      sessionStorage.setItem("surveyName", response.data.qrcodes[0].name);
       sessionStorage.setItem(
         "Qrcode",
         response.data.qrcodes[0].qrcode_image_url
       );
+      // navigate("/email-sms");
 
       toast.success(response.data.response, {
         onClose: () => {

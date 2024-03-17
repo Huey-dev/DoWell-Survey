@@ -19,7 +19,8 @@ const FinalizeSample = () => {
   const [surveys, setSurveys] = useState(JSON.parse(stored_locations));
 
   //extract the regions 
-  const uniqueRegions = [...new Set(surveys.map(obj => obj.searchRegion))];
+  const uniqueRegions = [...new Set(surveys.map(obj => obj.searchRegion.toLowerCase()))];
+  const uniqueCords = [...new Set(surveys.map(obj => obj.search_cords))];
 
 
 
@@ -41,15 +42,18 @@ const FinalizeSample = () => {
   const handleDone = () => {
     sessionStorage.setItem("newSurvey", JSON.stringify(surveys));
     sessionStorage.setItem("numOfParticipants", numOfParticipants);
+    
     console.log("surveyType", surveyType);
 
     if (surveyType === 'global') {
       sessionStorage.setItem("region", JSON.stringify(['all']));
       sessionStorage.setItem("country", "all");
+      sessionStorage.setItem('coords', "0.0,0.0");
     }
     else //surveyType === regional
     {
       sessionStorage.setItem("region", JSON.stringify(uniqueRegions));
+      sessionStorage.setItem('coords', uniqueCords[0]);
     }
     
     // sessionStorage.setItem("userRegion", region);

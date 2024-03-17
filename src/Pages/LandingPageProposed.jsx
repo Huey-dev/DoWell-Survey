@@ -33,6 +33,7 @@ import errorImage from "../assets/error.png";
 
 const LandingPage = () => {
     const [searchRegion, setSearchRegion] = useState(null);
+    const [searchCords, setSearchCords] = useState("");
 
     //parameters for the search by area
     const [caliberation, setCaliberation] = useState("area");
@@ -218,35 +219,35 @@ const LandingPage = () => {
 
             try {
 
-                // const searchOptions = {
-                //     radius1: start_radius,
-                //     radius2: end_radius,
-                //     center_lat: centerCoords.lat,
-                //     center_lon: centerCoords.lon,
-                //     query_string: inputData.query_string,
-                //     limit: "60",
-                //     api_key: placeAPIKey,
-                // };
-                // console.log("no issues here", searchOptions)
-                // const response = await FetchNearby(searchOptions)
+                const searchOptions = {
+                    radius1: start_radius,
+                    radius2: end_radius,
+                    center_lat: centerCoords.lat,
+                    center_lon: centerCoords.lon,
+                    query_string: inputData.query_string,
+                    limit: "60",
+                    api_key: placeAPIKey,
+                };
+                console.log("no issues here", searchOptions)
+                const response = await FetchNearby(searchOptions)
 
-                // if (response.data.place_id_list?.length > 0) {
+                if (response.data.place_id_list?.length > 0) {
 
-                //     const placeDetailOptions = {
-                //         place_id_list: response.data.place_id_list,
-                //         center_loc: "",
-                //         api_key: placeAPIKey,
-                //     };
-                //     console.log("none here too")
-                //     const placeDetail = await FetchPlaceDetail(placeDetailOptions);
+                    const placeDetailOptions = {
+                        place_id_list: response.data.place_id_list,
+                        center_loc: "",
+                        api_key: placeAPIKey,
+                    };
+                    console.log("none here too")
+                    const placeDetail = await FetchPlaceDetail(placeDetailOptions);
 
-                //     maps_places = [...maps_places, ...placeDetail.data.succesful_results];
-                //     console.log(maps_places.length);
-                // }
+                    maps_places = [...maps_places, ...placeDetail.data.succesful_results];
+                    console.log(maps_places.length);
+                }
 
 
-                maps_places = [...maps_places, ...payload];
-                console.log("wahaaaaaaaaaaaaaaaa", maps_places.length);
+                // maps_places = [...maps_places, ...payload];
+                // console.log("wahaaaaaaaaaaaaaaaa", maps_places.length);
             } catch (error) {
 
                 console.error("Error:", error);
@@ -286,6 +287,9 @@ const LandingPage = () => {
             query_string: inputData.query_string,
             radius2: inputData.radius2
         });
+
+        const search_cords = centerCoords.lat + ',' + centerCoords.lon;
+        setSearchCords(search_cords);
 
         setSearchRegion(inputData.city);
         setPlaceDetails(maps_places);
@@ -329,33 +333,33 @@ const LandingPage = () => {
 
             try {
 
-                // const searchOptions = {
-                //     radius1: start_radius,
-                //     radius2: end_radius,
-                //     center_lat: searchData.center_lat,
-                //     center_lon: searchData.center_lon,
-                //     query_string: searchData.query_string,
-                //     limit: "60",
-                //     api_key: placeAPIKey,
-                // };
+                const searchOptions = {
+                    radius1: start_radius,
+                    radius2: end_radius,
+                    center_lat: searchData.center_lat,
+                    center_lon: searchData.center_lon,
+                    query_string: searchData.query_string,
+                    limit: "60",
+                    api_key: placeAPIKey,
+                };
 
-                // console.log("no issues here", searchOptions)
-                // const response = await FetchNearby(searchOptions)
+                console.log("no issues here", searchOptions)
+                const response = await FetchNearby(searchOptions)
 
-                // if (response.data.place_id_list?.length > 0) {
-                //     // setPlaceIds(nearbyResults.data.place_id_list);
-                //     const placeDetailOptions = {
-                //         place_id_list: response.data.place_id_list,
-                //         center_loc: "",
-                //         api_key: placeAPIKey,
-                //     };
-                //     console.log("none here too")
-                //     const placeDetail = await FetchPlaceDetail(placeDetailOptions);
-                //     //setPlaceDetails(placeDetail.data.succesful_results);
-                //     maps_places = [...maps_places, ...placeDetail.data.succesful_results];
-                // }
-                maps_places = [...maps_places, ...payload];
-                console.log("wahaaaaaaaaaaaaaaaa", maps_places.length);
+                if (response.data.place_id_list?.length > 0) {
+                    // setPlaceIds(nearbyResults.data.place_id_list);
+                    const placeDetailOptions = {
+                        place_id_list: response.data.place_id_list,
+                        center_loc: "",
+                        api_key: placeAPIKey,
+                    };
+                    console.log("none here too")
+                    const placeDetail = await FetchPlaceDetail(placeDetailOptions);
+                    //setPlaceDetails(placeDetail.data.succesful_results);
+                    maps_places = [...maps_places, ...placeDetail.data.succesful_results];
+                }
+                // maps_places = [...maps_places, ...payload];
+                // console.log("wahaaaaaaaaaaaaaaaa", maps_places.length);
 
             }
 
@@ -652,7 +656,8 @@ const LandingPage = () => {
                                                                         address,
                                                                         website,
                                                                         numOfParticipants: 1,
-                                                                        searchRegion: searchRegion
+                                                                        searchRegion: searchRegion,
+                                                                        search_cords: searchCords,
                                                                     });
 
                                                                 } else {

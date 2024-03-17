@@ -66,12 +66,13 @@ const LinkSurvey = () => {
   console.log("aaaaaaaaa", the_region);
   let form_link;
 
-  if (the_region.includes("all")) {
-    console.log("eeeeeeeeeeeeeeeeeeeeeeee");
-     form_link = "https://dowelllabs.github.io/DoWell-Survey/survey-iframe-all";
-  } else {
-     form_link = "https://dowelllabs.github.io/DoWell-Survey/survey-iframe";
-  }
+  // if (the_region.includes("all")) {
+  //   console.log("eeeeeeeeeeeeeeeeeeeeeeee");
+  //    form_link = "https://dowelllabs.github.io/DoWell-Survey/survey-iframe-all";
+  // } else {
+  //    form_link = "https://dowelllabs.github.io/DoWell-Survey/survey-iframe";
+  // }
+  form_link = "https://dowelllabs.github.io/DoWell-Survey/survey-iframe";
 
 
 
@@ -96,7 +97,7 @@ const LinkSurvey = () => {
     console.log("before");
 
     const user_info_json = sessionStorage.getItem("user_info") || "[]";
-    console.log("dddddddddd", user_info_json);
+
     const user_info = JSON.parse(user_info_json);
 
     //const user_info = JSON.parse(sessionStorage.getItem("user_info"));

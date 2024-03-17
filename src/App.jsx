@@ -93,6 +93,7 @@ import StartNewSurvey from "./Pages/StartNewSurvey";
 import FinalizeSample from "./Pages/FinalizeSample";
 import LinkSurvey from "./Pages/LinkSurvey";
 import { EmailSms } from "./Pages/EmailSms";
+import Stop from "./Pages/StopSurvey";
 import Edit from "./Pages/EditSurvey";
 import EditSurveyTemp from "./Pages/EditSurveyTemp";
 import Settings from "./Pages/Settings";

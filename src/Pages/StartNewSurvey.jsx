@@ -112,7 +112,7 @@ const StartNewSurvey = () => {
       email: email,
       service: product,
       country: "nigeria",
-      region: `${the_region}`,
+      region: "['all']",
       search_result_id: 32,
       participantsLimit: numOfParticipants,
       url: formLink,

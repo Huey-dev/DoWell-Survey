@@ -57,7 +57,7 @@ const LandingPage = () => {
 
 
     const context = useGlobalContext();
-    console.log("context Value: ", context);
+    // console.log("context Value: ", context);
     const { inputData, setInputData, setAPIKey, api_key, setCenterCoords, centerCoords, placeAPIKey } = context;
     const [loading, setLoading] = useState(false);
     const [receivedKey, setRecievedKey] = useState("EhdQUTM2K0hNLCBOYWlyb2JpLCBLZW55YSImOiQKCg2PPDr");
@@ -66,7 +66,7 @@ const LandingPage = () => {
 
 
     const my_user = sessionStorage.getItem("user_info") || "[]";
-    console.log("info u are searching for is", JSON.parse(my_user));
+    // console.log("info u are searching for is", JSON.parse(my_user));
 
     //   const { data } = useQuery({
     //     queryFn: async () => FetchCountries(),
@@ -193,10 +193,11 @@ const LandingPage = () => {
         const no_iterations_rounded = Math.ceil(no_iterations);
 
         let maps_places = [];
-        console.log("checks", area_inner);
-        console.log("checks", area_outer);
-        console.log("checks", survey_area);
-        console.log("checks", no_iterations);
+        console.log("the maps places before search", maps_places.length);
+        // console.log("checks", area_inner);
+        // console.log("checks", area_outer);
+        // console.log("checks", survey_area);
+        // console.log("checks", no_iterations);
 
 
 
@@ -215,7 +216,7 @@ const LandingPage = () => {
             else {
                 end_radius = Math.sqrt((area_inner + (area_of_one * i)) / 3.14);
             }
-            console.log("iter_data", end_radius, start_radius, i);
+            // console.log("iter_data", end_radius, start_radius, i);
 
             try {
 
@@ -228,7 +229,7 @@ const LandingPage = () => {
                     limit: "60",
                     api_key: placeAPIKey,
                 };
-                console.log("no issues here", searchOptions)
+                // console.log("no issues here", searchOptions)
                 const response = await FetchNearby(searchOptions)
 
                 if (response.data.place_id_list?.length > 0) {
@@ -238,11 +239,11 @@ const LandingPage = () => {
                         center_loc: "",
                         api_key: placeAPIKey,
                     };
-                    console.log("none here too")
+                    // console.log("none here too")
                     const placeDetail = await FetchPlaceDetail(placeDetailOptions);
 
                     maps_places = [...maps_places, ...placeDetail.data.succesful_results];
-                    console.log(maps_places.length);
+                    // console.log(maps_places.length);
                 }
 
 
@@ -292,6 +293,8 @@ const LandingPage = () => {
         setSearchCords(search_cords);
 
         setSearchRegion(inputData.city);
+
+        console.log("the maps places after search", maps_places.length);
         setPlaceDetails(maps_places);
         setLoading(false);
     };
@@ -328,7 +331,7 @@ const LandingPage = () => {
             else {
                 end_radius = Math.sqrt((area.area_inner + (area.area_of_one * i)) / 3.14);
             }
-            console.log("iter_data", end_radius, start_radius, i);
+            // console.log("iter_data", end_radius, start_radius, i);
 
 
             try {
@@ -343,7 +346,7 @@ const LandingPage = () => {
                     api_key: placeAPIKey,
                 };
 
-                console.log("no issues here", searchOptions)
+                // console.log("no issues here", searchOptions)
                 const response = await FetchNearby(searchOptions)
 
                 if (response.data.place_id_list?.length > 0) {
@@ -353,7 +356,7 @@ const LandingPage = () => {
                         center_loc: "",
                         api_key: placeAPIKey,
                     };
-                    console.log("none here too")
+                    // console.log("none here too")
                     const placeDetail = await FetchPlaceDetail(placeDetailOptions);
                     //setPlaceDetails(placeDetail.data.succesful_results);
                     maps_places = [...maps_places, ...placeDetail.data.succesful_results];
@@ -364,7 +367,7 @@ const LandingPage = () => {
             }
 
             catch (error) {
-                console.log("error");
+                // console.log("error");
 
             }
 
@@ -397,7 +400,7 @@ const LandingPage = () => {
     }
 
     if (pageload) {
-        console.log("i,m executing fine");
+        // console.log("i,m executing fine");
         return (
             <div className="flex items-center justify-center">
                 <div

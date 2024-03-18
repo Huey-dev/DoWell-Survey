@@ -28,6 +28,8 @@ const SurveyIframe = () => {
   const queryParams = new URLSearchParams(location.search);
 
   const [place_region, setPlace_region] = useState(null);
+  const [region_list, setRegion_list] = useState(null);
+
 
   // Accessing individual query parameters
   const survey_id = queryParams.get("survey_id");
@@ -44,7 +46,7 @@ const SurveyIframe = () => {
         `https://100025.pythonanywhere.com/survey-count/`,
         {
           link: window.location.href,
-          region: place_region,
+          region: region_list,
         },
         {
           headers: {
@@ -142,8 +144,9 @@ const SurveyIframe = () => {
                         setStatus("success");
                         console.log(
                           "completed get survey and response is,",
-                          id_response?.data[0].url
+                          id_response?.data[1].region
                         );
+                        setRegion_list(id_response?.data[1].region);
 
                         setIframe(id_response?.data[1].url);
                         

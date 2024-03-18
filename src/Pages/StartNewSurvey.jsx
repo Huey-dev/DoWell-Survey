@@ -112,7 +112,7 @@ const StartNewSurvey = () => {
       email: email,
       service: product,
       country: "nigeria",
-      region: `${the_region}`,
+      region: "['all']",
       search_result_id: 32,
       participantsLimit: numOfParticipants,
       url: formLink,
@@ -201,7 +201,7 @@ const StartNewSurvey = () => {
             className="border-2 w-full sm:w-[40%] p-1 border-[#B3B4BB] rounded-[5px] outline-none"
           />
 
-          <select
+          {/* <select
             value={product}
             onChange={(e) => setProduct(e.target.value)}
             className="border-2 w-full sm:w-[40%] p-1 border-[#B3B4BB] rounded-[5px] outline-none"
@@ -214,7 +214,14 @@ const StartNewSurvey = () => {
             <option value="Product 3">UX Live Stream</option>
             <option value="Product 3">Dowell Surveys</option>
             <option value="Product 3">Dowell Maps</option>
-          </select>
+          </select> */}
+          <input
+            type="text"
+            value={product}
+            onChange={(e) => setProduct(e.target.value)}
+            className="border-2 w-full sm:w-[40%] p-1 border-[#B3B4BB] rounded-[5px] outline-none"
+            placeholder="Enter Product Name"
+          />
 
           <textarea
             id="description"

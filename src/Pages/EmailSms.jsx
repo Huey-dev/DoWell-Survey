@@ -12,6 +12,7 @@ import CSVReader from 'react-csv-reader';
 import { MdOutlineEmail } from "react-icons/md";
 import { FiUpload } from "react-icons/fi";
 import { FaSquarePhone } from "react-icons/fa6";
+import { FaGlobe } from "react-icons/fa";
 
 
 const extractPhoneNumbersFromSessionStorage = () => {
@@ -25,6 +26,17 @@ const extractPhoneNumbersFromSessionStorage = () => {
   return numbers;
 };
 
+const extractWebsitesFromSessionStorage = () => {
+  const surveyData = JSON.parse(sessionStorage.getItem("newSurvey"));
+  console.log('survey data),', surveyData);
+  if (!surveyData) return [];
+  const websites = surveyData
+    .filter((entry) => entry.website && entry.website !== "None")
+    .map((entry) => ({ website: entry.website, address: entry.place_name }));
+  console.log("heres the websites", websites);
+  return websites;
+};
+
 
 function getCurrentDate() {
   const today = new Date();
@@ -32,6 +44,426 @@ function getCurrentDate() {
   const month = String(today.getMonth() + 1).padStart(2, "0");
   const day = String(today.getDate()).padStart(2, "0");
   return `${year}-${month}-${day}`;
+}
+
+const EmailModal = ({ emailOpen, setEmailOpen, websites, getQrcode, Uname, sformattedDate, eformattedDate, numOfParticipant }) => {
+  const [emailLoading, setEmailLoading] = useState(false);
+  const [fetchedEmails, setFetchedEmails] = useState([]);
+  const [selectedEmails, setSelectedEmails] = useState([]);
+  const [emailSendLoading, setEmailSendLoading] = useState(false);
+
+  const cancelButtonRef = useRef(null);
+
+  const handleGetEmail = async (website) => {
+    //const emails = csvEmails.map((email) => `dsdsdsds`)
+    setEmailLoading(true);
+
+    const formDatas = websites.map((website) => (
+      {
+        "web_url": `${website.website}`,
+        "info_request": {
+          "addresses": true,
+          "emails": true,
+          "links": true,
+          "logos": true,
+          "name": true,
+          "phone_numbers": true,
+          "social_media_links": {
+            "all": true,
+            "choices": [
+              "facebook",
+              "twitter",
+              "instagram",
+              "linkedin",
+              "youtube",
+              "pinterest",
+              "tumblr",
+              "snapchat"
+            ]
+          },
+          "website_socials": {
+            "all": true,
+            "choices": [
+              "facebook",
+              "twitter",
+              "instagram",
+              "linkedin",
+              "youtube",
+              "pinterest",
+              "tumblr",
+              "snapchat"
+            ]
+          }
+        }
+      }
+    ));
+
+
+    const formData = {
+      "web_url": website,
+      "info_request": {
+        "addresses": true,
+        "emails": true,
+        "links": true,
+        "logos": true,
+        "name": true,
+        "phone_numbers": true,
+        "social_media_links": {
+          "all": true,
+          "choices": [
+            "facebook",
+            "twitter",
+            "instagram",
+            "linkedin",
+            "youtube",
+            "pinterest",
+            "tumblr",
+            "snapchat"
+          ]
+        },
+        "website_socials": {
+          "all": true,
+          "choices": [
+            "facebook",
+            "twitter",
+            "instagram",
+            "linkedin",
+            "youtube",
+            "pinterest",
+            "tumblr",
+            "snapchat"
+          ]
+        }
+      }
+    }
+
+    try {
+
+
+
+      const response = await axios.post(
+        `https://www.uxlive.me/api/website-info-extractor/`,
+        formData,
+        {
+          headers: {
+            "Content-Type": "application/json",
+          },
+        }
+      );
+
+      //setCsvSendLoading(false);
+      //console.log("we got a response of", response);
+      setEmailLoading(false);
+      setFetchedEmails(response?.data?.emails_found);
+
+
+    }
+    catch (error) {
+      setEmailLoading(false);
+      toast.error("Error fetching emails", {
+        onClose: () => { },
+      });
+      setFetchedEmails([]);
+
+
+    }
+
+
+  }
+
+  const handleSubmit = async () => {
+    //const emails = csvEmails.map((email) => `dsdsdsds`)
+    setEmailSendLoading(true);
+
+    const formData = {
+      fromname: "Dowell Surveys",
+      fromemail: "user@username.com",
+      to_email_list: selectedEmails,
+      subject: "Survey has been created",
+      email_content: `<!DOCTYPE html>
+      <html lang="en">
+      <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title>Document</title>
+          <style>
+          .form__body {
+            background-color: #f4f4f4;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+            padding: 20px;
+            border-radius: 10px;
+          }
+
+        .form__p {
+          font-size: 20px;
+          line-height: 1.5;
+          color: #333;
+        }
+  </style>
+      </head>
+      <body>
+        <div style="font-family: 'Arial', sans-serif; background-color: #f4f4f4; padding: 20px; border-radius: 10px; box-shadow: 0 0 20px rgba(0, 0, 0, 0.2);">
+        <img src="${getQrcode}" alt="QR Code" style="max-width: 100%; height: auto;">
+        <p style="font-size: 16px; line-height: 1.5; color: #333;">A survey has been created by ${Uname}. The time period is between ${sformattedDate}
+          to ${eformattedDate}, and it is for a maximum number of ${numOfParticipant} persons. Link to the Qrcode can be found at
+          ${getQrcode}</p>
+        </div>
+
+      </body>
+      </html>`,
+    };
+
+    try {
+      const response = await axios.post(
+        `https://100085.pythonanywhere.com/api/dowell_bulk_email/`,
+        formData,
+        {
+          headers: {
+            "Content-Type": "application/json",
+          },
+        }
+      );
+
+      setEmailSendLoading(false);
+      toast.success("Email(s) sent successfully", {
+        onClose: () => { },
+      });
+    }
+    catch (error) {
+      setEmailSendLoading(false);
+      toast.error("Error in sending mail(s)", {
+        onClose: () => { },
+      });
+
+    }
+
+
+  }
+
+  const handleEmailModalClose = () => {
+    setEmailLoading(false);
+    setEmailSendLoading(false);
+    setFetchedEmails([]);
+    setSelectedEmails([]);
+    console.log("closing");
+    setEmailOpen(false);
+  }
+
+
+
+  return (
+    <Transition.Root show={emailOpen} as={Fragment}>
+      <Dialog
+        as="div"
+        className="relative z-10"
+        initialFocus={cancelButtonRef}
+        onClose={handleEmailModalClose}
+      >
+        <Transition.Child
+          as={Fragment}
+          enter="ease-out duration-300"
+          enterFrom="opacity-0"
+          enterTo="opacity-100"
+          leave="ease-in duration-200"
+          leaveFrom="opacity-100"
+          leaveTo="opacity-0"
+        >
+          <div className="fixed inset-0 bg-gray-500 bg-opacity-75 transition-opacity" />
+        </Transition.Child>
+
+        <div className="fixed inset-0 z-10 w-screen overflow-y-auto">
+          <div
+            className="flex min-h-full items-center justify-center p-4 text-center sm:items-center sm:p-0">
+            <Transition.Child
+              as={Fragment}
+              enter="ease-out duration-300"
+              enterFrom="opacity-0 translate-y-4 sm:translate-y-0 sm:scale-95"
+              enterTo="opacity-100 translate-y-0 sm:scale-100"
+              leave="ease-in duration-200"
+              leaveFrom="opacity-100 translate-y-0 sm:scale-100"
+              leaveTo="opacity-0 translate-y-4 sm:translate-y-0 sm:scale-95"
+            >
+              <Dialog.Panel
+                className="relative transform overflow-hidden rounded-lg bg-white text-left shadow-xl transition-all w-full max-w-4xl max-h-4xl">
+                <div className="flex flex-col items-center justify-center w-full">
+                  <div
+                    className="flex items-center justify-between w-full text-white bg-[#5DA868] text-lg">
+                    <p className="font-bold mx-4 my-2 ">Send Notifications via Emails</p>
+                    <button
+                      className="font-serif font-bold text-center m-4"
+                      onClick={handleEmailModalClose}
+                    >
+                      <XMarkIcon className="h-4 w-4 m-1" />
+                    </button>
+                  </div>
+
+                  <div className="flex w-full flex-col h-96 bg-[#EFF3F6] px-4 m-2">
+                    {
+                      websites.length < 1 ?
+                        (
+                          <div className="flex justify-center items-center h-full">
+                            <p className="text-gray-500 text-center text-lg font-semibold">You did not Select any Location with Web addresses.</p>
+
+                          </div>
+
+                        ) :
+                        (
+                          <div className="flex justify-between">
+                            <div className="w-5/12">
+                              {
+                                websites.map((website, index) => (
+                                  <div key={index} className='flex w-full text-sm bg-white mt-3 rounded-lg'>
+                                    <div className="w-2/12 flex justify-center items-center">
+                                      <FaGlobe className="h-4 w-4 m-1" />
+                                    </div>
+                                    <div className="w-7/12 text-black">
+
+                                      <p className="font-semibold">{website.website}</p>
+
+                                    </div>
+                                    <div className="w-3/12 text-black">
+
+                                      <button
+                                        className="w-[70px] h-[20px] font-serif opacity-80 hover:opacity-100 text-center text-xs rounded-full text-white bg-[#399544]"
+                                        onClick={() => handleGetEmail(website.website)}
+                                        disabled={emailLoading}
+                                      > Get Email</button>
+
+                                    </div>
+                                  </div>
+                                ))
+                              }
+                            </div>
+
+                            <div className="w-6/12">
+                              {
+
+                                emailLoading ? (
+                                  <div className="flex items-center justify-center h-24">
+                                    <div
+                                      className="m-12 inline-block h-8 w-8 animate-spin text-green-800 rounded-full border-4 border-solid border-current border-r-transparent align-[-0.125em] motion-reduce:animate-[spin_1.5s_linear_infinite]"
+                                      role="status"
+                                    >
+                                      <span
+                                        className="!absolute !-m-px !h-px !w-px !overflow-hidden !whitespace-nowrap !border-0 !p-0 ![clip:rect(0,0,0,0)]">
+                                        Loading...
+                                      </span>
+                                    </div>
+                                  </div>
+
+                                ) :
+                                  (<div className='text-sm mt-3 h-24 overflow-y-auto bg-white px-1'>
+                                    {fetchedEmails?.map((email) => (
+                                      <div className="flex w-full">
+                                        <div className="w-10/12 text-black">
+
+                                          <p className="font-semibold">{email}</p>
+
+                                        </div>
+                                        <div className="w-3/12 text-black">
+
+                                          <button
+                                            className="w-[70px] h-[20px] font-serif opacity-80 hover:opacity-100 text-center text-xs rounded-full text-white bg-[#399544]"
+                                            onClick={() => setSelectedEmails((emails) => ([...emails, { name: email, email: email }]))}
+                                          > Add</button>
+
+
+
+                                        </div>
+
+                                      </div>
+
+                                    ))
+
+                                    }
+
+                                  </div>)
+                              }
+                              <div className="my-3 bg-[#EFF3F6] ">
+                                <div className="flex items-center justify-center w-full text-white font-semibold bg-[#4F6D75] text-md">
+                                  Email Listings
+                                </div>
+                                <div className="overflow-y-auto h-48 my-2 border border-gray-200">
+                                  {selectedEmails.map((email, index) => (
+                                    <div key={index} className='flex text-sm bg-white my-1'>
+                                      <div className="w-2/12 flex justify-center items-center">
+                                        <MdOutlineEmail className="h-4 w-4 m-1" />
+                                      </div>
+                                      <div className="w-9/12">
+
+                                        <p className="font-semibold">{email.email}</p>
+
+                                      </div>
+                                      <button
+                                        className="text-red-500"
+                                        onClick={() => {
+                                          const updatedList = [...selectedEmails];
+                                          //const valueIndex = updatedList.indexOf(id);
+                                          const valueIndex = updatedList.findIndex(
+                                            (obj) => obj.email === email.email
+                                          );
+
+                                          if (valueIndex !== -1) {
+                                            // Value is present, remove it
+                                            updatedList.splice(valueIndex, 1);
+                                            setSelectedEmails(updatedList);
+                                          }
+                                        }}>
+                                        <XMarkIcon className="h-4 w-4" /></button>
+                                    </div>
+
+                                  ))}
+
+                                </div>
+                                <div className="flex justify-center">
+                                  {
+
+                                    emailSendLoading ? (
+
+                                      <button
+                                        className="w-full h-[30px] font-serif font-bold text-center text-sm md:text-md text-white bg-[#5DA868] cursor-not-allowed"
+                                        disabled
+                                      >
+                                        sending
+                                      </button>
+
+                                    ) : (
+                                      <button
+                                        className={`${selectedEmails.length < 1 ? "opacity-60 cursor-not-allowed" : "hover:opacity-100 opacity-80"} w-full h-[30px] font-serif font-bold text-center text-sm md:text-md text-white bg-[#5DA868]`}
+                                        onClick={handleSubmit}
+                                        disabled={selectedEmails.length < 1}
+                                      >
+                                        Send Emails
+                                      </button>
+                                    )
+                                  }
+
+                                </div>
+
+
+                              </div>
+
+
+                            </div>
+
+                            <div>
+
+                            </div>
+                          </div>
+
+                        )
+                    }
+                  </div>
+
+                </div>
+
+              </Dialog.Panel>
+            </Transition.Child>
+          </div>
+        </div>
+      </Dialog>
+    </Transition.Root>
+  )
 }
 
 
@@ -320,29 +752,29 @@ const SmsModal = ({ smsOpen, setSmsOpen, phoneNumbers }) => {
 
                   <div className="flex w-full flex-col h-64 overflow-y-auto bg-[#EFF3F6] px-4 m-2">
                     {
-                      phoneNumbers.length < 1 ? 
-                      (
-                        <div className="flex justify-center items-center h-full">
-                          <p className="text-gray-500 text-center text-lg font-semibold">You did not Select any Location with Mobile Nos.</p>
+                      phoneNumbers.length < 1 ?
+                        (
+                          <div className="flex justify-center items-center h-full">
+                            <p className="text-gray-500 text-center text-lg font-semibold">You did not Select any Location with Mobile Nos.</p>
 
-                        </div>
-                        
-                      ) :
-                      (
-                        phoneNumbers.map((phoneNumber, index) => (
-                          <div key={index} className='flex w-full text-sm bg-white mt-3 rounded-lg'>
-                            <div className="w-2/12 flex justify-center items-center">
-                              <MdOutlineEmail className="h-4 w-4 m-1" />
-                            </div>
-                            <div className="w-10/12 text-black">
-                              <p>{phoneNumber.address}</p>
-                              <p className="font-semibold">{phoneNumber.phone}</p>
-  
-                            </div>
                           </div>
-                        ))
 
-                      )
+                        ) :
+                        (
+                          phoneNumbers.map((phoneNumber, index) => (
+                            <div key={index} className='flex w-full text-sm bg-white mt-3 rounded-lg'>
+                              <div className="w-2/12 flex justify-center items-center">
+                                <MdOutlineEmail className="h-4 w-4 m-1" />
+                              </div>
+                              <div className="w-10/12 text-black">
+                                <p>{phoneNumber.address}</p>
+                                <p className="font-semibold">{phoneNumber.phone}</p>
+
+                              </div>
+                            </div>
+                          ))
+
+                        )
                     }
 
 
@@ -469,10 +901,10 @@ const SmsCsvModal = ({ smsCsvOpen, setSmsCsvOpen }) => {
 
                       </div>
                       <div className="flex justify-center">
-                      <button className="w-full m-2 h-[30px] font-serif font-bold text-center text-sm md:text-md text-white bg-orange-600 opacity-60 cursor-not-allowed">
-                    Send SMS
+                        <button className="w-full m-2 h-[30px] font-serif font-bold text-center text-sm md:text-md text-white bg-orange-600 opacity-60 cursor-not-allowed">
+                          Send SMS
 
-                  </button>
+                        </button>
 
                       </div>
                     </div>
@@ -660,6 +1092,7 @@ const StartSurveyModal = ({ startOpen, setStartOpen }) => {
 export const EmailSms = () => {
   const [open, setOpen] = useState(false);
   const [smsOpen, setSmsOpen] = useState(false);
+  const [emailOpen, setEmailOpen] = useState(false);
   const [startOpen, setStartOpen] = useState(false);
   const [smsCsvOpen, setSmsCsvOpen] = useState(false);
 
@@ -679,6 +1112,7 @@ export const EmailSms = () => {
   const [phoneNumbers, setPhoneNumbers] = useState(extractPhoneNumbersFromSessionStorage());
 
   const [sms, setSms] = useState(null);
+  const [websites, setWebsites] = useState(extractWebsitesFromSessionStorage);
   const surveyData = sessionStorage.getItem("surveyData") || "[]";
   const surveyData1 = JSON.parse(surveyData);
   const [loading, setLoading] = useState(false);
@@ -826,6 +1260,8 @@ export const EmailSms = () => {
           <SmsModal smsOpen={smsOpen} setSmsOpen={setSmsOpen} phoneNumbers={phoneNumbers} />
           <SmsCsvModal smsCsvOpen={smsCsvOpen} setSmsCsvOpen={setSmsCsvOpen} />
           <StartSurveyModal startOpen={startOpen} setStartOpen={setStartOpen} />
+          <EmailModal emailOpen={emailOpen} setEmailOpen={setEmailOpen} websites={websites} getQrcode={getQrcode} Uname={Uname}
+            sformattedDate={sformattedDate} eformattedDate={eformattedDate} numOfParticipant={numOfParticipant} />
           <EmailCsvModal open={open} setOpen={setOpen} getQrcode={getQrcode} Uname={Uname} sformattedDate={sformattedDate}
             eformattedDate={eformattedDate} numOfParticipant={numOfParticipant} />
           <div className="px-2 items-center flex justify-between bg-[#005734]">
@@ -852,9 +1288,9 @@ export const EmailSms = () => {
             <div className="flex justify-center items-center w-4/6 space-x-2">
               <button
                 className="w-[150px] h-[30px] font-serif font-bold opacity-80 hover:opacity-100 text-center text-sm md:text-md text-white bg-[#399544]"
-              // onClick={() => {
-              //   setOpen(true)
-              // }}
+                onClick={() => {
+                  setEmailOpen(true)
+                }}
               >
                 Via Email
               </button>

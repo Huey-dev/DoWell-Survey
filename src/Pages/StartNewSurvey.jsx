@@ -135,10 +135,12 @@ const StartNewSurvey = () => {
       console.log("success and response data is", response.data);
       sessionStorage.setItem("id", response.data.qrcodes[0].id);
       sessionStorage.setItem("qrcode_id", response.data.qrcodes[0].qrcode_id);
+      sessionStorage.setItem("surveyName", response.data.qrcodes[0].name);
       sessionStorage.setItem(
         "Qrcode",
         response.data.qrcodes[0].qrcode_image_url
       );
+      // navigate("/email-sms");
 
       toast.success(response.data.response, {
         onClose: () => {
@@ -200,7 +202,7 @@ const StartNewSurvey = () => {
             className="border-2 w-full sm:w-[40%] p-1 border-[#B3B4BB] rounded-[5px] outline-none"
           />
 
-          <select
+          {/* <select
             value={product}
             onChange={(e) => setProduct(e.target.value)}
             className="border-2 w-full sm:w-[40%] p-1 border-[#B3B4BB] rounded-[5px] outline-none"
@@ -213,14 +215,21 @@ const StartNewSurvey = () => {
             <option value="Product 3">UX Live Stream</option>
             <option value="Product 3">Dowell Surveys</option>
             <option value="Product 3">Dowell Maps</option>
-          </select>
+          </select> */}
+          <input
+            type="text"
+            value={product}
+            onChange={(e) => setProduct(e.target.value)}
+            className="border-2 w-full sm:w-[40%] p-1 border-[#B3B4BB] rounded-[5px] outline-none"
+            placeholder="Enter Product Name"
+          />
 
           <textarea
             id="description"
             name="description"
             value={description}
             onChange={(e) => setDescription(e.target.value)}
-            placeholder="Enter a promotional sentence to attract participants in (15 words)"
+            placeholder="Craft a clear & informative/promotional message to introduce your survey! (15 words)"
             className="h-24 resize-none border-2 w-full sm:w-[40%] p-1 border-[#B3B4BB] rounded-[5px] outline-none"
           />
 

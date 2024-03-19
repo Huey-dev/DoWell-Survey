@@ -104,8 +104,7 @@ import TermsCondition from "./Pages/TermsCondition";
 
 import RedirectToExternalWebsite from "./Pages/RedirectToExternalWebsite";
 import ModalPopUp from "./Pages/ModalPopUp";
-import StartSurvey from "./Pages/StartSurvey";
-import StopSurvey from "./Pages/StopSurvey";
+import StopSurvey from "./Pages/StorySurvey";
 // import Search from "./Pages/Npm";
 //import { useLocation } from 'react-router-dom';
 
@@ -148,8 +147,7 @@ function App() {
             <Route path="/finalize-Sample" element={<FinalizeSample />} />
             <Route path="/link-form" element={<LinkSurvey />} />
             <Route path="/email-sms" element={<EmailSms />} />
-            <Route path="/start-survey" element={<StartSurvey />} />
-            <Route path="/stop-survey" element={<Stop />} />
+            <Route path="/stop-survey" element={<StopSurvey />} />
 
             <Route path="/list-surveys" element={<Edit />} />
             <Route path="/list-surveys2" element={<EditSurveyTemp />} />

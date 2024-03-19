@@ -9,11 +9,11 @@ import "./pages.css";
 import { MapPinIcon, PencilSquareIcon, QrCodeIcon, TrashIcon, XMarkIcon } from "@heroicons/react/24/outline";
 import { Dialog, Transition } from "@headlessui/react";
 import CSVReader from 'react-csv-reader';
-import { MdOutlineEmail } from "react-icons/md";
+import { MdEmail, MdOutlineEmail } from "react-icons/md";
 import { FiUpload } from "react-icons/fi";
 import { FaSquarePhone } from "react-icons/fa6";
 import { FaGlobe } from "react-icons/fa";
-
+import { IoAddOutline, IoPerson } from "react-icons/io5";
 
 const extractPhoneNumbersFromSessionStorage = () => {
   const surveyData = JSON.parse(sessionStorage.getItem("newSurvey"));
@@ -52,11 +52,15 @@ const EmailModal = ({ emailOpen, setEmailOpen, websites, getQrcode, Uname, sform
   const [selectedEmails, setSelectedEmails] = useState([]);
   const [emailSendLoading, setEmailSendLoading] = useState(false);
 
+  const NameRef = useRef(null);
+  const emailRef = useRef(null);
+
   const cancelButtonRef = useRef(null);
 
   const handleGetEmail = async (website) => {
     //const emails = csvEmails.map((email) => `dsdsdsds`)
     setEmailLoading(true);
+    console.log("the websites are", websites);
 
     const formDatas = websites.map((website) => (
       {
@@ -298,41 +302,98 @@ const EmailModal = ({ emailOpen, setEmailOpen, websites, getQrcode, Uname, sform
                   </div>
 
                   <div className="flex w-full flex-col h-96 bg-[#EFF3F6] px-4 m-2">
-                    {
-                      websites.length < 1 ?
-                        (
-                          <div className="flex justify-center items-center h-full">
-                            <p className="text-gray-500 text-center text-lg font-semibold">You did not Select any Location with Web addresses.</p>
+                  <div className="flex justify-between">
+                            <div className="w-5/12 flex flex-col justify-between py-4">
+                              <div className="h-72 overflow-y-auto">
+                              <div class="flex items-center justify-center w-full my-2">
+                                  <hr class="flex-grow border-t border-[#005734]" />
+                                  <span class="px-3 font-serif text-sm font-semibold text-gray-500">
+                                    Get Mails from Location Sites
+                                  </span>
+                                  <hr class="flex-grow border-t border-[#005734]" />
+                                </div>
+                                {
+                                  websites.map((website, index) => (
+                                    <div key={index} className='flex w-full text-sm bg-white mt-3 rounded-lg'>
+                                      <div className="w-2/12 flex justify-center items-center">
+                                        <FaGlobe className="h-4 w-4 m-1" />
+                                      </div>
+                                      <div className="w-7/12 text-black">
 
-                          </div>
+                                        <p className="font-semibold">{website.website}</p>
 
-                        ) :
-                        (
-                          <div className="flex justify-between">
-                            <div className="w-5/12">
-                              {
-                                websites.map((website, index) => (
-                                  <div key={index} className='flex w-full text-sm bg-white mt-3 rounded-lg'>
-                                    <div className="w-2/12 flex justify-center items-center">
-                                      <FaGlobe className="h-4 w-4 m-1" />
+                                      </div>
+                                      <div className="w-3/12 text-black">
+
+                                        <button
+                                          className="w-[70px] h-[20px] font-serif opacity-80 hover:opacity-100 text-center text-xs rounded-full text-white bg-[#399544]"
+                                          onClick={() => handleGetEmail(website.website)}
+                                          disabled={emailLoading}
+                                        > Get Email</button>
+
+                                      </div>
                                     </div>
-                                    <div className="w-7/12 text-black">
+                                  ))
+                                }
 
-                                      <p className="font-semibold">{website.website}</p>
+                              </div>
 
-                                    </div>
-                                    <div className="w-3/12 text-black">
+                              <div>
+                                <div class="flex items-center justify-center w-full my-2">
+                                  <hr class="flex-grow border-t border-[#005734]" />
+                                  <span class="px-3 font-serif text-sm font-semibold text-gray-500">
+                                    Add Emails
+                                  </span>
+                                  <hr class="flex-grow border-t border-[#005734]" />
+                                </div>
+                                <form onSubmit={(e) => {
+                                  e.preventDefault();
+                                  const details = {
+                                    name: NameRef.current.value,
+                                    email: emailRef.current.value
+                                  }
+                                  setSelectedEmails((emails) => [...emails, details]);
+                                  NameRef.current.value = '';
+                                  emailRef.current.value = '';
 
-                                      <button
-                                        className="w-[70px] h-[20px] font-serif opacity-80 hover:opacity-100 text-center text-xs rounded-full text-white bg-[#399544]"
-                                        onClick={() => handleGetEmail(website.website)}
-                                        disabled={emailLoading}
-                                      > Get Email</button>
 
+
+
+                                }}
+                                  className="flex items-center justify-center w-full space-x-2">
+                                  <div class="relative w-4/12">
+                                    <input type="text"
+                                      className="py-1 border w-full rounded-md pl-8"
+                                      ref={NameRef}
+                                      required
+                                      placeholder="Name"
+                                    />
+                                    <div class="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
+                                      <IoPerson className="text-gray-400" />
                                     </div>
                                   </div>
-                                ))
-                              }
+
+
+
+                                  <div class="relative w-6/12">
+                                    <input type="text"
+                                      className="py-1 border w-full rounded-md pl-8"
+                                      ref={emailRef}
+                                      required
+                                      placeholder="Email"
+                                    />
+                                    <div class="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
+                                      <MdEmail className="text-gray-400" />
+                                    </div>
+                                  </div>
+
+                                  <button className="w-[70px] py-2 font-serif opacity-80 hover:opacity-100 text-center text-xs rounded-md text-white bg-[#399544]">Add</button>
+
+
+                                </form>
+
+
+                              </div>
                             </div>
 
                             <div className="w-6/12">
@@ -450,9 +511,6 @@ const EmailModal = ({ emailOpen, setEmailOpen, websites, getQrcode, Uname, sform
 
                             </div>
                           </div>
-
-                        )
-                    }
                   </div>
 
                 </div>

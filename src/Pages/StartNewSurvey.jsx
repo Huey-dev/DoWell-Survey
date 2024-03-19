@@ -132,6 +132,7 @@ const StartNewSurvey = () => {
         }
       );
       setLoading(false);
+      console.log("success and response data is", response.data);
       sessionStorage.setItem("id", response.data.qrcodes[0].id);
       sessionStorage.setItem("qrcode_id", response.data.qrcodes[0].qrcode_id);
       sessionStorage.setItem(

@@ -60,6 +60,7 @@ const EmailModal = ({
   sformattedDate,
   eformattedDate,
   numOfParticipant,
+  startToEnd
 }) => {
   const [emailLoading, setEmailLoading] = useState(false);
   const [fetchedEmails, setFetchedEmails] = useState([]);
@@ -209,8 +210,7 @@ const EmailModal = ({
       <body>
         <div style="font-family: 'Arial', sans-serif; background-color: #f4f4f4; padding: 20px; border-radius: 10px; box-shadow: 0 0 20px rgba(0, 0, 0, 0.2);">
         <img src="${getQrcode}" alt="QR Code" style="max-width: 100%; height: auto;">
-        <p style="font-size: 16px; line-height: 1.5; color: #333;">A survey has been created by ${Uname}. The time period is between ${sformattedDate}
-          to ${eformattedDate}, and it is for a maximum number of ${numOfParticipant} persons. Link to the Qrcode can be found at
+        <p style="font-size: 16px; line-height: 1.5; color: #333;">A survey has been created by ${Uname}. ${startToEnd}, and it is for a maximum number of ${numOfParticipant} persons. Link to the Qrcode can be found at
           ${getQrcode}</p>
         </div>
 
@@ -516,6 +516,7 @@ const EmailCsvModal = ({
   sformattedDate,
   eformattedDate,
   numOfParticipant,
+  startToEnd
 }) => {
   const [csvEmails, setCsvEmails] = useState([]);
   const [csvSendLoading, setCsvSendLoading] = useState(false);
@@ -565,8 +566,7 @@ const EmailCsvModal = ({
       <body>
         <div style="font-family: 'Arial', sans-serif; background-color: #f4f4f4; padding: 20px; border-radius: 10px; box-shadow: 0 0 20px rgba(0, 0, 0, 0.2);">
         <img src="${getQrcode}" alt="QR Code" style="max-width: 100%; height: auto;">
-        <p style="font-size: 16px; line-height: 1.5; color: #333;">A survey has been created by ${Uname}. The time period is between ${sformattedDate}
-          to ${eformattedDate}, and it is for a maximum number of ${numOfParticipant} persons. Link to the Qrcode can be found at
+        <p style="font-size: 16px; line-height: 1.5; color: #333;">A survey has been created by ${Uname}. ${startToEnd}, and it is for a maximum number of ${numOfParticipant} persons. Link to the Qrcode can be found at
           ${getQrcode}</p>
         </div>
 
@@ -922,7 +922,7 @@ const SmsCsvModal = ({ smsCsvOpen, setSmsCsvOpen }) => {
   );
 };
 
-const StartSurveyModal = ({ startOpen, setStartOpen }) => {
+const StartSurveyModal = ({ startOpen, setStartOpen, setStartToEnd }) => {
   const [startDate, setStartDate] = useState(getCurrentDate());
   const [endDate, setEndDate] = useState(getCurrentDate());
   const [startLoading, setStartLoading] = useState(false);
@@ -963,6 +963,11 @@ const StartSurveyModal = ({ startOpen, setStartOpen }) => {
           // navigate("/list-surveys");
         },
       });
+      const time_period = `The time period is between ${updatedSurveyData.start_date} to ${updatedSurveyData.end_date}`;
+      setStartToEnd(time_period);
+      sessionStorage.setItem("start_end", time_period);
+
+      
     } catch (error) {
       setStartLoading(false);
       toast.error("Error updating survey: ", {
@@ -1067,9 +1072,11 @@ export const EmailSms = () => {
   const [emailOpen, setEmailOpen] = useState(false);
   const [startOpen, setStartOpen] = useState(false);
   const [smsCsvOpen, setSmsCsvOpen] = useState(false);
+  const [startToEnd, setStartToEnd] = useState(sessionStorage.getItem("start_end") || "")
 
   const getQrcode = sessionStorage.getItem("Qrcode");
   const numOfParticipant = sessionStorage.getItem("numOfParticipants");
+
   const user_info_json = sessionStorage.getItem("user_info") || "[]";
   const user_info = JSON.parse(user_info_json);
   let Uname;
@@ -1285,7 +1292,7 @@ export const EmailSms = () => {
             phoneNumbers={phoneNumbers}
           />
           <SmsCsvModal smsCsvOpen={smsCsvOpen} setSmsCsvOpen={setSmsCsvOpen} />
-          <StartSurveyModal startOpen={startOpen} setStartOpen={setStartOpen} />
+          <StartSurveyModal startOpen={startOpen} setStartOpen={setStartOpen} setStartToEnd={setStartToEnd} />
           <EmailModal
             emailOpen={emailOpen}
             setEmailOpen={setEmailOpen}
@@ -1295,6 +1302,7 @@ export const EmailSms = () => {
             sformattedDate={sformattedDate}
             eformattedDate={eformattedDate}
             numOfParticipant={numOfParticipant}
+            startToEnd={startToEnd}
           />
           <EmailCsvModal
             open={open}
@@ -1304,6 +1312,7 @@ export const EmailSms = () => {
             sformattedDate={sformattedDate}
             eformattedDate={eformattedDate}
             numOfParticipant={numOfParticipant}
+            startToEnd={startToEnd}
           />
           <div className="px-2 items-center flex justify-between bg-[#005734]">
             <h1 className=" text-white text-2xl font-semibold pt-1 pb-3 no-underline">
@@ -1346,6 +1355,14 @@ export const EmailSms = () => {
               <button
                 className="w-[150px] h-[30px] font-serif font-bold opacity-80 hover:opacity-100 text-center text-sm md:text-md text-white bg-[#399544]"
                 onClick={() => {
+                  if (!startToEnd) {
+                    toast.error("Start the Survey first", {
+                      onClose: () => {
+                        //  navigate("/list-surveys");
+                      },
+                    });
+                    return;
+                  }
                   setEmailOpen(true);
                 }}
               >
@@ -1354,6 +1371,14 @@ export const EmailSms = () => {
               <button
                 className="w-[150px] h-[30px] font-serif font-bold opacity-80 hover:opacity-100 text-center text-sm md:text-md text-white bg-[#3B82F6]"
                 onClick={() => {
+                  if (!startToEnd) {
+                    toast.error("Start the Survey first", {
+                      onClose: () => {
+                        //  navigate("/list-surveys");
+                      },
+                    });
+                    return;
+                  }
                   setOpen(true);
                 }}
               >
@@ -1362,6 +1387,14 @@ export const EmailSms = () => {
               <button
                 className="w-[150px] h-[30px] font-serif font-bold opacity-80 hover:opacity-100 text-center text-sm md:text-md text-white bg-orange-500"
                 onClick={() => {
+                  if (!startToEnd) {
+                    toast.error("Start the Survey first", {
+                      onClose: () => {
+                        //  navigate("/list-surveys");
+                      },
+                    });
+                    return;
+                  }
                   setSmsOpen(true);
                 }}
               >
@@ -1371,6 +1404,14 @@ export const EmailSms = () => {
               <button
                 className="w-[150px] h-[30px] font-serif font-bold opacity-80 hover:opacity-100 text-center text-sm md:text-md text-white bg-orange-600"
                 onClick={() => {
+                  if (!startToEnd) {
+                    toast.error("Start the Survey first", {
+                      onClose: () => {
+                        //  navigate("/list-surveys");
+                      },
+                    });
+                    return;
+                  }
                   setSmsCsvOpen(true);
                 }}
               >

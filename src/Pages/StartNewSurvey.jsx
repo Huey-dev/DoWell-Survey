@@ -140,6 +140,7 @@ const StartNewSurvey = () => {
         "Qrcode",
         response.data.qrcodes[0].qrcode_image_url
       );
+      sessionStorage.setItem("start_end", "");
       // navigate("/email-sms");
 
       toast.success(response.data.response, {

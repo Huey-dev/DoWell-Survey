@@ -111,7 +111,7 @@ const StartNewSurvey = () => {
       name: name,
       email: email,
       service: product,
-      country: "nigeria",
+      country: "All",
       region: "['all']",
       search_result_id: 32,
       participantsLimit: numOfParticipants,

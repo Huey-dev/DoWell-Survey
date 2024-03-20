@@ -330,12 +330,12 @@ const EmailModal = ({
                               </button>
                             ) : (
                               <button
-                                className={`${websites.length < 1
+                                className={`${webLinks.length < 1
                                   ? "opacity-60 cursor-not-allowed"
                                   : "hover:opacity-100 opacity-80"
                                   } w-full h-[30px] font-serif font-bold text-center text-sm md:text-md text-white bg-[#5DA868]`}
                                 onClick={() => handleGetEmails(webLinks)}
-                                disabled={websites.length < 1}
+                                disabled={webLinks.length < 1}
                               >
                                 Get Emails
                               </button>

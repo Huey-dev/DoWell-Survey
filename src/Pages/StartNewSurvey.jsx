@@ -132,6 +132,7 @@ const StartNewSurvey = () => {
         }
       );
       setLoading(false);
+      console.log("success and response data is", response.data);
       sessionStorage.setItem("id", response.data.qrcodes[0].id);
       sessionStorage.setItem("qrcode_id", response.data.qrcodes[0].qrcode_id);
       sessionStorage.setItem("surveyName", response.data.qrcodes[0].name);
@@ -139,6 +140,7 @@ const StartNewSurvey = () => {
         "Qrcode",
         response.data.qrcodes[0].qrcode_image_url
       );
+      sessionStorage.setItem("start_end", "");
       // navigate("/email-sms");
 
       toast.success(response.data.response, {
@@ -228,7 +230,7 @@ const StartNewSurvey = () => {
             name="description"
             value={description}
             onChange={(e) => setDescription(e.target.value)}
-            placeholder="Enter a promotional sentence to attract participants in (15 words)"
+            placeholder="Craft a clear & informative/promotional message to introduce your survey! (15 words)"
             className="h-24 resize-none border-2 w-full sm:w-[40%] p-1 border-[#B3B4BB] rounded-[5px] outline-none"
           />
 

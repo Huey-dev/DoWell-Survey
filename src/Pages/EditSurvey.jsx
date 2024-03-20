@@ -172,14 +172,16 @@ export default function Edit() {
     setFormData({
       //brand_name: survey.brand_name,
       survey_name: survey.name,
-      country: survey.country,
+      //country: survey.country,
       region_for_survey: regionForSurvey,
       promotional_sentence: survey.promotional_sentence,
-      username: survey.username,
+      
 
       //email: survey.email,
       participantsLimit: survey.participantsLimit,
       form_link: survey.url,
+      Start_date: survey.start_date,
+      End_date: survey.end_date
     });
 
     var coordinatesString = survey.brand_name;
@@ -591,6 +593,7 @@ export default function Edit() {
                                     href={`${baseUrl}${survey.qr_code}`}
                                     className="flex p-1 items-center justify-center bg-[#CE6868] rounded-md"
                                     download
+                                    target="_blank"
                                   >
                                     <FaDownload className="h-6 w-6 m-1 text-white" />
                                   </a>
@@ -603,6 +606,7 @@ export default function Edit() {
                                   <a
                                     href={`http://www.facebook.com/share.php?u=${baseUrl}${survey.qr_code}`}
                                     className="flex p-1 items-center justify-center bg-[#0866FF] rounded-full"
+                                    target="_blank"
                                     //onClick={onLinkClick}
                                   >
                                     <FaFacebook className="h-6 w-6 m-1 text-white" />
@@ -610,6 +614,7 @@ export default function Edit() {
                                   <a
                                     href={`http://x.com/share?url=${baseUrl}${survey.qr_code}&text=Please follow this link to scan my qr code on ${survey.name}`}
                                     className="flex p-1 items-center justify-center bg-black rounded-full"
+                                    target="_blank"
                                     //onClick={onLinkClick}
                                   >
                                     <FaXTwitter className="h-6 w-6 text-white m-1" />
@@ -617,6 +622,7 @@ export default function Edit() {
                                   <a
                                     href={`whatsapp://send?text=${baseUrl}${survey.qr_code} Please follow this link to scan my qr code on ${survey.name}`}
                                     className="flex items-center justify-center bg-[#00E676] p-1 rounded-full"
+                                    target="_blank"
                                     //onClick={onLinkClick}
                                   >
                                     <FaWhatsapp className="h-6 w-6 text-white m-1" />
@@ -624,6 +630,7 @@ export default function Edit() {
                                   <a
                                     href={`https://www.linkedin.com/sharing/share-offsite/?url=${baseUrl}${survey.qr_code}`}
                                     className="flex items-center justify-center bg-[#0A66C2] p-1 rounded-full"
+                                    target="_blank"
                                     //onClick={onLinkClick}
                                   >
                                     <FaLinkedinIn className="h-6 w-6 text-white m-1" />
@@ -631,6 +638,7 @@ export default function Edit() {
                                   <a
                                     href={`https://telegram.me/share/url?url=${baseUrl}${survey.qr_code}`}
                                     className="flex items-center justify-center bg-[#30A4DC] p-1 rounded-full"
+                                    target="_blank"
                                     //onClick={onLinkClick}
                                   >
                                     <FaTelegram className="h-6 w-6 text-white m-1" />
@@ -653,14 +661,10 @@ export default function Edit() {
                 My Surveys
               </h1>
               <h6 className=" text-white text-sm font-bold pb-0 no-underline">
-                {`Total Surveys ${
-                  survey_results[0]?.total_survey || ""
-                } Active Surveys${
-                  survey_results[0]?.active_survey || ""
-                } Closed Surveys ${survey_results[0]?.closed_survey || ""}`}
+                {`Total Surveys ${survey_results[0]?.total_survey || ""}  Active Surveys${survey_results[0]?.active_survey || ""} Closed Surveys ${survey_results[0]?.closed_survey || ""}`}
               </h6>
               <h6 className=" text-white text-sm font-bold pb-0 no-underline">
-                Preview, print and Share Qrcodes, View Survey Locations.
+              Download, Preview, and Share QR Codes. View Your Survey Location.
               </h6>
             </div>
 

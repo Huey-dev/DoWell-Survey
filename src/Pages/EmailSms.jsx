@@ -14,11 +14,12 @@ import {
   XMarkIcon,
 } from "@heroicons/react/24/outline";
 import { Dialog, Transition } from "@headlessui/react";
-import CSVReader from "react-csv-reader";
-import { MdOutlineEmail } from "react-icons/md";
+import CSVReader from 'react-csv-reader';
+import { MdEmail, MdOutlineEmail } from "react-icons/md";
 import { FiUpload } from "react-icons/fi";
 import { FaSquarePhone } from "react-icons/fa6";
 import { FaGlobe } from "react-icons/fa";
+import { IoAddOutline, IoPerson } from "react-icons/io5";
 
 const extractPhoneNumbersFromSessionStorage = () => {
   const surveyData = JSON.parse(sessionStorage.getItem("newSurvey"));
@@ -59,17 +60,22 @@ const EmailModal = ({
   sformattedDate,
   eformattedDate,
   numOfParticipant,
+  startToEnd
 }) => {
   const [emailLoading, setEmailLoading] = useState(false);
   const [fetchedEmails, setFetchedEmails] = useState([]);
   const [selectedEmails, setSelectedEmails] = useState([]);
   const [emailSendLoading, setEmailSendLoading] = useState(false);
 
+  const NameRef = useRef(null);
+  const emailRef = useRef(null);
+
   const cancelButtonRef = useRef(null);
 
   const handleGetEmail = async (website) => {
     //const emails = csvEmails.map((email) => `dsdsdsds`)
     setEmailLoading(true);
+    console.log("the websites are", websites);
 
     const formDatas = websites.map((website) => ({
       web_url: `${website.website}`,
@@ -204,8 +210,7 @@ const EmailModal = ({
       <body>
         <div style="font-family: 'Arial', sans-serif; background-color: #f4f4f4; padding: 20px; border-radius: 10px; box-shadow: 0 0 20px rgba(0, 0, 0, 0.2);">
         <img src="${getQrcode}" alt="QR Code" style="max-width: 100%; height: auto;">
-        <p style="font-size: 16px; line-height: 1.5; color: #333;">A survey has been created by ${Uname}. The time period is between ${sformattedDate}
-          to ${eformattedDate}, and it is for a maximum number of ${numOfParticipant} persons. Link to the Qrcode can be found at
+        <p style="font-size: 16px; line-height: 1.5; color: #333;">A survey has been created by ${Uname}. ${startToEnd}, and it is for a maximum number of ${numOfParticipant} persons. Link to the Qrcode can be found at
           ${getQrcode}</p>
         </div>
 
@@ -291,43 +296,99 @@ const EmailModal = ({
                   </div>
 
                   <div className="flex w-full flex-col h-96 bg-[#EFF3F6] px-4 m-2">
-                    {websites.length < 1 ? (
-                      <div className="flex justify-center items-center h-full">
-                        <p className="text-gray-500 text-center text-lg font-semibold">
-                          You did not Select any Location with Web addresses.
-                        </p>
-                      </div>
-                    ) : (
-                      <div className="flex justify-between">
-                        <div className="w-5/12">
-                          {websites.map((website, index) => (
-                            <div
-                              key={index}
-                              className="flex w-full text-sm bg-white mt-3 rounded-lg"
-                            >
-                              <div className="w-2/12 flex justify-center items-center">
-                                <FaGlobe className="h-4 w-4 m-1" />
+                  <div className="flex justify-between">
+                            <div className="w-5/12 flex flex-col justify-between py-4">
+                              <div className="h-72 overflow-y-auto">
+                              <div class="flex items-center justify-center w-full my-2">
+                                  <hr class="flex-grow border-t border-[#005734]" />
+                                  <span class="px-3 font-serif text-sm font-semibold text-gray-500">
+                                    Get Emails from Location Sites
+                                  </span>
+                                  <hr class="flex-grow border-t border-[#005734]" />
+                                </div>
+                                {
+                                  websites.map((website, index) => (
+                                    <div key={index} className='flex w-full text-sm bg-white mt-3 rounded-lg'>
+                                      <div className="w-2/12 flex justify-center items-center">
+                                        <FaGlobe className="h-4 w-4 m-1" />
+                                      </div>
+                                      <div className="w-7/12 text-black">
+
+                                        <p className="font-semibold">{website.website}</p>
+
+                                      </div>
+                                      <div className="w-3/12 text-black">
+
+                                        <button
+                                          className="w-[70px] h-[20px] font-serif opacity-80 hover:opacity-100 text-center text-xs rounded-full text-white bg-[#399544]"
+                                          onClick={() => handleGetEmail(website.website)}
+                                          disabled={emailLoading}
+                                        > Get Email</button>
+
+                                      </div>
+                                    </div>
+                                  ))
+                                }
+
                               </div>
-                              <div className="w-7/12 text-black">
-                                <p className="font-semibold">
-                                  {website.website}
-                                </p>
-                              </div>
-                              <div className="w-3/12 text-black">
-                                <button
-                                  className="w-[70px] h-[20px] font-serif opacity-80 hover:opacity-100 text-center text-xs rounded-full text-white bg-[#399544]"
-                                  onClick={() =>
-                                    handleGetEmail(website.website)
+
+                              <div>
+                                <div class="flex items-center justify-center w-full my-2">
+                                  <hr class="flex-grow border-t border-[#005734]" />
+                                  <span class="px-3 font-serif text-sm font-semibold text-gray-500">
+                                    Add Emails
+                                  </span>
+                                  <hr class="flex-grow border-t border-[#005734]" />
+                                </div>
+                                <form onSubmit={(e) => {
+                                  e.preventDefault();
+                                  const details = {
+                                    name: NameRef.current.value,
+                                    email: emailRef.current.value
                                   }
-                                  disabled={emailLoading}
-                                >
-                                  {" "}
-                                  Get Email
-                                </button>
+                                  setSelectedEmails((emails) => [...emails, details]);
+                                  NameRef.current.value = '';
+                                  emailRef.current.value = '';
+
+
+
+
+                                }}
+                                  className="flex items-center justify-center w-full space-x-2">
+                                  <div class="relative w-4/12">
+                                    <input type="text"
+                                      className="py-1 border w-full rounded-md pl-8"
+                                      ref={NameRef}
+                                      required
+                                      placeholder="Name"
+                                    />
+                                    <div class="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
+                                      <IoPerson className="text-gray-400" />
+                                    </div>
+                                  </div>
+
+
+
+                                  <div class="relative w-6/12">
+                                    <input type="text"
+                                      className="py-1 border w-full rounded-md pl-8"
+                                      ref={emailRef}
+                                      required
+                                      placeholder="Email"
+                                    />
+                                    <div class="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
+                                      <MdEmail className="text-gray-400" />
+                                    </div>
+                                  </div>
+
+                                  <button className="w-[70px] py-2 font-serif opacity-80 hover:opacity-100 text-center text-xs rounded-md text-white bg-[#399544]">Add</button>
+
+
+                                </form>
+
+
                               </div>
                             </div>
-                          ))}
-                        </div>
 
                         <div className="w-6/12">
                           {emailLoading ? (
@@ -430,11 +491,14 @@ const EmailModal = ({
                           </div>
                         </div>
 
-                        <div></div>
-                      </div>
-                    )}
+                            <div>
+
+                            </div>
+                          </div>
                   </div>
+
                 </div>
+
               </Dialog.Panel>
             </Transition.Child>
           </div>
@@ -452,6 +516,7 @@ const EmailCsvModal = ({
   sformattedDate,
   eformattedDate,
   numOfParticipant,
+  startToEnd
 }) => {
   const [csvEmails, setCsvEmails] = useState([]);
   const [csvSendLoading, setCsvSendLoading] = useState(false);
@@ -501,8 +566,7 @@ const EmailCsvModal = ({
       <body>
         <div style="font-family: 'Arial', sans-serif; background-color: #f4f4f4; padding: 20px; border-radius: 10px; box-shadow: 0 0 20px rgba(0, 0, 0, 0.2);">
         <img src="${getQrcode}" alt="QR Code" style="max-width: 100%; height: auto;">
-        <p style="font-size: 16px; line-height: 1.5; color: #333;">A survey has been created by ${Uname}. The time period is between ${sformattedDate}
-          to ${eformattedDate}, and it is for a maximum number of ${numOfParticipant} persons. Link to the Qrcode can be found at
+        <p style="font-size: 16px; line-height: 1.5; color: #333;">A survey has been created by ${Uname}. ${startToEnd}, and it is for a maximum number of ${numOfParticipant} persons. Link to the Qrcode can be found at
           ${getQrcode}</p>
         </div>
 
@@ -858,7 +922,7 @@ const SmsCsvModal = ({ smsCsvOpen, setSmsCsvOpen }) => {
   );
 };
 
-const StartSurveyModal = ({ startOpen, setStartOpen }) => {
+const StartSurveyModal = ({ startOpen, setStartOpen, setStartToEnd }) => {
   const [startDate, setStartDate] = useState(getCurrentDate());
   const [endDate, setEndDate] = useState(getCurrentDate());
   const [startLoading, setStartLoading] = useState(false);
@@ -891,7 +955,7 @@ const StartSurveyModal = ({ startOpen, setStartOpen }) => {
           },
         }
       );
-      console.log("this is survey updatedSurveyData", updatedSurveyData);
+      console.log("this is survey updatedSurveyData", updateSurvey.data);
 
       setStartLoading(false);
       toast.success("Your survey has started", {
@@ -899,6 +963,11 @@ const StartSurveyModal = ({ startOpen, setStartOpen }) => {
           // navigate("/list-surveys");
         },
       });
+      const time_period = `The time period is between ${updatedSurveyData.start_date} to ${updatedSurveyData.end_date}`;
+      setStartToEnd(time_period);
+      sessionStorage.setItem("start_end", time_period);
+
+      
     } catch (error) {
       setStartLoading(false);
       toast.error("Error updating survey: ", {
@@ -1003,9 +1072,11 @@ export const EmailSms = () => {
   const [emailOpen, setEmailOpen] = useState(false);
   const [startOpen, setStartOpen] = useState(false);
   const [smsCsvOpen, setSmsCsvOpen] = useState(false);
+  const [startToEnd, setStartToEnd] = useState(sessionStorage.getItem("start_end") || "")
 
   const getQrcode = sessionStorage.getItem("Qrcode");
   const numOfParticipant = sessionStorage.getItem("numOfParticipants");
+
   const user_info_json = sessionStorage.getItem("user_info") || "[]";
   const user_info = JSON.parse(user_info_json);
   let Uname;
@@ -1221,7 +1292,7 @@ export const EmailSms = () => {
             phoneNumbers={phoneNumbers}
           />
           <SmsCsvModal smsCsvOpen={smsCsvOpen} setSmsCsvOpen={setSmsCsvOpen} />
-          <StartSurveyModal startOpen={startOpen} setStartOpen={setStartOpen} />
+          <StartSurveyModal startOpen={startOpen} setStartOpen={setStartOpen} setStartToEnd={setStartToEnd} />
           <EmailModal
             emailOpen={emailOpen}
             setEmailOpen={setEmailOpen}
@@ -1231,6 +1302,7 @@ export const EmailSms = () => {
             sformattedDate={sformattedDate}
             eformattedDate={eformattedDate}
             numOfParticipant={numOfParticipant}
+            startToEnd={startToEnd}
           />
           <EmailCsvModal
             open={open}
@@ -1240,6 +1312,7 @@ export const EmailSms = () => {
             sformattedDate={sformattedDate}
             eformattedDate={eformattedDate}
             numOfParticipant={numOfParticipant}
+            startToEnd={startToEnd}
           />
           <div className="px-2 items-center flex justify-between bg-[#005734]">
             <h1 className=" text-white text-2xl font-semibold pt-1 pb-3 no-underline">
@@ -1258,6 +1331,18 @@ export const EmailSms = () => {
               />
             </div>
 
+            <div className="flex justify-center items-center w-4/6">
+              <button
+                className="w-[466px] h-[30px] font-serif font-bold opacity-80 hover:opacity-100 text-center text-sm md:text-md text-white bg-[#005734]"
+                onClick={() => {
+                  setStartOpen(true);
+                }}
+              >
+                Start the Survey
+              </button>
+            </div>
+
+
             <div class="flex items-center w-4/6">
               <hr class="flex-grow border-t border-[#005734]" />
               <span class="px-3 font-serif text-xl font-semibold text-gray-500">
@@ -1266,10 +1351,18 @@ export const EmailSms = () => {
               <hr class="flex-grow border-t border-[#005734]" />
             </div>
 
-            <div className="flex justify-center items-center w-4/6 space-x-2">
+            <div className="flex justify-center items-center w-4/6 space-x-2 mb-8">
               <button
                 className="w-[150px] h-[30px] font-serif font-bold opacity-80 hover:opacity-100 text-center text-sm md:text-md text-white bg-[#399544]"
                 onClick={() => {
+                  if (!startToEnd) {
+                    toast.error("Start the Survey first", {
+                      onClose: () => {
+                        //  navigate("/list-surveys");
+                      },
+                    });
+                    return;
+                  }
                   setEmailOpen(true);
                 }}
               >
@@ -1278,6 +1371,14 @@ export const EmailSms = () => {
               <button
                 className="w-[150px] h-[30px] font-serif font-bold opacity-80 hover:opacity-100 text-center text-sm md:text-md text-white bg-[#3B82F6]"
                 onClick={() => {
+                  if (!startToEnd) {
+                    toast.error("Start the Survey first", {
+                      onClose: () => {
+                        //  navigate("/list-surveys");
+                      },
+                    });
+                    return;
+                  }
                   setOpen(true);
                 }}
               >
@@ -1286,6 +1387,14 @@ export const EmailSms = () => {
               <button
                 className="w-[150px] h-[30px] font-serif font-bold opacity-80 hover:opacity-100 text-center text-sm md:text-md text-white bg-orange-500"
                 onClick={() => {
+                  if (!startToEnd) {
+                    toast.error("Start the Survey first", {
+                      onClose: () => {
+                        //  navigate("/list-surveys");
+                      },
+                    });
+                    return;
+                  }
                   setSmsOpen(true);
                 }}
               >
@@ -1295,6 +1404,14 @@ export const EmailSms = () => {
               <button
                 className="w-[150px] h-[30px] font-serif font-bold opacity-80 hover:opacity-100 text-center text-sm md:text-md text-white bg-orange-600"
                 onClick={() => {
+                  if (!startToEnd) {
+                    toast.error("Start the Survey first", {
+                      onClose: () => {
+                        //  navigate("/list-surveys");
+                      },
+                    });
+                    return;
+                  }
                   setSmsCsvOpen(true);
                 }}
               >
@@ -1302,16 +1419,8 @@ export const EmailSms = () => {
               </button>
             </div>
 
-            <div className="flex justify-center items-center w-4/6">
-              <button
-                className="mb-2 w-[466px] h-[30px] font-serif font-bold opacity-80 hover:opacity-100 text-center text-sm md:text-md text-white bg-[#005734]"
-                onClick={() => {
-                  setStartOpen(true);
-                }}
-              >
-                Start the Survey
-              </button>
-            </div>
+
+
           </div>
         </div>
       </main>

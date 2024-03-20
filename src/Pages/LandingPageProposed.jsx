@@ -47,6 +47,7 @@ const LandingPage = () => {
 
 
 
+
     const navigate = useNavigate();
     //const stored_locations = sessionStorage.getItem("newSurvey") || "[]";
     const [surveys, setSurveys] = useState([]);
@@ -229,7 +230,7 @@ const LandingPage = () => {
                     limit: "60",
                     api_key: placeAPIKey,
                 };
-                // console.log("no issues here", searchOptions)
+                console.log("the search options are", searchOptions)
                 const response = await FetchNearby(searchOptions)
 
                 if (response.data.place_id_list?.length > 0) {
@@ -258,17 +259,17 @@ const LandingPage = () => {
             }
 
             if (maps_places.length >= 60) {
-                
+
                 break;
             }
 
         }
 
-        if (i > no_iterations ) { //set to current iteration, no need to go further
-            setIteration({ current_iteration: no_iterations_rounded, total_iterations: no_iterations, no_iterations_rounded: no_iterations_rounded});
+        if (i > no_iterations) { //set to current iteration, no need to go further
+            setIteration({ current_iteration: no_iterations_rounded, total_iterations: no_iterations, no_iterations_rounded: no_iterations_rounded });
         }
         else {
-            setIteration({ current_iteration: i, total_iterations: no_iterations, no_iterations_rounded: no_iterations_rounded});
+            setIteration({ current_iteration: i, total_iterations: no_iterations, no_iterations_rounded: no_iterations_rounded });
         }
 
         if (maps_places.length < 1) { //search reached the last sector with no result
@@ -278,8 +279,8 @@ const LandingPage = () => {
             setSearchNumbers((searchNumbers) => ({ start: 0, end: 0 + maps_places.length }));
         }
 
-        
-        
+
+
 
         setArea({ area_of_one: area_of_one, area_inner: area_inner });
         setSearchData({
@@ -320,7 +321,7 @@ const LandingPage = () => {
         let maps_places = [];
         let i;
 
-        for ( i = iteration.current_iteration + 1; i < iteration.total_iterations + 1; i++) {
+        for (i = iteration.current_iteration + 1; i < iteration.total_iterations + 1; i++) {
             const start_radius = Math.sqrt((area.area_inner + (area.area_of_one * (i - 1))) / 3.14);
             let end_radius;
 
@@ -376,12 +377,12 @@ const LandingPage = () => {
 
             }
             if (maps_places.length >= 60) {
-                
+
                 break;
             }
         }
 
-        if (i > iteration.total_iterations ) { //set to current iteration, no need to go further
+        if (i > iteration.total_iterations) { //set to current iteration, no need to go further
             setIteration({ ...iteration, current_iteration: iteration.no_iterations_rounded });
         }
         else {
@@ -394,9 +395,36 @@ const LandingPage = () => {
         else {
             setSearchNumbers((searchNumbers) => ({ start: searchNumbers.end + 1, end: searchNumbers.end + maps_places.length }));
         }
-        
+
         setPlaceDetails(maps_places);
         setLoading(false);
+    }
+
+    const handleRemove = () => {
+        const survey_list = [...surveys];
+        const placeDetails_list = [...placeDetails];
+        const placesToRemove = placeDetails.map(place => place.placeId);
+        const updatedList = survey_list.filter(survey => !placesToRemove.includes(survey.placeId));
+        setSurveys(updatedList);
+    }
+
+    const handleAddAll = () => {
+        const survey_list = [...surveys];
+        const placeDetails_list = [...placeDetails];
+
+        const survey_list_ids = surveys.map(survey => survey.placeId);
+        const updated = placeDetails.filter(place => !survey_list_ids.includes(place.placeId))
+        const updatedList = updated.map(place => ({
+            placeId: place.placeId,
+            place_name: place.place_name,
+            phone: place.phone,
+            address: place.address,
+            website: place.website,
+            numOfParticipants: 1,
+            searchRegion: searchRegion,
+            search_cords: searchCords,
+        }));
+        setSurveys((surveys) => [...surveys, ...updatedList]);
     }
 
     if (pageload) {
@@ -425,26 +453,26 @@ const LandingPage = () => {
                 <h1 className="text-[18px] md:text-[20px] text-[#7F7F7F]">
                     Please Input your Email Address
                 </h1>
-                <form 
-                onSubmit={handleEmailConfirm}
-                action=""
-                className="flex flex-col">
-                <input
-                  type="email"
-                  required
-                  id="formLink"
-                  placeholder="add your form link here"
-                  className="w-full md:w-[400px] mt-[10px] h-[50px] border-2 border-[#B3B4BB] rounded-[5px] outline-none pl-[20px]"
-                  value={email}
-                  onChange={(e) => setEmail(e.target.value)}
-                />
-                <button
-                    className="bg-[#015734] font-medium text-[17px] my-8 px-5 py-2 text-white rounded-[5px]"
-                    //onClick={handleEmailConfirm}
-                    disabled={!email}
-                >
+                <form
+                    onSubmit={handleEmailConfirm}
+                    action=""
+                    className="flex flex-col">
+                    <input
+                        type="email"
+                        required
+                        id="formLink"
+                        placeholder="add your form link here"
+                        className="w-full md:w-[400px] mt-[10px] h-[50px] border-2 border-[#B3B4BB] rounded-[5px] outline-none pl-[20px]"
+                        value={email}
+                        onChange={(e) => setEmail(e.target.value)}
+                    />
+                    <button
+                        className="bg-[#015734] font-medium text-[17px] my-8 px-5 py-2 text-white rounded-[5px]"
+                        //onClick={handleEmailConfirm}
+                        disabled={!email}
+                    >
                         Confirm
-                </button>
+                    </button>
                 </form>
 
             </div>
@@ -572,26 +600,59 @@ const LandingPage = () => {
 
                         <div className="flex justify-between space-x-4">
                             <div className="w-9/12 h-screen bg-[#EFF3F6] px-2 overflow-y-auto border border-[#B3B4BB]">
-                                <div className="flex space-x-2 items-center mt-2">
-                                    <p className="text-[28px] font-bold"> {`${searchNumbers.start} - ${searchNumbers.end}`} <span className="font-normal text-xs">{`(${iteration.current_iteration} of ${iteration.no_iterations_rounded} sectors searched)`}</span> </p>
+                                <div className="flex justify-between">
+                                    <div className="flex space-x-2 items-center mt-2">
+                                        <p className="text-[28px] font-bold"> {`${searchNumbers.start} - ${searchNumbers.end}`} <span className="font-normal text-xs">{`(${iteration.current_iteration} of ${iteration.no_iterations_rounded} sectors searched)`}</span> </p>
+                                        {
+                                            iteration.current_iteration < iteration.total_iterations && (
+                                                <button
+                                                    type="button"
+                                                    className={`px-2 rounded-md h-[30px] font-serif font-bold opacity-80 hover:opacity-100 text-center text-sm md:text-md text-white bg-[#005734]`}
+                                                    //disabled={surveys.findIndex((obj) => obj.id === id) !== -1}
+                                                    onClick={loadMore}
+                                                    disabled={loading}
+                                                //disabled={surveys.length < 1 ? true : false}
+                                                >
+                                                    {loading ? "Loading..." : "Load More"}
+                                                </button>
+                                            )
+                                        }
+
+
+
+
+                                    </div>
                                     {
-                                        iteration.current_iteration < iteration.total_iterations && (
+                                        placeDetails.length >=1 && (
+                                            <div className="flex items-center space-x-2 mt-2">
                                             <button
                                                 type="button"
-                                                className={`px-2 rounded-md h-[30px] font-serif font-bold opacity-80 hover:opacity-100 text-center text-sm md:text-md text-white bg-[#005734]`}
-                                                //disabled={surveys.findIndex((obj) => obj.id === id) !== -1}
-                                                onClick={loadMore}
-                                                disabled={loading}
-                                            //disabled={surveys.length < 1 ? true : false}
+                                                className={`px-2 rounded-l-md h-[30px] font-serif font-bold opacity-80 hover:opacity-100 text-center text-sm md:text-md text-white bg-[#005734]`}
+    
+                                                onClick={handleRemove}
+    
                                             >
-                                                {loading ? "Loading..." : "Load More"}
+                                                Remove
                                             </button>
+                                            <button
+                                                type="button"
+                                                className={`px-2 rounded-r-md h-[30px] font-serif font-bold opacity-80 hover:opacity-100 text-center text-sm md:text-md text-white bg-[#005734]`}
+    
+                                                onClick={handleAddAll}
+    
+                                            >
+                                                Add All
+                                            </button>
+    
+    
+                                        </div>
+
                                         )
                                     }
 
 
-
                                 </div>
+
 
 
                                 <div className="flex flex-wrap justify-center">

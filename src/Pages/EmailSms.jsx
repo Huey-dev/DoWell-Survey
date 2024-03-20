@@ -21,6 +21,9 @@ import { FaSquarePhone } from "react-icons/fa6";
 import { FaGlobe } from "react-icons/fa";
 import { IoAddOutline, IoPerson } from "react-icons/io5";
 
+
+
+
 const extractPhoneNumbersFromSessionStorage = () => {
   const surveyData = JSON.parse(sessionStorage.getItem("newSurvey"));
   console.log("survey data),", surveyData);
@@ -60,120 +63,118 @@ const EmailModal = ({
   sformattedDate,
   eformattedDate,
   numOfParticipant,
-  startToEnd
+  startToEnd,
+  formTemplate
 }) => {
   const [emailLoading, setEmailLoading] = useState(false);
   const [fetchedEmails, setFetchedEmails] = useState([]);
   const [selectedEmails, setSelectedEmails] = useState([]);
   const [emailSendLoading, setEmailSendLoading] = useState(false);
+  const [webLinks, setWebLinks] = useState(websites.map(websites => websites.website));
+
+  const [perPercentage, setPerPercentage] = useState(0);
 
   const NameRef = useRef(null);
   const emailRef = useRef(null);
 
   const cancelButtonRef = useRef(null);
 
-  const handleGetEmail = async (website) => {
-    //const emails = csvEmails.map((email) => `dsdsdsds`)
-    setEmailLoading(true);
-    console.log("the websites are", websites);
+  const handleCSVLinksRead = (data, fileInfo) => {
 
-    const formDatas = websites.map((website) => ({
-      web_url: `${website.website}`,
-      info_request: {
-        addresses: true,
-        emails: true,
-        links: true,
-        logos: true,
-        name: true,
-        phone_numbers: true,
-        social_media_links: {
-          all: true,
-          choices: [
-            "facebook",
-            "twitter",
-            "instagram",
-            "linkedin",
-            "youtube",
-            "pinterest",
-            "tumblr",
-            "snapchat",
-          ],
-        },
-        website_socials: {
-          all: true,
-          choices: [
-            "facebook",
-            "twitter",
-            "instagram",
-            "linkedin",
-            "youtube",
-            "pinterest",
-            "tumblr",
-            "snapchat",
-          ],
-        },
-      },
-    }));
+    const extractedLinks = data.map((row, index) => row[0]);
 
-    const formData = {
-      web_url: website,
-      info_request: {
-        addresses: true,
-        emails: true,
-        links: true,
-        logos: true,
-        name: true,
-        phone_numbers: true,
-        social_media_links: {
-          all: true,
-          choices: [
-            "facebook",
-            "twitter",
-            "instagram",
-            "linkedin",
-            "youtube",
-            "pinterest",
-            "tumblr",
-            "snapchat",
-          ],
-        },
-        website_socials: {
-          all: true,
-          choices: [
-            "facebook",
-            "twitter",
-            "instagram",
-            "linkedin",
-            "youtube",
-            "pinterest",
-            "tumblr",
-            "snapchat",
-          ],
-        },
-      },
-    };
+    //console.log("start", extractedMails[0]);
+    setWebLinks((weblinks) => [...weblinks, ...extractedLinks]);
+
+  }
+
+  const GetOneEmail = async (formdata, percent) => {
 
     try {
       const response = await axios.post(
         `https://www.uxlive.me/api/website-info-extractor/`,
-        formData,
+        formdata,
         {
           headers: {
             "Content-Type": "application/json",
           },
         }
       );
+      setPerPercentage((perPercentage) => perPercentage + percent);
+      return response;
 
-      //setCsvSendLoading(false);
-      //console.log("we got a response of", response);
+    }
+    catch (error) {
+      console.log("an error");
+      setPerPercentage((perPercentage) => parseInt(perPercentage) + parseInt(percent));
+    }
+
+
+
+  }
+
+  const handleGetEmails = async (weblinks) => {
+    console.log(weblinks);
+
+    setEmailLoading(true);
+
+
+
+
+
+    const percent = 100 / weblinks.length;
+
+
+
+
+
+
+
+
+    const formDatas = weblinks.map((website) => ({
+      "web_url": `${website}`,
+      "info_request": {
+        "emails": true
+      }
+    }));
+
+
+
+    try {
+
+
+
+      const responses = await Promise.allSettled(formDatas.map(formData => GetOneEmail(formData, percent)));
+      // const data = responses.flatMap(response => response.data?.emails_found);
+      console.log("the ressponses are as", responses);
+
+      const failedPromises = responses.filter(response => response.status === 'rejected');
+      if (failedPromises.length === responses.length) {
+        // All promises failed
+        throw new Error('All requests failed');
+      }
+
+
       setEmailLoading(false);
-      setFetchedEmails(response?.data?.emails_found);
+      setPerPercentage(0);
+      const successfulResponsesEmails = responses.filter(response => (response.status === 'fulfilled') && (response.value?.data?.emails_found?.length >= 1)).flatMap(response => response.value?.data?.emails_found);
+
+      const namesEmails = successfulResponsesEmails.map((email) => ({ name: email, email: email }))
+      console.log("succes data is", namesEmails);
+      setSelectedEmails(namesEmails);
+
+
+
+
+      return;
+
     } catch (error) {
       setEmailLoading(false);
+      setPerPercentage(0);
       toast.error("Error fetching emails", {
-        onClose: () => {},
+        onClose: () => { },
       });
-      setFetchedEmails([]);
+
     }
   };
 
@@ -186,36 +187,7 @@ const EmailModal = ({
       fromemail: "user@username.com",
       to_email_list: selectedEmails,
       subject: "Survey has been created",
-      email_content: `<!DOCTYPE html>
-      <html lang="en">
-      <head>
-        <meta charset="UTF-8">
-        <meta name="viewport" content="width=device-width, initial-scale=1.0">
-        <title>Document</title>
-          <style>
-          .form__body {
-            background-color: #f4f4f4;
-            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
-            padding: 20px;
-            border-radius: 10px;
-          }
-
-        .form__p {
-          font-size: 20px;
-          line-height: 1.5;
-          color: #333;
-        }
-  </style>
-      </head>
-      <body>
-        <div style="font-family: 'Arial', sans-serif; background-color: #f4f4f4; padding: 20px; border-radius: 10px; box-shadow: 0 0 20px rgba(0, 0, 0, 0.2);">
-        <img src="${getQrcode}" alt="QR Code" style="max-width: 100%; height: auto;">
-        <p style="font-size: 16px; line-height: 1.5; color: #333;">A survey has been created by ${Uname}. ${startToEnd}, and it is for a maximum number of ${numOfParticipant} persons. Link to the Qrcode can be found at
-          ${getQrcode}</p>
-        </div>
-
-      </body>
-      </html>`,
+      email_content: formTemplate,
     };
 
     try {
@@ -231,12 +203,12 @@ const EmailModal = ({
 
       setEmailSendLoading(false);
       toast.success("Email(s) sent successfully", {
-        onClose: () => {},
+        onClose: () => { },
       });
     } catch (error) {
       setEmailSendLoading(false);
       toast.error("Error in sending mail(s)", {
-        onClose: () => {},
+        onClose: () => { },
       });
     }
   };
@@ -244,9 +216,8 @@ const EmailModal = ({
   const handleEmailModalClose = () => {
     setEmailLoading(false);
     setEmailSendLoading(false);
-    setFetchedEmails([]);
+    setWebLinks(websites.map(websites => websites.website));
     setSelectedEmails([]);
-    console.log("closing");
     setEmailOpen(false);
   };
 
@@ -296,205 +267,171 @@ const EmailModal = ({
                   </div>
 
                   <div className="flex w-full flex-col h-96 bg-[#EFF3F6] px-4 m-2">
-                  <div className="flex justify-between">
-                            <div className="w-5/12 flex flex-col justify-between py-4">
-                              <div className="h-72 overflow-y-auto">
-                              <div class="flex items-center justify-center w-full my-2">
-                                  <hr class="flex-grow border-t border-[#005734]" />
-                                  <span class="px-3 font-serif text-sm font-semibold text-gray-500">
-                                    Get Emails from Location Sites
-                                  </span>
-                                  <hr class="flex-grow border-t border-[#005734]" />
-                                </div>
-                                {
-                                  websites.map((website, index) => (
-                                    <div key={index} className='flex w-full text-sm bg-white mt-3 rounded-lg'>
-                                      <div className="w-2/12 flex justify-center items-center">
-                                        <FaGlobe className="h-4 w-4 m-1" />
-                                      </div>
-                                      <div className="w-7/12 text-black">
+                    <div className="flex justify-between space-x-1">
+                      <div className="w-3/12 h-full flex items-center justify-center">
+                        <div className="full flex flex-col justify-center items-center border-dashed border-2 border-[#B1B0B0] m-2 h-64 relative w-full">
+                          <FiUpload className="h-12 w-12 m-1 text-black" />
+                          <p className="font-semibold">Upload csv file</p>
 
-                                        <p className="font-semibold">{website.website}</p>
-
-                                      </div>
-                                      <div className="w-3/12 text-black">
-
-                                        <button
-                                          className="w-[70px] h-[20px] font-serif opacity-80 hover:opacity-100 text-center text-xs rounded-full text-white bg-[#399544]"
-                                          onClick={() => handleGetEmail(website.website)}
-                                          disabled={emailLoading}
-                                        > Get Email</button>
-
-                                      </div>
-                                    </div>
-                                  ))
-                                }
-
-                              </div>
-
-                              <div>
-                                <div class="flex items-center justify-center w-full my-2">
-                                  <hr class="flex-grow border-t border-[#005734]" />
-                                  <span class="px-3 font-serif text-sm font-semibold text-gray-500">
-                                    Add Emails
-                                  </span>
-                                  <hr class="flex-grow border-t border-[#005734]" />
-                                </div>
-                                <form onSubmit={(e) => {
-                                  e.preventDefault();
-                                  const details = {
-                                    name: NameRef.current.value,
-                                    email: emailRef.current.value
-                                  }
-                                  setSelectedEmails((emails) => [...emails, details]);
-                                  NameRef.current.value = '';
-                                  emailRef.current.value = '';
-
-
-
-
-                                }}
-                                  className="flex items-center justify-center w-full space-x-2">
-                                  <div class="relative w-4/12">
-                                    <input type="text"
-                                      className="py-1 border w-full rounded-md pl-8"
-                                      ref={NameRef}
-                                      required
-                                      placeholder="Name"
-                                    />
-                                    <div class="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
-                                      <IoPerson className="text-gray-400" />
-                                    </div>
-                                  </div>
-
-
-
-                                  <div class="relative w-6/12">
-                                    <input type="text"
-                                      className="py-1 border w-full rounded-md pl-8"
-                                      ref={emailRef}
-                                      required
-                                      placeholder="Email"
-                                    />
-                                    <div class="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
-                                      <MdEmail className="text-gray-400" />
-                                    </div>
-                                  </div>
-
-                                  <button className="w-[70px] py-2 font-serif opacity-80 hover:opacity-100 text-center text-xs rounded-md text-white bg-[#399544]">Add</button>
-
-
-                                </form>
-
-
-                              </div>
-                            </div>
-
-                        <div className="w-6/12">
-                          {emailLoading ? (
-                            <div className="flex items-center justify-center h-24">
-                              <div
-                                className="m-12 inline-block h-8 w-8 animate-spin text-green-800 rounded-full border-4 border-solid border-current border-r-transparent align-[-0.125em] motion-reduce:animate-[spin_1.5s_linear_infinite]"
-                                role="status"
-                              >
-                                <span className="!absolute !-m-px !h-px !w-px !overflow-hidden !whitespace-nowrap !border-0 !p-0 ![clip:rect(0,0,0,0)]">
-                                  Loading...
-                                </span>
-                              </div>
-                            </div>
-                          ) : (
-                            <div className="text-sm mt-3 h-24 overflow-y-auto bg-white px-1">
-                              {fetchedEmails?.map((email) => (
-                                <div className="flex w-full">
-                                  <div className="w-10/12 text-black">
-                                    <p className="font-semibold">{email}</p>
-                                  </div>
-                                  <div className="w-3/12 text-black">
-                                    <button
-                                      className="w-[70px] h-[20px] font-serif opacity-80 hover:opacity-100 text-center text-xs rounded-full text-white bg-[#399544]"
-                                      onClick={() =>
-                                        setSelectedEmails((emails) => [
-                                          ...emails,
-                                          { name: email, email: email },
-                                        ])
-                                      }
-                                    >
-                                      {" "}
-                                      Add
-                                    </button>
-                                  </div>
-                                </div>
-                              ))}
-                            </div>
-                          )}
-                          <div className="my-3 bg-[#EFF3F6] ">
-                            <div className="flex items-center justify-center w-full text-white font-semibold bg-[#4F6D75] text-md">
-                              Email Listings
-                            </div>
-                            <div className="overflow-y-auto h-48 my-2 border border-gray-200">
-                              {selectedEmails.map((email, index) => (
-                                <div
-                                  key={index}
-                                  className="flex text-sm bg-white my-1"
-                                >
-                                  <div className="w-2/12 flex justify-center items-center">
-                                    <MdOutlineEmail className="h-4 w-4 m-1" />
-                                  </div>
-                                  <div className="w-9/12">
-                                    <p className="font-semibold">
-                                      {email.email}
-                                    </p>
-                                  </div>
-                                  <button
-                                    className="text-red-500"
-                                    onClick={() => {
-                                      const updatedList = [...selectedEmails];
-                                      //const valueIndex = updatedList.indexOf(id);
-                                      const valueIndex = updatedList.findIndex(
-                                        (obj) => obj.email === email.email
-                                      );
-
-                                      if (valueIndex !== -1) {
-                                        // Value is present, remove it
-                                        updatedList.splice(valueIndex, 1);
-                                        setSelectedEmails(updatedList);
-                                      }
-                                    }}
-                                  >
-                                    <XMarkIcon className="h-4 w-4" />
-                                  </button>
-                                </div>
-                              ))}
-                            </div>
-                            <div className="flex justify-center">
-                              {emailSendLoading ? (
-                                <button
-                                  className="w-full h-[30px] font-serif font-bold text-center text-sm md:text-md text-white bg-[#5DA868] cursor-not-allowed"
-                                  disabled
-                                >
-                                  sending
-                                </button>
-                              ) : (
-                                <button
-                                  className={`${
-                                    selectedEmails.length < 1
-                                      ? "opacity-60 cursor-not-allowed"
-                                      : "hover:opacity-100 opacity-80"
-                                  } w-full h-[30px] font-serif font-bold text-center text-sm md:text-md text-white bg-[#5DA868]`}
-                                  onClick={handleSubmit}
-                                  disabled={selectedEmails.length < 1}
-                                >
-                                  Send Emails
-                                </button>
-                              )}
-                            </div>
-                          </div>
+                          <CSVReader
+                            onFileLoaded={handleCSVLinksRead}
+                            // onError={() => alert("file format supported")}
+                            accept=".csv"
+                            inputStyle={{
+                              position: "absolute",
+                              left: 0,
+                              top: 0,
+                              height: "100%",
+                              width: "100%",
+                              cursor: "pointer",
+                              opacity: 0,
+                            }}
+                            parserOptions={{ header: false, skipEmptyLines: true }}
+                          />
                         </div>
 
-                            <div>
+                      </div>
+                      <div className="w-4/12 flex flex-col justify-between">
 
-                            </div>
+                        <div className="my-3 flex flex-col justify-between">
+                          <div className="flex items-center justify-center w-full text-white font-semibold bg-[#4F6D75] text-md">
+                            Web Links
                           </div>
+                          <div className="h-72 border border-gray-200 my-2 overflow-y-auto">
+                            {
+                              webLinks.map((website, index) => (
+                                <div key={index} className='flex w-auto text-sm bg-white mt-1 rounded-lg'>
+                                  <div className="w-2/12 flex justify-center items-center">
+                                    <FaGlobe className="h-4 w-4 m-1" />
+                                  </div>
+                                  <div className="w-7/12 text-black">
+
+                                    <p className="font-semibold break-all">{website}</p>
+
+                                  </div>
+                                  <div className="w-3/12 text-black">
+
+
+
+                                  </div>
+                                </div>
+                              ))
+                            }
+
+                          </div>
+
+                          <div className="flex justify-center">
+                            {emailLoading ? (
+                              <button
+                                className="w-full h-[30px] font-serif font-bold text-center text-sm md:text-md text-white bg-[#5DA868] cursor-not-allowed"
+                                disabled
+                              >
+                                {`fetching ${perPercentage.toFixed(1)}%`}
+                              </button>
+                            ) : (
+                              <button
+                                className={`${websites.length < 1
+                                  ? "opacity-60 cursor-not-allowed"
+                                  : "hover:opacity-100 opacity-80"
+                                  } w-full h-[30px] font-serif font-bold text-center text-sm md:text-md text-white bg-[#5DA868]`}
+                                onClick={() => handleGetEmails(webLinks)}
+                                disabled={websites.length < 1}
+                              >
+                                Get Emails
+                              </button>
+                            )}
+                          </div>
+
+                        </div>
+
+                        <div>
+
+
+
+                        </div>
+                      </div>
+
+                      <div className="w-4/12">
+
+                        <div className="my-3 bg-[#EFF3F6] ">
+                          <div className="flex items-center justify-center w-full text-white font-semibold bg-[#4F6D75] text-md">
+                            Email Listings
+                          </div>
+                          <div className="overflow-y-auto h-72 my-2 border border-gray-200">
+
+                            {selectedEmails.length < 1 ?
+                              (
+                                <div className="flex justify-center items-center h-full">
+                                  <p className="text-gray-500 text-center text-lg font-semibold">
+                                    No results found
+                                  </p>
+                                </div>
+                              ) : (
+                                selectedEmails.map((email, index) => (
+                                  <div
+                                    key={index}
+                                    className="flex text-sm bg-white my-1"
+                                  >
+                                    <div className="w-2/12 flex justify-center items-center">
+                                      <MdOutlineEmail className="h-4 w-4 m-1" />
+                                    </div>
+                                    <div className="w-9/12">
+                                      <p className="font-semibold break-all">
+                                        {email.email}
+                                      </p>
+                                    </div>
+                                    <button
+                                      className="text-red-500"
+                                      onClick={() => {
+                                        const updatedList = [...selectedEmails];
+                                        //const valueIndex = updatedList.indexOf(id);
+                                        const valueIndex = updatedList.findIndex(
+                                          (obj) => obj.email === email.email
+                                        );
+
+                                        if (valueIndex !== -1) {
+                                          // Value is present, remove it
+                                          updatedList.splice(valueIndex, 1);
+                                          setSelectedEmails(updatedList);
+                                        }
+                                      }}
+                                    >
+                                      <XMarkIcon className="h-4 w-4" />
+                                    </button>
+                                  </div>
+                                ))
+
+                              )
+                            }
+                          </div>
+                          <div className="flex justify-center">
+                            {emailSendLoading ? (
+                              <button
+                                className="w-full h-[30px] font-serif font-bold text-center text-sm md:text-md text-white bg-[#5DA868] cursor-not-allowed"
+                                disabled
+                              >
+                                sending
+                              </button>
+                            ) : (
+                              <button
+                                className={`${selectedEmails.length < 1
+                                  ? "opacity-60 cursor-not-allowed"
+                                  : "hover:opacity-100 opacity-80"
+                                  } w-full h-[30px] font-serif font-bold text-center text-sm md:text-md text-white bg-[#5DA868]`}
+                                onClick={handleSubmit}
+                                disabled={selectedEmails.length < 1}
+                              >
+                                Send Emails
+                              </button>
+                            )}
+                          </div>
+                        </div>
+                      </div>
+
+                      <div>
+
+                      </div>
+                    </div>
                   </div>
 
                 </div>
@@ -516,21 +453,26 @@ const EmailCsvModal = ({
   sformattedDate,
   eformattedDate,
   numOfParticipant,
-  startToEnd
+  startToEnd,
+  formTemplate
 }) => {
   const [csvEmails, setCsvEmails] = useState([]);
   const [csvSendLoading, setCsvSendLoading] = useState(false);
+  const NameRef = useRef(null);
+  const emailRef = useRef(null);
 
   const handleCSVRead = (data, fileInfo) => {
     // Assuming the first column in the CSV file contains the list of numbers
+
     const numbersColumnIndex = 0;
+
     const extractedMails = data.map((row, index) => ({
-      email: row[1],
+      email: row[0],
       name: row[0],
     }));
-    console.log("thus us the extraction", data);
 
-    setCsvEmails(extractedMails);
+    console.log("start", extractedMails[0]);
+    setCsvEmails((emails) => [...emails, ...extractedMails]);
   };
 
   const handleSubmit = async () => {
@@ -542,36 +484,7 @@ const EmailCsvModal = ({
       fromemail: "user@username.com",
       to_email_list: csvEmails,
       subject: "Survey has been created",
-      email_content: `<!DOCTYPE html>
-      <html lang="en">
-      <head>
-        <meta charset="UTF-8">
-        <meta name="viewport" content="width=device-width, initial-scale=1.0">
-        <title>Document</title>
-          <style>
-          .form__body {
-            background-color: #f4f4f4;
-            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
-            padding: 20px;
-            border-radius: 10px;
-          }
-
-        .form__p {
-          font-size: 20px;
-          line-height: 1.5;
-          color: #333;
-        }
-  </style>
-      </head>
-      <body>
-        <div style="font-family: 'Arial', sans-serif; background-color: #f4f4f4; padding: 20px; border-radius: 10px; box-shadow: 0 0 20px rgba(0, 0, 0, 0.2);">
-        <img src="${getQrcode}" alt="QR Code" style="max-width: 100%; height: auto;">
-        <p style="font-size: 16px; line-height: 1.5; color: #333;">A survey has been created by ${Uname}. ${startToEnd}, and it is for a maximum number of ${numOfParticipant} persons. Link to the Qrcode can be found at
-          ${getQrcode}</p>
-        </div>
-
-      </body>
-      </html>`,
+      email_content: formTemplate,
     };
 
     try {
@@ -587,17 +500,24 @@ const EmailCsvModal = ({
 
       setCsvSendLoading(false);
       toast.success("Email(s) sent successfully", {
-        onClose: () => {},
+        onClose: () => { },
       });
     } catch (error) {
       setCsvSendLoading(false);
       toast.error("Error in sending mail(s)", {
-        onClose: () => {},
+        onClose: () => { },
       });
     }
   };
 
   const cancelButtonRef = useRef(null);
+
+  const handleEmailCsvModalClose = () => {
+
+    setCsvSendLoading(false);
+    setCsvEmails([]);
+    setOpen(false);
+  };
 
   return (
     <Transition.Root show={open} as={Fragment}>
@@ -605,7 +525,7 @@ const EmailCsvModal = ({
         as="div"
         className="relative z-10"
         initialFocus={cancelButtonRef}
-        onClose={() => setOpen(false)}
+        onClose={handleEmailCsvModalClose}
       >
         <Transition.Child
           as={Fragment}
@@ -638,19 +558,22 @@ const EmailCsvModal = ({
                     </p>
                     <button
                       className="font-serif font-bold text-center m-4"
-                      onClick={() => setOpen(false)}
+                      onClick={handleEmailCsvModalClose}
                     >
                       <XMarkIcon className="h-4 w-4 m-1" />
                     </button>
                   </div>
 
                   <div className="w-full h-full flex justify-between">
-                    <div className="w-6/12 flex flex-col justify-center items-center border-dashed border-2 border-[#B1B0B0] m-2 h-64 relative">
+                    <div className="w-6/12 flex flex-col justify-center items-center">
+                    <div className="w-full flex flex-col justify-center items-center border-dashed border-2 border-[#B1B0B0] m-2 relative h-52">
                       <FiUpload className="h-12 w-12 m-1 text-black" />
                       <p className="font-semibold"> click to upload csv file</p>
 
                       <CSVReader
                         onFileLoaded={handleCSVRead}
+                        onError={() => alert("file format supported")}
+                        accept=".csv"
                         inputStyle={{
                           position: "absolute",
                           left: 0,
@@ -662,13 +585,70 @@ const EmailCsvModal = ({
                         }}
                         parserOptions={{ header: false, skipEmptyLines: true }}
                       />
+
+
                     </div>
+                    <div>
+                        <div class="flex items-center justify-center w-full my-2">
+                          <hr class="flex-grow border-t border-[#005734]" />
+                          <span class="px-3 font-serif text-sm font-semibold text-gray-500">
+                            Add Emails
+                          </span>
+                          <hr class="flex-grow border-t border-[#005734]" />
+                        </div>
+                        <form onSubmit={(e) => {
+                          e.preventDefault();
+                          const details = {
+                            name: NameRef.current.value,
+                            email: emailRef.current.value
+                          }
+                          setCsvEmails((emails) => [...emails, details]);
+                          NameRef.current.value = '';
+                          emailRef.current.value = '';
+                        }}
+                          className="flex items-center justify-center w-full space-x-2">
+                          <div class="relative w-4/12">
+                            <input type="text"
+                              className="py-1 border w-full rounded-md pl-8"
+                              ref={NameRef}
+                              required
+                              placeholder="Name"
+                            />
+                            <div class="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
+                              <IoPerson className="text-gray-400" />
+                            </div>
+                          </div>
+
+
+
+                          <div class="relative w-6/12">
+                            <input type="email"
+                              className="py-1 border w-full rounded-md pl-8"
+                              ref={emailRef}
+                              required
+                              placeholder="Email"
+                            />
+                            <div class="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
+                              <MdEmail className="text-gray-400" />
+                            </div>
+                          </div>
+
+                          <button className="w-[70px] py-2 font-serif opacity-80 hover:opacity-100 text-center text-xs rounded-md text-white bg-[#399544]">Add</button>
+
+
+                        </form>
+
+
+                      </div>
+                      
+                    </div>
+
 
                     <div className="w-6/12 h-full m-2">
                       <div className="flex items-center justify-center w-full text-white font-semibold bg-[#4F6D75] text-md">
                         Email Listings
                       </div>
-                      <div className="my-2 h-44 bg-[#EFF3F6] border border-gray-200 overflow-y-auto">
+                      <div className="my-2 h-56 bg-[#EFF3F6] border border-gray-200 overflow-y-auto">
                         {csvEmails.map((email, index) => (
                           <div
                             key={index}
@@ -678,8 +658,7 @@ const EmailCsvModal = ({
                               <MdOutlineEmail className="h-4 w-4 m-1" />
                             </div>
                             <div className="w-9/12">
-                              <p>{email.name}</p>
-                              <p className="font-semibold">{email.email}</p>
+                              <p className="font-semibold break-all">{email.email}</p>
                             </div>
                           </div>
                         ))}
@@ -694,11 +673,10 @@ const EmailCsvModal = ({
                           </button>
                         ) : (
                           <button
-                            className={`${
-                              csvEmails.length < 1
-                                ? "opacity-60 cursor-not-allowed"
-                                : "hover:opacity-100 opacity-80"
-                            } w-full h-[30px] font-serif font-bold text-center text-sm md:text-md text-white bg-[#3B82F6]`}
+                            className={`${csvEmails.length < 1
+                              ? "opacity-60 cursor-not-allowed"
+                              : "hover:opacity-100 opacity-80"
+                              } w-full h-[30px] font-serif font-bold text-center text-sm md:text-md text-white bg-[#3B82F6]`}
                             onClick={handleSubmit}
                             disabled={csvEmails.length < 1}
                           >
@@ -963,11 +941,11 @@ const StartSurveyModal = ({ startOpen, setStartOpen, setStartToEnd }) => {
           // navigate("/list-surveys");
         },
       });
-      const time_period = `The time period is between ${updatedSurveyData.start_date} to ${updatedSurveyData.end_date}`;
+      const time_period = `<li>Start Date: <strong>${updatedSurveyData.start_date}</strong></li><li>End Date: <strong>${updatedSurveyData.end_date}</strong></li>`;
       setStartToEnd(time_period);
       sessionStorage.setItem("start_end", time_period);
 
-      
+
     } catch (error) {
       setStartLoading(false);
       toast.error("Error updating survey: ", {
@@ -1044,11 +1022,10 @@ const StartSurveyModal = ({ startOpen, setStartOpen, setStartToEnd }) => {
                     </div>
                     <div className="flex justify-center items-center">
                       <button
-                        className={`${
-                          startLoading
-                            ? "opacity-60 cursor-not-allowed"
-                            : "hover:opacity-100 opacity-80"
-                        } w-[150px] h-[30px] font-serif font-bold text-center text-sm md:text-md text-white bg-[#005734]`}
+                        className={`${startLoading
+                          ? "opacity-60 cursor-not-allowed"
+                          : "hover:opacity-100 opacity-80"
+                          } w-[150px] h-[30px] font-serif font-bold text-center text-sm md:text-md text-white bg-[#005734]`}
                         onClick={handleSubmit}
                         disabled={startLoading}
                       >
@@ -1102,22 +1079,22 @@ export const EmailSms = () => {
   const [regionValue, setRegionValue] = useState("");
   const [updatedInfo, setUpdatedInfo] = useState(null);
 
-  // useEffect(() => {
-  //   // Retrieve the stringified array from session storage
-  //   const regionString = sessionStorage.getItem("region");
+  useEffect(() => {
+    // Retrieve the stringified array from session storage
+    const regionString = sessionStorage.getItem("region");
 
-  //   const regionArray = JSON.parse(regionString);
+    const regionArray = JSON.parse(regionString);
 
-  //   if (Array.isArray(regionArray) && regionArray.length > 0) {
-  //     const regionText = regionArray
-  //       .map((region) => region.toUpperCase())
-  //       .join(", ");
+    if (Array.isArray(regionArray) && regionArray.length > 0) {
+      const regionText = regionArray
+        .map((region) => region.toUpperCase())
+        .join(", ");
 
-  //     setRegionValue(${regionText});
-  //   } else {
-  //     setRegionValue("Unknown Region");
-  //   }
-  // }, []); // Run this effect only once after the component is mounted
+      setRegionValue(`${regionText}`);
+    } else {
+      setRegionValue("Unknown Region");
+    }
+  }, []); // Run this effect only once after the component is mounted
 
   const handleOpenPhoneNumbersModal = () => {
     setShowNumbersFromMap(true);
@@ -1144,133 +1121,67 @@ export const EmailSms = () => {
 
   const navigate = useNavigate();
 
-  const handleSubmit = async (e) => {
-    e.preventDefault();
-    setLoading(true);
-
-    const formData = {
-      toname: renderedEmail,
-      toemail: email,
-      subject: "Survey Creation Confirmation",
-      email_content: `<!DOCTYPE html>
-<html lang="en">
-  <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Survey Confirmation</title>
-    <style>
-      body {
-        font-family: "Arial", sans-serif;
-        background-color: #f4f4f4;
-        padding: 20px;
-        border-radius: 10px;
-        box-shadow: 0 0 20px rgba(0, 0, 0, 0.2);
-      }
-      p {
-        margin-top: 30px;
-      }
-      .details {
-        font-size: 16px;
-        line-height: 1.5;
-        color: #333;
-        margin-top: 50px;
-      }
-      .qr-code {
-        max-width: 100%;
-        height: auto;
-      }
-    </style>
-  </head>
-  <body>
-    <p>Dear User,</p>
-    <p>
-      This is to confirm that your survey, <strong>${
-        updatedInfo ? updatedInfo.name : ""
-      }</strong>,
-      has been successfully created on our platform. Below, you'll find the
-      details of your survey. You can share the QR Code/Link with your intended
-      participants or platform to start gathering responses.
-    </p>
-    <div class="details">
-      <ul>
-        <li>Start Date: <strong>${surveyData1.startDate}</strong></li>
-        <li>End Date: <strong>${surveyData1.endDate}</strong></li>
-        <li>
-          Maximum Number of Participants/Responses:
-          <strong>${numOfParticipant}</strong>
-        </li>
-        <li>
-          Target Location/Audience:
-          <strong>${regionValue} Region's</strong>
-        </li>
-        <li>QR Code Link: <strong>${getQrcode}</strong></li>
-      </ul>
-    </div>
-    <h2>QR Code:</h2>
-    <img
-      src="${getQrcode}"
-      alt="QR Code"
-      style="max-width: 200px; height: 200px"
-    />
-  </body>
-</html>
-`,
-    };
-    try {
-      const updatedSurveyData = {
-        id: sessionStorage.getItem("id"),
-        qrcode_id: sessionStorage.getItem("qrcode_id"),
-        start_date: sformattedDate,
-        end_date: eformattedDate,
-      };
-
-      const updateSurvey = await axios.put(
-        `https://100025.pythonanywhere.com/update-qr-codev2?api_key=a0955eef-146b-4efd-a14a-85727d5b6014`,
-        updatedSurveyData,
-        {
-          headers: {
-            "Content-Type": "multipart/form-data",
-          },
+  const formTemplate = `<!DOCTYPE html>
+  <html lang="en">
+    <head>
+      <meta charset="UTF-8" />
+      <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+      <title>Survey Confirmation</title>
+      <style>
+        body {
+          font-family: "Arial", sans-serif;
+          background-color: #f4f4f4;
+          padding: 20px;
+          border-radius: 10px;
+          box-shadow: 0 0 20px rgba(0, 0, 0, 0.2);
         }
-      );
-      setUpdatedInfo(updateSurvey.data);
-      console.log("this is survey response", updatedInfo);
-
-      const response = await axios.post(
-        `https://100085.pythonanywhere.com/api/email/?api_key=4f0bd662-8456-4b2e-afa6-293d4135facf`,
-        formData,
-        {
-          headers: {
-            "Content-Type": "multipart/form-data",
-          },
+        p {
+          margin-top: 30px;
         }
-      );
-      console.log("this is email endpoints", response);
-      setLoading(false);
-      toast.success("Your survey has started", {
-        onClose: () => {
-          navigate("/list-surveys");
-        },
-      });
-    } catch (error) {
-      setLoading(false);
-      if (error.updateSurvey && error.updateSurvey.status === 400) {
-        toast.error("Error updating survey: ", {
-          onClose: () => {
-            //  navigate("/list-surveys");
-          },
-        });
-      } else {
-        // For other errors, such as email sending failure
-        setLoading(false);
-        toast.error("Error sending survey: " + error.message, {
-          onClose: () => {
-            navigate("/list-surveys");
-          },
-        });
-      }
-    }
-  };
+        .details {
+          font-size: 16px;
+          line-height: 1.5;
+          color: #333;
+          margin-top: 50px;
+        }
+        .qr-code {
+          max-width: 100%;
+          height: auto;
+        }
+      </style>
+    </head>
+    <body>
+      <p>Dear User,</p>
+      <p>
+        This is to confirm that your survey, <strong>${updatedInfo ? updatedInfo.name : ""
+          }</strong>,
+        has been successfully created on our platform. Below, you'll find the
+        details of your survey. You can share the QR Code/Link with your intended
+        participants or platform to start gathering responses.
+      </p>
+      <div class="details">
+        <ul>
+          ${startToEnd}
+          <li>
+            Maximum Number of Participants/Responses:
+            <strong>${numOfParticipant}</strong>
+          </li>
+          <li>
+            Target Location/Audience:
+            <strong>${regionValue} Region's</strong>
+          </li>
+          <li>QR Code Link: <strong>${getQrcode}</strong></li>
+        </ul>
+      </div>
+      <h2>QR Code:</h2>
+      <img
+        src="${getQrcode}"
+        alt="QR Code"
+        style="max-width: 200px; height: 200px"
+      />
+    </body>
+  </html>
+  `
 
   const handleNumberToggle = (number) => {
     setSelectedNumbers((prevNumbers) => {
@@ -1303,6 +1214,7 @@ export const EmailSms = () => {
             eformattedDate={eformattedDate}
             numOfParticipant={numOfParticipant}
             startToEnd={startToEnd}
+            formTemplate={formTemplate}
           />
           <EmailCsvModal
             open={open}
@@ -1313,6 +1225,7 @@ export const EmailSms = () => {
             eformattedDate={eformattedDate}
             numOfParticipant={numOfParticipant}
             startToEnd={startToEnd}
+            formTemplate={formTemplate}
           />
           <div className="px-2 items-center flex justify-between bg-[#005734]">
             <h1 className=" text-white text-2xl font-semibold pt-1 pb-3 no-underline">
@@ -1366,7 +1279,7 @@ export const EmailSms = () => {
                   setEmailOpen(true);
                 }}
               >
-                Via Email
+                Via Weblinks
               </button>
               <button
                 className="w-[150px] h-[30px] font-serif font-bold opacity-80 hover:opacity-100 text-center text-sm md:text-md text-white bg-[#3B82F6]"
@@ -1382,7 +1295,7 @@ export const EmailSms = () => {
                   setOpen(true);
                 }}
               >
-                Via Email (csv)
+                Via Email
               </button>
               <button
                 className="w-[150px] h-[30px] font-serif font-bold opacity-80 hover:opacity-100 text-center text-sm md:text-md text-white bg-orange-500"

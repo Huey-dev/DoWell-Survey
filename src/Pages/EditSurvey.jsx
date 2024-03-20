@@ -660,9 +660,9 @@ export default function Edit() {
               <h1 className=" text-white text-2xl font-semibold pt-1 pb-3 no-underline">
                 My Surveys
               </h1>
-              <h6 className=" text-white text-sm font-bold pb-0 no-underline">
+              {/* <h6 className=" text-white text-sm font-bold pb-0 no-underline">
                 {`Total Surveys ${survey_results[0]?.total_survey || ""}  Active Surveys${survey_results[0]?.active_survey || ""} Closed Surveys ${survey_results[0]?.closed_survey || ""}`}
-              </h6>
+              </h6> */}
               <h6 className=" text-white text-sm font-bold pb-0 no-underline">
               Download, Preview, and Share QR Codes. View Your Survey Location.
               </h6>

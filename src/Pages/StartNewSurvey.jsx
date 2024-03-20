@@ -222,7 +222,7 @@ const StartNewSurvey = () => {
             value={product}
             onChange={(e) => setProduct(e.target.value)}
             className="border-2 w-full sm:w-[40%] p-1 border-[#B3B4BB] rounded-[5px] outline-none"
-            placeholder="Enter Product Name"
+            placeholder="Enter Your Product/Service Name"
           />
 
           <textarea

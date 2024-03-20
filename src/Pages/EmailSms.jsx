@@ -186,7 +186,7 @@ const EmailModal = ({
       fromname: "Dowell Surveys",
       fromemail: "user@username.com",
       to_email_list: selectedEmails,
-      subject: "Survey has been created",
+      subject: "Survey Creation Confirmation",
       email_content: formTemplate,
     };
 
@@ -483,7 +483,7 @@ const EmailCsvModal = ({
       fromname: "Dowell Surveys",
       fromemail: "user@username.com",
       to_email_list: csvEmails,
-      subject: "Survey has been created",
+      subject: "Survey Creation Confirmation",
       email_content: formTemplate,
     };
 
@@ -1077,7 +1077,7 @@ export const EmailSms = () => {
   const [selectedNumbers, setSelectedNumbers] = useState([]);
   const [showNumbersFromMap, setShowNumbersFromMap] = useState(false);
   const [regionValue, setRegionValue] = useState("");
-  const [updatedInfo, setUpdatedInfo] = useState(null);
+  const [updatedInfo, setUpdatedInfo] = useState(sessionStorage.getItem("surveyName"));
 
   useEffect(() => {
     // Retrieve the stringified array from session storage
@@ -1153,8 +1153,7 @@ export const EmailSms = () => {
     <body>
       <p>Dear User,</p>
       <p>
-        This is to confirm that your survey, <strong>${updatedInfo ? updatedInfo.name : ""
-          }</strong>,
+        This is to confirm that your survey, <strong>${updatedInfo}</strong>,
         has been successfully created on our platform. Below, you'll find the
         details of your survey. You can share the QR Code/Link with your intended
         participants or platform to start gathering responses.

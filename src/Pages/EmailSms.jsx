@@ -24,7 +24,6 @@ import { IoAddOutline, IoPerson } from "react-icons/io5";
 
 const extractPhoneNumbersFromSessionStorage = () => {
   const surveyData = JSON.parse(sessionStorage.getItem("newSurvey"));
-  console.log("survey data),", surveyData);
   if (!surveyData) return [];
   const numbers = surveyData
     .filter((entry) => entry.phone && entry.phone !== "None")
@@ -108,8 +107,6 @@ const EmailModal = ({
   };
 
   const handleGetEmails = async (weblinks) => {
-    console.log(weblinks);
-
     setEmailLoading(true);
 
     const percent = 100 / weblinks.length;
@@ -126,7 +123,6 @@ const EmailModal = ({
         formDatas.map((formData) => GetOneEmail(formData, percent))
       );
       // const data = responses.flatMap(response => response.data?.emails_found);
-      console.log("the ressponses are as", responses);
 
       const failedPromises = responses.filter(
         (response) => response.status === "rejected"
@@ -150,7 +146,6 @@ const EmailModal = ({
         name: email,
         email: email,
       }));
-      console.log("succes data is", namesEmails);
       setSelectedEmails(namesEmails);
 
       return;
@@ -441,7 +436,6 @@ const EmailCsvModal = ({
       name: row[0],
     }));
 
-    console.log("start", extractedMails[0]);
     setCsvEmails((emails) => [...emails, ...extractedMails]);
   };
 
@@ -765,7 +759,6 @@ const SmsCsvModal = ({ smsCsvOpen, setSmsCsvOpen }) => {
       number: row[1],
       name: row[0],
     }));
-    console.log("thus us the extraction", data);
 
     setCsvNumbers(extractedNumbers);
   };
@@ -907,7 +900,6 @@ const StartSurveyModal = ({ startOpen, setStartOpen, setStartToEnd }) => {
           },
         }
       );
-      console.log("this is survey updatedSurveyData", updateSurvey.data);
       sessionStorage.removeItem("step1");
       sessionStorage.removeItem("step2");
       sessionStorage.removeItem("step3");

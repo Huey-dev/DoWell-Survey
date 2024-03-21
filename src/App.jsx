@@ -124,7 +124,7 @@ function App() {
               <Route path="/survey-iframe-all" element={<SurveyIframeAll />} />
               {/* <Route path="/finalise" element={<FinalizeSample />} /> */}
               {/* <Route path="/email-sms" element={<EmailSms />} /> */}
-              
+
               <Route path="*" element={<RedirectToExternalWebsite />} />
             </Routes>
           </Router>
@@ -135,8 +135,8 @@ function App() {
 
   return (
     <>
-      <PreviewProvider>
-        <Router basename="/DoWell-Survey/">
+      <Router basename="/DoWell-Survey/">
+        <PreviewProvider>
           <Routes>
             <Route path="/" element={<LandingPageProposed />} />
             <Route path="/email-signup" element={<ModalPopUp />} />
@@ -156,8 +156,8 @@ function App() {
             <Route path="/survey-iframe" element={<SurveyIframe />} />
             <Route path="*" element={<LandingPageProposed />} />
           </Routes>
-        </Router>
-      </PreviewProvider>
+        </PreviewProvider>
+      </Router>
     </>
   );
 }

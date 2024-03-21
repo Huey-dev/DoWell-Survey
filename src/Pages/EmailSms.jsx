@@ -6,6 +6,7 @@ import { Link, useNavigate } from "react-router-dom";
 import { toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import "./pages.css";
+import { showToast } from "./showToast";
 import {
   MapPinIcon,
   PencilSquareIcon,
@@ -14,7 +15,7 @@ import {
   XMarkIcon,
 } from "@heroicons/react/24/outline";
 import { Dialog, Transition } from "@headlessui/react";
-import CSVReader from 'react-csv-reader';
+import CSVReader from "react-csv-reader";
 import { MdEmail, MdOutlineEmail } from "react-icons/md";
 import { FiUpload } from "react-icons/fi";
 import { FaSquarePhone } from "react-icons/fa6";
@@ -60,7 +61,7 @@ const EmailModal = ({
   sformattedDate,
   eformattedDate,
   numOfParticipant,
-  startToEnd
+  startToEnd,
 }) => {
   const [emailLoading, setEmailLoading] = useState(false);
   const [fetchedEmails, setFetchedEmails] = useState([]);
@@ -296,209 +297,205 @@ const EmailModal = ({
                   </div>
 
                   <div className="flex w-full flex-col h-96 bg-[#EFF3F6] px-4 m-2">
-                  <div className="flex justify-between">
-                            <div className="w-5/12 flex flex-col justify-between py-4">
-                              <div className="h-72 overflow-y-auto">
-                              <div class="flex items-center justify-center w-full my-2">
-                                  <hr class="flex-grow border-t border-[#005734]" />
-                                  <span class="px-3 font-serif text-sm font-semibold text-gray-500">
-                                    Get Emails from Location Sites
-                                  </span>
-                                  <hr class="flex-grow border-t border-[#005734]" />
-                                </div>
-                                {
-                                  websites.map((website, index) => (
-                                    <div key={index} className='flex w-full text-sm bg-white mt-3 rounded-lg'>
-                                      <div className="w-2/12 flex justify-center items-center">
-                                        <FaGlobe className="h-4 w-4 m-1" />
-                                      </div>
-                                      <div className="w-7/12 text-black">
-
-                                        <p className="font-semibold">{website.website}</p>
-
-                                      </div>
-                                      <div className="w-3/12 text-black">
-
-                                        <button
-                                          className="w-[70px] h-[20px] font-serif opacity-80 hover:opacity-100 text-center text-xs rounded-full text-white bg-[#399544]"
-                                          onClick={() => handleGetEmail(website.website)}
-                                          disabled={emailLoading}
-                                        > Get Email</button>
-
-                                      </div>
-                                    </div>
-                                  ))
-                                }
-
-                              </div>
-
-                              <div>
-                                <div class="flex items-center justify-center w-full my-2">
-                                  <hr class="flex-grow border-t border-[#005734]" />
-                                  <span class="px-3 font-serif text-sm font-semibold text-gray-500">
-                                    Add Emails
-                                  </span>
-                                  <hr class="flex-grow border-t border-[#005734]" />
-                                </div>
-                                <form onSubmit={(e) => {
-                                  e.preventDefault();
-                                  const details = {
-                                    name: NameRef.current.value,
-                                    email: emailRef.current.value
-                                  }
-                                  setSelectedEmails((emails) => [...emails, details]);
-                                  NameRef.current.value = '';
-                                  emailRef.current.value = '';
-
-
-
-
-                                }}
-                                  className="flex items-center justify-center w-full space-x-2">
-                                  <div class="relative w-4/12">
-                                    <input type="text"
-                                      className="py-1 border w-full rounded-md pl-8"
-                                      ref={NameRef}
-                                      required
-                                      placeholder="Name"
-                                    />
-                                    <div class="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
-                                      <IoPerson className="text-gray-400" />
-                                    </div>
-                                  </div>
-
-
-
-                                  <div class="relative w-6/12">
-                                    <input type="text"
-                                      className="py-1 border w-full rounded-md pl-8"
-                                      ref={emailRef}
-                                      required
-                                      placeholder="Email"
-                                    />
-                                    <div class="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
-                                      <MdEmail className="text-gray-400" />
-                                    </div>
-                                  </div>
-
-                                  <button className="w-[70px] py-2 font-serif opacity-80 hover:opacity-100 text-center text-xs rounded-md text-white bg-[#399544]">Add</button>
-
-
-                                </form>
-
-
-                              </div>
-                            </div>
-
-                        <div className="w-6/12">
-                          {emailLoading ? (
-                            <div className="flex items-center justify-center h-24">
-                              <div
-                                className="m-12 inline-block h-8 w-8 animate-spin text-green-800 rounded-full border-4 border-solid border-current border-r-transparent align-[-0.125em] motion-reduce:animate-[spin_1.5s_linear_infinite]"
-                                role="status"
-                              >
-                                <span className="!absolute !-m-px !h-px !w-px !overflow-hidden !whitespace-nowrap !border-0 !p-0 ![clip:rect(0,0,0,0)]">
-                                  Loading...
-                                </span>
-                              </div>
-                            </div>
-                          ) : (
-                            <div className="text-sm mt-3 h-24 overflow-y-auto bg-white px-1">
-                              {fetchedEmails?.map((email) => (
-                                <div className="flex w-full">
-                                  <div className="w-10/12 text-black">
-                                    <p className="font-semibold">{email}</p>
-                                  </div>
-                                  <div className="w-3/12 text-black">
-                                    <button
-                                      className="w-[70px] h-[20px] font-serif opacity-80 hover:opacity-100 text-center text-xs rounded-full text-white bg-[#399544]"
-                                      onClick={() =>
-                                        setSelectedEmails((emails) => [
-                                          ...emails,
-                                          { name: email, email: email },
-                                        ])
-                                      }
-                                    >
-                                      {" "}
-                                      Add
-                                    </button>
-                                  </div>
-                                </div>
-                              ))}
-                            </div>
-                          )}
-                          <div className="my-3 bg-[#EFF3F6] ">
-                            <div className="flex items-center justify-center w-full text-white font-semibold bg-[#4F6D75] text-md">
-                              Email Listings
-                            </div>
-                            <div className="overflow-y-auto h-48 my-2 border border-gray-200">
-                              {selectedEmails.map((email, index) => (
-                                <div
-                                  key={index}
-                                  className="flex text-sm bg-white my-1"
-                                >
-                                  <div className="w-2/12 flex justify-center items-center">
-                                    <MdOutlineEmail className="h-4 w-4 m-1" />
-                                  </div>
-                                  <div className="w-9/12">
-                                    <p className="font-semibold">
-                                      {email.email}
-                                    </p>
-                                  </div>
-                                  <button
-                                    className="text-red-500"
-                                    onClick={() => {
-                                      const updatedList = [...selectedEmails];
-                                      //const valueIndex = updatedList.indexOf(id);
-                                      const valueIndex = updatedList.findIndex(
-                                        (obj) => obj.email === email.email
-                                      );
-
-                                      if (valueIndex !== -1) {
-                                        // Value is present, remove it
-                                        updatedList.splice(valueIndex, 1);
-                                        setSelectedEmails(updatedList);
-                                      }
-                                    }}
-                                  >
-                                    <XMarkIcon className="h-4 w-4" />
-                                  </button>
-                                </div>
-                              ))}
-                            </div>
-                            <div className="flex justify-center">
-                              {emailSendLoading ? (
-                                <button
-                                  className="w-full h-[30px] font-serif font-bold text-center text-sm md:text-md text-white bg-[#5DA868] cursor-not-allowed"
-                                  disabled
-                                >
-                                  sending
-                                </button>
-                              ) : (
-                                <button
-                                  className={`${
-                                    selectedEmails.length < 1
-                                      ? "opacity-60 cursor-not-allowed"
-                                      : "hover:opacity-100 opacity-80"
-                                  } w-full h-[30px] font-serif font-bold text-center text-sm md:text-md text-white bg-[#5DA868]`}
-                                  onClick={handleSubmit}
-                                  disabled={selectedEmails.length < 1}
-                                >
-                                  Send Emails
-                                </button>
-                              )}
-                            </div>
+                    <div className="flex justify-between">
+                      <div className="w-5/12 flex flex-col justify-between py-4">
+                        <div className="h-72 overflow-y-auto">
+                          <div class="flex items-center justify-center w-full my-2">
+                            <hr class="flex-grow border-t border-[#005734]" />
+                            <span class="px-3 font-serif text-sm font-semibold text-gray-500">
+                              Get Emails from Location Sites
+                            </span>
+                            <hr class="flex-grow border-t border-[#005734]" />
                           </div>
+                          {websites.map((website, index) => (
+                            <div
+                              key={index}
+                              className="flex w-full text-sm bg-white mt-3 rounded-lg"
+                            >
+                              <div className="w-2/12 flex justify-center items-center">
+                                <FaGlobe className="h-4 w-4 m-1" />
+                              </div>
+                              <div className="w-7/12 text-black">
+                                <p className="font-semibold">
+                                  {website.website}
+                                </p>
+                              </div>
+                              <div className="w-3/12 text-black">
+                                <button
+                                  className="w-[70px] h-[20px] font-serif opacity-80 hover:opacity-100 text-center text-xs rounded-full text-white bg-[#399544]"
+                                  onClick={() =>
+                                    handleGetEmail(website.website)
+                                  }
+                                  disabled={emailLoading}
+                                >
+                                  {" "}
+                                  Get Email
+                                </button>
+                              </div>
+                            </div>
+                          ))}
                         </div>
 
-                            <div>
+                        <div>
+                          <div class="flex items-center justify-center w-full my-2">
+                            <hr class="flex-grow border-t border-[#005734]" />
+                            <span class="px-3 font-serif text-sm font-semibold text-gray-500">
+                              Add Emails
+                            </span>
+                            <hr class="flex-grow border-t border-[#005734]" />
+                          </div>
+                          <form
+                            onSubmit={(e) => {
+                              e.preventDefault();
+                              const details = {
+                                name: NameRef.current.value,
+                                email: emailRef.current.value,
+                              };
+                              setSelectedEmails((emails) => [
+                                ...emails,
+                                details,
+                              ]);
+                              NameRef.current.value = "";
+                              emailRef.current.value = "";
+                            }}
+                            className="flex items-center justify-center w-full space-x-2"
+                          >
+                            <div class="relative w-4/12">
+                              <input
+                                type="text"
+                                className="py-1 border w-full rounded-md pl-8"
+                                ref={NameRef}
+                                required
+                                placeholder="Name"
+                              />
+                              <div class="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
+                                <IoPerson className="text-gray-400" />
+                              </div>
+                            </div>
 
+                            <div class="relative w-6/12">
+                              <input
+                                type="text"
+                                className="py-1 border w-full rounded-md pl-8"
+                                ref={emailRef}
+                                required
+                                placeholder="Email"
+                              />
+                              <div class="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
+                                <MdEmail className="text-gray-400" />
+                              </div>
+                            </div>
+
+                            <button className="w-[70px] py-2 font-serif opacity-80 hover:opacity-100 text-center text-xs rounded-md text-white bg-[#399544]">
+                              Add
+                            </button>
+                          </form>
+                        </div>
+                      </div>
+
+                      <div className="w-6/12">
+                        {emailLoading ? (
+                          <div className="flex items-center justify-center h-24">
+                            <div
+                              className="m-12 inline-block h-8 w-8 animate-spin text-green-800 rounded-full border-4 border-solid border-current border-r-transparent align-[-0.125em] motion-reduce:animate-[spin_1.5s_linear_infinite]"
+                              role="status"
+                            >
+                              <span className="!absolute !-m-px !h-px !w-px !overflow-hidden !whitespace-nowrap !border-0 !p-0 ![clip:rect(0,0,0,0)]">
+                                Loading...
+                              </span>
                             </div>
                           </div>
+                        ) : (
+                          <div className="text-sm mt-3 h-24 overflow-y-auto bg-white px-1">
+                            {fetchedEmails?.map((email) => (
+                              <div className="flex w-full">
+                                <div className="w-10/12 text-black">
+                                  <p className="font-semibold">{email}</p>
+                                </div>
+                                <div className="w-3/12 text-black">
+                                  <button
+                                    className="w-[70px] h-[20px] font-serif opacity-80 hover:opacity-100 text-center text-xs rounded-full text-white bg-[#399544]"
+                                    onClick={() =>
+                                      setSelectedEmails((emails) => [
+                                        ...emails,
+                                        { name: email, email: email },
+                                      ])
+                                    }
+                                  >
+                                    {" "}
+                                    Add
+                                  </button>
+                                </div>
+                              </div>
+                            ))}
+                          </div>
+                        )}
+                        <div className="my-3 bg-[#EFF3F6] ">
+                          <div className="flex items-center justify-center w-full text-white font-semibold bg-[#4F6D75] text-md">
+                            Email Listings
+                          </div>
+                          <div className="overflow-y-auto h-48 my-2 border border-gray-200">
+                            {selectedEmails.map((email, index) => (
+                              <div
+                                key={index}
+                                className="flex text-sm bg-white my-1"
+                              >
+                                <div className="w-2/12 flex justify-center items-center">
+                                  <MdOutlineEmail className="h-4 w-4 m-1" />
+                                </div>
+                                <div className="w-9/12">
+                                  <p className="font-semibold">{email.email}</p>
+                                </div>
+                                <button
+                                  className="text-red-500"
+                                  onClick={() => {
+                                    const updatedList = [...selectedEmails];
+                                    //const valueIndex = updatedList.indexOf(id);
+                                    const valueIndex = updatedList.findIndex(
+                                      (obj) => obj.email === email.email
+                                    );
+
+                                    if (valueIndex !== -1) {
+                                      // Value is present, remove it
+                                      updatedList.splice(valueIndex, 1);
+                                      setSelectedEmails(updatedList);
+                                    }
+                                  }}
+                                >
+                                  <XMarkIcon className="h-4 w-4" />
+                                </button>
+                              </div>
+                            ))}
+                          </div>
+                          <div className="flex justify-center">
+                            {emailSendLoading ? (
+                              <button
+                                className="w-full h-[30px] font-serif font-bold text-center text-sm md:text-md text-white bg-[#5DA868] cursor-not-allowed"
+                                disabled
+                              >
+                                sending
+                              </button>
+                            ) : (
+                              <button
+                                className={`${
+                                  selectedEmails.length < 1
+                                    ? "opacity-60 cursor-not-allowed"
+                                    : "hover:opacity-100 opacity-80"
+                                } w-full h-[30px] font-serif font-bold text-center text-sm md:text-md text-white bg-[#5DA868]`}
+                                onClick={handleSubmit}
+                                disabled={selectedEmails.length < 1}
+                              >
+                                Send Emails
+                              </button>
+                            )}
+                          </div>
+                        </div>
+                      </div>
+
+                      <div></div>
+                    </div>
                   </div>
-
                 </div>
-
               </Dialog.Panel>
             </Transition.Child>
           </div>
@@ -516,7 +513,7 @@ const EmailCsvModal = ({
   sformattedDate,
   eformattedDate,
   numOfParticipant,
-  startToEnd
+  startToEnd,
 }) => {
   const [csvEmails, setCsvEmails] = useState([]);
   const [csvSendLoading, setCsvSendLoading] = useState(false);
@@ -966,8 +963,6 @@ const StartSurveyModal = ({ startOpen, setStartOpen, setStartToEnd }) => {
       const time_period = `The time period is between ${updatedSurveyData.start_date} to ${updatedSurveyData.end_date}`;
       setStartToEnd(time_period);
       sessionStorage.setItem("start_end", time_period);
-
-      
     } catch (error) {
       setStartLoading(false);
       toast.error("Error updating survey: ", {
@@ -1072,7 +1067,9 @@ export const EmailSms = () => {
   const [emailOpen, setEmailOpen] = useState(false);
   const [startOpen, setStartOpen] = useState(false);
   const [smsCsvOpen, setSmsCsvOpen] = useState(false);
-  const [startToEnd, setStartToEnd] = useState(sessionStorage.getItem("start_end") || "")
+  const [startToEnd, setStartToEnd] = useState(
+    sessionStorage.getItem("start_end") || ""
+  );
 
   const getQrcode = sessionStorage.getItem("Qrcode");
   const numOfParticipant = sessionStorage.getItem("numOfParticipants");
@@ -1089,6 +1086,28 @@ export const EmailSms = () => {
   const [phoneNumbers, setPhoneNumbers] = useState(
     extractPhoneNumbersFromSessionStorage()
   );
+
+  useEffect(() => {
+    const firstStep = sessionStorage.getItem("step1");
+    const secondStep = sessionStorage.getItem("step2");
+    const thirdStep = sessionStorage.getItem("step3");
+    let toastShown = false;
+    if (!firstStep) {
+      showToast("Please fill Step 1 ");
+      navigate("/");
+      toastShown = true;
+    }
+    if (!secondStep && !toastShown) {
+      showToast("Please fill Step 2 ");
+      navigate("/finalize-Sample");
+      toastShown = true;
+    }
+    if (!thirdStep && !toastShown) {
+      showToast("Please fill Step 3 ");
+      navigate("/newsurvey");
+      toastShown = true;
+    }
+  }, []);
 
   const [sms, setSms] = useState(null);
   const [websites, setWebsites] = useState(extractWebsitesFromSessionStorage);
@@ -1233,6 +1252,9 @@ export const EmailSms = () => {
           },
         }
       );
+      sessionStorage.removeItem("step1");
+      sessionStorage.removeItem("step2");
+      sessionStorage.removeItem("step3");
       setUpdatedInfo(updateSurvey.data);
       console.log("this is survey response", updatedInfo);
 
@@ -1292,7 +1314,11 @@ export const EmailSms = () => {
             phoneNumbers={phoneNumbers}
           />
           <SmsCsvModal smsCsvOpen={smsCsvOpen} setSmsCsvOpen={setSmsCsvOpen} />
-          <StartSurveyModal startOpen={startOpen} setStartOpen={setStartOpen} setStartToEnd={setStartToEnd} />
+          <StartSurveyModal
+            startOpen={startOpen}
+            setStartOpen={setStartOpen}
+            setStartToEnd={setStartToEnd}
+          />
           <EmailModal
             emailOpen={emailOpen}
             setEmailOpen={setEmailOpen}
@@ -1341,7 +1367,6 @@ export const EmailSms = () => {
                 Start the Survey
               </button>
             </div>
-
 
             <div class="flex items-center w-4/6">
               <hr class="flex-grow border-t border-[#005734]" />
@@ -1418,9 +1443,6 @@ export const EmailSms = () => {
                 Via SMS(csv)
               </button>
             </div>
-
-
-
           </div>
         </div>
       </main>

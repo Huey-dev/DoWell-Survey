@@ -57,40 +57,47 @@ export default function Sidebar() {
                 </li>
               </Link>
 
-              <li
-                className={`font-bold bg-[#7ED957] my-2 text-center text-md h-8 ${
-                  location.pathname === "/finalize-Sample"
-                    ? "text-black bg-white rounded-md px-1"
-                    : "text-white"
-                }`}
-              >
-                1. Finalise Sample Size
-              </li>
-              <li
-                className={`font-bold bg-[#A6A6A6] my-2 text-center text-md h-8 ${
-                  location.pathname === "/newsurvey"
-                    ? "text-black bg-white rounded-md px-1"
-                    : "text-white"
-                }`}
-              >
-                2. Link Survey Form
-              </li>
-              <li
-                className={`font-bold  my-2 text-center text-md flex h-16 ${
-                  location.pathname === "/email-sms"
-                    ? "text-black bg-white rounded-md px-1"
-                    : "text-white"
-                }`}
-              >
-                <p className="w-[100px] text-[10px] bg-[#396E2E]">
-                  A. SMS <br />
-                  B. Email <br />
-                  C. SMS & EMAIL
-                </p>
-                <p className="bg-[#A6A6A6] ml-2 w-[120px] flex justify-center items-center">
-                  3.Start Survey
-                </p>
-              </li>
+              <Link to="/finalize-Sample">
+                <li
+                  className={`font-bold bg-[#7ED957] my-2 text-center text-md h-8 ${
+                    location.pathname === "/finalize-Sample"
+                      ? "text-black bg-white rounded-md px-1"
+                      : "text-white"
+                  }`}
+                >
+                  1. Finalise Sample Size
+                </li>
+              </Link>
+              <Link to="/newsurvey">
+                <li
+                  className={`font-bold bg-[#A6A6A6] my-2 text-center text-md h-8 ${
+                    location.pathname === "/newsurvey"
+                      ? "text-black bg-white rounded-md px-1"
+                      : "text-white"
+                  }`}
+                >
+                  2. Link Survey Form
+                </li>
+              </Link>
+              <Link to="/email-sms">
+                <li
+                  className={`font-bold  my-2 text-center text-md flex h-16 ${
+                    location.pathname === "/email-sms"
+                      ? "text-black bg-white rounded-md px-1"
+                      : "text-white"
+                  }`}
+                >
+                  <p className="w-[100px] text-[10px] bg-[#396E2E]">
+                    A. SMS <br />
+                    B. Email <br />
+                    C. SMS & EMAIL
+                  </p>
+                  <p className="bg-[#A6A6A6] ml-2 w-[120px] flex justify-center items-center">
+                    3.Start Survey
+                  </p>
+                </li>
+              </Link>
+
               <Link to="/stop-survey">
                 <li
                   className={`font-bold bg-[#A6A6A6] border border-white my-2 text-center text-md h-8 ${
@@ -222,40 +229,46 @@ export default function Sidebar() {
                 >
                   <Link to="/">New Survey</Link>
                 </li>
-                <li
-                  className={`font-bold my-2 bg-[#7ED957] text-md h-8 ${
-                    location.pathname === "/finalize-Sample"
-                      ? "text-black bg-white rounded-md px-1"
-                      : "text-white"
-                  }`}
-                >
-                  1. Finalise Sample Size
-                </li>
-                <li
-                  className={`font-bold my-2 bg-[#A6A6A6]  text-md h-8 ${
-                    location.pathname === "/newsurvey"
-                      ? "text-black bg-white rounded-md px-1"
-                      : "text-white"
-                  }`}
-                >
-                  2. Link Survey Form
-                </li>
-                <li
-                  className={`font-bold my-2 text-md w-full flex h-16 ${
-                    location.pathname === "/email-sms"
-                      ? "text-black bg-white rounded-md px-1"
-                      : "text-white"
-                  }`}
-                >
-                  <p className="w-[100px] text-sm bg-[#396E2E]">
-                    A. SMS <br />
-                    B. Email <br />
-                    C. SMS & EMAIL
-                  </p>
-                  <p className="bg-[#A6A6A6] ml-2 w-[120px] flex justify-center items-center">
-                    3.Start Survey
-                  </p>
-                </li>
+                <Link to="/finalize-Sample">
+                  <li
+                    className={`font-bold my-2 bg-[#7ED957] text-md h-8 ${
+                      location.pathname === "/finalize-Sample"
+                        ? "text-black bg-white rounded-md px-1"
+                        : "text-white"
+                    }`}
+                  >
+                    1. Finalise Sample Size
+                  </li>
+                </Link>
+                <Link to="/newsurvey">
+                  <li
+                    className={`font-bold my-2 bg-[#A6A6A6]  text-md h-8 ${
+                      location.pathname === "/newsurvey"
+                        ? "text-black bg-white rounded-md px-1"
+                        : "text-white"
+                    }`}
+                  >
+                    2. Link Survey Form
+                  </li>
+                </Link>
+                <Link to="/email-sms">
+                  <li
+                    className={`font-bold my-2 text-md w-full flex h-16 ${
+                      location.pathname === "/email-sms"
+                        ? "text-black bg-white rounded-md px-1"
+                        : "text-white"
+                    }`}
+                  >
+                    <p className="w-[100px] text-sm bg-[#396E2E]">
+                      A. SMS <br />
+                      B. Email <br />
+                      C. SMS & EMAIL
+                    </p>
+                    <p className="bg-[#A6A6A6] ml-2 w-[120px] flex justify-center items-center">
+                      3.Start Survey
+                    </p>
+                  </li>
+                </Link>
                 <li
                   className={`font-bold my-2 bg-[#A6A6A6] text-md h-8 ${
                     location.pathname === "/start-survey"

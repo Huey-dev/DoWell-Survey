@@ -1,9 +1,10 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import Layout from "../Layout/Layout";
 import { useNavigate } from "react-router-dom";
 import { toast } from "react-toastify";
 import axios from "axios";
 import "react-toastify/dist/ReactToastify.css";
+import { showToast } from "./showToast";
 
 const StartNewSurvey = () => {
   const [formLink, setFormLink] = useState(null);
@@ -33,6 +34,46 @@ const StartNewSurvey = () => {
     Uname = user_info.username ? user_info.username : null;
     email = user_info.email ? user_info.email : null;
   }
+
+  // useEffect(() => {
+  //   const firstStep = sessionStorage.getItem("step1");
+  //   const secondStep = sessionStorage.getItem("step2");
+
+  //   if (!firstStep) {
+  //     toast.error("Please fill Step 1 Before Finalizing Survey Sample", {
+  //       onClose: () => {},
+  //     });
+  //     navigate("/");
+  //   }
+  //   if (!secondStep) {
+  //     toast.error("Please fill Step 2 Before Finalizing Survey Sample", {
+  //       onClose: () => {},
+  //     });
+  //     navigate("/finalize-Sample");
+  //   }
+  // }, []);
+  useEffect(() => {
+    const firstStep = sessionStorage.getItem("step1");
+    const secondStep = sessionStorage.getItem("step2");
+
+    // Flag to track if toast has been shown already
+    let toastShown = false;
+    if (!firstStep && !secondStep) {
+      showToast("Please fill Step 1 & 2 Before Linking Survey");
+      navigate("/finalize-Sample");
+      toastShown = true;
+    }
+
+    if (!firstStep && !toastShown) {
+      showToast("Please fill Step 1  Before Linking Survey");
+      navigate("/");
+    }
+
+    if (!secondStep && !toastShown) {
+      showToast("Please fill Step 2 Before Linking Survey");
+      navigate("/finalize-Sample");
+    }
+  }, []); // Empty dependency array ensures useEffect runs only once
 
   // const [startDate, setStartDate] = useState(getCurrentDate());
   // const [endDate, setEndDate] = useState(getCurrentDate());
@@ -82,6 +123,7 @@ const StartNewSurvey = () => {
 
   const handleSubmit = async () => {
     // Validate form fields
+
     if (!name || !product || !description || !formLink || !image) {
       toast.error("Please fill all fields", {
         onClose: () => {},
@@ -142,6 +184,7 @@ const StartNewSurvey = () => {
       );
       sessionStorage.setItem("start_end", "");
       // navigate("/email-sms");
+      sessionStorage.setItem("step3", "completed");
 
       toast.success(response.data.response, {
         onClose: () => {

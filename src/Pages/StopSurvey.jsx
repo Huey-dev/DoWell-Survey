@@ -31,6 +31,8 @@ const Stop = () => {
       // Filter objects where end_date is after or equal to the current date
       const filteredSurveys = response.data.slice(1).filter((survey) => {
         const endDate = new Date(survey.end_date);
+        console.log("the end date is", endDate);
+        console.log("current date is", currentDate);
         return endDate >= currentDate;
       });
       setLoading(false);

@@ -174,11 +174,11 @@ export default function Edit() {
       survey_name: survey.name,
       //country: survey.country,
       region_for_survey: regionForSurvey,
-      promotional_sentence: survey.promotional_sentence,
+      promotional_message: survey.promotional_sentence,
       
 
       //email: survey.email,
-      participantsLimit: survey.participantsLimit,
+      maximum_no_of_participants: survey.participantsLimit,
       form_link: survey.url,
       Start_date: survey.start_date,
       End_date: survey.end_date
@@ -660,9 +660,9 @@ export default function Edit() {
               <h1 className=" text-white text-2xl font-semibold pt-1 pb-3 no-underline">
                 My Surveys
               </h1>
-              <h6 className=" text-white text-sm font-bold pb-0 no-underline">
+              {/* <h6 className=" text-white text-sm font-bold pb-0 no-underline">
                 {`Total Surveys ${survey_results[0]?.total_survey || ""}  Active Surveys${survey_results[0]?.active_survey || ""} Closed Surveys ${survey_results[0]?.closed_survey || ""}`}
-              </h6>
+              </h6> */}
               <h6 className=" text-white text-sm font-bold pb-0 no-underline">
               Download, Preview, and Share QR Codes. View Your Survey Location.
               </h6>
@@ -708,7 +708,7 @@ export default function Edit() {
                           style={{
                             fontWeight: "bold",
                             fontSize: "16px",
-                            color: "#fff",
+                            color: "#F0C40D",
                             textAlign: "left",
                           }}
                         >
@@ -719,10 +719,23 @@ export default function Edit() {
                               (word) =>
                                 word.charAt(0).toUpperCase() + word.slice(1)
                             )
-                            .join(" ")}: ${formData[key]}`}
+                            .join(" ")}:`} <span className="text-white">{`${formData[key]}`}</span>
                         </h6>
                       </div>
                     ))}
+                    <div style={{ marginBottom: "10px" }}>
+                        <h6
+                          style={{
+                            fontWeight: "bold",
+                            fontSize: "16px",
+                            color: "#F0C40D",
+                            textAlign: "left",
+                          }}
+                        >
+                          
+                         
+                        </h6>
+                      </div>
                   </div>
                 )}
               </div>

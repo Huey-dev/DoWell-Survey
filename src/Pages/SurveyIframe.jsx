@@ -122,6 +122,7 @@ const SurveyIframe = () => {
                         },
                       }
                     );
+                    console.log("respsonse is", response?.data);
 
                     if (response?.data?.isSuccess === true) {
                       const queryParams = new URLSearchParams(
@@ -151,7 +152,7 @@ const SurveyIframe = () => {
                         setIframe(id_response?.data[1].url);
                         
                       } catch (error) {
-                        console.log("error in request to fetch survey form");
+                        
                         setStatus("error");
                         setErrMsg("Error in fetching Survey Form");
                       }

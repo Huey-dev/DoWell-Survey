@@ -153,7 +153,7 @@ const EmailModal = ({
       setEmailLoading(false);
       setPerPercentage(0);
       toast.error("Error fetching emails", {
-        onClose: () => {},
+        onClose: () => { },
       });
     }
   };
@@ -183,12 +183,12 @@ const EmailModal = ({
 
       setEmailSendLoading(false);
       toast.success("Email(s) sent successfully", {
-        onClose: () => {},
+        onClose: () => { },
       });
     } catch (error) {
       setEmailSendLoading(false);
       toast.error("Error in sending mail(s)", {
-        onClose: () => {},
+        onClose: () => { },
       });
     }
   };
@@ -307,11 +307,10 @@ const EmailModal = ({
                               </button>
                             ) : (
                               <button
-                                className={`${
-                                  webLinks.length < 1
+                                className={`${webLinks.length < 1
                                     ? "opacity-60 cursor-not-allowed"
                                     : "hover:opacity-100 opacity-80"
-                                } w-full h-[30px] font-serif font-bold text-center text-sm md:text-md text-white bg-[#5DA868]`}
+                                  } w-full h-[30px] font-serif font-bold text-center text-sm md:text-md text-white bg-[#5DA868]`}
                                 onClick={() => handleGetEmails(webLinks)}
                                 disabled={webLinks.length < 1}
                               >
@@ -382,11 +381,10 @@ const EmailModal = ({
                               </button>
                             ) : (
                               <button
-                                className={`${
-                                  selectedEmails.length < 1
+                                className={`${selectedEmails.length < 1
                                     ? "opacity-60 cursor-not-allowed"
                                     : "hover:opacity-100 opacity-80"
-                                } w-full h-[30px] font-serif font-bold text-center text-sm md:text-md text-white bg-[#5DA868]`}
+                                  } w-full h-[30px] font-serif font-bold text-center text-sm md:text-md text-white bg-[#5DA868]`}
                                 onClick={handleSubmit}
                                 disabled={selectedEmails.length < 1}
                               >
@@ -464,12 +462,12 @@ const EmailCsvModal = ({
 
       setCsvSendLoading(false);
       toast.success("Email(s) sent successfully", {
-        onClose: () => {},
+        onClose: () => { },
       });
     } catch (error) {
       setCsvSendLoading(false);
       toast.error("Error in sending mail(s)", {
-        onClose: () => {},
+        onClose: () => { },
       });
     }
   };
@@ -640,11 +638,10 @@ const EmailCsvModal = ({
                           </button>
                         ) : (
                           <button
-                            className={`${
-                              csvEmails.length < 1
+                            className={`${csvEmails.length < 1
                                 ? "opacity-60 cursor-not-allowed"
                                 : "hover:opacity-100 opacity-80"
-                            } w-full h-[30px] font-serif font-bold text-center text-sm md:text-md text-white bg-[#3B82F6]`}
+                              } w-full h-[30px] font-serif font-bold text-center text-sm md:text-md text-white bg-[#3B82F6]`}
                             onClick={handleSubmit}
                             disabled={csvEmails.length < 1}
                           >
@@ -988,11 +985,10 @@ const StartSurveyModal = ({ startOpen, setStartOpen, setStartToEnd }) => {
                     </div>
                     <div className="flex justify-center items-center">
                       <button
-                        className={`${
-                          startLoading
+                        className={`${startLoading
                             ? "opacity-60 cursor-not-allowed"
                             : "hover:opacity-100 opacity-80"
-                        } w-[150px] h-[30px] font-serif font-bold text-center text-sm md:text-md text-white bg-[#005734]`}
+                          } w-[150px] h-[30px] font-serif font-bold text-center text-sm md:text-md text-white bg-[#005734]`}
                         onClick={handleSubmit}
                         disabled={startLoading}
                       >
@@ -1076,7 +1072,16 @@ export const EmailSms = () => {
     // Retrieve the stringified array from session storage
     const regionString = sessionStorage.getItem("region");
 
-    const regionArray = JSON.parse(regionString);
+    let regionArray;
+
+    try {
+      regionArray = JSON.parse(regionString);
+      
+    } catch (e) {
+      regionArray = [];
+    }
+
+    // const regionArray = JSON.parse(regionString);
 
     if (Array.isArray(regionArray) && regionArray.length > 0) {
       const regionText = regionArray

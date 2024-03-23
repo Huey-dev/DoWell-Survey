@@ -29,7 +29,7 @@ import { FaGlobe, FaPhoneAlt } from "react-icons/fa";
 import { IoMdCompass } from "react-icons/io";
 import { TiLocation } from "react-icons/ti";
 
-import payload from "./payload";
+import payload, {payload2} from "./payload";
 
 import CountryDropdown from "../components/Dropdown/CountryDropdown";
 import LocationDropdown from "../components/Dropdown/LocationDropdown";
@@ -262,7 +262,7 @@ const LandingPage = () => {
       } finally {
       }
 
-      if (maps_places.length >= 60) {
+      if (maps_places.length >= 4) {
         break;
       }
     }
@@ -378,13 +378,13 @@ const LandingPage = () => {
           //setPlaceDetails(placeDetail.data.succesful_results);
           maps_places = [...maps_places, ...placeDetail.data.succesful_results];
         }
-        // maps_places = [...maps_places, ...payload];
+        // maps_places = [...maps_places, ...payload2];
         // console.log("wahaaaaaaaaaaaaaaaa", maps_places.length);
       } catch (error) {
         // console.log("error");
       } finally {
       }
-      if (maps_places.length >= 60) {
+      if (maps_places.length >= 4) {
         break;
       }
     }

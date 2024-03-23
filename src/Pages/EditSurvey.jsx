@@ -865,7 +865,7 @@ export default function Edit() {
                                 </td>
                                 <td className="whitespace-nowrap  px-6 py-4">
                                   <div className="flex items-center justify-center space-x-0.5">
-                                    {/* <button
+                                    <button
                                                                             className="flex items-center justify-center rounded-lg bg-[#005734]"
                                                                             onClick={() => {
                                                                                 setSurvey(survey_results[i]);
@@ -874,7 +874,7 @@ export default function Edit() {
                                                                             }}
                                                                         >
                                                                             <PencilSquareIcon className="h-6 w-6 text-white m-1" />
-                                                                        </button> */}
+                                                                        </button>
                                     {/* <button
                                                                     className="flex items-center justify-center rounded-lg bg-[#EF4444]"
                                                                     onClick={onDeleteClick}

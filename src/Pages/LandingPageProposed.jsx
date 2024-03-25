@@ -206,6 +206,7 @@ const LandingPage = () => {
 
     let maps_places = [];
     console.log("the maps places before search", maps_places.length);
+    console.log("the maps places are", maps_places);
     // console.log("checks", area_inner);
     // console.log("checks", area_outer);
     // console.log("checks", survey_area);
@@ -262,10 +263,11 @@ const LandingPage = () => {
       } finally {
       }
 
-      if (maps_places.length >= 4) {
+      if (maps_places.length >= 60) {
         break;
       }
     }
+    setLoading(false);
 
     if (i > no_iterations) {
       //set to current iteration, no need to go further
@@ -306,8 +308,9 @@ const LandingPage = () => {
     setSearchRegion(inputData.city);
 
     console.log("the maps places after search", maps_places.length);
+    console.log("the maps places", maps_places);
     setPlaceDetails(maps_places);
-    setLoading(false);
+    
   };
 
   const isValidInput = (inputData) => {
@@ -384,7 +387,7 @@ const LandingPage = () => {
         // console.log("error");
       } finally {
       }
-      if (maps_places.length >= 4) {
+      if (maps_places.length >= 60) {
         break;
       }
     }

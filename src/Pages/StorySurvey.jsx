@@ -22,7 +22,7 @@ const StopSurvey = () => {
       const response = await axios.post(
         `https://100025.pythonanywhere.com/my-survey/`,
         {
-          username: userInfo.email,
+          username: userInfo.username,
         }
       );
 

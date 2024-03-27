@@ -114,7 +114,7 @@ function App() {
   const session_id = queryParams.get("session_id");
   console.log(session_id);
 
-  if (window.location.pathname !== "/DoWell-Survey/") {
+  if (session_id === null || window.location.pathname !== "/DoWell-Survey/")  {
     return (
       <>
         <PreviewProvider>

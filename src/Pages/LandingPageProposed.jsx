@@ -58,7 +58,7 @@ const LandingPage = () => {
   //const stored_locations = sessionStorage.getItem("newSurvey") || "[]";
   const [surveys, setSurveys] = useState([]);
 
-  const [pageload, setPageLoad] = useState(false);
+  const [pageload, setPageLoad] = useState(true);
   const [pageError, setPageError] = useState(null);
 
   const context = useGlobalContext();
@@ -112,55 +112,57 @@ const LandingPage = () => {
   const [requestEmail, setRequestEmail] = useState(isItemInStorage);
   const [email, setEmail] = useState(null);
 
-  // useEffect(() => {
-  //     // Define the function to fetch data
-  //     const fetchData = async () => {
-  //         const queryParams = new URLSearchParams(window.location.search);
-  //         const session_id = queryParams.get('session_id');
-  //         let user_info;
+  useEffect(() => {
+      // Define the function to fetch data
+      const fetchData = async () => {
+          const queryParams = new URLSearchParams(window.location.search);
+          const session_id = queryParams.get('session_id');
+          let user_details;
 
-  //         if (session_id) {
-  //             const formData = {
-  //                 "session_id": session_id
-  //             }
+          if (session_id) {
+              const formData = {
+                  "session_id": session_id
+              }
 
-  //             for (let i = 0; i <= 3; i++) {
+              for (let i = 0; i <= 3; i++) {
 
-  //                 console.log("the number of trys is-", i);
-  //                 try {
-  //                     const response = await axios.post(
-  //                         `https://100014.pythonanywhere.com/api/userinfo/`,
-  //                         formData,
-  //                         {
-  //                             headers: {
-  //                                 "Content-Type": "application/json",
-  //                             },
+                  console.log("the number of trys is-", i);
+                  try {
+                      const response = await axios.post(
+                          `https://100014.pythonanywhere.com/api/userinfo/`,
+                          formData,
+                          {
+                              headers: {
+                                  "Content-Type": "application/json",
+                              },
 
-  //                         }
-  //                     );
-  //                     user_info = response?.data?.userinfo;
-  //                     if (user_info) {
-  //                         sessionStorage.setItem("user_info", JSON.stringify(user_info));
-  //                         break;
-  //                     }
-  //                 }
-  //                 catch (error) {
-  //                     console.log("error is", error);
-  //                 }
-  //             }
-  //             if (!user_info) {
-  //                 setPageError("Error fetching User Data, click to reload")
-  //             }
-  //             setPageLoad(false);
-  //         }
-  //         else {
-  //             setPageLoad(false);
-  //         }
-  //     };
+                          }
+                      );
+                      user_details = response?.data?.userinfo;
+                      if (user_details) {
+                        
+                          sessionStorage.setItem("user_info", JSON.stringify(user_details));
+                          console.log("the user_details", user_details);
+                          break;
+                      }
+                  }
+                  catch (error) {
+                      console.log("error is", error);
+                  }
+              }
+              if (!user_details) {
+                  setPageError("Error fetching User Data, click to reload")
+              }
+              setPageLoad(false);
+          }
+          else {
+              setPageLoad(false);
+          }
+      };
 
-  //     fetchData();
+      fetchData();
 
-  // }, []);
+  }, []);
 
   const handleEmailConfirm = () => {
     const user_info = {
@@ -463,33 +465,27 @@ const LandingPage = () => {
     );
   }
 
-  if (requestEmail) {
+  if (pageError) {
     return (
-      <div className="h-screen flex flex-col items-center justify-center">
-        <h1 className="text-[18px] md:text-[20px] text-[#7F7F7F]">
-          Please Input your Email Address
-        </h1>
-        <form onSubmit={handleEmailConfirm} action="" className="flex flex-col">
-          <input
-            type="email"
-            required
-            id="formLink"
-            placeholder="add your form link here"
-            className="w-full md:w-[400px] mt-[10px] h-[50px] border-2 border-[#B3B4BB] rounded-[5px] outline-none pl-[20px]"
-            value={email}
-            onChange={(e) => setEmail(e.target.value)}
-          />
-          <button
-            className="bg-[#015734] font-medium text-[17px] my-8 px-5 py-2 text-white rounded-[5px]"
-            //onClick={handleEmailConfirm}
-            disabled={!email}
-          >
-            Confirm
-          </button>
-        </form>
-      </div>
-    );
-  }
+        <div className="h-screen flex flex-col items-center justify-center">
+            <div>
+                <img src={errorImage} alt="error-image" />
+            </div>
+            <h1 className="text-center text-2xl md:text-[34px] font-medium text-[#7F7F7F]">
+                Oops, Something went wrong
+            </h1>
+            <h1 className="text-[18px] md:text-[20px] text-[#7F7F7F]">
+                Error fetching user info
+            </h1>
+            <button
+                className="bg-[#015734] font-medium text-[17px] my-8 px-5 py-2 text-white rounded-[5px]"
+                onClick={() => window.location.reload()}
+            >
+                Try Again
+            </button>
+        </div>
+    )
+}
 
   return receivedKey != "ENTER API KEY" ? (
     <Layout>

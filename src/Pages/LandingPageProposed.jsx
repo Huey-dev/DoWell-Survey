@@ -192,18 +192,26 @@ const LandingPage = () => {
       return;
     }
 
-    if (scale < 500 || scale > 2000) {
-      alert("'Scale should be between 500 and 2000");
-      return;
-    }
+    // if (scale < 500 || scale > 2000) {
+    //   alert("'Scale should be between 500 and 2000");
+    //   return;
+    // }
 
     const area_inner =
       3.14 * (Number(inputData.radius1) * Number(inputData.radius1));
     const area_outer =
       3.14 * (Number(inputData.radius2) * Number(inputData.radius2));
     const survey_area = area_outer - area_inner;
-    const area_of_one = 3.14 * (scale * scale);
-    const no_iterations = survey_area / area_of_one;
+
+    // const area_of_one = 3.14 * (scale * scale);
+
+    const area_of_one = survey_area / 4;
+
+
+    // const no_iterations = survey_area / area_of_one;
+    // const no_iterations_rounded = Math.ceil(no_iterations);
+
+    const no_iterations = 4
     const no_iterations_rounded = Math.ceil(no_iterations);
 
     let maps_places = [];
@@ -265,7 +273,7 @@ const LandingPage = () => {
       } finally {
       }
 
-      if (maps_places.length >= 60) {
+      if (maps_places.length >= 240) {
         break;
       }
     }
@@ -577,10 +585,11 @@ const LandingPage = () => {
                   className="select w-[100px] h-[33px] bg-[#D9D9D9]"
                 >
                   <option value="area">area</option>
+                  <option value="area">radius</option>
                 </select>
               </div>
 
-              <div>
+              {/* <div>
                 <h2 className="font-semibold text-white">Set Scale</h2>
                 <input
                   type="number"
@@ -590,7 +599,7 @@ const LandingPage = () => {
                   onChange={(e) => setScale(e.target.value)}
                   disabled={loading}
                 />
-              </div>
+              </div> */}
 
               <div>
                 <h2 className="font-semibold text-white">Enter a Category</h2>

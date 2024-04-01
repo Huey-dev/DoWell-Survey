@@ -889,7 +889,7 @@ const StartSurveyModal = ({ startOpen, setStartOpen, setStartToEnd }) => {
       };
 
       const updateSurvey = await axios.put(
-        `https://100025.pythonanywhere.com/update-qr-codev2?api_key=a0955eef-146b-4efd-a14a-85727d5b6014`,
+        `https://100025.pythonanywhere.com/update-qr-codev2?api_key=1b834e07-c68b-4bf6-96dd-ab7cdc62f07f`,
         updatedSurveyData,
         {
           headers: {

@@ -197,6 +197,9 @@ const LandingPage = () => {
     //   return;
     // }
 
+    const radius_margin = (inputData.radius2 - inputData.radius1) / 4;
+    console.log("radius margin is", radius_margin);
+
     const area_inner =
       3.14 * (Number(inputData.radius1) * Number(inputData.radius1));
     const area_outer =
@@ -226,16 +229,32 @@ const LandingPage = () => {
     let i;
 
     for (i = 1; i < no_iterations + 1; i++) {
-      const start_radius = Math.sqrt(
-        (area_inner + area_of_one * (i - 1)) / 3.14
-      );
       let end_radius;
+      let start_radius
 
-      if (i >= no_iterations) {
-        //this means that it is the last iteration and you shouldnt make the radius higher than the end distance (because of the way we obtain the radiuses, this happens if the no_iterations is a fraction)
-        end_radius = inputData.radius2;
-      } else {
-        end_radius = Math.sqrt((area_inner + area_of_one * i) / 3.14);
+      if (caliberation == "area") {
+        start_radius = Math.sqrt(
+          (area_inner + area_of_one * (i - 1)) / 3.14
+        );
+        
+  
+        if (i >= no_iterations) {
+          //this means that it is the last iteration and you shouldnt make the radius higher than the end distance (because of the way we obtain the radiuses, this happens if the no_iterations is a fraction)
+          end_radius = inputData.radius2;
+        } else {
+          end_radius = Math.sqrt((area_inner + area_of_one * i) / 3.14);
+        }
+      }
+      else {
+        start_radius = (Number(inputData.radius1) + Number(radius_margin * (i - 1)));
+
+        if (i >= no_iterations) {
+          //this means that it is the last iteration and you shouldnt make the radius higher than the end distance (because of the way we obtain the radiuses, this happens if the no_iterations is a fraction)
+          end_radius = inputData.radius2;
+        } else {
+          end_radius = (Number(inputData.radius1) + Number(radius_margin * i));
+        }
+
       }
       // console.log("iter_data", end_radius, start_radius, i);
       console.log("start and end radius are", start_radius, end_radius, i);
@@ -585,7 +604,7 @@ const LandingPage = () => {
                   className="select w-[100px] h-[33px] bg-[#D9D9D9]"
                 >
                   <option value="area">area</option>
-                  <option value="area">radius</option>
+                  <option value="radius">radius</option>
                 </select>
               </div>
 

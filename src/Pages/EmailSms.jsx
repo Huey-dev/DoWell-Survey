@@ -99,7 +99,7 @@ const EmailModal = ({
       setPerPercentage((perPercentage) => perPercentage + percent);
       return response;
     } catch (error) {
-      console.log("an error");
+      console.log("an error", error);
       setPerPercentage(
         (perPercentage) => parseInt(perPercentage) + parseInt(percent)
       );

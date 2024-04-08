@@ -88,7 +88,7 @@ const EmailModal = ({
   const GetOneEmail = async (formdata, percent) => {
     try {
       const response = await axios.post(
-        `https://www.uxlive.me/api/website-info-extractor/`,
+        `https://uxlivinglab100106.pythonanywhere.com/api/website-info-extractor/`,
         formdata,
         {
           headers: {

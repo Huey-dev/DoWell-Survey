@@ -5,6 +5,8 @@ import { toast } from "react-toastify";
 import axios from "axios";
 import "react-toastify/dist/ReactToastify.css";
 import { showToast } from "./showToast";
+import { Tooltip } from 'react-tooltip';
+import { FaInfoCircle } from "react-icons/fa";
 
 const StartNewSurvey = () => {
   const [formLink, setFormLink] = useState(null);
@@ -79,6 +81,7 @@ const StartNewSurvey = () => {
   // const [endDate, setEndDate] = useState(getCurrentDate());
   const [image, setImage] = useState(null);
   const [errorMessage, setErrorMessage] = useState(null);
+  const [filename, setFilename] = useState("");
 
   const [name, setName] = useState("");
   const [product, setProduct] = useState("");
@@ -119,14 +122,16 @@ const StartNewSurvey = () => {
     }
     console.log("File type:", file.type);
     setImage(file);
+    setFilename(event.target.files[0]?.name);
   };
 
-  const handleSubmit = async () => {
+  const handleSubmit = async (e) => {
+    e.preventDefault();
     // Validate form fields
 
     if (!name || !product || !description || !formLink || !image) {
       toast.error("Please fill all fields", {
-        onClose: () => {},
+        onClose: () => { },
       });
       return;
     }
@@ -203,132 +208,192 @@ const StartNewSurvey = () => {
 
   return (
     <Layout>
-      <div className="h-full w-full md:flex md:justify-end  pt-20  ">
-        <div className="w-full flex flex-col  justify-center items-center gap-6 px-4  sm:px-0 md:w-[80%]">
-          <h1 className="text-xl font-bold">Link Survey Form</h1>
-          {/* <input
-            type="file"
-            id="fileInput"
-            name="fileInput"
-            onChange={(e) => setFile(e.target.files[0])}
-            className="w-full sm:w-[40%]"
-          /> */}
-          <input
-            type="file"
-            name=""
-            id="file"
-            // value={image}
-            onChange={handleImageChange}
-          />
+      <main className="w-full h-full mb-10">
+        <div className="px-4 md:px-10 mt-[40px] md:pl-[310px] md:mt-0">
+          <div className="px-2 items-center flex justify-between bg-[#005734]">
+            <h1 className=" text-white text-2xl font-semibold pt-1 pb-3 no-underline">
+              Link Survey Form
+            </h1>
 
-          {errorMessage && (
-            <small>
-              <p style={{ color: "red" }}>{errorMessage}</p>
-            </small>
-          )}
+          </div>
 
-          <input
-            type="text"
-            id="formLink"
-            placeholder="Add your Form link here"
-            className="border-2 w-full sm:w-[40%] p-1 border-[#B3B4BB] rounded-[5px] outline-none"
-            value={formLink}
-            onChange={(e) => setFormLink(e.target.value)}
-          />
-
-          <input
-            type="text"
-            id="name"
-            name="name"
-            value={name}
-            onChange={(e) => setName(e.target.value)}
-            placeholder="Enter Survey Name"
-            className="border-2 w-full sm:w-[40%] p-1 border-[#B3B4BB] rounded-[5px] outline-none"
-          />
-
-          {/* <select
-            value={product}
-            onChange={(e) => setProduct(e.target.value)}
-            className="border-2 w-full sm:w-[40%] p-1 border-[#B3B4BB] rounded-[5px] outline-none"
-          >
-            <option value="">Select products/services</option>
-            <option value="Product 1">Workflow Ai</option>
-            <option value="Product 2">LegalZard</option>
-            <option value="Product 3">Team Management</option>
-            <option value="Product 3">Search in Living Labs</option>
-            <option value="Product 3">UX Live Stream</option>
-            <option value="Product 3">Dowell Surveys</option>
-            <option value="Product 3">Dowell Maps</option>
-          </select> */}
-          <input
-            type="text"
-            value={product}
-            onChange={(e) => setProduct(e.target.value)}
-            className="border-2 w-full sm:w-[40%] p-1 border-[#B3B4BB] rounded-[5px] outline-none"
-            placeholder="Enter Your Product/Service Name"
-          />
-
-          <textarea
-            id="description"
-            name="description"
-            value={description}
-            onChange={(e) => setDescription(e.target.value)}
-            placeholder="Craft a clear & informative/promotional message to introduce your survey! (15 words)"
-            className="h-24 resize-none border-2 w-full sm:w-[40%] p-1 border-[#B3B4BB] rounded-[5px] outline-none"
-          />
-
-          {/* <div className="flex justify-center gap-3">
-            <div className="flex flex-col justify-center items-center">
-              <p className="text-[#005734] text-center font-serif text-sm font-bold">
-                Start Date
-              </p>
-              <input
-                type="date"
-                id="startDate"
-                name="startDate"
-                className="bg-[#C4C4C4] rounded-md py-2 px-2 text-center text-xs font-medium"
-                value={startDate}
-                onChange={(e) => setStartDate(e.target.value)}
-              />
-            </div>
-
-            <div className="flex flex-col justify-center items-center">
-              <p className="text-[#005734] text-center font-serif text-sm font-bold">
-                End Date
-              </p>
-              <input
-                type="date"
-                id="endDate"
-                name="endDate"
-                className="bg-[#C4C4C4] rounded-md  py-2 px-2 text-center text-xs font-medium"
-                value={endDate}
-                onChange={(e) => setEndDate(e.target.value)}
-              />
-            </div>
-          </div> */}
-
-          <p className="">
-            <span className="text-red-900">*</span> Please fill all field
-          </p>
-
-          {loading ? (
-            <button
-              className="w-full md:w-[400px] h-[50px] sm:w-[40%] font-serif p-2 font-bold text-center bg-[#005734] opacity-50 text-[16px] md:text-[20px] rounded-md text-white cursor-not-allowed"
-              disabled
+          <div className="flex justify-center w-full">
+            <form
+              action=""
+              encType="multipart/form-data"
+              onSubmit={handleSubmit}
             >
-              Processing...
-            </button>
-          ) : (
-            <button
-              type="button"
-              onClick={handleSubmit}
-              className="w-full md:w-[400px] h-[50px] sm:w-[40%] font-serif p-2 font-bold text-center bg-[#005734] opacity-80 hover:opacity-100 text-[16px] md:text-[20px] rounded-md text-white cursor-pointer"
-            >
-              Create Survey
-            </button>
-          )}
+              <div className="h-full w-full md:flex pt-10">
+                <div className="w-full grid gap-6 px-4 sm:px-0 md:w-[80%]">
+                  <div className="">
+                  <div className="flex space-x-2 items-center">
+                    <h2 className="font-medium text-left">
+                    Upload an Image of your Product/Service *
+                    </h2>
+                    <FaInfoCircle data-tooltip-id="my-tooltip" data-tooltip-content="This would appear at the center of the created qr codes that users would scan" className="text-[#606060]"/>
+                    </div>
+
+                   
+                    <div className="relative md:w-[500px] w-[400px] h-[32px] p-1 bg-[#D9D9D9] border border-[#BFBFBF] outline-none">
+                      <input
+                        type="file"
+                        name=""
+                        id="file"
+                        // value={image}
+                        className="opacity-0 absolute left-0 top-0 w-full h-full cursor-pointer"
+                        onChange={handleImageChange}
+                        required
+
+                        accept=".jpg, .jpeg, .png"
+                      />
+                      <p>{`click here to upload (${filename})`}</p>
+
+                    </div>
+                  </div>
+
+
+
+
+                  {errorMessage && (
+                    <small>
+                      <p style={{ color: "red" }}>{errorMessage}</p>
+                    </small>
+                  )}
+                  <div className="">
+                    <div className="flex space-x-2 items-center">
+                    <h2 className="font-medium text-left">
+                      Enter Survey Name *
+                    </h2>
+                    <FaInfoCircle data-tooltip-id="my-tooltip" data-tooltip-content="This is the name of the survey being conducted" className="text-[#606060]"/>
+                    </div>
+
+                   
+                  
+                   
+                    <Tooltip id="my-tooltip" />
+                    <input
+                      type="text"
+                      id="name"
+                      name="name"
+                      value={name}
+                      onChange={(e) => setName(e.target.value)}
+                      placeholder="e.g Food Menu Reviews"
+                      className="md:w-[500px] bg-[#D9D9D9] border w-[400px] p-1 border-[#BFBFBF] outline-none"
+                      required
+                    />
+                  </div>
+
+                  <div className="">
+                    <div className="flex space-x-2 items-center">
+                    <h2 className="font-medium text-left">
+                    Add your Survey Form link *
+                    </h2>
+                    <FaInfoCircle data-tooltip-id="my-tooltip" data-tooltip-content="Link to the form users would fill. You can insert any form link e.g google forms, jot forms " className="text-[#606060]"/>
+                    </div>
+
+                   
+                  
+                   
+                    <Tooltip id="my-tooltip" />
+                    <input
+                      type="text"
+                      id="formLink"
+                      
+                      value={formLink}
+                      onChange={(e) => setFormLink(e.target.value)}
+                      placeholder="e.g docs.google.com/forms/d/e/1HPFDa6t3I"
+                      className="md:w-[500px] w-[400px] bg-[#D9D9D9] border w-full p-1 border-[#BFBFBF] outline-none"
+                      required
+                    />
+                  </div>
+
+
+                  <div className="">
+                    <div className="flex space-x-2 items-center">
+                    <h2 className="font-medium text-left">
+                    Enter Your Product/Service Name *
+                    </h2>
+                    <FaInfoCircle data-tooltip-id="my-tooltip" data-tooltip-content="This is the name of the product or service you are conducting the survey on" className="text-[#606060]"/>
+                    </div>
+
+                   
+                  
+                   
+                    <Tooltip id="my-tooltip" />
+                    <input
+                      type="text"
+                      id="formLink"
+                      
+                      value={product}
+                      onChange={(e) => setProduct(e.target.value)}
+                      placeholder="e.g docs.google.com/forms/d/e/1HPFDa6t3I"
+                      className="md:w-[500px] w-[400px] bg-[#D9D9D9] border w-full p-1 border-[#BFBFBF] outline-none"
+                      required
+                    />
+                  </div>
+
+                  <div className="">
+                    <div className="flex space-x-2 items-center">
+                    <h2 className="font-medium text-left">
+                    Enter Promotional Message*
+                    </h2>
+                    <FaInfoCircle data-tooltip-id="my-tooltip" data-tooltip-content="Add a clear Informative/Promotional Message to Introduce your Survey. This would be displayed to users upon succesfully scanning the Qr code" className="text-[#606060]"/>
+                    </div>
+
+                   
+                  
+                   
+                    <Tooltip id="my-tooltip" />
+                    <textarea
+                    id="description"
+                    name="description"
+                    value={description}
+                    required
+                    onChange={(e) => setDescription(e.target.value)}
+                    placeholder="should be Less than 15 words"
+                    className="md:w-[500px] w-[400px] bg-[#D9D9D9] border w-full p-1 border-[#BFBFBF] outline-none h-24"
+                  />
+                 
+                  </div>
+
+
+              
+
+              
+
+
+                  {loading ? (
+                    <button
+                      className="w-full md:w-[500px] h-[50px] sm:w-[40%] font-serif p-2 font-bold text-center bg-[#005734] opacity-50 text-[16px] md:text-[20px] rounded-md text-white cursor-not-allowed"
+                      disabled
+                    >
+                      Processing...
+                    </button>
+                  ) : (
+                    <button
+                      type="submit"
+                      // onClick={handleSubmit}
+                      className="w-full md:w-[500px] h-[32px] sm:w-[40%] font-serif font-bold text-center bg-[#005734] opacity-80 hover:opacity-100 text-[16px] md:text-[16px] text-white cursor-pointer"
+                    >
+                      Create Survey
+                    </button>
+                  )}
+                </div>
+              </div>
+
+
+            </form>
+
+          </div>
+
+
+
         </div>
-      </div>
+      </main>
+
+
+
+
     </Layout>
   );
 };

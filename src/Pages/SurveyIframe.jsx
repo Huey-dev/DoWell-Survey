@@ -35,6 +35,7 @@ const SurveyIframe = () => {
   const survey_id = queryParams.get("survey_id");
   const [iframe, setIframe] = useState(null);
   const iframe_param = queryParams.get("iframe");
+  const [promotional, setPromotional] = useState("")
 
   const [errMsg, setErrMsg] = useState(null);
 
@@ -54,6 +55,7 @@ const SurveyIframe = () => {
           },
         }
       );
+      setStatus("done");
 
       toast.success("Thanks for your response", {
         onClose: () => {},
@@ -150,6 +152,7 @@ const SurveyIframe = () => {
                         setRegion_list(id_response?.data[1].region);
 
                         setIframe(id_response?.data[1].url);
+                        setPromotional(id_response?.data[1].promotional_sentence)
                         
                       } catch (error) {
                         
@@ -278,23 +281,7 @@ const SurveyIframe = () => {
             </div>
           </Dialog>
         </Transition.Root>
-        <div class="flex items-center justify-center space-x-2 py-4">
-          <img
-            src={dowelllogo}
-            alt=""
-            className="rounded-full w-8 h-8 border-2 border-green-500"
-          />
-          <img
-            src={dowelllogo}
-            alt=""
-            className="rounded-full w-16 h-16 border-2 border-green-500"
-          />
-          <img
-            src={dowelllogo}
-            alt=""
-            className="rounded-full w-24 h-24 border-2 border-green-500"
-          />
-        </div>
+
 
         {status === "loading" ? (
           <div className="flex items-center justify-center font-bold text-2xl">
@@ -317,11 +304,43 @@ const SurveyIframe = () => {
               Sorry, {errMsg}
             </p>
           </div>
+        ) : status === "done" ? (
+
+          <>
+          <div className="text-2xl text-center font-bold font-serif w-full h-full flex items-center justify-center py-8">
+            Thanks for taking out time to fill our survey form
+          </div>
+
+        </>
         ) : (
           <>
-            <div className="text-2xl text-center font-bold font-serif">
-              Thanks for taking out time to fill our survey form
-              <div className="flex items-center justify-center p-4">
+            <div className="text-2xl text-center font-bold font-serif py-4">
+            {promotional}
+
+              <div className="flex items-center justify-center py-4">
+              <div className="bg-[#7ED957] flex items-center justify-center p-2 border-2 border-black">
+                <div className="p-1 border-2 border-black">
+                  <QRCode
+                    size={40}
+                    bgColor="white"
+                    fgColor="black"
+                    value="https://uxlivinglab.com/"
+                  />
+                </div>
+
+                <div className="text-center text-sm mx-1 font-semibold">
+                  Please Click done after submitting this form{" "}
+                </div>
+                <button
+                  onClick={handleDone}
+                  className="text-sm p-2 font-serif font-semibold bg-[#005734] opacity-80 hover:opacity-100 text-[white] rounded-md"
+                >
+                  Done
+                </button>
+              </div>
+            </div>
+            
+              <div className="flex items-center justify-center p-2">
                 <iframe
                   className="border-2 border-green-500 h-screen"
                   src={iframe}
@@ -334,28 +353,7 @@ const SurveyIframe = () => {
                 </iframe>
               </div>
             </div>
-            <div className="flex items-center justify-center pb-4">
-              <div className="bg-[#7ED957] flex items-center justify-center p-4 m-4 border-2 border-black">
-                <div className="p-1 border-2 border-black">
-                  <QRCode
-                    size={40}
-                    bgColor="white"
-                    fgColor="black"
-                    value="https://uxlivinglab.com/"
-                  />
-                </div>
-
-                <div className="text-center mx-1 font-semibold">
-                  Please Click Here after submitting this form{" "}
-                </div>
-                <button
-                  onClick={handleDone}
-                  className="text-sm p-2 font-serif font-semibold bg-[#005734] opacity-80 hover:opacity-100 text-[white] rounded-md"
-                >
-                  Done
-                </button>
-              </div>
-            </div>
+          
           </>
         )}
       </div>

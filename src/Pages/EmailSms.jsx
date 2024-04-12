@@ -234,7 +234,7 @@ const EmailModal = ({
             >
               <Dialog.Panel className="relative transform overflow-hidden rounded-lg bg-white text-left shadow-xl transition-all w-full max-w-4xl max-h-4xl">
                 <div className="flex flex-col items-center justify-center w-full">
-                  <div className="flex items-center justify-between w-full text-white bg-[#5DA868] text-lg">
+                  <div className="flex items-center justify-between w-full text-white bg-[#005734] text-lg">
                     <p className="font-bold mx-4 my-2 ">
                       Send Notifications via Emails
                     </p>
@@ -513,7 +513,7 @@ const EmailCsvModal = ({
             >
               <Dialog.Panel className="relative transform overflow-hidden rounded-lg bg-white text-left shadow-xl transition-all w-full max-w-xl">
                 <div className="flex flex-col items-center justify-center w-full">
-                  <div className="flex items-center justify-between w-full text-white bg-[#3B82F6] text-lg">
+                  <div className="flex items-center justify-between w-full text-white bg-[#005734] text-lg">
                     <p className="font-bold mx-4 my-2 ">
                       Send Email Via CSV upload
                     </p>
@@ -631,7 +631,7 @@ const EmailCsvModal = ({
                       <div className="flex justify-center">
                         {csvSendLoading ? (
                           <button
-                            className="w-full h-[30px] font-serif font-bold text-center text-sm md:text-md text-white bg-[#3B82F6] cursor-not-allowed"
+                            className="w-full h-[30px] font-serif font-bold text-center text-sm md:text-md text-white bg-[#005734] cursor-not-allowed"
                             disabled
                           >
                             Processing
@@ -641,7 +641,7 @@ const EmailCsvModal = ({
                             className={`${csvEmails.length < 1
                                 ? "opacity-60 cursor-not-allowed"
                                 : "hover:opacity-100 opacity-80"
-                              } w-full h-[30px] font-serif font-bold text-center text-sm md:text-md text-white bg-[#3B82F6]`}
+                              } w-full h-[30px] font-serif font-bold text-center text-sm md:text-md text-white bg-[#005734]`}
                             onClick={handleSubmit}
                             disabled={csvEmails.length < 1}
                           >
@@ -697,7 +697,7 @@ const SmsModal = ({ smsOpen, setSmsOpen, phoneNumbers }) => {
             >
               <Dialog.Panel className="relative transform overflow-hidden rounded-lg bg-white text-left shadow-xl transition-all w-full max-w-xl">
                 <div className="flex flex-col items-center justify-center w-full">
-                  <div className="flex items-center justify-between w-full text-white bg-orange-500 text-lg">
+                  <div className="flex items-center justify-between w-full text-white bg-[#005734] text-lg">
                     <p className="font-bold mx-4 my-2 ">
                       Send Notifications via SMS
                     </p>
@@ -733,7 +733,7 @@ const SmsModal = ({ smsOpen, setSmsOpen, phoneNumbers }) => {
                       ))
                     )}
                   </div>
-                  <button className="w-[150px] m-2 h-[30px] font-serif font-bold text-center text-sm md:text-md text-white bg-orange-500 opacity-60 cursor-not-allowed">
+                  <button className="w-[150px] m-2 h-[30px] font-serif font-bold text-center text-sm md:text-md text-white bg-[#005734] opacity-60 cursor-not-allowed">
                     Send SMS
                   </button>
                 </div>
@@ -795,7 +795,7 @@ const SmsCsvModal = ({ smsCsvOpen, setSmsCsvOpen }) => {
             >
               <Dialog.Panel className="relative transform overflow-hidden rounded-lg bg-white text-left shadow-xl transition-all w-full max-w-xl">
                 <div className="flex flex-col items-center justify-center w-full">
-                  <div className="flex items-center justify-between w-full text-white bg-orange-600 text-lg">
+                  <div className="flex items-center justify-between w-full text-white bg-[#005734] text-lg">
                     <p className="font-bold mx-4 my-2 ">
                       Send Notifications via SMS(CSV upload)
                     </p>
@@ -848,7 +848,7 @@ const SmsCsvModal = ({ smsCsvOpen, setSmsCsvOpen }) => {
                         ))}
                       </div>
                       <div className="flex justify-center">
-                        <button className="w-full m-2 h-[30px] font-serif font-bold text-center text-sm md:text-md text-white bg-orange-600 opacity-60 cursor-not-allowed">
+                        <button className="w-full m-2 h-[30px] font-serif font-bold text-center text-sm md:text-md text-white bg-[#005734] opacity-60 cursor-not-allowed">
                           Send SMS
                         </button>
                       </div>
@@ -864,7 +864,7 @@ const SmsCsvModal = ({ smsCsvOpen, setSmsCsvOpen }) => {
   );
 };
 
-const StartSurveyModal = ({ startOpen, setStartOpen, setStartToEnd }) => {
+const StartSurveyModal = ({ startOpen, setStartOpen, startToEnd, setStartToEnd, surveyStarted, setSurveyStarted }) => {
   const [startDate, setStartDate] = useState(getCurrentDate());
   const [endDate, setEndDate] = useState(getCurrentDate());
   const [startLoading, setStartLoading] = useState(false);
@@ -873,6 +873,8 @@ const StartSurveyModal = ({ startOpen, setStartOpen, setStartToEnd }) => {
   const [eyear, emonth, eday] = endDate.split("-");
   const sformattedDate = `${sday}-${smonth}-${syear}`;
   const eformattedDate = `${eday}-${emonth}-${eyear}`;
+
+  
 
   const cancelButtonRef = useRef(null);
 
@@ -900,15 +902,21 @@ const StartSurveyModal = ({ startOpen, setStartOpen, setStartToEnd }) => {
       sessionStorage.removeItem("step1");
       sessionStorage.removeItem("step2");
       sessionStorage.removeItem("step3");
+      const time_period = `<li>Start Date: <strong>${updatedSurveyData.start_date}</strong></li><li>End Date: <strong>${updatedSurveyData.end_date}</strong></li>`;
+      setStartToEnd(time_period);
+      sessionStorage.setItem("start_end", time_period);
       setStartLoading(false);
+      setStartOpen(false);
+      
       toast.success("Your survey has started", {
         onClose: () => {
           // navigate("/list-surveys");
         },
       });
-      const time_period = `<li>Start Date: <strong>${updatedSurveyData.start_date}</strong></li><li>End Date: <strong>${updatedSurveyData.end_date}</strong></li>`;
-      setStartToEnd(time_period);
-      sessionStorage.setItem("start_end", time_period);
+      //sessionStorage.setItem("surveyStarted", true);
+      setSurveyStarted(true);
+      
+
     } catch (error) {
       setStartLoading(false);
       toast.error("Error updating survey: ", {
@@ -919,94 +927,88 @@ const StartSurveyModal = ({ startOpen, setStartOpen, setStartToEnd }) => {
     }
   };
 
+if (surveyStarted) {
   return (
-    <Transition.Root show={startOpen} as={Fragment}>
-      <Dialog
-        as="div"
-        className="relative z-10"
-        initialFocus={cancelButtonRef}
-        onClose={() => setStartOpen(false)}
-      >
-        <Transition.Child
-          as={Fragment}
-          enter="ease-out duration-300"
-          enterFrom="opacity-0"
-          enterTo="opacity-100"
-          leave="ease-in duration-200"
-          leaveFrom="opacity-100"
-          leaveTo="opacity-0"
-        >
-          <div className="fixed inset-0 bg-gray-500 bg-opacity-75 transition-opacity" />
-        </Transition.Child>
-
-        <div className="fixed inset-0 z-10 w-screen overflow-y-auto">
-          <div className="flex min-h-full items-center justify-center p-4 text-center sm:items-center sm:p-0">
-            <Transition.Child
-              as={Fragment}
-              enter="ease-out duration-300"
-              enterFrom="opacity-0 translate-y-4 sm:translate-y-0 sm:scale-95"
-              enterTo="opacity-100 translate-y-0 sm:scale-100"
-              leave="ease-in duration-200"
-              leaveFrom="opacity-100 translate-y-0 sm:scale-100"
-              leaveTo="opacity-0 translate-y-4 sm:translate-y-0 sm:scale-95"
-            >
-              <Dialog.Panel className="relative transform overflow-hidden rounded-lg bg-white text-left shadow-xl transition-all w-full max-w-xl">
-                <div className="flex flex-col items-center justify-center w-full">
-                  <div className="flex items-center justify-between w-full text-white bg-[#005734] text-lg">
-                    <p className="font-bold mx-4 my-2 ">Start this Survey</p>
-                    <button
-                      className="font-serif font-bold text-center m-4"
-                      onClick={() => setStartOpen(false)}
-                    >
-                      <XMarkIcon className="h-4 w-4 m-1" />
-                    </button>
-                  </div>
-
-                  <div className="flex flex-col space-y-2 my-8 w-full">
-                    <div className="flex items-center justify-center w-full">
-                      <div className="w-3/12">
-                        <h2 className="font-medium text-left">Set Duration:</h2>
-                      </div>
-                      <div className="w-7/12 flex items-center justify-between">
-                        <input
-                          type="date"
-                          className="border p-1 border-[#B3B4BB] outline-none"
-                          value={startDate}
-                          onChange={(e) => setStartDate(e.target.value)}
-                        />
-                        <p className="mx-1 font-medium">to</p>
-                        <input
-                          type="date"
-                          className="border p-1 border-[#B3B4BB] outline-none"
-                          value={endDate}
-                          onChange={(e) => setEndDate(e.target.value)}
-                        />
-                      </div>
-                    </div>
-                    <div className="flex justify-center items-center">
-                      <button
-                        className={`${startLoading
-                            ? "opacity-60 cursor-not-allowed"
-                            : "hover:opacity-100 opacity-80"
-                          } w-[150px] h-[30px] font-serif font-bold text-center text-sm md:text-md text-white bg-[#005734]`}
-                        onClick={handleSubmit}
-                        disabled={startLoading}
-                      >
-                        {startLoading ? "Starting" : "Start Survey"}
-                      </button>
-                    </div>
-                  </div>
-                </div>
-              </Dialog.Panel>
-            </Transition.Child>
-          </div>
+    <div className="flex flex-col space-y-2 w-full">
+   <p className="text-center text-xl font-semibold"> {`Survey has Started and will run from ${startDate} to ${endDate}`}</p>
         </div>
-      </Dialog>
-    </Transition.Root>
   );
+}
+
+return (
+  <div className="flex flex-col space-y-2 w-full">
+  <h1 className="text-center font-serif text-md font-semibold">Set the Duration for the Survey</h1>
+        <div className="flex items-center justify-center w-full space-x-8">
+          <div className="flex items-center justify-center space-x-1">
+            <h2 className="font-medium w-5/12 text-left">Start Date:</h2>
+            <div className="w-7/12">
+            <input
+              type="date"
+              className="p-1 bg-[#D9D9D9] border border-[#BFBFBF]"
+              value={startDate}
+              
+              onChange={(e) => {
+                
+                setStartDate(e.target.value)
+                const startDateConverted = new Date(e.target.value);
+                const endDateConverted = new Date(endDate)
+                if (startDateConverted >= endDateConverted) {
+                  setEndDate(e.target.value)
+                }
+                
+              }}
+            />
+
+            </div>
+
+         
+          </div>
+          <div className="flex items-center justify-center space-x-1">
+            <h2 className="font-medium w-5/12 text-left">End Date:</h2>
+            <div className="w-7/12">
+            <input
+              type="date"
+              className="p-1 bg-[#D9D9D9] border border-[#BFBFBF]"
+              value={endDate}
+             
+              onChange={(e) => {
+                setEndDate(e.target.value)
+                const startDateConverted = new Date(startDate);
+                const endDateConverted = new Date(e.target.value)
+                if (startDateConverted >= endDateConverted) {
+                  setStartDate(e.target.value)
+                }
+              }}
+            />
+
+            </div>
+
+         
+          </div>
+
+        </div>
+        <div className="flex justify-center items-center">
+          <button
+            className={`${startLoading
+                ? "opacity-60 cursor-not-allowed"
+                : "hover:opacity-100 opacity-80"
+              } w-[150px] h-[30px] font-serif font-bold text-center text-sm md:text-md text-white bg-[#005734]`}
+            onClick={handleSubmit}
+            disabled={startLoading}
+          >
+            {startLoading ? "Starting" : "Start Survey"}
+          
+          </button>
+        </div>
+      </div>
+);
 };
 
 export const EmailSms = () => {
+
+
+  const [surveyStarted, setSurveyStarted] = useState(false);
+
   const [open, setOpen] = useState(false);
   const [smsOpen, setSmsOpen] = useState(false);
   const [emailOpen, setEmailOpen] = useState(false);
@@ -1197,11 +1199,6 @@ export const EmailSms = () => {
             phoneNumbers={phoneNumbers}
           />
           <SmsCsvModal smsCsvOpen={smsCsvOpen} setSmsCsvOpen={setSmsCsvOpen} />
-          <StartSurveyModal
-            startOpen={startOpen}
-            setStartOpen={setStartOpen}
-            setStartToEnd={setStartToEnd}
-          />
           <EmailModal
             emailOpen={emailOpen}
             setEmailOpen={setEmailOpen}
@@ -1237,21 +1234,23 @@ export const EmailSms = () => {
             <div className="flex justify-center items-center">
               <img
                 src={getQrcode}
-                className="w-4/6 mt-2 border-2 border-[#005734]"
+                className="w-4/6 mt-2"
                 alt=""
               />
             </div>
 
-            <div className="flex justify-center items-center w-4/6">
-              <button
-                className="w-[466px] h-[30px] font-serif font-bold opacity-80 hover:opacity-100 text-center text-sm md:text-md text-white bg-[#005734]"
-                onClick={() => {
-                  setStartOpen(true);
-                }}
-              >
-                Start the Survey
-              </button>
-            </div>
+          
+
+
+
+                  <StartSurveyModal
+            startOpen={true}
+            setStartOpen={setStartOpen}
+            startToEnd={startToEnd}
+            setStartToEnd={setStartToEnd}
+            surveyStarted={surveyStarted}
+            setSurveyStarted={setSurveyStarted}
+          />
 
             <div class="flex items-center w-4/6">
               <hr class="flex-grow border-t border-[#005734]" />
@@ -1263,7 +1262,7 @@ export const EmailSms = () => {
 
             <div className="flex justify-center items-center w-4/6 space-x-2 mb-8">
               <button
-                className="w-[150px] h-[30px] font-serif font-bold opacity-80 hover:opacity-100 text-center text-sm md:text-md text-white bg-[#399544]"
+                className="w-[150px] h-[30px] font-serif font-bold opacity-80 hover:opacity-100 text-center text-sm md:text-md text-white bg-[#005734]"
                 onClick={() => {
                   if (!startToEnd) {
                     toast.error("Start the Survey first", {
@@ -1279,7 +1278,7 @@ export const EmailSms = () => {
                 Via Weblinks
               </button>
               <button
-                className="w-[150px] h-[30px] font-serif font-bold opacity-80 hover:opacity-100 text-center text-sm md:text-md text-white bg-[#3B82F6]"
+                className="w-[150px] h-[30px] font-serif font-bold opacity-80 hover:opacity-100 text-center text-sm md:text-md text-white bg-[#005734]"
                 onClick={() => {
                   if (!startToEnd) {
                     toast.error("Start the Survey first", {
@@ -1295,7 +1294,7 @@ export const EmailSms = () => {
                 Via Email
               </button>
               <button
-                className="w-[150px] h-[30px] font-serif font-bold opacity-80 hover:opacity-100 text-center text-sm md:text-md text-white bg-orange-500"
+                className="w-[150px] h-[30px] font-serif font-bold opacity-80 hover:opacity-100 text-center text-sm md:text-md text-white bg-[#005734]"
                 onClick={() => {
                   if (!startToEnd) {
                     toast.error("Start the Survey first", {
@@ -1312,7 +1311,7 @@ export const EmailSms = () => {
               </button>
 
               <button
-                className="w-[150px] h-[30px] font-serif font-bold opacity-80 hover:opacity-100 text-center text-sm md:text-md text-white bg-orange-600"
+                className="w-[150px] h-[30px] font-serif font-bold opacity-80 hover:opacity-100 text-center text-sm md:text-md text-white bg-[#005734]"
                 onClick={() => {
                   if (!startToEnd) {
                     toast.error("Start the Survey first", {

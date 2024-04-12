@@ -326,7 +326,7 @@ const StartNewSurvey = () => {
                       
                       value={product}
                       onChange={(e) => setProduct(e.target.value)}
-                      placeholder="e.g docs.google.com/forms/d/e/1HPFDa6t3I"
+                      placeholder="e.g Altsid Insecticides"
                       className="md:w-[500px] w-[400px] bg-[#D9D9D9] border w-full p-1 border-[#BFBFBF] outline-none"
                       required
                     />
@@ -349,8 +349,9 @@ const StartNewSurvey = () => {
                     name="description"
                     value={description}
                     required
+                    maxlength="100"
                     onChange={(e) => setDescription(e.target.value)}
-                    placeholder="should be Less than 15 words"
+                    placeholder="should be Less than 100 characters"
                     className="md:w-[500px] w-[400px] bg-[#D9D9D9] border w-full p-1 border-[#BFBFBF] outline-none h-24"
                   />
                  
@@ -364,7 +365,7 @@ const StartNewSurvey = () => {
 
                   {loading ? (
                     <button
-                      className="w-full md:w-[500px] h-[50px] sm:w-[40%] font-serif p-2 font-bold text-center bg-[#005734] opacity-50 text-[16px] md:text-[20px] rounded-md text-white cursor-not-allowed"
+                      className="w-full md:w-[500px] h-[32px] sm:w-[40%] font-serif font-bold text-center bg-[#005734] opacity-50 text-[16px] text-white cursor-not-allowed"
                       disabled
                     >
                       Processing...
@@ -373,7 +374,7 @@ const StartNewSurvey = () => {
                     <button
                       type="submit"
                       // onClick={handleSubmit}
-                      className="w-full md:w-[500px] h-[32px] sm:w-[40%] font-serif font-bold text-center bg-[#005734] opacity-80 hover:opacity-100 text-[16px] md:text-[16px] text-white cursor-pointer"
+                      className="w-full md:w-[500px] h-[32px] sm:w-[40%] font-serif font-bold text-center bg-[#005734] opacity-80 hover:opacity-100 text-[16px] text-white cursor-pointer"
                     >
                       Create Survey
                     </button>

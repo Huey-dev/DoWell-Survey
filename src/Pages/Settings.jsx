@@ -175,7 +175,7 @@ export default function Settings() {
   const [profileImageUrl, setProfileImageUrl] = useState("");
   const [userName, setUserName] = useState(null);
   const [firstName, setFirstName] = useState(null);
-  const [LastName, setLastName] = useState(null);
+  const [lastName, setLastName] = useState(null);
   const [phone, setPhone] = useState(null);
   const [country, setCountry] = useState(null);
   const [city, setCity] = useState(null);
@@ -303,44 +303,58 @@ export default function Settings() {
 
   return (
     <Layout>
-      <div className="px-4 md:px-10 mt-[26px] md:pl-80 flex flex-col gap-5">
+      <main className="w-full h-full mb-10">
+      <div className="px-4 md:px-10 mt-[40px] md:pl-[310px] md:mt-0">
+      <div className="px-2 items-center flex justify-between bg-[#005734]">
+            <h1 className=" text-white text-2xl font-bold pt-1 pb-3 no-underline">
+              Settings / My Profile
+            </h1>
+
+          </div>
       <CheckRegionModal open={open} setOpen={setOpen} regionLoading={regionLoading} addr={addr} />
         <div className="relative flex flex-col min-w-0 break-words w-full mb-6 shadow-lg rounded-lg bg-blueGray-100 border-0">
-          <div className="rounded-t bg-white mb-0 px-6 py-6">
-            <div className="text-center flex justify-between">
-              <h6 className="text-blueGray-700 text-xl font-bold">
-                My account
-              </h6>
-
-              <button 
+          <div className="flex justify-between items-center px-8 my-6">
+            <div className="flex justify-between items-center space-x-6">
+            <div className="h-40">
+                   
+                      <img
+                        src={profileImageUrl || null}
+                        alt="user image"
+                        className="w-full h-full top-0 left-0 rounded-full"
+                      />
+                  
+                  </div>
+                  <div>
+                    <p className="text-lg font-bold">{`${firstName} ${lastName}`}</p>
+                    <p className="text-md font-bold">{`${firstName} ${lastName}`}</p>
+                  </div>
+            </div>
+            <div className="flex space-x-2">
+            <a
+                href="https://100093.pythonanywhere.com/ "
+                target="_blank"
+                rel="noopener noreferrer"
+                className="mb-2 w-[150px] h-[30px] font-serif font-bold opacity-80 hover:opacity-100 text-center text-sm md:text-md text-[#005734] border-2 border-[#005734] py-1"
+              >
+                Edit Profile
+              </a>
+            <button 
               className="mb-2 w-[150px] h-[30px] font-serif font-bold opacity-80 hover:opacity-100 text-center text-sm md:text-md text-white bg-[#005734]"
               onClick={() => {
 
                 setOpen(true)
                 getCurrentAddress();
               }}>
-                check my region
+                Check My Region
 
 
               </button>
+            
 
-
-              <a
-                href="https://100093.pythonanywhere.com/ "
-                target="_blank"
-                rel="noopener noreferrer"
-                className="bg-lightBlue-500  active:bg-lightBlue-600 font-bold uppercase text-xs px-4 py-2 rounded shadow hover:shadow-md outline-none focus:outline-none mr-1 ease-linear transition-all duration-150"
-              >
-                Edit Profile
-              </a>
-              {/* <button
-                className="bg-lightBlue-500  active:bg-lightBlue-600 font-bold uppercase text-xs px-4 py-2 rounded shadow hover:shadow-md outline-none focus:outline-none mr-1 ease-linear transition-all duration-150"
-                type="button"
-              >
-                Edit Profile
-              </button> */}
             </div>
+
           </div>
+       
           <div className="flex-auto px-4 lg:px-10 py-10 pt-0">
             <form>
               <h6 className="text-blueGray-400 text-sm mt-3 mb-6 font-bold uppercase">
@@ -541,6 +555,10 @@ export default function Settings() {
           </div>
         </div>
       </div>
+
+      </main>
+      
+
     </Layout>
   );
 }

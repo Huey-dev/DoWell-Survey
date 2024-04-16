@@ -520,7 +520,7 @@ const LandingPage = () => {
         {/* <MainMap/> */}
         <div className="px-8 md:pl-[310px] mt-[60px] md:mt-0">
           <div className="px-2 items-center flex justify-between bg-[#005734]">
-            <h1 className=" text-white text-2xl font-semibold pt-1 pb-3 no-underline">
+            <h1 className=" text-white text-2xl font-bold pt-1 pb-3 no-underline">
               DoWell Surveys
             </h1>
 
@@ -542,7 +542,7 @@ const LandingPage = () => {
             )}
           </div>
           <div className="bg-[#282B32] my-4 py-2 flex flex-col justify-center items-center space-y-2">
-            <div className="flex flex-wrap justify-center space-x-2">
+            <div className="flex flex-wrap justify-center space-x-6">
               <div>
                 <h2 className="font-semibold text-white">Select Country</h2>
                 <CountryDropdown loading={loading} />
@@ -560,10 +560,10 @@ const LandingPage = () => {
                 <h2 className="font-semibold text-white">
                   Set Distance(m) from Location's Center
                 </h2>
-                <div className="flex justify-center space-x-1">
+                <div className="flex justify-start space-x-1">
                   <input
                     type="text"
-                    className="w-[60px] bg-[#D9D9D9] px-3 py-[0.25rem] outline-none"
+                    className="w-[100px] bg-[#D9D9D9] px-3 py-[0.25rem] outline-none"
                     placeholder="From"
                     value={inputData.radius1}
                     onChange={(e) =>
@@ -576,7 +576,7 @@ const LandingPage = () => {
                   />
                   <input
                     type="text"
-                    className="w-[60px] bg-[#D9D9D9] px-3 py-[0.25rem] outline-none"
+                    className="w-[100px] bg-[#D9D9D9] px-3 py-[0.25rem] outline-none"
                     placeholder="To"
                     value={inputData.radius2}
                     onChange={(e) =>
@@ -601,7 +601,7 @@ const LandingPage = () => {
                   onChange={(e) => {
                     setCaliberation(e.target.value);
                   }}
-                  className="select w-[100px] h-[33px] bg-[#D9D9D9]"
+                  className="select w-[150px] h-[33px] bg-[#D9D9D9]"
                 >
                   <option value="area">area</option>
                   <option value="radius">radius</option>
@@ -626,7 +626,7 @@ const LandingPage = () => {
               </div>
             </div>
             <button
-              className="text-white font-semibold bg-[#3B82F6] h-[33px] w-[100px] rounded-md"
+              className="text-white font-semibold bg-[#3B82F6] h-[33px] w-[100px] rounded-sm"
               onClick={handleSearch}
               disabled={loading}
             >
@@ -771,12 +771,12 @@ const LandingPage = () => {
               </div>
             </div>
             <div className="relative w-3/12 h-screen bg-[#EFF3F6] border border-[#B3B4BB] overflow-y-auto">
-              <div className="top-0 left-0 w-full bg-[#399544] w-full flex justify-center items-center">
+              {/* <div className="top-0 left-0 w-full bg-[#399544] w-full flex justify-center items-center">
                 <p className="text-[18px] text-white font-bold py-[10px]">
                   {" "}
                   Your Selections{" "}
                 </p>
-              </div>
+              </div> */}
 
               <div className="m-2">
                 {surveys.map((survey) => (

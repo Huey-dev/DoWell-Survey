@@ -308,8 +308,8 @@ const EmailModal = ({
                             ) : (
                               <button
                                 className={`${webLinks.length < 1
-                                    ? "opacity-60 cursor-not-allowed"
-                                    : "hover:opacity-100 opacity-80"
+                                  ? "opacity-60 cursor-not-allowed"
+                                  : "hover:opacity-100 opacity-80"
                                   } w-full h-[30px] font-serif font-bold text-center text-sm md:text-md text-white bg-[#5DA868]`}
                                 onClick={() => handleGetEmails(webLinks)}
                                 disabled={webLinks.length < 1}
@@ -382,8 +382,8 @@ const EmailModal = ({
                             ) : (
                               <button
                                 className={`${selectedEmails.length < 1
-                                    ? "opacity-60 cursor-not-allowed"
-                                    : "hover:opacity-100 opacity-80"
+                                  ? "opacity-60 cursor-not-allowed"
+                                  : "hover:opacity-100 opacity-80"
                                   } w-full h-[30px] font-serif font-bold text-center text-sm md:text-md text-white bg-[#5DA868]`}
                                 onClick={handleSubmit}
                                 disabled={selectedEmails.length < 1}
@@ -639,8 +639,8 @@ const EmailCsvModal = ({
                         ) : (
                           <button
                             className={`${csvEmails.length < 1
-                                ? "opacity-60 cursor-not-allowed"
-                                : "hover:opacity-100 opacity-80"
+                              ? "opacity-60 cursor-not-allowed"
+                              : "hover:opacity-100 opacity-80"
                               } w-full h-[30px] font-serif font-bold text-center text-sm md:text-md text-white bg-[#005734]`}
                             onClick={handleSubmit}
                             disabled={csvEmails.length < 1}
@@ -874,7 +874,7 @@ const StartSurveyModal = ({ startOpen, setStartOpen, startToEnd, setStartToEnd, 
   const sformattedDate = `${sday}-${smonth}-${syear}`;
   const eformattedDate = `${eday}-${emonth}-${eyear}`;
 
-  
+
 
   const cancelButtonRef = useRef(null);
 
@@ -907,7 +907,7 @@ const StartSurveyModal = ({ startOpen, setStartOpen, startToEnd, setStartToEnd, 
       sessionStorage.setItem("start_end", time_period);
       setStartLoading(false);
       setStartOpen(false);
-      
+
       toast.success("Your survey has started", {
         onClose: () => {
           // navigate("/list-surveys");
@@ -915,7 +915,7 @@ const StartSurveyModal = ({ startOpen, setStartOpen, startToEnd, setStartToEnd, 
       });
       //sessionStorage.setItem("surveyStarted", true);
       setSurveyStarted(true);
-      
+
 
     } catch (error) {
       setStartLoading(false);
@@ -927,50 +927,50 @@ const StartSurveyModal = ({ startOpen, setStartOpen, startToEnd, setStartToEnd, 
     }
   };
 
-if (surveyStarted) {
-  return (
-    <div className="flex flex-col space-y-2 w-full">
-   <p className="text-center text-xl font-semibold"> {`Survey has Started and will run from ${startDate} to ${endDate}`}</p>
-        </div>
-  );
-}
+  if (surveyStarted) {
+    return (
+      <div className="flex flex-col space-y-2 w-full">
+        <p className="text-center text-md font-semibold"> {`Survey has Started and will run from ${startDate} to ${endDate}`}</p>
+      </div>
+    );
+  }
 
-return (
-  <div className="flex flex-col space-y-2 w-full">
-  <h1 className="text-center font-serif text-md font-semibold">Set the Duration for the Survey</h1>
-        <div className="flex items-center justify-center w-full space-x-8">
-          <div className="flex items-center justify-center space-x-1">
-            <h2 className="font-medium w-5/12 text-left">Start Date:</h2>
-            <div className="w-7/12">
+  return (
+    <div className="flex flex-col space-y-3 w-full">
+      <h1 className="text-center font-serif text-md font-semibold">Set the Duration for the Survey</h1>
+      <div className="flex items-center justify-center w-full space-x-8">
+        <div className="flex items-center justify-center space-x-1">
+          <h2 className="font-medium w-5/12 text-left">Start Date:</h2>
+          <div className="w-7/12">
             <input
               type="date"
               className="p-1 bg-[#D9D9D9] border border-[#BFBFBF]"
               value={startDate}
-              
+
               onChange={(e) => {
-                
+
                 setStartDate(e.target.value)
                 const startDateConverted = new Date(e.target.value);
                 const endDateConverted = new Date(endDate)
                 if (startDateConverted >= endDateConverted) {
                   setEndDate(e.target.value)
                 }
-                
+
               }}
             />
 
-            </div>
-
-         
           </div>
-          <div className="flex items-center justify-center space-x-1">
-            <h2 className="font-medium w-5/12 text-left">End Date:</h2>
-            <div className="w-7/12">
+
+
+        </div>
+        <div className="flex items-center justify-center space-x-1">
+          <h2 className="font-medium w-5/12 text-left">End Date:</h2>
+          <div className="w-7/12">
             <input
               type="date"
               className="p-1 bg-[#D9D9D9] border border-[#BFBFBF]"
               value={endDate}
-             
+
               onChange={(e) => {
                 setEndDate(e.target.value)
                 const startDateConverted = new Date(startDate);
@@ -981,27 +981,27 @@ return (
               }}
             />
 
-            </div>
-
-         
           </div>
 
+
         </div>
-        <div className="flex justify-center items-center">
-          <button
-            className={`${startLoading
-                ? "opacity-60 cursor-not-allowed"
-                : "hover:opacity-100 opacity-80"
-              } w-[150px] h-[30px] font-serif font-bold text-center text-sm md:text-md text-white bg-[#005734]`}
-            onClick={handleSubmit}
-            disabled={startLoading}
-          >
-            {startLoading ? "Starting" : "Start Survey"}
-          
-          </button>
-        </div>
+
       </div>
-);
+      <div className="flex justify-center items-center">
+        <button
+          className={`${startLoading
+            ? "opacity-60 cursor-not-allowed"
+            : "hover:opacity-100 opacity-80"
+            } w-[150px] h-[30px] font-serif font-bold text-center text-sm md:text-md text-white bg-[#005734]`}
+          onClick={handleSubmit}
+          disabled={startLoading}
+        >
+          {startLoading ? "Starting" : "Start Survey"}
+
+        </button>
+      </div>
+    </div>
+  );
 };
 
 export const EmailSms = () => {
@@ -1078,7 +1078,7 @@ export const EmailSms = () => {
 
     try {
       regionArray = JSON.parse(regionString);
-      
+
     } catch (e) {
       regionArray = [];
     }
@@ -1223,7 +1223,7 @@ export const EmailSms = () => {
             formTemplate={formTemplate}
           />
           <div className="px-2 items-center flex justify-between bg-[#005734]">
-            <h1 className=" text-white text-2xl font-semibold pt-1 pb-3 no-underline">
+            <h1 className=" text-white text-2xl font-bold pt-1 pb-3 no-underline">
               Start Survey
             </h1>
             <h6 className=" text-white text-sm font-bold pb-0 no-underline">
@@ -1239,22 +1239,18 @@ export const EmailSms = () => {
               />
             </div>
 
-          
-
-
-
-                  <StartSurveyModal
-            startOpen={true}
-            setStartOpen={setStartOpen}
-            startToEnd={startToEnd}
-            setStartToEnd={setStartToEnd}
-            surveyStarted={surveyStarted}
-            setSurveyStarted={setSurveyStarted}
-          />
+            <StartSurveyModal
+              startOpen={true}
+              setStartOpen={setStartOpen}
+              startToEnd={startToEnd}
+              setStartToEnd={setStartToEnd}
+              surveyStarted={surveyStarted}
+              setSurveyStarted={setSurveyStarted}
+            />
 
             <div class="flex items-center w-4/6">
               <hr class="flex-grow border-t border-[#005734]" />
-              <span class="px-3 font-serif text-xl font-semibold text-gray-500">
+              <span class="px-3 font-serif text-md font-semibold">
                 Send Survey Notification
               </span>
               <hr class="flex-grow border-t border-[#005734]" />

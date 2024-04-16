@@ -211,7 +211,7 @@ const StartNewSurvey = () => {
       <main className="w-full h-full mb-10">
         <div className="px-4 md:px-10 mt-[40px] md:pl-[310px] md:mt-0">
           <div className="px-2 items-center flex justify-between bg-[#005734]">
-            <h1 className=" text-white text-2xl font-semibold pt-1 pb-3 no-underline">
+            <h1 className=" text-white text-2xl font-bold pt-1 pb-3 no-underline">
               Link Survey Form
             </h1>
 

@@ -85,7 +85,7 @@ const FinalizeSample = () => {
       <main className="w-full h-full mb-10">
         <div className="px-4 md:px-10 mt-[40px] md:pl-[310px] md:mt-0">
           <div className="px-2 items-center flex justify-between bg-[#005734]">
-            <h1 className=" text-white text-2xl font-semibold pt-1 pb-3 no-underline">
+            <h1 className=" text-white text-2xl font-bold pt-1 pb-3 no-underline">
               Finalize Sample Size
             </h1>
             <h6 className=" text-white text-sm font-bold pb-0 no-underline">
@@ -98,36 +98,36 @@ const FinalizeSample = () => {
                 <div className="inline-block py-6 w-full bg-[#EFF3F6]">
                   <div className="w-10/12 mx-auto overflow-x-auto flex flex-col space-y-8">
                     <div className="overflow-x-auto">
-                      <table className="max-w-full text-center text-sm font-light w-full bg-white">
-                        <thead className="bg-[#005734] font-medium dark:border-neutral-500 text-white">
+                      <table className="max-w-full text-center text-md font-light w-full bg-white">
+                        <thead className="bg-[#005734] dark:border-neutral-500 text-white">
                           <tr>
                             <th
                               scope="col"
-                              className="whitespace-nowrap px-6 py-4"
+                              className="whitespace-nowrap px-6 py-2"
                             >
                               #
                             </th>
                             <th
                               scope="col"
-                              className="whitespace-nowrap px-6 py-4"
+                              className="whitespace-nowrap px-6 py-2"
                             >
                               Place Name
                             </th>
                             <th
                               scope="col"
-                              className="whitespace-nowrap px-6 py-4"
+                              className="whitespace-nowrap px-6 py-2"
                             >
                               Address
                             </th>
                             <th
                               scope="col"
-                              className="whitespace-nowrap px-6 py-4"
+                              className="whitespace-nowrap px-6 py-2"
                             >
                               Mobile Number
                             </th>
                             <th
                               scope="col"
-                              className="whitespace-nowrap px-6 py-4"
+                              className="whitespace-nowrap px-6 py-2"
                             >
                               Region
                             </th>
@@ -160,7 +160,7 @@ const FinalizeSample = () => {
                             >
                               <td className="whitespace-nowrap  px-6 py-4 font-medium"></td>
                               <td className="whitespace-nowrap  px-6 py-4"></td>
-                              <td className="px-6 py-4 font-semibold text-xl">
+                              <td className="px-6 py-4 font-semibold text-md">
                                 You did not add any location.
                               </td>
 
@@ -173,9 +173,9 @@ const FinalizeSample = () => {
                       </table>
                     </div>
                     <div className="flex justify-between h-full">
-                      <div className="flex flex-col items-center justify-center w-7/12 bg-white border-black border-b h-full">
-                        <div className="flex items-center justify-center w-full text-white bg-[#005734] text-sm">
-                          <p className="font-bold m-1 ">Set Survey Type</p>
+                      <div className="flex flex-col items-center justify-center w-6/12 bg-white border-black border-b h-full">
+                        <div className="flex items-center justify-center w-full text-white bg-[#005734] py-2">
+                          <h2 className="font-bold">Set Survey Type</h2>
                         </div>
 
                         <div className="flex flex-col space-y-2 mt-4 my-8 w-full">
@@ -223,14 +223,14 @@ const FinalizeSample = () => {
                                     class="ms-2 text-sm font-medium text-gray-900 dark:text-gray-300"
                                   >
                                     <span className="font-bold">Global:</span>{" "}
-                                    Anyoone can take the survey
+                                    Anyone can take the survey
                                   </label>
                                 </div>
                               </div>
                             </div>
                           ) : (
                             <div className="flex justify-center items-center">
-                              <p className="font-semibold text-xl text-center">
+                              <p className="font-semibold text-md text-center">
                                 Survey is automatically set to{" "}
                                 <span className="font-bold ">Global</span>{" "}
                                 (anyone can take the survey)
@@ -239,12 +239,12 @@ const FinalizeSample = () => {
                           )}
                         </div>
                       </div>
-                      <div className="flex flex-col w-4/12 bg-white border-black border-b h-stretch">
-                        <div className="flex items-center justify-center w-full text-white bg-[#005734] text-sm">
-                          <p className="font-bold m-1 text-center ">
-                            Enter Maximum No. of Persons allowed to take the
-                            Survey
-                          </p>
+                      <div className="flex flex-col w-5/12 bg-white border-black border-b h-stretch">
+                        <div className="flex items-center justify-center w-full text-white bg-[#005734] py-2">
+                          <h2 className="font-bold text-center ">
+                            Enter Participant Limit for the Survey
+                          </h2>
+                          
                         </div>
                         <div className="flex items-center justify-center w-full h-full">
                           <input

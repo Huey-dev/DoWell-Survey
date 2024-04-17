@@ -1,6 +1,6 @@
 {
   "index.css": {
-    "file": "assets/index-f9711230.css",
+    "file": "assets/index-397ffa1f.css",
     "src": "index.css"
   },
   "index.html": {
@@ -8,12 +8,15 @@
       "assets/logonew-82c512b4.png",
       "assets/error-c827f698.png",
       "assets/closed-24118ce3.png",
+      "assets/total-e40f9d86.png",
+      "assets/ongoing-dc1f735e.png",
+      "assets/pending-f8da5571.png",
       "assets/allow-c9b26216.png"
     ],
     "css": [
-      "assets/index-f9711230.css"
+      "assets/index-397ffa1f.css"
     ],
-    "file": "assets/index-1f2ef42c.js",
+    "file": "assets/index-fef5b148.js",
     "isEntry": true,
     "src": "index.html"
   },
@@ -56,5 +59,17 @@
   "src/assets/mapicon.png": {
     "file": "assets/mapicon-026738f4.png",
     "src": "src/assets/mapicon.png"
+  },
+  "src/assets/ongoing.png": {
+    "file": "assets/ongoing-dc1f735e.png",
+    "src": "src/assets/ongoing.png"
+  },
+  "src/assets/pending.png": {
+    "file": "assets/pending-f8da5571.png",
+    "src": "src/assets/pending.png"
+  },
+  "src/assets/total.png": {
+    "file": "assets/total-e40f9d86.png",
+    "src": "src/assets/total.png"
   }
 }

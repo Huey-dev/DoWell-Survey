@@ -3,7 +3,12 @@ import React, { Fragment, useEffect, useRef, useState } from "react";
 import { CircleMarker, MapContainer, Marker, Popup, TileLayer, } from "react-leaflet";
 import { MapPinIcon, PencilSquareIcon, QrCodeIcon, TrashIcon, XMarkIcon } from "@heroicons/react/24/outline";
 import { Dialog, Transition } from "@headlessui/react";
+import { Link, useNavigate } from "react-router-dom";
 import closed from "../assets/closed.png";
+import total from "../assets/total.png";
+import ongoing from "../assets/ongoing.png";
+import pending from "../assets/pending.png";
+
 
 import Layout from "../Layout/Layout";
 
@@ -166,6 +171,8 @@ const CheckRegionModal = ({ open, setOpen, regionLoading, addr }) => {
 
 
 export default function Settings() {
+  const navigate = useNavigate();
+
   const [open, setOpen] = useState(false);
 
   const [regionLoading, setRegionLoading] = useState(false);
@@ -360,14 +367,15 @@ export default function Settings() {
             </div>
 
             <div className="flex justify-between space-x-8">
-              <div className="w-5/12 h-screen bg-[#EFF3F6]">
+              <div className="w-5/12 bg-[#EFF3F6] border border-[#B3B4BB] rounded-t-lg">
                 <div
                   className="flex items-center justify-between w-full text-white bg-[#005734] text-lg rounded-t-lg">
                   <p className="font-bold mx-4 my-2 ">User Information</p>
 
                 </div>
+                <div className="flex items-center">
                 <div className="flex flex-col space-y-2 my-4 px-4">
-                  <div>
+                  <div className="">
                     <p className="text-md font-bold">Phone Number</p>
                     <p className="text-sm font-bold text-gray-500">{phone}</p>
                   </div>
@@ -399,8 +407,11 @@ export default function Settings() {
 
                 </div>
 
+                </div>
+
+
               </div>
-              <div className="w-7/12 bg-[#EFF3F6]">
+              <div className="w-7/12 bg-[#EFF3F6] border border-[#B3B4BB] rounded-t-lg">
                 <div
                   className="flex items-center justify-end w-full text-white bg-[#005734] text-lg rounded-t-lg">
                   <p className="font-bold mx-4 my-2 ">Survey Usage Statistics</p>
@@ -411,8 +422,70 @@ export default function Settings() {
                   <div className="flex justify-end items-center space-x-6">
 
                     <div>
-                      <p className="text-md font-bold">{`${firstName} ${lastName}`}</p>
-                      <p className="text-sm font-bold text-gray-500">{`${userName} (${allInfo?.User_type})`}</p>
+                      <p className="text-md font-bold text-right">Total Surveys</p>
+                      <p className="text-sm font-bold text-gray-500 text-right">--</p>
+                    </div>
+                    <div className="h-20 w-20 rounded-full border-2 border-[#005734] p-4">
+
+                      <img
+                        src={total}
+                        alt="user image"
+                        className=""
+                      />
+
+                    </div>
+                  </div>
+
+                  <div className="flex justify-end items-center space-x-6">
+
+                    <div>
+                      <p className="text-md font-bold text-right">Pending Surveys</p>
+                      <p className="text-sm font-bold text-gray-500 text-right">--</p>
+                    </div>
+                    <div className="h-20 w-20 rounded-full border-2 border-[#005734] p-4">
+
+                      <img
+                        src={pending}
+                        alt="user image"
+                        className=""
+                      />
+
+                    </div>
+                  </div>
+
+                  <div className="flex justify-end items-center space-x-6">
+
+                    <div>
+                      <p className="text-md font-bold text-right">Ongoing Surveys</p>
+                      <p className="text-sm font-bold text-gray-500 text-right">--</p>
+                    </div>
+                    <div className="h-20 w-20 rounded-full border-2 border-[#005734] p-4">
+
+                      <img
+                        src={ongoing}
+                        alt="user image"
+                        className=""
+                      />
+
+                    </div>
+                  </div>
+
+                  <div className="flex justify-between items-center space-x-6">
+
+                  <button
+                  className="mb-2 w-[120px] h-[30px] font-serif font-bold opacity-80 hover:opacity-100 text-center text-sm md:text-md text-white bg-[#005734]"
+                  onClick={() => {
+
+                    navigate("/list-surveys");
+                  }}>
+                  View Surveys
+
+
+                </button>
+                    <div className="flex items-center space-x-6">
+                    <div>
+                      <p className="text-md font-bold text-right">Ended Surveys</p>
+                      <p className="text-sm font-bold text-gray-500 text-right">--</p>
                     </div>
                     <div className="h-20 w-20 rounded-full border-2 border-[#005734] p-4">
 
@@ -423,6 +496,11 @@ export default function Settings() {
                       />
 
                     </div>
+                    </div>
+
+                    
+
+                    
                   </div>
 
                 </div>
@@ -431,182 +509,6 @@ export default function Settings() {
 
             </div>
 
-            <div className="flex-auto px-4 lg:px-10 py-10 pt-0">
-              <form>
-                <h6 className="text-blueGray-400 text-sm mt-3 mb-6 font-bold uppercase">
-                  User Information
-                </h6>
-                <div className="flex flex-wrap">
-                  <div className="w-full lg:w-6/12 px-4">
-                    <div className="relative w-full md:flex md:items-center h-40 mb-3">
-                      <label
-                        htmlFor="profile"
-                        className="w-40 h-40 bg-gray-200 rounded-full flex justify-center items-center relative cursor-pointer"
-                      >
-                        <img
-                          src={profileImageUrl || null}
-                          alt="user image"
-                          className="w-full h-full absolute top-0 left-0"
-                        />
-                        {/* <input
-                        type="file"
-                        name="profile"
-                        id="profile"
-                        className="opacity-0 w-full h-full absolute top-0 left-0"
-                      /> */}
-                        {/* Add your preview image here if needed */}
-                        {/* <span className="absolute inset-0 flex justify-center items-center">
-                        Profile Picture
-                      </span> */}
-                      </label>
-                      {/* Additional content if needed */}
-                    </div>
-
-                  </div>
-                  <div className="w-full lg:w-6/12 px-4">
-                    <div className="relative w-full mb-3">
-                      <label
-                        className="block uppercase text-blueGray-600 text-xs font-bold mb-2"
-                        htmlFor="grid-password"
-                      >
-                        Username
-                      </label>
-                      <input
-                        type="text"
-                        className="border-0 px-3 py-3 placeholder-blueGray-300 text-blueGray-600 bg-white rounded text-sm shadow focus:outline-none focus:ring w-full ease-linear transition-all duration-150"
-                        defaultValue={userName}
-                      />
-                    </div>
-                  </div>
-                  <div className="w-full lg:w-6/12 px-4">
-                    <div className="relative w-full mb-3">
-                      <label
-                        className="block uppercase text-blueGray-600 text-xs font-bold mb-2"
-                        htmlFor="grid-password"
-                      >
-                        First Name
-                      </label>
-                      <input
-                        type="text"
-                        className="border-0 px-3 py-3 placeholder-blueGray-300 text-blueGray-600 bg-white rounded text-sm shadow focus:outline-none focus:ring w-full ease-linear transition-all duration-150"
-                        defaultValue={firstName}
-                      />
-                    </div>
-                  </div>
-                  <div className="w-full lg:w-6/12 px-4">
-                    <div className="relative w-full mb-3">
-                      <label
-                        className="block uppercase text-blueGray-600 text-xs font-bold mb-2"
-                        htmlFor="grid-password"
-                      >
-                        Default Phone Number
-                      </label>
-                      <input
-                        type="text"
-                        className="border-0 px-3 py-3 placeholder-blueGray-300 text-blueGray-600 bg-white rounded text-sm shadow focus:outline-none focus:ring w-full ease-linear transition-all duration-150"
-                        defaultValue={phone}
-                      />
-                    </div>
-                  </div>
-                </div>
-
-                {/* Survey created section */}
-
-
-                <hr className="mt-6 border-b-1 border-blueGray-300" />
-
-                <h6 className="text-blueGray-400 text-sm mt-3 mb-6 font-bold uppercase">
-                  Contact Information
-                </h6>
-                <div className="flex flex-wrap">
-                  <div className="w-full lg:w-12/12 px-4">
-                    <div className="relative w-full mb-3">
-                      <label
-                        className="block uppercase text-blueGray-600 text-xs font-bold mb-2"
-                        htmlFor="grid-password"
-                      >
-                        Address
-                      </label>
-                      <input
-                        type="text"
-                        className="border-0 px-3 py-3 placeholder-blueGray-300 text-blueGray-600 bg-white rounded text-sm shadow focus:outline-none focus:ring w-full ease-linear transition-all duration-150"
-                        defaultValue={address}
-                      />
-                    </div>
-                  </div>
-
-                  <div className="w-full lg:w-4/12 px-4">
-                    <div className="relative w-full mb-3">
-                      <label
-                        className="block uppercase text-blueGray-600 text-xs font-bold mb-2"
-                        htmlFor="grid-password"
-                      >
-                        City
-                      </label>
-                      <input
-                        type="email"
-                        className="border-0 px-3 py-3 placeholder-blueGray-300 text-blueGray-600 bg-white rounded text-sm shadow focus:outline-none focus:ring w-full ease-linear transition-all duration-150"
-                        defaultValue={city}
-                      />
-                    </div>
-                  </div>
-                  <div className="w-full lg:w-4/12 px-4">
-                    <div className="relative w-full mb-3">
-                      <label
-                        className="block uppercase text-blueGray-600 text-xs font-bold mb-2"
-                        htmlFor="grid-password"
-                      >
-                        Country
-                      </label>
-                      <input
-                        type="text"
-                        className="border-0 px-3 py-3 placeholder-blueGray-300 text-blueGray-600 bg-white rounded text-sm shadow focus:outline-none focus:ring w-full ease-linear transition-all duration-150"
-                        defaultValue={country}
-                      />
-                    </div>
-                  </div>
-                  <div className="w-full lg:w-4/12 px-4">
-                    <div className="relative w-full mb-3">
-                      <label
-                        className="block uppercase text-blueGray-600 text-xs font-bold mb-2"
-                        htmlFor="grid-password"
-                      >
-                        Postal Code
-                      </label>
-                      <input
-                        type="text"
-                        className="border-0 px-3 py-3 placeholder-blueGray-300 text-blueGray-600 bg-white rounded text-sm shadow focus:outline-none focus:ring w-full ease-linear transition-all duration-150"
-                        defaultValue={postal}
-                      />
-                    </div>
-                  </div>
-                </div>
-
-                <hr className="mt-6 border-b-1 border-blueGray-300" />
-
-                <h6 className="text-blueGray-400 text-sm mt-3 mb-6 font-bold uppercase">
-                  About Me
-                </h6>
-                <div className="flex flex-wrap">
-                  <div className="w-full lg:w-12/12 px-4">
-                    <div className="relative w-full mb-3">
-                      <label
-                        className="block uppercase text-blueGray-600 text-xs font-bold mb-2"
-                        htmlFor="grid-password"
-                      >
-                        Default Promotional Message
-                      </label>
-                      <textarea
-                        type="text"
-                        className="border-0 px-3 py-3 placeholder-blueGray-300 text-blueGray-600 bg-white rounded text-sm shadow focus:outline-none focus:ring w-full ease-linear transition-all duration-150"
-                        defaultValue={description}
-                        rows="4"
-                      ></textarea>
-                    </div>
-                  </div>
-                </div>
-              </form>
-            </div>
           </div>
         </div>
 

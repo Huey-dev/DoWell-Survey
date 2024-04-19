@@ -171,6 +171,14 @@ const CheckRegionModal = ({ open, setOpen, regionLoading, addr }) => {
 
 
 export default function Settings() {
+  const [loading, setLoading] = useState(false);
+
+  const [stoppedNos, setStoppedNos] = useState();
+  const [pendingNos, setPendingNos] = useState();
+  const [ongoingNos, setOngoingNos] = useState();
+  
+
+
   const navigate = useNavigate();
 
   const [open, setOpen] = useState(false);
@@ -247,11 +255,11 @@ export default function Settings() {
 
                 //const the_region_hyphen = Array.from(the_region).join('-');
                 setRegionLoading(false);
-                console.log("the entire address component is", {
-                  region: the_region,
-                  country: the_country,
-                  latlng: latlng
-                });
+                // console.log("the entire address component is", {
+                //   region: the_region,
+                //   country: the_country,
+                //   latlng: latlng
+                // });
 
                 setAddr({
                   region: the_region,
@@ -276,40 +284,93 @@ export default function Settings() {
     }
   };
 
-
-  useEffect(() => {
-
+  const getSettings = async () => {
+    setLoading(true);
     const user_info_json = sessionStorage.getItem("user_info") || "[]";
     const user_info = JSON.parse(user_info_json);
 
-    //const user_info = JSON.parse(sessionStorage.getItem("user_info"));
-    if (user_info) {
-      // Access the profile_img property from the user_info object
-      const imageUrl = user_info.profile_img ? user_info.profile_img : null;
-      const fname = user_info.first_name ? user_info.first_name : null;
-      const Lname = user_info.last_name ? user_info.last_name : null;
-      const Uname = user_info.username ? user_info.username : null;
-      const phone = user_info.phone ? user_info.phone : null;
-      const country = user_info.user_country ? user_info.user_country : null;
-      const timezone = user_info.timezone ? user_info.timezone : null;
-      const city = timezone.split("/")[1];
-      const postal = user_info.postal ? user_info.postal : null;
-      const address = user_info.address ? user_info.address : null;
-      const description = user_info.description ? user_info.description : null;
+    try {
 
 
-      setDescription(description);
-      setAddress(address);
-      setPostal(postal);
-      setCity(city);
-      setCountry(country);
-      setFirstName(fname);
-      setLastName(Lname);
-      setUserName(Uname);
-      setPhone(phone);
-      setProfileImageUrl(imageUrl);
-      setAllInfo(user_info);
+
+
+      const response = await axios.post(
+        `https://100025.pythonanywhere.com/my-survey/`,
+        {
+          username: user_info.username,
+        }
+      );
+
+      const currentDate = new Date().setHours(0, 0, 0, 0);
+
+      // Filter objects where end_date is after or equal to the current date
+      const stoppedSurveys = response.data.slice(1).filter((survey) => {
+        const endDate = new Date(survey.end_date);
+        return endDate < currentDate;
+      });
+
+      const ongoingSurveys = response.data.slice(1).filter((survey) => {
+        const endDate = new Date(survey.end_date);
+        const startDate = new Date(survey.start_date);
+        return endDate >= currentDate && startDate <= currentDate;
+      });
+
+      const pendingSurveys = response.data.slice(1).filter((survey) => {
+        const endDate = new Date(survey.end_date);
+        const startDate = new Date(survey.start_date);
+        return startDate > currentDate && endDate >= startDate;
+      });
+
+      setLoading(false);
+      setStoppedNos(stoppedSurveys.length);
+      setOngoingNos(ongoingSurveys.length);
+      setPendingNos(pendingSurveys.length);
+      setTotalNos(response.data.slice(1).length);
+
+
+  
+
+   
+    } catch (error) {
+      setLoading(false);
+      console.log(error);
     }
+
+    finally {
+            //const user_info = JSON.parse(sessionStorage.getItem("user_info"));
+            if (user_info) {
+              // Access the profile_img property from the user_info object
+              const imageUrl = user_info.profile_img ? user_info.profile_img : null;
+              const fname = user_info.first_name ? user_info.first_name : null;
+              const Lname = user_info.last_name ? user_info.last_name : null;
+              const Uname = user_info.username ? user_info.username : null;
+              const phone = user_info.phone ? user_info.phone : null;
+              const country = user_info.user_country ? user_info.user_country : null;
+              const timezone = user_info.timezone ? user_info.timezone : null;
+              const city = timezone.split("/")[1];
+              const postal = user_info.postal ? user_info.postal : null;
+              const address = user_info.address ? user_info.address : null;
+              const description = user_info.description ? user_info.description : null;
+        
+        
+              setDescription(description);
+              setAddress(address);
+              setPostal(postal);
+              setCity(city);
+              setCountry(country);
+              setFirstName(fname);
+              setLastName(Lname);
+              setUserName(Uname);
+              setPhone(phone);
+              setProfileImageUrl(imageUrl);
+              setAllInfo(user_info);
+            }
+    }
+  };
+
+
+  useEffect(() => {
+    getSettings();
   }, []);
 
   return (

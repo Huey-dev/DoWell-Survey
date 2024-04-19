@@ -101,7 +101,7 @@ export default function Sidebar() {
               <Link to="/stop-survey">
                 <li
                   className={`flex items-center justify-start pl-3 font-bold bg-[#A6A6A6] border border-white my-1 text-md h-8 ${
-                    location.pathname === "/start-survey"
+                    location.pathname === "/stop-survey"
                       ? "text-black bg-white"
                       : "text-white"
                   }`}

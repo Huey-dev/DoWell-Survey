@@ -3,6 +3,7 @@ import React, { Fragment, useEffect, useRef, useState } from "react";
 import { CircleMarker, MapContainer, Marker, Popup, TileLayer, } from "react-leaflet";
 import { MapPinIcon, PencilSquareIcon, QrCodeIcon, TrashIcon, XMarkIcon } from "@heroicons/react/24/outline";
 import { Dialog, Transition } from "@headlessui/react";
+import axios from "axios";
 import { Link, useNavigate } from "react-router-dom";
 import closed from "../assets/closed.png";
 import total from "../assets/total.png";
@@ -173,9 +174,12 @@ const CheckRegionModal = ({ open, setOpen, regionLoading, addr }) => {
 export default function Settings() {
   const [loading, setLoading] = useState(false);
 
+  const [totalNos, setTotalNos] = useState();
   const [stoppedNos, setStoppedNos] = useState();
   const [pendingNos, setPendingNos] = useState();
   const [ongoingNos, setOngoingNos] = useState();
+
+
   
 
 
@@ -371,6 +375,7 @@ export default function Settings() {
 
   useEffect(() => {
     getSettings();
+    console.log("usedddddddd");
   }, []);
 
   return (
@@ -489,7 +494,7 @@ export default function Settings() {
                 <div className="w-7/12 bg-[#EFF3F6] border border-[#B3B4BB] rounded-t-lg">
                   <div
                     className="flex items-center justify-end w-full text-white bg-[#005734] text-lg rounded-t-lg">
-                    <p className="font-bold mx-4 my-2 ">Survey Usage Statistics</p>
+                    <p className="font-bold mx-4 my-2 ">Survey Count Information</p>
   
                   </div>
   
@@ -498,7 +503,7 @@ export default function Settings() {
   
                       <div>
                         <p className="text-md font-bold text-right">Total Surveys</p>
-                        <p className="text-sm font-bold text-gray-500 text-right">--</p>
+                        <p className="text-sm font-bold text-gray-500 text-right italic">{`${totalNos} survey(s) have been created`}</p>
                       </div>
                       <div className="h-20 w-20 rounded-full border-2 border-[#005734] p-4">
   
@@ -515,7 +520,7 @@ export default function Settings() {
   
                       <div>
                         <p className="text-md font-bold text-right">Pending Surveys</p>
-                        <p className="text-sm font-bold text-gray-500 text-right">--</p>
+                        <p className="text-sm font-bold text-gray-500 text-right italic">{`${pendingNos} survey(s) are yet to start`}</p>
                       </div>
                       <div className="h-20 w-20 rounded-full border-2 border-[#005734] p-4">
   
@@ -532,7 +537,7 @@ export default function Settings() {
   
                       <div>
                         <p className="text-md font-bold text-right">Ongoing Surveys</p>
-                        <p className="text-sm font-bold text-gray-500 text-right">--</p>
+                        <p className="text-sm font-bold text-gray-500 text-right italic">{`${ongoingNos} survey(s) are ongoing`}</p>
                       </div>
                       <div className="h-20 w-20 rounded-full border-2 border-[#005734] p-4">
   
@@ -560,7 +565,7 @@ export default function Settings() {
                       <div className="flex items-center space-x-6">
                       <div>
                         <p className="text-md font-bold text-right">Ended Surveys</p>
-                        <p className="text-sm font-bold text-gray-500 text-right">--</p>
+                        <p className="text-sm font-bold italic text-gray-500 text-right">{`${stoppedNos} survey(s) have ended`}</p>
                       </div>
                       <div className="h-20 w-20 rounded-full border-2 border-[#005734] p-4">
   

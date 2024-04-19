@@ -384,193 +384,211 @@ export default function Settings() {
 
           </div>
           <CheckRegionModal open={open} setOpen={setOpen} regionLoading={regionLoading} addr={addr} />
-          <div className="relative flex flex-col min-w-0 break-words w-full mb-6 rounded-lg bg-blueGray-100 border-0">
-            <div className="flex justify-between items-center px-8 my-4 py-10">
-              <div className="flex justify-between items-center space-x-6">
-                <div className="h-40">
-
-                  <img
-                    src={profileImageUrl || null}
-                    alt="user image"
-                    className="w-full h-full top-0 left-0 rounded-full"
-                  />
-
-                </div>
-                <div>
-                  <p className="text-lg font-bold">{`${firstName} ${lastName}`}</p>
-                  <p className="text-md font-bold text-gray-500">{`${userName} (${allInfo?.User_type})`}</p>
-                </div>
+          {
+            loading ? (
+              <div className="flex items-center justify-center">
+              <div
+                className="m-12 inline-block h-16 w-16 animate-spin text-green-800 rounded-full border-4 border-solid border-current border-r-transparent align-[-0.125em] motion-reduce:animate-[spin_1.5s_linear_infinite]"
+                role="status"
+              >
+                <span className="!absolute !-m-px !h-px !w-px !overflow-hidden !whitespace-nowrap !border-0 !p-0 ![clip:rect(0,0,0,0)]">
+                  Loading...
+                </span>
               </div>
-              <div className="flex space-x-2">
-                <a
-                  href="https://100093.pythonanywhere.com/ "
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="mb-2 w-[150px] h-[30px] font-serif font-bold opacity-80 hover:opacity-100 text-center text-sm md:text-md text-[#005734] border-2 border-[#005734] py-1"
-                >
-                  Edit Profile
-                </a>
-                <button
-                  className="mb-2 w-[150px] h-[30px] font-serif font-bold opacity-80 hover:opacity-100 text-center text-sm md:text-md text-white bg-[#005734]"
-                  onClick={() => {
-
-                    setOpen(true)
-                    getCurrentAddress();
-                  }}>
-                  Check My Region
-
-
-                </button>
-
-
-              </div>
-
             </div>
+            ) : (
 
-            <div className="flex justify-between space-x-8">
-              <div className="w-5/12 bg-[#EFF3F6] border border-[#B3B4BB] rounded-t-lg">
-                <div
-                  className="flex items-center justify-between w-full text-white bg-[#005734] text-lg rounded-t-lg">
-                  <p className="font-bold mx-4 my-2 ">User Information</p>
-
+              <div className="relative flex flex-col min-w-0 break-words w-full mb-6 rounded-lg bg-blueGray-100 border-0">
+              <div className="flex justify-between items-center px-8 my-4 py-10">
+                <div className="flex justify-between items-center space-x-6">
+                  <div className="h-40">
+  
+                    <img
+                      src={profileImageUrl || null}
+                      alt="user image"
+                      className="w-full h-full top-0 left-0 rounded-full"
+                    />
+  
+                  </div>
+                  <div>
+                    <p className="text-lg font-bold">{`${firstName} ${lastName}`}</p>
+                    <p className="text-md font-bold text-gray-500">{`${userName} (${allInfo?.User_type})`}</p>
+                  </div>
                 </div>
-                <div className="flex items-center">
-                <div className="flex flex-col space-y-2 my-4 px-4">
-                  <div className="">
-                    <p className="text-md font-bold">Phone Number</p>
-                    <p className="text-sm font-bold text-gray-500">{phone}</p>
-                  </div>
-
-                  <div>
-                    <p className="text-md font-bold">Email Address</p>
-                    <p className="text-sm font-bold text-gray-500">{allInfo?.email}</p>
-                  </div>
-
-                  <div>
-                    <p className="text-md font-bold">Last Login</p>
-                    <p className="text-sm font-bold text-gray-500">{allInfo?.last_login}</p>
-                  </div>
-
-                  <div>
-                    <p className="text-md font-bold">Timezone</p>
-                    <p className="text-sm font-bold text-gray-500">{allInfo?.timezone}</p>
-                  </div>
-
-                  <div>
-                    <p className="text-md font-bold">Country</p>
-                    <p className="text-sm font-bold text-gray-500">{country}</p>
-                  </div>
-
-                  <div>
-                    <p className="text-md font-bold">City</p>
-                    <p className="text-sm font-bold text-gray-500">{city}</p>
-                  </div>
-
-                </div>
-
-                </div>
-
-
-              </div>
-              <div className="w-7/12 bg-[#EFF3F6] border border-[#B3B4BB] rounded-t-lg">
-                <div
-                  className="flex items-center justify-end w-full text-white bg-[#005734] text-lg rounded-t-lg">
-                  <p className="font-bold mx-4 my-2 ">Survey Usage Statistics</p>
-
-                </div>
-
-                <div className="flex flex-col space-y-2 my-4 px-4">
-                  <div className="flex justify-end items-center space-x-6">
-
-                    <div>
-                      <p className="text-md font-bold text-right">Total Surveys</p>
-                      <p className="text-sm font-bold text-gray-500 text-right">--</p>
-                    </div>
-                    <div className="h-20 w-20 rounded-full border-2 border-[#005734] p-4">
-
-                      <img
-                        src={total}
-                        alt="user image"
-                        className=""
-                      />
-
-                    </div>
-                  </div>
-
-                  <div className="flex justify-end items-center space-x-6">
-
-                    <div>
-                      <p className="text-md font-bold text-right">Pending Surveys</p>
-                      <p className="text-sm font-bold text-gray-500 text-right">--</p>
-                    </div>
-                    <div className="h-20 w-20 rounded-full border-2 border-[#005734] p-4">
-
-                      <img
-                        src={pending}
-                        alt="user image"
-                        className=""
-                      />
-
-                    </div>
-                  </div>
-
-                  <div className="flex justify-end items-center space-x-6">
-
-                    <div>
-                      <p className="text-md font-bold text-right">Ongoing Surveys</p>
-                      <p className="text-sm font-bold text-gray-500 text-right">--</p>
-                    </div>
-                    <div className="h-20 w-20 rounded-full border-2 border-[#005734] p-4">
-
-                      <img
-                        src={ongoing}
-                        alt="user image"
-                        className=""
-                      />
-
-                    </div>
-                  </div>
-
-                  <div className="flex justify-between items-center space-x-6">
-
+                <div className="flex space-x-2">
+                  <a
+                    href="https://100093.pythonanywhere.com/ "
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="mb-2 w-[150px] h-[30px] font-serif font-bold opacity-80 hover:opacity-100 text-center text-sm md:text-md text-[#005734] border-2 border-[#005734] py-1"
+                  >
+                    Edit Profile
+                  </a>
                   <button
-                  className="mb-2 w-[120px] h-[30px] font-serif font-bold opacity-80 hover:opacity-100 text-center text-sm md:text-md text-white bg-[#005734]"
-                  onClick={() => {
-
-                    navigate("/list-surveys");
-                  }}>
-                  View Surveys
-
-
-                </button>
-                    <div className="flex items-center space-x-6">
-                    <div>
-                      <p className="text-md font-bold text-right">Ended Surveys</p>
-                      <p className="text-sm font-bold text-gray-500 text-right">--</p>
-                    </div>
-                    <div className="h-20 w-20 rounded-full border-2 border-[#005734] p-4">
-
-                      <img
-                        src={closed}
-                        alt="user image"
-                        className=""
-                      />
-
-                    </div>
-                    </div>
-
-                    
-
-                    
-                  </div>
-
+                    className="mb-2 w-[150px] h-[30px] font-serif font-bold opacity-80 hover:opacity-100 text-center text-sm md:text-md text-white bg-[#005734]"
+                    onClick={() => {
+  
+                      setOpen(true)
+                      getCurrentAddress();
+                    }}>
+                    Check My Region
+  
+  
+                  </button>
+  
+  
                 </div>
-
+  
               </div>
-
+  
+              <div className="flex justify-between space-x-8">
+                <div className="w-5/12 bg-[#EFF3F6] border border-[#B3B4BB] rounded-t-lg">
+                  <div
+                    className="flex items-center justify-between w-full text-white bg-[#005734] text-lg rounded-t-lg">
+                    <p className="font-bold mx-4 my-2 ">User Information</p>
+  
+                  </div>
+                  <div className="flex items-center">
+                  <div className="flex flex-col space-y-2 my-4 px-4">
+                    <div className="">
+                      <p className="text-md font-bold">Phone Number</p>
+                      <p className="text-sm font-bold text-gray-500">{phone}</p>
+                    </div>
+  
+                    <div>
+                      <p className="text-md font-bold">Email Address</p>
+                      <p className="text-sm font-bold text-gray-500">{allInfo?.email}</p>
+                    </div>
+  
+                    <div>
+                      <p className="text-md font-bold">Last Login</p>
+                      <p className="text-sm font-bold text-gray-500">{allInfo?.last_login}</p>
+                    </div>
+  
+                    <div>
+                      <p className="text-md font-bold">Timezone</p>
+                      <p className="text-sm font-bold text-gray-500">{allInfo?.timezone}</p>
+                    </div>
+  
+                    <div>
+                      <p className="text-md font-bold">Country</p>
+                      <p className="text-sm font-bold text-gray-500">{country}</p>
+                    </div>
+  
+                    <div>
+                      <p className="text-md font-bold">City</p>
+                      <p className="text-sm font-bold text-gray-500">{city}</p>
+                    </div>
+  
+                  </div>
+  
+                  </div>
+  
+  
+                </div>
+                <div className="w-7/12 bg-[#EFF3F6] border border-[#B3B4BB] rounded-t-lg">
+                  <div
+                    className="flex items-center justify-end w-full text-white bg-[#005734] text-lg rounded-t-lg">
+                    <p className="font-bold mx-4 my-2 ">Survey Usage Statistics</p>
+  
+                  </div>
+  
+                  <div className="flex flex-col space-y-2 my-4 px-4">
+                    <div className="flex justify-end items-center space-x-6">
+  
+                      <div>
+                        <p className="text-md font-bold text-right">Total Surveys</p>
+                        <p className="text-sm font-bold text-gray-500 text-right">--</p>
+                      </div>
+                      <div className="h-20 w-20 rounded-full border-2 border-[#005734] p-4">
+  
+                        <img
+                          src={total}
+                          alt="user image"
+                          className=""
+                        />
+  
+                      </div>
+                    </div>
+  
+                    <div className="flex justify-end items-center space-x-6">
+  
+                      <div>
+                        <p className="text-md font-bold text-right">Pending Surveys</p>
+                        <p className="text-sm font-bold text-gray-500 text-right">--</p>
+                      </div>
+                      <div className="h-20 w-20 rounded-full border-2 border-[#005734] p-4">
+  
+                        <img
+                          src={pending}
+                          alt="user image"
+                          className=""
+                        />
+  
+                      </div>
+                    </div>
+  
+                    <div className="flex justify-end items-center space-x-6">
+  
+                      <div>
+                        <p className="text-md font-bold text-right">Ongoing Surveys</p>
+                        <p className="text-sm font-bold text-gray-500 text-right">--</p>
+                      </div>
+                      <div className="h-20 w-20 rounded-full border-2 border-[#005734] p-4">
+  
+                        <img
+                          src={ongoing}
+                          alt="user image"
+                          className=""
+                        />
+  
+                      </div>
+                    </div>
+  
+                    <div className="flex justify-between items-center space-x-6">
+  
+                    <button
+                    className="mb-2 w-[120px] h-[30px] font-serif font-bold opacity-80 hover:opacity-100 text-center text-sm md:text-md text-white bg-[#005734]"
+                    onClick={() => {
+  
+                      navigate("/list-surveys");
+                    }}>
+                    View Surveys
+  
+  
+                  </button>
+                      <div className="flex items-center space-x-6">
+                      <div>
+                        <p className="text-md font-bold text-right">Ended Surveys</p>
+                        <p className="text-sm font-bold text-gray-500 text-right">--</p>
+                      </div>
+                      <div className="h-20 w-20 rounded-full border-2 border-[#005734] p-4">
+  
+                        <img
+                          src={closed}
+                          alt="user image"
+                          className=""
+                        />
+  
+                      </div>
+                      </div>
+  
+                      
+  
+                      
+                    </div>
+  
+                  </div>
+  
+                </div>
+  
+              </div>
+  
             </div>
 
-          </div>
+            )
+          }
+
         </div>
 
       </main>

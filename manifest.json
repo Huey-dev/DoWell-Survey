@@ -1,6 +1,6 @@
 {
   "index.css": {
-    "file": "assets/index-a511b474.css",
+    "file": "assets/index-c806c78a.css",
     "src": "index.css"
   },
   "index.html": {
@@ -11,12 +11,13 @@
       "assets/total-e40f9d86.png",
       "assets/ongoing-dc1f735e.png",
       "assets/pending-f8da5571.png",
+      "assets/defaultAvatar-f905820b.png",
       "assets/allow-c9b26216.png"
     ],
     "css": [
-      "assets/index-a511b474.css"
+      "assets/index-c806c78a.css"
     ],
-    "file": "assets/index-c9b781e7.js",
+    "file": "assets/index-ec2b98d0.js",
     "isEntry": true,
     "src": "index.html"
   },
@@ -43,6 +44,10 @@
   "src/assets/closed.png": {
     "file": "assets/closed-24118ce3.png",
     "src": "src/assets/closed.png"
+  },
+  "src/assets/defaultAvatar.png": {
+    "file": "assets/defaultAvatar-f905820b.png",
+    "src": "src/assets/defaultAvatar.png"
   },
   "src/assets/dowell.jpeg": {
     "file": "assets/dowell-1abe8323.jpeg",

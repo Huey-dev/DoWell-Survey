@@ -83,7 +83,7 @@ const FinalizeSample = () => {
   return (
     <Layout>
       <main className="w-full">
-        <div className="flex flex-col px-4 md:px-10 mt-[40px] md:pl-[310px] md:mt-0 h-screen">
+        <div className="flex flex-col px-4 md:px-10 mt-[40px] md:pl-[310px] md:mt-0 h-screen pt-4 pb-1">
           <div className="px-2 items-center flex justify-between bg-[#005734]">
             <h1 className=" text-white text-2xl font-bold pt-1 pb-3 no-underline">
               Finalize Sample Size

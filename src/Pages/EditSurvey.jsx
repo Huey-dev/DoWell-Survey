@@ -307,7 +307,7 @@ export default function Edit() {
   return (
     <Layout>
       <main className="w-full h-full">
-        <div className="px-4 md:px-10 md:pl-[310px]">
+        <div className="px-4 md:px-10 md:pl-[310px] pt-4">
           <Transition.Root show={open} as={Fragment}>
             <Dialog
               as="div"
@@ -781,7 +781,7 @@ export default function Edit() {
           <div className="flex flex-col min-w-full">
             <div className="overflow-x-auto min-w-full">
               <div className="inline-block py-2 min-w-full">
-                <div className="overflow-hidden">
+                <div className="overflow-auto">
                   {loading ? (
                     <div className="flex items-center justify-center">
                       <div

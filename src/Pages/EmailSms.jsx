@@ -1192,7 +1192,7 @@ export const EmailSms = () => {
   return (
     <Layout>
       <main className="w-full">
-        <div className="flex flex-col px-4 md:px-10 mt-[40px] md:pl-[310px] md:mt-0 h-screen">
+        <div className="flex flex-col px-4 md:px-10 mt-[40px] md:pl-[310px] md:mt-0 h-screen pt-4 pb-1">
           <SmsModal
             smsOpen={smsOpen}
             setSmsOpen={setSmsOpen}

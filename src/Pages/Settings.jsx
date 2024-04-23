@@ -9,6 +9,9 @@ import closed from "../assets/closed.png";
 import total from "../assets/total.png";
 import ongoing from "../assets/ongoing.png";
 import pending from "../assets/pending.png";
+import defaultAvatar from "../assets/defaultAvatar.png";
+
+
 
 
 import Layout from "../Layout/Layout";
@@ -20,11 +23,6 @@ const CheckRegionModal = ({ open, setOpen, regionLoading, addr }) => {
   const [map, setMap] = useState(null);
 
   const cancelButtonRef = useRef(null);
-
-
-
-
-
 
   return (
     <Transition.Root show={open} as={Fragment}>
@@ -178,10 +176,6 @@ export default function Settings() {
   const [stoppedNos, setStoppedNos] = useState();
   const [pendingNos, setPendingNos] = useState();
   const [ongoingNos, setOngoingNos] = useState();
-
-
-  
-
 
   const navigate = useNavigate();
 
@@ -344,7 +338,7 @@ export default function Settings() {
             //const user_info = JSON.parse(sessionStorage.getItem("user_info"));
             if (user_info) {
               // Access the profile_img property from the user_info object
-              const imageUrl = user_info.profile_img ? user_info.profile_img : null;
+              const imageUrl = user_info.profile_img ? user_info.profile_img : defaultAvatar;
               const fname = user_info.first_name ? user_info.first_name : null;
               const Lname = user_info.last_name ? user_info.last_name : null;
               const Uname = user_info.username ? user_info.username : null;
@@ -381,7 +375,7 @@ export default function Settings() {
   return (
     <Layout>
       <main className="w-full h-full mb-10">
-        <div className="px-4 md:px-10 mt-[40px] md:pl-[310px] md:mt-0">
+        <div className="px-4 md:px-10 mt-[40px] md:pl-[310px] md:mt-0 pt-4 pb-1">
           <div className="px-2 items-center flex justify-between bg-[#005734]">
             <h1 className=" text-white text-2xl font-bold pt-1 pb-3 no-underline">
               Settings / My Profile

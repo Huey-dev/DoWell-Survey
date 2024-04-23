@@ -4,7 +4,7 @@ const TermsCondition = () => {
   return (
     <Layout>
       <main className="px-4 md:px-10 mt-20 md:pl-80">
-        <div className="mb-20">
+        <div className="mb-20 pt-4">
           <h1 className="text-center font-bold text-lg md:text-2xl">
             Terms and Conditions For Dowell Survey
           </h1>

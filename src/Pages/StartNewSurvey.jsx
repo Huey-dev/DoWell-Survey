@@ -208,8 +208,8 @@ const StartNewSurvey = () => {
 
   return (
     <Layout>
-      <main className="w-full h-full mb-10">
-        <div className="px-4 md:px-10 mt-[40px] md:pl-[310px] md:mt-0">
+      <main className="w-full">
+        <div className="flex flex-col px-4 md:px-10 mt-[40px] md:pl-[310px] md:mt-0 h-screen">
           <div className="px-2 items-center flex justify-between bg-[#005734]">
             <h1 className=" text-white text-2xl font-bold pt-1 pb-3 no-underline">
               Link Survey Form
@@ -217,14 +217,16 @@ const StartNewSurvey = () => {
 
           </div>
 
-          <div className="flex justify-center w-full">
+          <div className="flex justify-center items-center h-full bg-[#EFF3F6]">
             <form
               action=""
               encType="multipart/form-data"
+              className="border-2 border-[#BFBFBF] p-10 bg-white"
               onSubmit={handleSubmit}
             >
-              <div className="h-full w-full md:flex pt-10">
-                <div className="w-full grid gap-6 px-4 sm:px-0 md:w-[80%]">
+              <div className="h-full w-full md:flex">
+                <div className="grid grid-cols-2 gap-x-20 gap-y-4">
+                  
                   <div className="">
                   <div className="flex space-x-2 items-center">
                     <h2 className="font-medium text-left">
@@ -234,7 +236,7 @@ const StartNewSurvey = () => {
                     </div>
 
                    
-                    <div className="relative md:w-[500px] w-[400px] h-[32px] p-1 bg-[#D9D9D9] border border-[#BFBFBF] outline-none">
+                    <div className="relative h-[32px] w-[100%] bg-[#D9D9D9] border p-1 border-[#BFBFBF] outline-none">
                       <input
                         type="file"
                         name=""
@@ -251,9 +253,6 @@ const StartNewSurvey = () => {
                     </div>
                   </div>
 
-
-
-
                   {errorMessage && (
                     <small>
                       <p style={{ color: "red" }}>{errorMessage}</p>
@@ -266,10 +265,7 @@ const StartNewSurvey = () => {
                     </h2>
                     <FaInfoCircle data-tooltip-id="my-tooltip" data-tooltip-content="This is the name of the survey being conducted" className="text-[#606060]"/>
                     </div>
-
-                   
-                  
-                   
+                     
                     <Tooltip id="my-tooltip" />
                     <input
                       type="text"
@@ -278,7 +274,7 @@ const StartNewSurvey = () => {
                       value={name}
                       onChange={(e) => setName(e.target.value)}
                       placeholder="e.g Food Menu Reviews"
-                      className="md:w-[500px] bg-[#D9D9D9] border w-[400px] p-1 border-[#BFBFBF] outline-none"
+                      className="w-[100%] bg-[#D9D9D9] border p-1 border-[#BFBFBF] outline-none"
                       required
                     />
                   </div>
@@ -302,11 +298,10 @@ const StartNewSurvey = () => {
                       value={formLink}
                       onChange={(e) => setFormLink(e.target.value)}
                       placeholder="e.g docs.google.com/forms/d/e/1HPFDa6t3I"
-                      className="md:w-[500px] w-[400px] bg-[#D9D9D9] border w-full p-1 border-[#BFBFBF] outline-none"
+                      className="w-[100%] bg-[#D9D9D9] border p-1 border-[#BFBFBF] outline-none"
                       required
                     />
                   </div>
-
 
                   <div className="">
                     <div className="flex space-x-2 items-center">
@@ -327,12 +322,12 @@ const StartNewSurvey = () => {
                       value={product}
                       onChange={(e) => setProduct(e.target.value)}
                       placeholder="e.g Altsid Insecticides"
-                      className="md:w-[500px] w-[400px] bg-[#D9D9D9] border w-full p-1 border-[#BFBFBF] outline-none"
+                      className="w-[100%] bg-[#D9D9D9] border p-1 border-[#BFBFBF] outline-none"
                       required
                     />
                   </div>
 
-                  <div className="">
+                  <div className="col-span-2">
                     <div className="flex space-x-2 items-center">
                     <h2 className="font-medium text-left">
                     Enter Promotional Message*
@@ -352,20 +347,15 @@ const StartNewSurvey = () => {
                     maxlength="100"
                     onChange={(e) => setDescription(e.target.value)}
                     placeholder="should be Less than 100 characters"
-                    className="md:w-[500px] w-[400px] bg-[#D9D9D9] border w-full p-1 border-[#BFBFBF] outline-none h-24"
+                    className="w-[100%] bg-[#D9D9D9] border w-full p-1 border-[#BFBFBF] outline-none h-24"
                   />
                  
                   </div>
 
-
-              
-
-              
-
-
+                  <div className="col-span-2">
                   {loading ? (
                     <button
-                      className="w-full md:w-[500px] h-[32px] sm:w-[40%] font-serif font-bold text-center bg-[#005734] opacity-50 text-[16px] text-white cursor-not-allowed"
+                      className="w-[100%] h-[32px] font-serif font-bold text-center bg-[#005734] opacity-50 text-[16px] text-white cursor-not-allowed"
                       disabled
                     >
                       Processing...
@@ -374,18 +364,22 @@ const StartNewSurvey = () => {
                     <button
                       type="submit"
                       // onClick={handleSubmit}
-                      className="w-full md:w-[500px] h-[32px] sm:w-[40%] font-serif font-bold text-center bg-[#005734] opacity-80 hover:opacity-100 text-[16px] text-white cursor-pointer"
+                      className="w-[100%] h-[32px] font-serif font-bold text-center bg-[#005734] opacity-80 hover:opacity-100 text-[16px] text-white cursor-pointer"
                     >
                       Create Survey
                     </button>
                   )}
+
+                  </div>
+
                 </div>
               </div>
 
 
+
             </form>
 
-          </div>
+            </div>
 
 
 

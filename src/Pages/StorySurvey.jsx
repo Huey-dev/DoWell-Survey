@@ -190,20 +190,18 @@ const StopSurvey = () => {
 
   return (
     <Layout>
-      <main className="w-full h-full mb-10">
-        <div className="px-4 md:px-10 mt-[40px] md:pl-[310px] md:mt-0">
+      <main className="w-full">
+        <div className="flex flex-col px-4 md:px-10 mt-[40px] md:pl-[310px] md:mt-0 h-screen">
           <div className="px-2 items-center flex justify-Start bg-[#005734]">
             <h1 className=" text-white text-2xl font-bold pt-1 pb-3 no-underline">
               Stop Survey
             </h1>
 
           </div>
-          <div className="flex flex-col justify-between w-full h-full">
-            <div className="flex flex-col w-full">
-              <div className="w-full">
-                <div className="inline-block py-6 w-full bg-[#EFF3F6]">
+          <div className="flex h-full bg-[#EFF3F6]">
+          <div className="inline-block py-6 w-full bg-[#EFF3F6]">
                   <div className="w-10/12 mx-auto overflow-x-auto flex flex-col space-y-8">
-                    <div className="overflow-x-auto">
+                    <div className="overflow-auto max-h-[85vh]">
                       {
                         loading ? (
                           <div className="flex items-center justify-center">
@@ -219,29 +217,29 @@ const StopSurvey = () => {
 
                         ) : (
                           <table className="max-w-full text-center text-sm font-light w-full bg-white">
-                            <thead className="bg-[#005734] dark:border-neutral-500 text-white">
+                            <thead className="dark:border-neutral-500 text-white">
                               <tr>
                                 <th
                                   scope="col"
-                                  className="whitespace-nowrap px-6 py-2"
+                                  className="bg-[#005734] sticky top-0 whitespace-nowrap px-6 py-2"
                                 >
                                   Survey Name
                                 </th>
                                 <th
                                   scope="col"
-                                  className="whitespace-nowrap px-6 py-2"
+                                  className="bg-[#005734] sticky top-0 whitespace-nowrap px-6 py-2"
                                 >
                                   Survey Link
                                 </th>
                                 <th
                                   scope="col"
-                                  className="whitespace-nowrap px-6 py-2"
+                                  className="bg-[#005734] sticky top-0 whitespace-nowrap px-6 py-2"
                                 >
                                   End Date
                                 </th>
                                 <th
                                   scope="col"
-                                  className="whitespace-nowrap px-6 py-2"
+                                  className="bg-[#005734] sticky top-0 whitespace-nowrap px-6 py-2"
                                 >
                                   Actions
                                 </th>
@@ -296,8 +294,6 @@ const StopSurvey = () => {
                     </div>
                   </div>
                 </div>
-              </div>
-            </div>
           </div>
         </div>
       </main>

@@ -1191,8 +1191,8 @@ export const EmailSms = () => {
 
   return (
     <Layout>
-      <main className="w-full h-screen mb-10">
-        <div className="px-4 md:px-10 mt-[40px] md:pl-[310px] md:mt-0">
+      <main className="w-full">
+        <div className="flex flex-col px-4 md:px-10 mt-[40px] md:pl-[310px] md:mt-0 h-screen">
           <SmsModal
             smsOpen={smsOpen}
             setSmsOpen={setSmsOpen}
@@ -1230,7 +1230,7 @@ export const EmailSms = () => {
               Send Survey via Mails and SMS
             </h6>
           </div>
-          <div className="w-full flex flex-col justify-center items-center gap-5 bg-[#EFF3F6]">
+          <div className="flex flex-col space-y-3 justify-center items-center h-full bg-[#EFF3F6]">
             <div className="flex justify-center items-center">
               <img
                 src={getQrcode}

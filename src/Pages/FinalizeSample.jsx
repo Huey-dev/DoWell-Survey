@@ -271,7 +271,7 @@ const FinalizeSample = () => {
                         <button
                           onClick={handleDone}
                           // className="w-[100px] mx-1 h-[40px] font-serif font-semibold bg-[#005734] opacity-80 hover:opacity-100 text-[white] rounded-md"
-                          className={`w-full h-[40px] font-serif font-semibold bg-[#005734] ${!numOfParticipants.trim()
+                          className={`w-full h-[32px] font-serif font-semibold bg-[#005734] ${!numOfParticipants.trim()
                               ? "opacity-60 cursor-not-allowed"
                               : "opacity-80 hover:opacity-100"
                             } text-[white]`}

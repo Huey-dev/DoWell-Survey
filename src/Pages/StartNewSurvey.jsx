@@ -242,22 +242,23 @@ const StartNewSurvey = () => {
                         name=""
                         id="file"
                         // value={image}
-                        className="opacity-0 absolute left-0 top-0 w-full h-full cursor-pointer"
+                        className="opacity-80 absolute left-0 top-0 w-full h-full cursor-pointer"
                         onChange={handleImageChange}
                         required
 
                         accept=".jpg, .jpeg, .png"
                       />
-                      <p>{`click here to upload (${filename})`}</p>
+                      
 
                     </div>
-                  </div>
-
-                  {errorMessage && (
+                    {errorMessage && (
                     <small>
                       <p style={{ color: "red" }}>{errorMessage}</p>
                     </small>
                   )}
+                  </div>
+
+
                   <div className="">
                     <div className="flex space-x-2 items-center">
                     <h2 className="font-medium text-left">

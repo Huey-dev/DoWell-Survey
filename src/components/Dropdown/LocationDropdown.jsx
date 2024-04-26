@@ -1102,7 +1102,7 @@ export default function LocationDropdown({ loading, country }) {
       value={all_cities?.findIndex((city) => city.name === inputData.city)}
       autoComplete="country-name"
       onChange={(e) => handleChange(e)}
-      className="select w-[150px] h-[33px] bg-[#D9D9D9]"
+      className="select w-[15vw] h-[33px] bg-[#D9D9D9]"
     >
       <option>Select region</option>
       {all_cities?.map((item, index) => (

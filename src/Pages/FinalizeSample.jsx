@@ -96,7 +96,7 @@ const FinalizeSample = () => {
           <div className="flex items-center h-full bg-[#EFF3F6]">
           <div className="inline-block w-full">
                     <div className="w-10/12 mx-auto flex flex-col space-y-8">
-                      <div className="overflow-auto max-h-[50vh]">
+                      <div className="overflow-auto max-h-[45vh]">
                         <table className="relative max-w-full text-center text-md font-light w-full bg-white">
                           <thead className="dark:border-neutral-500 text-white z-40">
                             <tr>
@@ -168,6 +168,11 @@ const FinalizeSample = () => {
 
                                   <td className="whitespace-nowrap  px-6 py-4"></td>
                                 </tr>
+
+
+
+
+                                
                               </>
 
 

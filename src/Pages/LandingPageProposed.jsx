@@ -29,7 +29,7 @@ import { FaGlobe, FaPhoneAlt } from "react-icons/fa";
 import { IoMdCompass } from "react-icons/io";
 import { TiLocation } from "react-icons/ti";
 
-import payload, {payload2} from "./payload";
+import payload, { payload2 } from "./payload";
 
 import CountryDropdown from "../components/Dropdown/CountryDropdown";
 import LocationDropdown from "../components/Dropdown/LocationDropdown";
@@ -113,54 +113,54 @@ const LandingPage = () => {
   const [email, setEmail] = useState(null);
 
   useEffect(() => {
-      // Define the function to fetch data
-      const fetchData = async () => {
-          const queryParams = new URLSearchParams(window.location.search);
-          const session_id = queryParams.get('session_id');
-          let user_details;
+    // Define the function to fetch data
+    const fetchData = async () => {
+      const queryParams = new URLSearchParams(window.location.search);
+      const session_id = queryParams.get('session_id');
+      let user_details;
 
-          if (session_id) {
-              const formData = {
-                  "session_id": session_id
+      if (session_id) {
+        const formData = {
+          "session_id": session_id
+        }
+
+        for (let i = 0; i <= 3; i++) {
+
+          console.log("the number of trys is-", i);
+          try {
+            const response = await axios.post(
+              `https://100014.pythonanywhere.com/api/userinfo/`,
+              formData,
+              {
+                headers: {
+                  "Content-Type": "application/json",
+                },
+
               }
+            );
+            user_details = response?.data?.userinfo;
+            if (user_details) {
 
-              for (let i = 0; i <= 3; i++) {
-
-                  console.log("the number of trys is-", i);
-                  try {
-                      const response = await axios.post(
-                          `https://100014.pythonanywhere.com/api/userinfo/`,
-                          formData,
-                          {
-                              headers: {
-                                  "Content-Type": "application/json",
-                              },
-
-                          }
-                      );
-                      user_details = response?.data?.userinfo;
-                      if (user_details) {
-                        
-                          sessionStorage.setItem("user_info", JSON.stringify(user_details));
-                          console.log("the user_details", user_details);
-                          break;
-                      }
-                  }
-                  catch (error) {
-                      console.log("error is", error);
-                  }
-              }
-              if (!user_details) {
-                  setPageError("Error fetching User Data, click to reload")
-              }
-              setPageLoad(false);
+              sessionStorage.setItem("user_info", JSON.stringify(user_details));
+              console.log("the user_details", user_details);
+              break;
+            }
           }
-          else {
-              setPageLoad(false);
+          catch (error) {
+            console.log("error is", error);
           }
-      };
+        }
+        if (!user_details) {
+          setPageError("Error fetching User Data, click to reload")
+        }
+        setPageLoad(false);
+      }
+      else {
+        setPageLoad(false);
+      }
+    };
 
-      fetchData();
+    fetchData();
 
   }, []);
 
@@ -236,8 +236,8 @@ const LandingPage = () => {
         start_radius = Math.sqrt(
           (area_inner + area_of_one * (i - 1)) / 3.14
         );
-        
-  
+
+
         if (i >= no_iterations) {
           //this means that it is the last iteration and you shouldnt make the radius higher than the end distance (because of the way we obtain the radiuses, this happens if the no_iterations is a fraction)
           end_radius = inputData.radius2;
@@ -339,7 +339,7 @@ const LandingPage = () => {
     console.log("the maps places after search", maps_places.length);
     console.log("the maps places", maps_places);
     setPlaceDetails(maps_places);
-    
+
   };
 
   const isValidInput = (inputData) => {
@@ -494,25 +494,25 @@ const LandingPage = () => {
 
   if (pageError) {
     return (
-        <div className="h-screen flex flex-col items-center justify-center">
-            <div>
-                <img src={errorImage} alt="error-image" />
-            </div>
-            <h1 className="text-center text-2xl md:text-[34px] font-medium text-[#7F7F7F]">
-                Oops, Something went wrong
-            </h1>
-            <h1 className="text-[18px] md:text-[20px] text-[#7F7F7F]">
-                Error fetching user info
-            </h1>
-            <button
-                className="bg-[#015734] font-medium text-[17px] my-8 px-5 py-2 text-white rounded-[5px]"
-                onClick={() => window.location.reload()}
-            >
-                Try Again
-            </button>
+      <div className="h-screen flex flex-col items-center justify-center">
+        <div>
+          <img src={errorImage} alt="error-image" />
         </div>
+        <h1 className="text-center text-2xl md:text-[34px] font-medium text-[#7F7F7F]">
+          Oops, Something went wrong
+        </h1>
+        <h1 className="text-[18px] md:text-[20px] text-[#7F7F7F]">
+          Error fetching user info
+        </h1>
+        <button
+          className="bg-[#015734] font-medium text-[17px] my-8 px-5 py-2 text-white rounded-[5px]"
+          onClick={() => window.location.reload()}
+        >
+          Try Again
+        </button>
+      </div>
     )
-}
+  }
 
   return receivedKey != "ENTER API KEY" ? (
     <Layout>
@@ -541,29 +541,26 @@ const LandingPage = () => {
               <MainMap pins={null} />
             )}
           </div>
-          <div className="bg-[#282B32] my-4 py-2 flex flex-col justify-center items-center space-y-2">
-            <div className="flex flex-wrap justify-center space-x-6">
-              <div>
-                <h2 className="font-semibold text-white">Select Country</h2>
+          <div className="bg-[#282B32] my-4 py-2 space-y-2">
+            <div className="grid grid-cols-3 gap-x-6 gap-y-2">
+              <div className="flex justify-center">
+                <div>
+                <h2 className="font-semibold text-white">Country</h2>
                 <CountryDropdown loading={loading} />
+
+                </div>
+
               </div>
 
+              
               <div>
-                <h2 className="font-semibold text-white">Select Region</h2>
-                <LocationDropdown
-                  loading={loading}
-                  country={inputData.country}
-                />
-              </div>
-
-              <div>
-                <h2 className="font-semibold text-white">
+                <h2 className="font-semibold text-white text-center">
                   Set Distance(m) from Location's Center
                 </h2>
-                <div className="flex justify-start space-x-1">
+                <div className="flex justify-center space-x-1">
                   <input
                     type="text"
-                    className="w-[100px] bg-[#D9D9D9] px-3 py-[0.25rem] outline-none"
+                    className="w-[21vh] bg-[#D9D9D9] px-3 py-[0.25rem] outline-none"
                     placeholder="From"
                     value={inputData.radius1}
                     onChange={(e) =>
@@ -576,7 +573,7 @@ const LandingPage = () => {
                   />
                   <input
                     type="text"
-                    className="w-[100px] bg-[#D9D9D9] px-3 py-[0.25rem] outline-none"
+                    className="w-[21vh] bg-[#D9D9D9] px-3 py-[0.25rem] outline-none"
                     placeholder="To"
                     value={inputData.radius2}
                     onChange={(e) =>
@@ -590,8 +587,9 @@ const LandingPage = () => {
                 </div>
               </div>
 
+              <div className="flex justify-center">
               <div>
-                <h2 className="font-semibold text-white">Caliberation</h2>
+                <h2 className="font-semibold text-white">Calibration</h2>
                 <select
                   disabled={loading}
                   id="caliberation"
@@ -601,12 +599,30 @@ const LandingPage = () => {
                   onChange={(e) => {
                     setCaliberation(e.target.value);
                   }}
-                  className="select w-[150px] h-[33px] bg-[#D9D9D9]"
+                  className="select w-[15vw] h-[33px] bg-[#D9D9D9]"
                 >
                   <option value="area">area</option>
                   <option value="radius">radius</option>
                 </select>
               </div>
+
+              </div>
+
+              <div className="flex justify-center">
+                <div>
+                <h2 className="font-semibold text-white">Region</h2>
+                <LocationDropdown
+                  loading={loading}
+                  country={inputData.country}
+                />
+
+                </div>
+
+              </div>
+
+
+            
+          
 
               {/* <div>
                 <h2 className="font-semibold text-white">Set Scale</h2>
@@ -620,18 +636,29 @@ const LandingPage = () => {
                 />
               </div> */}
 
+              <div className="flex items-end justify-center">
+              <button
+                className="text-white font-semibold bg-[#3B82F6] h-[33px] w-[100px] rounded-sm"
+                onClick={handleSearch}
+                disabled={loading}
+              >
+                {loading ? "Loading..." : "Search"}
+              </button>
+
+              </div>
+
+
+              <div className="flex justify-center">
               <div>
-                <h2 className="font-semibold text-white">Enter a Category</h2>
+                <h2 className="font-semibold text-white">Category</h2>
                 <Category loading={loading} />
               </div>
+
+              </div>
+
+            
             </div>
-            <button
-              className="text-white font-semibold bg-[#3B82F6] h-[33px] w-[100px] rounded-sm"
-              onClick={handleSearch}
-              disabled={loading}
-            >
-              {loading ? "Loading..." : "Search"}
-            </button>
+
           </div>
 
           <div className="flex justify-between space-x-4">
@@ -650,7 +677,7 @@ const LandingPage = () => {
                       //disabled={surveys.findIndex((obj) => obj.id === id) !== -1}
                       onClick={loadMore}
                       disabled={loading}
-                      //disabled={surveys.length < 1 ? true : false}
+                    //disabled={surveys.length < 1 ? true : false}
                     >
                       {loading ? "Loading..." : "Load More"}
                     </button>
@@ -692,7 +719,7 @@ const LandingPage = () => {
                       className={
                         "mx-1 w-[270px] md:w-[180px] lg:w-[200px] mt-[30px] h-auto border border-[#B3B4BB]" +
                         (surveys.findIndex((obj) => obj.placeId === placeId) ===
-                        -1
+                          -1
                           ? " bg-white text-black"
                           : " bg-[#005734] text-white")
                       }
@@ -823,7 +850,7 @@ const LandingPage = () => {
                         className={`rounded-md mb-2 w-[150px] h-[30px] font-serif font-bold opacity-80 hover:opacity-100 text-center text-sm md:text-md text-white bg-[#005734]`}
                         //disabled={surveys.findIndex((obj) => obj.id === id) !== -1}
                         onClick={handleConfirmSelection}
-                        //disabled={surveys.length < 1 ? true : false}
+                      //disabled={surveys.length < 1 ? true : false}
                       >
                         Skip & Proceed
                       </button>
@@ -837,7 +864,7 @@ const LandingPage = () => {
                       className={`mb-2 w-[150px] h-[30px] font-serif font-bold opacity-80 hover:opacity-100 text-center text-sm md:text-md text-white bg-[#005734]`}
                       //disabled={surveys.findIndex((obj) => obj.id === id) !== -1}
                       onClick={handleConfirmSelection}
-                      //disabled={surveys.length < 1 ? true : false}
+                    //disabled={surveys.length < 1 ? true : false}
                     >
                       Confirm Selection
                     </button>

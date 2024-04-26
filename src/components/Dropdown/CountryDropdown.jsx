@@ -291,7 +291,7 @@ export default function CountryDropdown({ loading }) {
       onChange={(e) => {
         sessionStorage.setItem("country", JSON.stringify(e.target.value));
         setInputData({ ...inputData, country: e.target.value })}}
-      className="select w-[150px] h-[33px] bg-[#D9D9D9]"
+      className="select w-[15vw] h-[33px] bg-[#D9D9D9]"
     >
       <option>Select country</option>
       {allCountries?.map((item, index) => (

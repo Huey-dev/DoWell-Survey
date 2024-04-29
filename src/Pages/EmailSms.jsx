@@ -1017,6 +1017,7 @@ export const EmailSms = () => {
   const [startToEnd, setStartToEnd] = useState(
     sessionStorage.getItem("start_end") || ""
   );
+  const surveyLink = sessionStorage.getItem("surveyLink");
 
   const getQrcode = sessionStorage.getItem("Qrcode");
   const numOfParticipant = sessionStorage.getItem("numOfParticipants");
@@ -1167,6 +1168,8 @@ export const EmailSms = () => {
             <strong>${regionValue} Region's</strong>
           </li>
           <li>QR Code Link: <strong>${getQrcode}</strong></li>
+          <li>Click <a href="${surveyLink}">HERE</a> to take the survey</li>
+          
         </ul>
       </div>
       <h2>QR Code:</h2>

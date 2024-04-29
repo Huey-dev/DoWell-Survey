@@ -181,6 +181,8 @@ const StartNewSurvey = () => {
       setLoading(false);
       console.log("success and response data is", response.data);
       sessionStorage.setItem("id", response.data.qrcodes[0].id);
+      console.log("nawaaaaaaaaaaaaa but jere", response.data.qrcodes[0].link);
+      sessionStorage.setItem("surveyLink", response.data.qrcodes[0].link);
       sessionStorage.setItem("qrcode_id", response.data.qrcodes[0].qrcode_id);
       sessionStorage.setItem("surveyName", response.data.qrcodes[0].name);
       sessionStorage.setItem(

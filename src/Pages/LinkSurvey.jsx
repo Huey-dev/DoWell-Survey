@@ -209,6 +209,7 @@ const LinkSurvey = () => {
         }
       );
       setLoading(false);
+      console.log("survey details are", response.data);
 
       sessionStorage.setItem(
         "Qrcode",

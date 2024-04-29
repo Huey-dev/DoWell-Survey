@@ -541,7 +541,7 @@ const LandingPage = () => {
               <MainMap pins={null} />
             )}
           </div>
-          <div className="bg-[#282B32] my-4 py-2 space-y-2">
+          <div className="bg-[#282B32] my-4 pt-2 pb-4 space-y-2">
             <div className="grid grid-cols-3 gap-x-6 gap-y-2">
               <div className="flex justify-center">
                 <div>

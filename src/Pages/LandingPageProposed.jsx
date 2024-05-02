@@ -231,33 +231,33 @@ const LandingPage = () => {
      
 
       try {
-        // const searchOptions = {
-        //   radius1: 0,
-        //   radius2: small_radius,
-        //   center_lat: newCoords.latitude,
-        //   center_lon: newCoords.longitude,
-        //   query_string: inputData.query_string,
-        //   limit: "60",
-        //   api_key: placeAPIKey,
-        // };
-        // console.log("the search options are", searchOptions);
-        // const response = await FetchNearby(searchOptions);
+        const searchOptions = {
+          radius1: 0,
+          radius2: small_radius,
+          center_lat: newCoords.latitude,
+          center_lon: newCoords.longitude,
+          query_string: inputData.query_string,
+          limit: "60",
+          api_key: placeAPIKey,
+        };
+        console.log("the search options are", searchOptions);
+        const response = await FetchNearby(searchOptions);
 
-        // if (response.data.place_id_list?.length > 0) {
-        //   const placeDetailOptions = {
-        //     place_id_list: response.data.place_id_list,
-        //     center_loc: "",
-        //     api_key: placeAPIKey,
-        //   };
-        //   // console.log("none here too")
-        //   const placeDetail = await FetchPlaceDetail(placeDetailOptions);
+        if (response.data.place_id_list?.length > 0) {
+          const placeDetailOptions = {
+            place_id_list: response.data.place_id_list,
+            center_loc: "",
+            api_key: placeAPIKey,
+          };
+          // console.log("none here too")
+          const placeDetail = await FetchPlaceDetail(placeDetailOptions);
 
-        //   maps_places = [...maps_places, ...placeDetail.data.succesful_results];
-        //   // console.log(maps_places.length);
-        // }
+          maps_places = [...maps_places, ...placeDetail.data.succesful_results];
+          // console.log(maps_places.length);
+        }
 
-        maps_places = [...maps_places, ...payload];
-        console.log("wahaaaaaaaaaaaaaaaa", maps_places.length);
+        // maps_places = [...maps_places, ...payload];
+        // console.log("wahaaaaaaaaaaaaaaaa", maps_places.length);
       } catch (error) {
         console.error("Error:", error);
       } finally {

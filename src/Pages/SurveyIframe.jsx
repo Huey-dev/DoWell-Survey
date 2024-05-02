@@ -127,38 +127,51 @@ const SurveyIframe = () => {
                     console.log("respsonse is", response?.data);
 
                     if (response?.data?.isSuccess === true) {
-                      const queryParams = new URLSearchParams(
-                        window.location.search
-                      );
-                      const survey_id = queryParams.get("survey_id");
+                      const partLimit_array = Object.values(response?.data?.survey_data?.participantsLimit);
+                      console.log("partLimit_array", partLimit_array); 
 
-                      try {
-                        const id_response = await axios.post(
-                          `https://100025.pythonanywhere.com/my-survey/?api_key=1b834e07-c68b-4bf6-96dd-ab7cdc62f07f`,
-                          {
-                            survey_id: survey_id,
-                          },
-                          {
-                            headers: {
-                              "Content-Type": "multipart/form-data",
-                            },
-                          }
-                        );
-                        setStatus("success");
-                        console.log(
-                          "completed get survey and response is,",
-                          id_response?.data[1].region
-                        );
-                        setRegion_list(id_response?.data[1].region);
-
-                        setIframe(id_response?.data[1].url);
-                        setPromotional(id_response?.data[1].promotional_sentence)
-                        
-                      } catch (error) {
-                        
+                      if (partLimit_array < 1) {
                         setStatus("error");
-                        setErrMsg("Error in fetching Survey Form");
+                        setErrMsg("Participant Limit Reached");
                       }
+                      else {
+                        const queryParams = new URLSearchParams(
+                          window.location.search
+                        );
+                        const survey_id = queryParams.get("survey_id");
+  
+                        try {
+                          const id_response = await axios.post(
+                            `https://100025.pythonanywhere.com/my-survey/?api_key=1b834e07-c68b-4bf6-96dd-ab7cdc62f07f`,
+                            {
+                              survey_id: survey_id,
+                            },
+                            {
+                              headers: {
+                                "Content-Type": "multipart/form-data",
+                              },
+                            }
+                          );
+                          setStatus("success");
+                          console.log(
+                            "completed get survey and response is,",
+                            id_response?.data[1].region
+                          );
+                          setRegion_list(id_response?.data[1].region);
+  
+                          setIframe(id_response?.data[1].url);
+                          setPromotional(id_response?.data[1].promotional_sentence)
+                          
+                        } catch (error) {
+                          
+                          setStatus("error");
+                          setErrMsg("Error in fetching Survey Form");
+                        }
+
+                      }
+
+
+
                     } else {
                       console.log("error and response is", response);
                       setStatus("error");
@@ -297,7 +310,7 @@ const SurveyIframe = () => {
           </div>
         ) : status === "error" ? (
           <div>
-            <p className="text-center text-5xl my-8 font-bold text-red-500 font-serif">
+            <p className="text-center text-5xl py-8 font-bold text-red-500 font-serif">
               Oops!
             </p>
             <p className="text-center font-bold text-2xl my-8">

@@ -38,6 +38,8 @@ import Category from "../components/Categories";
 import axios from "axios";
 import errorImage from "../assets/error.png";
 
+import { computeDestinationPoint } from 'geolib';
+
 const LandingPage = () => {
   const [searchRegion, setSearchRegion] = useState(null);
   const [searchCords, setSearchCords] = useState("");
@@ -197,22 +199,11 @@ const LandingPage = () => {
     //   return;
     // }
 
-    const radius_margin = (inputData.radius2 - inputData.radius1) / 4;
-    console.log("radius margin is", radius_margin);
-
-    const area_inner =
-      3.14 * (Number(inputData.radius1) * Number(inputData.radius1));
-    const area_outer =
-      3.14 * (Number(inputData.radius2) * Number(inputData.radius2));
-    const survey_area = area_outer - area_inner;
-
-    // const area_of_one = 3.14 * (scale * scale);
-
-    const area_of_one = survey_area / 4;
+    const small_radius = inputData.radius2 / 2
 
 
-    // const no_iterations = survey_area / area_of_one;
-    // const no_iterations_rounded = Math.ceil(no_iterations);
+    console.log("small_radius is", small_radius);
+
 
     const no_iterations = 4
     const no_iterations_rounded = Math.ceil(no_iterations);
@@ -227,66 +218,46 @@ const LandingPage = () => {
 
     setLoading(true);
     let i;
+    let newCoords;
 
     for (i = 1; i < no_iterations + 1; i++) {
-      let end_radius;
-      let start_radius
+      console.log("former cords are", centerCoords)
 
-      if (caliberation == "area") {
-        start_radius = Math.sqrt(
-          (area_inner + area_of_one * (i - 1)) / 3.14
-        );
+      newCoords = computeDestinationPoint({ latitude: centerCoords.lat, longitude: centerCoords.lon }, small_radius, ((i -1)* 90));
+      console.log("the new cords are", newCoords);
 
 
-        if (i >= no_iterations) {
-          //this means that it is the last iteration and you shouldnt make the radius higher than the end distance (because of the way we obtain the radiuses, this happens if the no_iterations is a fraction)
-          end_radius = inputData.radius2;
-        } else {
-          end_radius = Math.sqrt((area_inner + area_of_one * i) / 3.14);
-        }
-      }
-      else {
-        start_radius = (Number(inputData.radius1) + Number(radius_margin * (i - 1)));
 
-        if (i >= no_iterations) {
-          //this means that it is the last iteration and you shouldnt make the radius higher than the end distance (because of the way we obtain the radiuses, this happens if the no_iterations is a fraction)
-          end_radius = inputData.radius2;
-        } else {
-          end_radius = (Number(inputData.radius1) + Number(radius_margin * i));
-        }
-
-      }
-      // console.log("iter_data", end_radius, start_radius, i);
-      console.log("start and end radius are", start_radius, end_radius, i);
+     
 
       try {
-        const searchOptions = {
-          radius1: start_radius,
-          radius2: end_radius,
-          center_lat: centerCoords.lat,
-          center_lon: centerCoords.lon,
-          query_string: inputData.query_string,
-          limit: "60",
-          api_key: placeAPIKey,
-        };
-        console.log("the search options are", searchOptions);
-        const response = await FetchNearby(searchOptions);
+        // const searchOptions = {
+        //   radius1: 0,
+        //   radius2: small_radius,
+        //   center_lat: newCoords.latitude,
+        //   center_lon: newCoords.longitude,
+        //   query_string: inputData.query_string,
+        //   limit: "60",
+        //   api_key: placeAPIKey,
+        // };
+        // console.log("the search options are", searchOptions);
+        // const response = await FetchNearby(searchOptions);
 
-        if (response.data.place_id_list?.length > 0) {
-          const placeDetailOptions = {
-            place_id_list: response.data.place_id_list,
-            center_loc: "",
-            api_key: placeAPIKey,
-          };
-          // console.log("none here too")
-          const placeDetail = await FetchPlaceDetail(placeDetailOptions);
+        // if (response.data.place_id_list?.length > 0) {
+        //   const placeDetailOptions = {
+        //     place_id_list: response.data.place_id_list,
+        //     center_loc: "",
+        //     api_key: placeAPIKey,
+        //   };
+        //   // console.log("none here too")
+        //   const placeDetail = await FetchPlaceDetail(placeDetailOptions);
 
-          maps_places = [...maps_places, ...placeDetail.data.succesful_results];
-          // console.log(maps_places.length);
-        }
+        //   maps_places = [...maps_places, ...placeDetail.data.succesful_results];
+        //   // console.log(maps_places.length);
+        // }
 
-        // maps_places = [...maps_places, ...payload];
-        // console.log("wahaaaaaaaaaaaaaaaa", maps_places.length);
+        maps_places = [...maps_places, ...payload];
+        console.log("wahaaaaaaaaaaaaaaaa", maps_places.length);
       } catch (error) {
         console.error("Error:", error);
       } finally {
@@ -323,7 +294,7 @@ const LandingPage = () => {
       }));
     }
 
-    setArea({ area_of_one: area_of_one, area_inner: area_inner });
+    // setArea({ area_of_one: area_of_one, area_inner: area_inner });
     setSearchData({
       center_lat: centerCoords.lat,
       center_lon: centerCoords.lon,

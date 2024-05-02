@@ -1,6 +1,8 @@
 import React, { Fragment, useEffect, useRef, useState } from "react";
 import { Dialog, Transition } from "@headlessui/react";
 import Layout from "../Layout/Layout";
+import { toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 import {
   MapPinIcon,
   PencilSquareIcon,
@@ -32,11 +34,24 @@ import QRCode from "react-qr-code";
 import axios from "axios";
 
 export default function Edit() {
+  const user_info_json = sessionStorage.getItem("user_info") || "[]";
+  const user_info = JSON.parse(user_info_json);
+  let survey_user, survey_email;
+  if (user_info) {
+    // Access the profile_img property from the user_info object
+    survey_user = user_info.username ? user_info.username : null;
+    survey_email = user_info.email ? user_info.email : null;
+  }
+
+
+
+
   const [loading, setLoading] = useState(true);
   const [errorMessage, setErrorMessage] = useState(null);
   const [survey_results, setSurvey_results] = useState([]);
   const [survey, setSurvey] = useState({});
-  const brandNameRef = useRef(null);
+  const surveyNameRef = useRef(null);
+  const linkRef = useRef(null);
   const promotionalRef = useRef(null);
   const limitRef = useRef(null);
   const startDateRef = useRef(null);
@@ -168,7 +183,7 @@ export default function Edit() {
     const isAllIncluded = survey.region.includes("all");
 
     // Set region_for_survey based on whether "all" is included or not
-    const regionForSurvey = isAllIncluded ? "Global" : survey.region.join(", ");
+    const regionForSurvey = isAllIncluded ? "Global" : JSON.parse(survey.region.replace(/'/g, '"')).join(", ");
     setFormData({
       //brand_name: survey.brand_name,
       survey_name: survey.name,
@@ -228,18 +243,31 @@ export default function Edit() {
 
   const handleEditSubmit = async (e) => {
     e.preventDefault();
+    setOpen(false);
+    setLoading(true);
     // Handle form submission logic here
+    
+    const [syear, smonth, sday] = survey.start_date.split("-");
+    const [eyear, emonth, eday] = survey.end_date.split("-");
+    const sformattedDate = `${sday}-${smonth}-${syear}`;
+    const eformattedDate = `${eday}-${emonth}-${eyear}`;
+
     const formData = {
-      start_date: startDateRef,
-      end_date: endDateRef,
-      brand_name: brandNameRef,
-      promotional_sentence: promotionalRef,
-      participantsLimit: limitRef,
+      start_date: sformattedDate,
+      end_date: eformattedDate,
+
+      name: surveyNameRef.current.value,
+      promotional_sentence: promotionalRef.current.value,
+      // participantsLimit: limitRef.current.value,
+      // link: linkRef.current.value,
+      qrcode_id: survey.qr_code_id,
+      id: survey.id
+
     };
     console.log("tryuuuuuuuuuuuuuug");
     try {
-      const response = await axios.post(
-        `https://100025.pythonanywhere.com/update-qr-codev2/`,
+      const response = await axios.put(
+        `https://100025.pythonanywhere.com/update-qr-codev2?api_key=1b834e07-c68b-4bf6-96dd-ab7cdc62f07f`,
         formData,
         {
           headers: {
@@ -247,12 +275,34 @@ export default function Edit() {
           },
         }
       );
-      return;
+
+      const user_info_session = sessionStorage.getItem("user_info") || "[]";
+      const user_info = JSON.parse(user_info_session);
+      const userName = user_info?.username;
+
+      const surveys_response = await axios.post(
+        `https://100025.pythonanywhere.com/my-survey/`,
+        {username: userName},
+        {
+          headers: {
+            "Content-Type": "application/json",
+          },
+        }
+      );
+
+      const data = surveys_response?.data;
+      setSurvey_results(data);
+
+      console.log("success");
+
     } catch (error) {
       console.log("error");
     }
 
-    console.log("Form submitted");
+    setLoading(false);
+    toast.success("Survey Successfully Edited", {
+      onClose: () => { },
+    });
     return;
   };
 
@@ -349,6 +399,7 @@ export default function Edit() {
                             <div className="flex items-center justify-between w-full text-xl text-white bg-[#005734]">
                               <p className="font-bold m-4">EDIT SURVEY</p>
                               <button
+                                type="button"
                                 className="font-serif font-bold text-center m-4"
                                 onClick={() => setOpen(false)}
                               >
@@ -357,7 +408,7 @@ export default function Edit() {
                             </div>
 
                             <div className="flex flex-col space-y-2 my-8 w-full">
-                              <div className="flex items-center justify-center w-full">
+                              {/* <div className="flex items-center justify-center w-full">
                                 <div className="w-3/12">
                                   <h2 className="font-medium text-left">
                                     Logo Image:
@@ -381,19 +432,19 @@ export default function Edit() {
                                     )}
                                   </small>
                                 </div>
-                              </div>
+                              </div> */}
 
                               <div className="flex items-center justify-center w-full">
                                 <div className="w-3/12">
                                   <h2 className="font-medium text-left">
-                                    Brand Name:
+                                    Survey Name:
                                   </h2>
                                 </div>
                                 <div className="w-7/12">
                                   <input
                                     type="text"
-                                    ref={brandNameRef}
-                                    defaultValue={survey?.brand_name || ""}
+                                    ref={surveyNameRef}
+                                    defaultValue={survey?.name || ""}
                                     required
                                     placeholder=""
                                     className="border w-full p-1 border-[#B3B4BB] outline-none"
@@ -401,7 +452,26 @@ export default function Edit() {
                                 </div>
                               </div>
 
-                              <div className="flex items-center justify-center w-full">
+                              {/* <div className="flex items-center justify-center w-full">
+                                <div className="w-3/12">
+                                  <h2 className="font-medium text-left">
+                                    Form Link:
+                                  </h2>
+                                </div>
+                                <div className="w-7/12">
+                                  <input
+                                    type="text"
+                                    ref={linkRef}
+                                    defaultValue={survey?.url || ""}
+                                    required
+                                    placeholder=""
+                                    className="border w-full p-1 border-[#B3B4BB] outline-none"
+                                  />
+                                </div>
+                              </div> */}
+                              
+
+                              {/* <div className="flex items-center justify-center w-full">
                                 <div className="w-3/12">
                                   <h2 className="font-medium text-left">
                                     Participant Limit:
@@ -419,7 +489,7 @@ export default function Edit() {
                                     className="border w-full p-1 border-[#B3B4BB] outline-none"
                                   />
                                 </div>
-                              </div>
+                              </div> */}
 
                               <div className="flex items-center justify-center w-full">
                                 <div className="w-3/12">
@@ -432,12 +502,12 @@ export default function Edit() {
                                     defaultValue={
                                       survey?.promotional_sentence || ""
                                     }
-                                    maxLength="15"
+                                    maxLength="100"
                                     id="description"
                                     name="promotional sentence"
                                     ref={promotionalRef}
                                     required
-                                    placeholder="Enter a promotional sentence to attract participants in (15 words)"
+                                    placeholder="Enter a promotional sentence to attract participants in (less than 100 characters)"
                                     className="h-24 resize-none border w-full p-1 border-[#B3B4BB] outline-none"
                                   />
                                 </div>
@@ -452,25 +522,50 @@ export default function Edit() {
                                 <div className="w-7/12 flex items-center justify-between">
                                   <input
                                     type="date"
-                                    defaultValue={survey?.start_date}
+                                    value={survey?.start_date}
                                     className="border p-1 border-[#B3B4BB] outline-none"
                                     //value={startDate}
-                                    ref={startDateRef}
-                                    onChange={(e) =>
-                                      setStartDate(e.target.value)
-                                    }
+                                    // ref={startDateRef}
+                                    onChange={(e) => {
+
+                                      setSurvey((survey) => 
+                                      ({
+                                        ...survey, start_date: e.target.value
+                                      }))
+                                      const startDateConverted = new Date(e.target.value);
+                                      const endDateConverted = new Date(survey.end_date)
+                                      if (startDateConverted >= endDateConverted) {
+                                        setSurvey((survey) => 
+                                      ({
+                                        ...survey, end_date: e.target.value
+                                      }))
+                                      }
+                                    
+                      
+                                    }}
                                     required
                                   />
                                   <p className="mx-1 font-medium">to</p>
                                   <input
                                     type="date"
-                                    defaultValue={survey?.end_date}
+                                    value={survey?.end_date}
                                     className="border p-1 border-[#B3B4BB] outline-none"
-                                    ref={endDateRef}
+                                    // ref={endDateRef}
                                     //entevalue={startDate}
-                                    onChange={(e) =>
-                                      setStartDate(e.target.value)
-                                    }
+                                    onChange={(e) => {
+                                      setSurvey((survey) => 
+                                      ({
+                                        ...survey, end_date: e.target.value
+                                      }))
+                                      const startDateConverted = new Date(survey.start_date);
+                                      const endDateConverted = new Date(e.target.value)
+                                      if (startDateConverted >= endDateConverted) {
+                                        setSurvey((survey) => 
+                                      ({
+                                        ...survey, start_date: e.target.value
+                                      }))
+                                      }
+                                    }}
                                     required
                                   />
                                 </div>
@@ -480,7 +575,7 @@ export default function Edit() {
                               <div className="w-3/12"></div>
                               <div className="w-7/12 flex justify-center space-x-2">
                                 <button
-                                  //type="button"
+                                  type="button"
                                   className="inline-flex w-full justify-center rounded-md bg-white px-3 py-2 text-md font-semibold text-[#005734] shadow-sm hover:bg-gray-50 border-2 border-[#005734]"
                                   onClick={() => setOpen(false)}
                                   ref={cancelButtonRef}

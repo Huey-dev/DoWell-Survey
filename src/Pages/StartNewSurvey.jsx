@@ -14,6 +14,7 @@ const StartNewSurvey = () => {
 
   const country = sessionStorage.getItem("country");
   const region = sessionStorage.getItem("region");
+  console.log("the regions is", region);
   const the_region = region;
   console.log("aaaaaaaaa", the_region);
   let form_link;
@@ -159,7 +160,7 @@ const StartNewSurvey = () => {
       email: email,
       service: product,
       country: "All",
-      region: "['all']",
+      region: region,
       search_result_id: 32,
       participantsLimit: numOfParticipants,
       url: formLink,

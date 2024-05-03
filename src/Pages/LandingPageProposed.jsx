@@ -209,6 +209,9 @@ const LandingPage = () => {
     const no_iterations_rounded = Math.ceil(no_iterations);
 
     let maps_places = [];
+    let unique_ids = [], response_ids=[];
+
+
     console.log("the maps places before search", maps_places.length);
     console.log("the maps places are", maps_places);
     // console.log("checks", area_inner);
@@ -233,7 +236,7 @@ const LandingPage = () => {
       try {
         const searchOptions = {
           radius1: 0,
-          radius2: small_radius,
+          radius2: 200,
           center_lat: newCoords.latitude,
           center_lon: newCoords.longitude,
           query_string: inputData.query_string,
@@ -242,10 +245,16 @@ const LandingPage = () => {
         };
         console.log("the search options are", searchOptions);
         const response = await FetchNearby(searchOptions);
+        response_ids = response.data.place_id_list
 
-        if (response.data.place_id_list?.length > 0) {
+        response_ids = response_ids.filter(item => !unique_ids.includes(item));
+        console.log("unique length is", response_ids);
+        unique_ids = [...unique_ids, ...response_ids]
+
+
+        if (response_ids?.length > 0) {
           const placeDetailOptions = {
-            place_id_list: response.data.place_id_list,
+            place_id_list: response_ids,
             center_loc: "",
             api_key: placeAPIKey,
           };

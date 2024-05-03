@@ -786,6 +786,34 @@ const LandingPage = () => {
               </div> */}
 
               <div className="m-2">
+              <div className="flex justify-center items-center p-2">
+                  {surveys.length < 1 ? (
+                    <div className="flex flex-col items-center justify-center">
+                      <button
+                        type="button"
+                        className={`rounded-md mb-2 w-[150px] h-[30px] font-serif font-bold opacity-80 hover:opacity-100 text-center text-sm md:text-md text-white bg-[#005734]`}
+                        //disabled={surveys.findIndex((obj) => obj.id === id) !== -1}
+                        onClick={handleConfirmSelection}
+                      //disabled={surveys.length < 1 ? true : false}
+                      >
+                        Skip & Proceed
+                      </button>
+                      <p className="text-sm font-semibold font-serif text-center">
+                        (Skipping will set the survey type to global)
+                      </p>
+                    </div>
+                  ) : (
+                    <button
+                      type="button"
+                      className={`mb-2 w-[150px] h-[30px] font-serif font-bold opacity-80 hover:opacity-100 text-center text-sm md:text-md text-white bg-[#005734]`}
+                      //disabled={surveys.findIndex((obj) => obj.id === id) !== -1}
+                      onClick={handleConfirmSelection}
+                    //disabled={surveys.length < 1 ? true : false}
+                    >
+                      Confirm Selection
+                    </button>
+                  )}
+                </div>
                 {surveys.map((survey) => (
                   <div
                     key={survey.place_name}
@@ -822,34 +850,7 @@ const LandingPage = () => {
                   </div>
                 ))}
 
-                <div className="flex justify-center items-center p-2">
-                  {surveys.length < 1 ? (
-                    <div className="flex flex-col items-center justify-center">
-                      <button
-                        type="button"
-                        className={`rounded-md mb-2 w-[150px] h-[30px] font-serif font-bold opacity-80 hover:opacity-100 text-center text-sm md:text-md text-white bg-[#005734]`}
-                        //disabled={surveys.findIndex((obj) => obj.id === id) !== -1}
-                        onClick={handleConfirmSelection}
-                      //disabled={surveys.length < 1 ? true : false}
-                      >
-                        Skip & Proceed
-                      </button>
-                      <p className="text-sm font-semibold font-serif text-center">
-                        (Skipping will set the survey type to global)
-                      </p>
-                    </div>
-                  ) : (
-                    <button
-                      type="button"
-                      className={`mb-2 w-[150px] h-[30px] font-serif font-bold opacity-80 hover:opacity-100 text-center text-sm md:text-md text-white bg-[#005734]`}
-                      //disabled={surveys.findIndex((obj) => obj.id === id) !== -1}
-                      onClick={handleConfirmSelection}
-                    //disabled={surveys.length < 1 ? true : false}
-                    >
-                      Confirm Selection
-                    </button>
-                  )}
-                </div>
+
               </div>
             </div>
           </div>

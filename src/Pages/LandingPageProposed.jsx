@@ -236,7 +236,7 @@ const LandingPage = () => {
       try {
         const searchOptions = {
           radius1: 0,
-          radius2: 200,
+          radius2: small_radius,
           center_lat: newCoords.latitude,
           center_lon: newCoords.longitude,
           query_string: inputData.query_string,

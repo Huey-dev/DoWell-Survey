@@ -1151,10 +1151,10 @@ export const EmailSms = () => {
     <body>
       <p>Dear User,</p>
       <p>
-        This is to confirm that your survey, <strong>${updatedInfo}</strong>,
+        This is to confirm that a survey, <strong>${updatedInfo}</strong>,
         has been successfully created on our platform. Below, you'll find the
-        details of your survey. You can share the QR Code/Link with your intended
-        participants or platform to start gathering responses.
+        details of the created survey. You can share the QR Code/Link with intended
+        participants or on your platforms.
       </p>
       <div class="details">
         <ul>

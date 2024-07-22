@@ -293,10 +293,10 @@ export default function CountryDropdown({ loading }) {
         setInputData({ ...inputData, country: e.target.value })}}
       className="select w-[15vw] h-[33px] bg-[#D9D9D9]"
     >
-      <option>Select country</option>
-      {allCountries?.map((item, index) => (
+      <option>France</option>
+      {/* {allCountries?.map((item, index) => (
         <option key={index}>{item}</option>
-      ))}
+      ))} */}
     </select>
   );
 }

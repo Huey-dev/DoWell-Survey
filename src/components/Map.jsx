@@ -4,7 +4,7 @@ import { useGlobalContext } from '../Context/PreviewContext';
 
 const MainMap = ({ centerCords, pins }) => {
   const {mapAPIKey} = useGlobalContext();
-  const [mapCenter, setMapCenter] = useState({ lat: 0.46005, lng: 42.11169 });
+  const [mapCenter, setMapCenter] = useState({ lat: 48.85661400, lng: 2.35222190 });
   const [mapKey, setMapKey] = useState(0);
 
   const handleMapLoad = (map) => {

@@ -509,7 +509,7 @@ const LandingPage = () => {
             </h6>
           </div>
           <div className="w-full h-96">
-            {placeDetails.length > 0 ? (
+            {/* {placeDetails.length > 0 ? (
               <MainMap
                 centerCords={{
                   lat: centerCoords.lat,
@@ -519,7 +519,12 @@ const LandingPage = () => {
               />
             ) : (
               <MainMap pins={null} />
-            )}
+            )} */}
+                            <MainMap centerCords={{
+                                lat: centerCoords.lat,
+                                lng: centerCoords.lon
+                            }} pins={null} />
+
           </div>
           <div className="bg-[#282B32] my-4 pt-2 pb-4 space-y-2">
             <div className="grid grid-cols-3 gap-x-6 gap-y-2">
@@ -593,7 +598,7 @@ const LandingPage = () => {
                 <h2 className="font-semibold text-white">Region</h2>
                 <LocationDropdown
                   loading={loading}
-                  country={inputData.country}
+                  country={'france'}
                 />
 
                 </div>

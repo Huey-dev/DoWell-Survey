@@ -19,8 +19,8 @@ const PreviewProvider = ({ children }) => {
   const [mapAPIKey, setMapAPIKey] = useState(import.meta.env.VITE_GOOGLE_API);
 
   const [centerCoords, setCenterCoords]  = useState({
-    lat:"",
-    lon:"",
+    lat:48.85661400,
+    lon:2.35222190
   });
   const [inputData, setInputData] = useState({
     country: "",

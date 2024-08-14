@@ -554,9 +554,8 @@ const LandingPage = () => {
 
               </div>
 
-              {/* map radius slider */}
-              <Slider />
-              {/* <div>
+              
+              <div>
                 <h2 className="font-semibold text-white text-center">
                   Set Distance(m) from Location's Center
                 </h2>
@@ -588,7 +587,7 @@ const LandingPage = () => {
                     disabled={loading}
                   />
                 </div>
-              </div> */}
+              </div>
 
               <div className="flex justify-center">
               <div>

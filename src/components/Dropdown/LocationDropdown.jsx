@@ -1102,6 +1102,7 @@ export default function LocationDropdown({ country }) {
         id="country"
         name="country"
         value={all_cities?.findIndex((city) => city.name === inputData.city)}
+       
         autoComplete="country-name"
         onChange={(e) => handleChange(e)}
         className="select w-[15vw] h-[33px] bg-[#D9D9D9]"
@@ -1112,7 +1113,7 @@ export default function LocationDropdown({ country }) {
             {item.name}
           </option>
         ))}
-      </select>
+      </select>                                                                                                                                                                                                                                                                                                                             
       {loading && (
         <ClipLoader
           color="#000000"
